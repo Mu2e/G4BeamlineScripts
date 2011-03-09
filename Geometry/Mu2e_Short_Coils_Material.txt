@@ -1,3 +1,7 @@
+# $Id$
+# $Date$
+# $Author$
+
 # ****************************************************************************
 #                            Production Solenoid
 #                            Transport Solenoid 

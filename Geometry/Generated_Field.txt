@@ -1,3 +1,7 @@
+# $Id$
+# $Date$
+# $Author$
+
 # Use these lines to generate the fieldmap files from the coils         
    include Mu2e_Rotated_Magnet_Coils.txt
    param PSMap_Zstart=-2000.0
