@@ -1,0 +1,83 @@
+# ****************************************************************************
+#                      Basic package of Virtual Detectors
+# ****************************************************************************
+# There are 8 basic virtual detectors in standart simulation:
+# detectors at the entrance and exit of each collimator (3x2)
+# one detector at the middle of collimator 03 (1)
+# one detector containing particle tracks when lost in stopping targets (1)
+# All data from those detectors would be in "g4beamline.root" output file
+
+if $Use_Basic_Det==1 
+
+##********************
+## Virtual detectors at the entrance and exit of the collimators
+## Place virtualdetector at upstream and downstream end 
+## of Coll_01
+
+virtualdetector Coll_01_Det \
+                file=mu2eout \
+		length=0.3\
+                radius=$TScryo_innerR-0.5 \
+		color=invisible
+		
+place Coll_01_Det \
+      x=$Coll_01_x \
+      z=$Coll_01_z-0.3 \
+      rename=Coll_01_DetIn
+      
+place Coll_01_Det \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length+0.5 \
+      rename=Coll_01_DetOut
+
+##********************
+## Place virtualdetector in middle and at upstream and downstream end 
+## of Coll_03
+
+virtualdetector Coll_03_Det \
+                file=mu2eout \
+		radius=$TScryo_innerR-0.5 \
+		color=$Invisible
+		
+place Coll_03_Det \
+      x=0.5+$Coll_03_up_x+$Coll_03_length/2 \
+      z=$Coll_03_up_z rotation=Y90 \
+      rename=Coll_03_DetIn
+      
+place Coll_03_Det \
+      x=1.0+($Coll_03_up_x+$Coll_03_down_x)/2 \
+      z=$Coll_03_up_z rotation=Y90 \
+      rename=Coll_03_DetMid
+      
+place Coll_03_Det \
+      x=-0.5+$Coll_03_down_x-$Coll_03_length/2 \
+      z=$Coll_03_down_z \
+      rotation=Y90 \
+      rename=Coll_03_DetOut
+
+##********************
+## Place virtualdetector at upstream and downstream end 
+## of Coll_05
+
+virtualdetector Coll_05_Det \
+                file=mu2eout \
+                radius=$TScryo_innerR-0.5 \
+		color=invisible
+		
+place Coll_05_Det \
+      x=$Coll_05_x \
+      z=$Coll_05_z-$Coll_05_length/2-1 \
+      rename=Coll_05_DetIn
+      
+place Coll_05_Det \
+      x=$Coll_05_x \
+      z=$Coll_05_z+$Coll_05_length/2+1 \
+      rename=Coll_05_DetOut
+
+##********************
+## detector containing particles lost in stopping targets  
+
+beamlossntuple LostInTarget_Ntuple \
+               require="z>13000&&z<14600&&x>-7908&&x<-7708&&y<100&&y>-100"
+	       
+endif

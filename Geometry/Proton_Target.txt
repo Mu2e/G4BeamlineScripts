@@ -1,0 +1,383 @@
+# ****************************************************************************
+#                                 Proton Target
+# ****************************************************************************
+#
+# From:
+#   Production Target Reference Design, 
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
+#   The target is a 16 cm long 6 mm diameter cylinder of gold  
+#    with a tapered end on the upstream side.  
+#   The center point of the target rod in MECO coordinates is 
+#    (x, y, z) = (390.4, 0.0, -656.45) (centimeters)
+#   The longitudinal axis of the target is rotated first with respect to 
+#    the +y axis by 13.65° and then about the x axis by 0.0°. 
+#
+#   This rotation is chosen to closely match the trajectory of the primary 
+#    proton beam through the axially graded PS field. 
+#
+
+param Tposition=-6564.5+$MECO_G4_zTrans+400.
+param Tlength=160.0 Tradius=3.0
+param TYangle=13.65
+param TXangle=0.0
+param -unset Target_Color=$Gold
+param -unset Target_Shell_Color=$Gray
+
+# ****************************************************************************
+#                   Proton target WITHOUT shell and pipes
+# ****************************************************************************
+
+if $Use_Proton_Target==1
+
+   tubs  pTarget \
+         outerRadius=$Tradius \
+         length=$Tlength \
+         material=Au \
+         color=$Target_Color
+      
+   place pTarget \
+         z=$Tposition \
+         rotation=X$TXangle,Y$TYangle
+
+
+# ****************************************************************************
+# Proton target WITH shell and pipes
+# ****************************************************************************
+# Proton target with shell and cooling pipes without water in it.
+# Proton Target from Matt Rooney's presentation of 10th January 2011
+
+elseif $Use_Proton_Target==2
+
+##********************
+## Golden target parameters
+
+   param target_or1=3.896*.5
+   param target_or2=6.299*.5
+   param target_ir=0.0
+   param target_l=160.0
+   param target_z1=0.0
+   param target_z2=10.0
+   param target_z3=$target_l-$target_z2
+
+##********************
+## Target shell dimensions
+
+param t_shell_r1=6.911*.5
+param t_shell_r2=7.927*.5
+param t_shell_l=152.228
+
+##********************
+## Front Target shell caps dimetsions
+## Cap1 (front)
+
+param cap1_r1=$t_shell_r2
+param cap1_r2=(7.927+9.525)*.25
+param cap1_l=2.464
+param cap1_z=.5*($t_shell_l-$cap1_l)
+
+##********************
+## Cap2 (front)
+
+param cap2_r1=$t_shell_r1
+param cap2_r2=$cap1_r2
+param cap2_l=3.175-$cap1_l
+param cap2_z=$cap1_z+.5*($cap1_l+$cap2_l)
+
+##********************
+## Cap3 (front)
+
+param cap3_r1=$t_shell_r1
+param cap3_r2=9.525*.5
+param cap3_l=7.925-3.175
+param cap3_z=$cap2_z+.5*($cap2_l+$cap3_l)
+
+##********************
+## Cap4 (front)
+
+param cap4_r1=0.0
+param cap4_r2=$cap3_r1
+param cap4_l=1.575-.6
+param cap4_z=$cap3_z+.5*($cap3_l-$cap4_l)
+
+##********************
+## Cap5 (front)
+
+param cap5_r1=0.0
+param cap5_r2=2.083*.5
+param cap5_l=$cap3_r2-$cap3_r1
+param cap5_z=.5*$cap3_l-$cap4_l-$cap5_r2
+param cap5_y=$cap3_r2-.5*$cap5_l
+
+##********************
+## Cap6 (front)
+
+param cap6_r1=$cap5_r2
+param cap6_r2=3.195*.5
+param cap6_l=$cap3_r2-$cap1_r1
+param cap6_z=$cap5_z
+param cap6_y=$cap3_r2-.5*$cap6_l
+
+##********************
+## Target shell rear caps dimensions 
+## Cap1 (rear)
+
+param cap1_z_rear=-.5*($t_shell_l-$cap1_l)
+
+##********************
+## Cap2 (rear)
+
+param cap2_z_rear=$cap1_z_rear-.5*($cap1_l+$cap2_l)
+
+##********************
+## Cap3 (rear)
+
+param cap3_z_rear=$cap2_z_rear-.5*($cap2_l+$cap3_l)
+
+##********************
+## Cap4 (rear)
+
+param cap4_l_rear=$cap4_l+.6
+param cap4_z_rear=$cap3_z_rear-.5*($cap3_l-$cap4_l_rear)
+
+##********************
+## Cap5 (raer)
+
+param cap5_z_rear=-.5*$cap3_l+$cap4_l_rear+$cap5_r2
+
+##********************
+## Cap6 (rear)
+
+param cap6_z_rear=-$cap5_z_rear
+
+##********************
+## Water pipes dimensions
+
+param pipe_l=240-$cap3_r2
+param pipe_r1=$cap5_r2
+param pipe_r2=$cap6_r2
+param pipe_z1=$cap4_z-.5*$cap4_l-$pipe_r1
+param pipe_z2=$cap4_z_rear+.5*$cap4_l+$pipe_r1
+param pipe_y=.5*$pipe_l+$cap3_r2
+
+param target_center=$cap2_l+$cap3_l+.5*$t_shell_l
+
+##********************
+## Group all target shell parts and golden target into 
+## one single object.
+
+group proton_target
+
+##********************
+## Golden Target
+      polycone target \
+               outerRadius=$target_or2,$target_or2,$target_or1 \
+               z=$target_z1,$target_z3,$target_l \
+               material=Au \
+               color=$Target_Color
+	  
+      place target \
+            x=0 \
+            y=0 \
+            z=$target_center-.5*$target_l
+
+##********************
+## Target Shell
+
+      tubs t_shell \
+           innerRadius=$t_shell_r1 \
+           outerRadius=$t_shell_r2 \
+           length=$t_shell_l \
+           material=Ti \
+           color=$Target_Shell_Color
+     
+      place t_shell \
+            x=0 \
+            y=0 \
+            z=$target_center
+
+##********************
+## Front Target Shell Caps
+
+      tubs cap1 \
+           innerRadius=$cap1_r1 \
+           outerRadius=$cap1_r2 \
+           length=$cap1_l \
+           material=Ti \
+           color=$Target_Shell_Color \
+
+      place cap1 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap1_z
+
+      tubs cap2 \
+           innerRadius=$cap2_r1 \
+           outerRadius=$cap2_r2 \
+           length=$cap2_l \
+           material=Ti \
+           color=$Target_Shell_Color \
+
+      place cap2 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap2_z
+
+      tubs cap3 \
+           innerRadius=$cap3_r1 \
+           outerRadius=$cap3_r2 \
+           length=$cap3_l \
+           material=Ti \
+           color=$Target_Shell_Color \
+
+      tubs cap4 \
+           innerRadius=$cap4_r1 \
+           outerRadius=$cap4_r2 \
+           length=$cap4_l \
+           material=Ti \
+           color=$Target_Shell_Color \
+      
+      place cap4 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap4_z
+
+      tubs cap5 \
+           innerRadius=$cap5_r1 \
+           outerRadius=$cap5_r2 \
+           length=$cap5_l \
+           material=Vacuum \
+           color=$Red 
+
+      place cap5 \
+            x=0 \
+            y=$cap5_y \
+            z=$cap5_z \
+            parent=cap3 \
+            rotation=X90
+
+      tubs cap6 \
+           innerRadius=$cap6_r1 \
+           outerRadius=$cap6_r2 \
+           length=$cap6_l \
+           material=Ti \
+           color=$Red 
+
+      place cap6 \
+            x=0 \
+            y=$cap6_y \
+            z=$cap6_z \
+            parent=cap3 \
+            rotation=X90
+
+    
+      place cap3 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap3_z
+      
+##********************
+## Rear Target Shell Caps
+
+      place cap1 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap1_z_rear
+      
+      place cap2 \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap2_z_rear
+
+      tubs cap3_rear \
+           innerRadius=$cap3_r1 \
+           outerRadius=$cap3_r2 \
+           length=$cap3_l \
+           material=Ti \
+           color=$Target_Shell_Color 
+
+      tubs cap5_rear \
+           innerRadius=$cap5_r1 \
+           outerRadius=$cap5_r2 \
+           length=$cap5_l \
+           material=Vacuum \
+           color=$Red 
+
+      place cap5_rear \
+            x=0 \
+            y=$cap5_y \
+            z=$cap5_z_rear \
+            parent=cap3_rear \
+            rotation=X90 \
+	    
+      tubs cap6_rear \
+           innerRadius=$cap6_r1 \
+           outerRadius=$cap6_r2 \
+           length=$cap6_l \
+           material=Ti \
+           color=$Red 
+	   
+      place cap6_rear \
+            x=0 \
+            y=$cap6_y \
+            z=$cap6_z_rear \
+            parent=cap3_rear \
+            rotation=X90 \
+	   
+      place cap3_rear \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap3_z_rear 
+
+      tubs cap4_rear \
+           innerRadius=$cap4_r1 \
+           outerRadius=$cap4_r2 \
+           length=$cap4_l_rear \
+           material=Ti \
+           color=$Target_Shell_Color \
+     
+      place cap4_rear \
+            x=0 \
+            y=0 \
+            z=$target_center+$cap4_z_rear
+
+##********************
+## Cooling pipes
+
+      tubs pipe \
+           innerRadius=$pipe_r1 \
+           outerRadius=$pipe_r2 \
+           length=$pipe_l \
+           material=Ti \
+           color=$Target_Shell_Color     
+
+      place pipe \
+            x=0 \
+            y=$pipe_y \
+            z=$target_center+$pipe_z1 \
+            rotation=X90
+
+      place pipe \
+            x=0 \
+            y=$pipe_y \
+            z=$target_center+$pipe_z2 \
+            rotation=X90
+
+endgroup
+
+place proton_target \
+      x=0 \
+      y=0 \
+      z=$Tposition \
+      rotation=Y$TYangle
+
+endif
+
+param TXstart=0.5*($Tlength)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_xTrans
+param TYstart=-0.5*($Tlength)*sin($TXangle*3.14159/180.0)
+param TZstart=$Tposition+0.5*($Tlength)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_zTrans
+param TXend=-0.5*($Tlength)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_xTrans
+param TYend=+0.5*($Tlength)*sin($TXangle*3.14159/180.0)
+param TZend=$Tposition-0.5*($Tlength)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_zTrans

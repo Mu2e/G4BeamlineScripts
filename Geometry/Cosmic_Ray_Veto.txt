@@ -1,0 +1,178 @@
+# ***********************
+#   Cosmic Ray Veto
+# ***********************
+# Cosmic Ray Veto 
+# From document MECO-CRS-05-001V1.01
+
+param Cosmic_scin_thick=10.0
+param Cosmic_al_thick=10.0
+
+if $Use_Scin_Det==1
+    virtualdetector Cosmic_Scin_a \
+                file=mu2eout \
+                height=$Cosmic_scin_thick \
+                width=2*$DScryo_shield_distanceX2 \
+                length=$DScryo_shield_length \
+                material=POLYSTYRENE \
+                color=$SkyBlue 
+
+    virtualdetector Cosmic_Scin_b \
+                file=mu2eout \
+                height=$Cosmic_scin_thick \
+                width=2*$DScryo_shield_distanceX2 \
+                length=$DScryo_shield_length \
+                material=POLYSTYRENE \
+                color=invisible 
+		
+else
+    box Cosmic_Scin_a \
+        height=$Cosmic_scin_thick \
+        width=2*$DScryo_shield_distanceX2 \
+        length=$DScryo_shield_length \
+        material=POLYSTYRENE \
+        color=$SkyBlue 
+
+    box Cosmic_Scin_b \
+        height=$Cosmic_scin_thick \
+        width=2*$DScryo_shield_distanceX2 \
+        length=$DScryo_shield_length \
+        material=POLYSTYRENE \
+        color=invisible 
+		
+endif
+
+box Cosmic_Al_a \
+		height=$Cosmic_al_thick \
+		width=2*$DScryo_shield_distanceX2 \
+		length=$DScryo_shield_length \
+		material=Al \
+		color=$Red
+
+box Cosmic_Al_b \
+		height=$Cosmic_al_thick \
+		width=2*$DScryo_shield_distanceX2 \
+		length=$DScryo_shield_length \
+		material=Al \
+		color=invisible
+		
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950 \
+		y=$DScryo_shield_distanceX2+0.5*$Cosmic_scin_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_top1
+
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950 \
+		y=$DScryo_shield_distanceX2+1.5*$Cosmic_scin_thick+$Cosmic_al_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_top2
+		
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950 \
+		y=$DScryo_shield_distanceX2+2.5*$Cosmic_scin_thick+2*$Cosmic_al_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_top3
+
+place Cosmic_Al_b \
+		x=-2*$TScryo_Radius-1950 \
+		y=$DScryo_shield_distanceX2+$Cosmic_scin_thick+0.5*$Cosmic_al_thick\
+		z=$DScryo_shield_z 
+
+place Cosmic_Al_b \
+		x=-2*$TScryo_Radius-1950 \
+		y=$DScryo_shield_distanceX2+2*$Cosmic_scin_thick+1.5*$Cosmic_al_thick\
+		z=$DScryo_shield_z 
+
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX2+0.5*$Cosmic_scin_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_left1 \
+		rotation=Z90
+
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX2+1.5*$Cosmic_scin_thick+$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_left2 \
+		rotation=Z90
+		
+place Cosmic_Scin_b \
+		x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX2+2.5*$Cosmic_scin_thick+2*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_left3 \
+		rotation=Z90
+
+place Cosmic_Al_b \
+		x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX2+$Cosmic_scin_thick+0.5*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rotation=Z90 
+
+place Cosmic_Al_b \
+		x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX2+2*$Cosmic_scin_thick+1.5*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rotation=Z90
+
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950 \
+		y=-$DScryo_shield_distanceX2-0.5*$Cosmic_scin_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_bottom1
+
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950 \
+		y=-$DScryo_shield_distanceX2-1.5*$Cosmic_scin_thick-$Cosmic_al_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_bottom2
+		
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950 \
+		y=-$DScryo_shield_distanceX2-2.5*$Cosmic_scin_thick-2*$Cosmic_al_thick\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_bottom3
+
+place Cosmic_Al_a \
+		x=-2*$TScryo_Radius-1950 \
+		y=-$DScryo_shield_distanceX2-$Cosmic_scin_thick-0.5*$Cosmic_al_thick\
+		z=$DScryo_shield_z 
+
+place Cosmic_Al_a \
+		x=-2*$TScryo_Radius-1950 \
+		y=-$DScryo_shield_distanceX2-2*$Cosmic_scin_thick-1.5*$Cosmic_al_thick\
+		z=$DScryo_shield_z 
+
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX2-0.5*$Cosmic_scin_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_right1 \
+		rotation=Z90
+
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX2-1.5*$Cosmic_scin_thick-$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_right2 \
+		rotation=Z90
+		
+place Cosmic_Scin_a \
+		x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX2-2.5*$Cosmic_scin_thick-2*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rename=Cosmic_Scin_right3 \
+		rotation=Z90
+
+place Cosmic_Al_a \
+		x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX2-$Cosmic_scin_thick-0.5*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rotation=Z90 
+
+place Cosmic_Al_a \
+		x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX2-2*$Cosmic_scin_thick-1.5*$Cosmic_al_thick \
+		y=0.0\
+		z=$DScryo_shield_z \
+		rotation=Z90

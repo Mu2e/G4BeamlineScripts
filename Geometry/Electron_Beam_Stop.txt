@@ -1,0 +1,36 @@
+# ****************************************************************************
+#                          Electron Beam Stop
+# ****************************************************************************
+# Note: added rhb 3/23/09 to Mu2e_Muon_Beamline_005.in for g4Beamline
+# this is based on MECO-63, "Do we need a small beam stop
+#                            on the axis of the production solenoid?"
+# I got the actual size and location from MECOproduction088.gmc
+# but units are mm here, cm there
+
+param Electron_Beam_Stop_Half_Width_X=1.
+param Electron_Beam_Stop_Half_Width_Y=1.
+param Electron_Beam_Stop_Half_Width_Z=0.01
+param Electron_Beam_Stop_X_Center=10.0
+param Electron_Beam_Stop_Y_Center=0.6
+param Electron_Beam_Stop_Z_Center=1690.
+
+#   why bother rotating around z?
+param Electron_Beam_Stop_Angle_Of_Rotation_Z=8.5
+param Electron_Beam_Stop_Step_Length=0.01
+param Electron_Beam_Stop_Color=$Tungsten
+param Electron_Beam_Stop_Kill=0
+
+box Electron_Beam_Stop \
+    height=$Electron_Beam_Stop_Half_Width_X \
+    width=$Electron_Beam_Stop_Half_Width_Y \
+    length=$Electron_Beam_Stop_Half_Width_Z \
+    maxStep=$Electron_Beam_Stop_Step_Length \
+    material=C \
+    color=$Electron_Beam_Stop_Color \
+    kill=$Electron_Beam_Stop_Kill 
+
+place Electron_Beam_Stop \
+      x=$Electron_Beam_Stop_X_Center \
+      y=$Electron_Beam_Stop_Y_Center \
+      z=$Electron_Beam_Stop_Z_Center \
+      rotation=Z$Electron_Beam_Stop_Angle_Of_Rotation_Z

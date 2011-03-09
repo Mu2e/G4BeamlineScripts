@@ -1,0 +1,21 @@
+# ****************************************************************************
+#                               Proton Beam Stop
+# ****************************************************************************
+# A block of Al
+
+param pStop_length=2000.
+
+box pStop \
+     height=1500. \
+     width=1500.\
+     length=$pStop_length \
+     material=Al \
+     color=$Aluminum\
+     kill=0
+#     kill=$Proton_Dump_kill     
+     
+place pStop \
+      x=-2546. \
+      y=264. \
+      z=-11500.\
+      rotation=y13.3

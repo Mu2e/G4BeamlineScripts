@@ -1,0 +1,165 @@
+#From:   Production Solenoid Shielding
+#        "Heat and Radiation Shield Reference Design"
+#        MECO-TGT-02-001, Modified: 1/22/04, M. Hebert, V. Tukamov, W. Molzon, B. Christensen
+
+param -unset Copper="0.72,0.45,0.2"
+param -unset Tungsten="1.0,0.83,0.67"
+param -unset PS_Shield_Cu_Color=$Copper
+param -unset PS_Shield_W_Color=$Tungsten
+param -unset Invisible="invisible"
+param -unset PS_Shield_kill=1
+
+# Cylindrical section of copper upstream (in proton direction) of target.
+# Note: This should actually have a "hole" within it for the proton beam entrance
+#
+param PHC1_z1=3991.00 PHC1_z2=2050.00 
+param PHC1_rinner=300.00 PHC1_router=700.00
+param PHC1_length=$PHC1_z1-$PHC1_z2 PHC1_center=0.5*($PHC1_z1+$PHC1_z2)
+param PHC1_material=Cu 
+param PHC1a_PhiStart=-90.00 PHC1a_PhiEnd=90.00 PHC1a_color=$Invisible
+param PHC1b_PhiStart=90.00 PHC1b_PhiEnd=270.00 PHC1b_color=$PS_Shield_Cu_Color
+tubs PHC1a innerRadius=$PHC1_rinner outerRadius=$PHC1_router length=$PHC1_length \
+           initialPhi=$PHC1a_PhiStart finalPhi=$PHC1a_PhiEnd \
+           material=$PHC1_material color=$PHC1a_color kill=$PS_Shield_kill
+tubs PHC1b innerRadius=$PHC1_rinner outerRadius=$PHC1_router length=$PHC1_length \
+           initialPhi=$PHC1b_PhiStart finalPhi=$PHC1b_PhiEnd \
+           material=$PHC1_material color=$PHC1b_color kill=$PS_Shield_kill   
+place PHC1a x=0 y=0 z=$PHC1_center
+place PHC1b x=0 y=0 z=$PHC1_center
+
+# Conical section of copper upstream (in proton direction) of target.
+# Transitions from the larger cylinder PHC1 within the detector solenoid to collimator 05.
+#
+param P3CL_z2=3991.00 P3CL_z1=3571.00 
+param P3CL_rinner2=150.00 P3CL_rinner1=299.00
+param P3CL_router1=300.00 P3CL_router2=300.00 
+param P3CLa_length=420.00 P3CL_material=Cu
+param P3CLa_PhiStart=90.00 P3CLa_PhiEnd=270.00 P3CLa_color=$PS_Shield_Cu_Color
+param P3CLb_PhiStart=-90.0 P3CLb_PhiEnd=90.00 P3CLb_color=$Invisible
+polycone P3CLa innerRadius=$P3CL_rinner1,$P3CL_rinner2 outerRadius=$P3CL_router1,$P3CL_router2 \
+         z=$P3CL_z1,$P3CL_z2 initialPhi=$P3CLa_PhiStart finalPhi=$P3CLa_PhiEnd \
+         material=$P3CL_material color=$P3CLa_color kill=$PS_Shield_kill   
+polycone P3CLb innerRadius=$P3CL_rinner1,$P3CL_rinner2 outerRadius=$P3CL_router1,$P3CL_router2 \
+         z=$P3CL_z1,$P3CL_z2 initialPhi=$P3CLb_PhiStart finalPhi=$P3CLb_PhiEnd \
+         material=$P3CL_material color=$P3CLb_color kill=$PS_Shield_kill   
+place P3CLa x=0 y=0 z=0       
+place P3CLb x=0 y=0 z=0       
+
+
+# Cylindrical section around the target.
+# Copper portion (PHC3) covers only 255 degrees azimuthally
+# Tungsten portion (PHW1) covers 105 degrees azimuthally
+# Tungsten portion (PHW4) is on the inner portion of the cylinder and covers the entire azimuth
+param PHC3_z1=2050.00 PHC3_z2=1050.00
+param PHC3_rinner=400.00 PHC3_router=700.00
+param PHC3_length=$PHC3_z1-$PHC3_z2 PHC3_center=0.5*($PHC3_z1+$PHC3_z2) 
+param PHC3_material=Cu
+param PHC3a_PhiStart=-125.00 PHC3a_PhiEnd=-90.00 PHC3a_color=$PS_Shield_Cu_Color
+param PHC3b_PhiStart=-90.00 PHC3b_PhiEnd=90.00 PHC3b_color=$Invisible
+param PHC3c_PhiStart=90.00 PHC3c_PhiEnd=130.00 PHC3c_color=$PS_Shield_Cu_Color
+tubs PHC3a innerRadius=$PHC3_rinner outerRadius=$PHC3_router length=$PHC3_length \
+           initialPhi=$PHC3a_PhiStart finalPhi=$PHC3a_PhiEnd \
+           material=$PHC3_material color=$PHC3a_color kill=$PS_Shield_kill   
+tubs PHC3b innerRadius=$PHC3_rinner outerRadius=$PHC3_router length=$PHC3_length \
+           initialPhi=$PHC3b_PhiStart finalPhi=$PHC3b_PhiEnd \
+           material=$PHC3_material color=$PHC3b_color kill=$PS_Shield_kill   
+tubs PHC3c innerRadius=$PHC3_rinner outerRadius=$PHC3_router length=$PHC3_length \
+           initialPhi=$PHC3c_PhiStart finalPhi=$PHC3c_PhiEnd \
+           material=$PHC3_material color=$PHC3c_color kill=$PS_Shield_kill   
+place PHC3a x=0 y=0 z=$PHC3_center
+place PHC3b x=0 y=0 z=$PHC3_center
+place PHC3c x=0 y=0 z=$PHC3_center
+
+param PHW1_z1=2050.00 PHW1_z2=1050.00 
+param PHW1_rinner=300.00 PHW1_router=700.00 
+param PHW1_length=$PHW1_z1-$PHW1_z2 PHW1_center=0.5*($PHW1_z1+$PHW1_z2)
+param PHW1_material=W
+param PHW1_PhiStart=130.00 PHW1_PhiEnd=235.00 PHW1_color=$PS_Shield_W_Color
+tubs  PHW1 innerRadius=$PHW1_rinner outerRadius=$PHW1_router length=$PHW1_length \
+      initialPhi=$PHW1_PhiStart finalPhi=$PHW1_PhiEnd \
+      material=$PHW1_material color=$PHW1_color kill=$PS_Shield_kill   
+place PHW1 x=0 y=0 z=$PHW1_center
+
+param PHW4_z1=2050.00 PHW4_z2=1050.00
+param PHW4_rinner=300.00 PHW4_router=400.00
+param PHW4_length=($PHW4_z1-$PHW4_z2) PHW4_center=0.5*($PHW4_z1+$PHW4_z2)
+param PHW4_material=W
+param PHW4a_PhiStart=-125.00 PHW4a_PhiEnd=-90.00 PHW4a_color=$PS_Shield_W_Color
+param PHW4b_PhiStart=-90.00 PHW4b_PhiEnd=90.00 PHW4b_color=$Invisible
+param PHW4c_PhiStart=90.00 PHW4c_PhiEnd=130.00 PHW4c_color=$PS_Shield_W_Color
+tubs PHW4a innerRadius=$PHW4_rinner outerRadius=$PHW4_router length=$PHW4_length \
+           initialPhi=$PHW4a_PhiStart finalPhi=$PHW4a_PhiEnd \
+           material=$PHW4_material color=$PHW4a_color kill=$PS_Shield_kill
+tubs PHW4b innerRadius=$PHW4_rinner outerRadius=$PHW4_router length=$PHW4_length \
+           initialPhi=$PHW4b_PhiStart finalPhi=$PHW4b_PhiEnd \
+           material=$PHW4_material color=$PHW4b_color kill=$PS_Shield_kill
+tubs PHW4c innerRadius=$PHW4_rinner outerRadius=$PHW4_router length=$PHW4_length \
+           initialPhi=$PHW4c_PhiStart finalPhi=$PHW4c_PhiEnd \
+           material=$PHW4_material color=$PHW4c_color kill=$PS_Shield_kill
+place PHW4a x=0 y=0 z=$PHW4_center
+place PHW4b x=0 y=0 z=$PHW4_center
+place PHW4c x=0 y=0 z=$PHW4_center
+
+
+# Addition layer shielding. A tungsten cylinder around target
+#
+param PHW3_z1=2050.00 PHW3_z2=1050.00
+param PHW3_rinner=250.00 PHW3_router=300.00
+param PHW3_length=$PHW3_z1-$PHW3_z2 PHW3_center=0.5*($PHW3_z1+$PHW3_z2)
+param PHW3_material=W
+param PHW3a_PhiStart=-90.00 PHW3a_PhiEnd=90.00 PHW3a_color=$Invisible
+param PHW3b_PhiStart=90.00 PHW3b_PhiEnd=270.00 PHW3b_color=$PS_Shield_W_Color
+tubs PHW3a innerRadius=$PHW3_rinner outerRadius=$PHW3_router length=$PHW3_length \
+           initialPhi=$PHW3a_PhiStart finalPhi=$PHW3a_PhiEnd \
+           material=$PHW3_material color=$PHW3a_color kill=$PS_Shield_kill
+tubs PHW3b innerRadius=$PHW3_rinner outerRadius=$PHW3_router length=$PHW3_length \
+           initialPhi=$PHW3b_PhiStart finalPhi=$PHW3b_PhiEnd \
+           material=$PHW3_material color=$PHW3b_color kill=$PS_Shield_kill
+place PHW3a x=0 y=0 z=$PHW3_center
+place PHW3b x=0 y=0 z=$PHW3_center
+
+
+
+# This part is a poly cone which widens away from the target
+# The copper portion (PHC4) covers 255 degrees
+# The Tungsten portion (PHW2) covers 105 degrees
+#
+param PHC4_z2=1050.00 PHC4_z1=200.00 
+param PHC4_rinner2=300.00 PHC4_rinner1=650.00
+param PHC4_router1=700.00 PHC4_router2=700.00 
+param PHC4_length=1700.00 PHC4_material=Cu
+param PHC4a_PhiStart=-125.00 PHC4a_PhiEnd=-90.00 PHC4a_color=$PS_Shield_Cu_Color
+param PHC4b_PhiStart=-90.00 PHC4b_PhiEnd=90.00 PHC4b_color=$Invisible
+param PHC4c_PhiStart=90.00 PHC4c_PhiEnd=130.00 PHC4c_color=$PS_Shield_Cu_Color
+polycone PHC4a innerRadius=$PHC4_rinner1,$PHC4_rinner2 outerRadius=$PHC4_router1,$PHC4_router2 z=$PHC4_z1,$PHC4_z2 initialPhi=$PHC4a_PhiStart finalPhi=$PHC4a_PhiEnd material=$PHC4_material color=$PHC4a_color kill=$PS_Shield_kill
+polycone PHC4b innerRadius=$PHC4_rinner1,$PHC4_rinner2 outerRadius=$PHC4_router1,$PHC4_router2 z=$PHC4_z1,$PHC4_z2 initialPhi=$PHC4b_PhiStart finalPhi=$PHC4b_PhiEnd material=$PHC4_material color=$PHC4b_color kill=$PS_Shield_kill
+polycone PHC4c innerRadius=$PHC4_rinner1,$PHC4_rinner2 outerRadius=$PHC4_router1,$PHC4_router2 z=$PHC4_z1,$PHC4_z2 initialPhi=$PHC4c_PhiStart finalPhi=$PHC4c_PhiEnd material=$PHC4_material color=$PHC4c_color kill=$PS_Shield_kill
+place PHC4a x=0 y=0 z=0
+place PHC4b x=0 y=0 z=0
+place PHC4c x=0 y=0 z=0
+
+param PHW2_z2=1050.00 PHW2_z1=200. 
+param PHW2_rinner2=300.00 PHW2_rinner1=695.00
+param PHW2_router1=700.00 PHW2_router2=700.00
+param PHW2_length=1670.00 PHW2_material=W 
+param PHW2_PhiStart=130.00 PHW2_PhiEnd=235.00 PHW2_color=$PS_Shield_W_Color
+polycone PHW2 innerRadius=$PHW2_rinner1,$PHW2_rinner2 outerRadius=$PHW2_router1,$PHW2_router2 z=$PHW2_z1,$PHW2_z2 initialPhi=$PHW2_PhiStart finalPhi=$PHW2_PhiEnd material=$PHW2_material color=$PHW2_color kill=$PS_Shield_kill
+place PHW2 x=0 y=0 z=0
+
+
+# Outer jacket of 5 cm thick Cu
+#
+param PCLG_z1=3991.00 PCLG_z2=200. 
+param PCLG_rinner=700.00 PCLG_router=750.00 
+param PCLG_length=($PCLG_z1)-($PCLG_z2) PCLG_center=0.5*(($PCLG_z1)+($PCLG_z2))
+param PCLG_material=Cu
+param PCLGa_PhiStart=90.00 PCLGa_PhiEnd=270.00 PCLGa_color=$PS_Shield_W_Color
+param PCLGb_PhiStart=-90.00 PCLGb_PhiEnd=90.00 PCLGb_color=$Invisible
+tubs  PCLGa innerRadius=$PCLG_rinner outerRadius=$PCLG_router length=$PCLG_length \
+      initialPhi=$PCLGa_PhiStart finalPhi=$PCLGa_PhiEnd \
+      material=$PCLG_material color=$PCLGa_color kill=$PS_Shield_kill   
+tubs  PCLGb innerRadius=$PCLG_rinner outerRadius=$PCLG_router length=$PCLG_length \
+      initialPhi=$PCLGb_PhiStart finalPhi=$PCLGb_PhiEnd \
+      material=$PCLG_material color=$PCLGb_color kill=$PS_Shield_kill   
+place PCLGa x=0 y=0 z=$PCLG_center      
+place PCLGb x=0 y=0 z=$PCLG_center

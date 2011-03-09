@@ -1,0 +1,74 @@
+# Use these lines to generate the fieldmap files from the coils         
+   include Mu2e_Rotated_Magnet_Coils.txt
+   param PSMap_Zstart=-2000.0
+   param PSMap_Zend=5000.0
+   param PSMap_Xstart=-1100.0
+   param PSMap_Xend=1100.0
+   param PSMap_Ystart=0.0
+   param PSMap_Yend=1200.0
+   param PSMap_nX=89.0
+   param PSMap_nY=49.0
+   param PSMap_nZ=281.0
+   param PSMap_dX=25.0
+   param PSMap_dY=25.0
+   param PSMap_dZ=25.0
+   param DSMap_Zstart=11000.0
+   param DSMap_Zend=24000.0
+   param DSMap_Xstart=-9000.0
+   param DSMap_Xend=-6600.0
+   param DSMap_Ystart=0.0
+   param DSMap_Yend=1200.0
+   param DSMap_nX=97.0
+   param DSMap_nY=49.0
+   param DSMap_nZ=521.0
+   param DSMap_dX=25.0
+   param DSMap_dY=25.0
+   param DSMap_dZ=25.0
+   param TSuMap_Zstart=5000.0
+   param TSuMap_Zend=8700.0
+   param TSuMap_Xstart=-3900.0
+   param TSuMap_Xend=1100.0
+   param TSuMap_Ystart=0.0
+   param TSuMap_Yend=1200.0
+   param TSuMap_nX=201.0
+   param TSuMap_nY=49.0
+   param TSuMap_nZ=149.0
+   param TSuMap_dX=25.0
+   param TSuMap_dY=25.0
+   param TSuMap_dZ=25.0
+   param TSdMap_Zstart=7100.0
+   param TSdMap_Zend=11000.0
+   param TSdMap_Xstart=-9000.0
+   param TSdMap_Xend=-3900.0
+   param TSdMap_Ystart=0.0
+   param TSdMap_Yend=1200.0
+   param TSdMap_nX=205.0
+   param TSdMap_nY=49.0
+   param TSdMap_nZ=157.0
+   param TSdMap_dX=25.0
+   param TSdMap_dY=25.0
+   param TSdMap_dZ=25.0
+ 
+   printfield type=grid file=Mu2e_Rotated_Coils_PSMap.txt \
+   comment="add line (between grid and data commands): extendY flip=By" \
+   X0=$PSMap_Xstart Y0=$PSMap_Ystart Z0=$PSMap_Zstart \
+   nX=$PSMap_nX nY=$PSMap_nY nZ=$PSMap_nZ \
+   dX=$PSMap_dX dY=$PSMap_dY dZ=$PSMap_dZ
+ 
+   printfield type=grid file=Mu2e_Rotated_Coils_DSMap.txt \
+   comment="add line (between grid and data commands): extendY flip=By" \
+   X0=$DSMap_Xstart Y0=$DSMap_Ystart Z0=$DSMap_Zstart \
+   nX=$DSMap_nX nY=$DSMap_nY nZ=$DSMap_nZ \
+   dX=$DSMap_dX dY=$DSMap_dY dZ=$DSMap_dZ  
+
+   printfield type=grid file=Mu2e_Rotated_Coils_TSuMap.txt \
+   comment="add line (between grid and data commands): extendY flip=By" \
+   X0=$TSuMap_Xstart Y0=$TSuMap_Ystart Z0=$TSuMap_Zstart \
+   nX=$TSuMap_nX nY=$TSuMap_nY nZ=$TSuMap_nZ \
+   dX=$TSuMap_dX dY=$TSuMap_dY dZ=$TSuMap_dZ 
+
+   printfield type=grid file=Mu2e_Rotated_Coils_TSdMap.txt \
+   comment="add line (between grid and data commands): extendY flip=By" \
+   X0=$TSdMap_Xstart Y0=$TSdMap_Ystart Z0=$TSdMap_Zstart \
+   nX=$TSdMap_nX nY=$TSdMap_nY nZ=$TSdMap_nZ \
+   dX=$TSdMap_dX dY=$TSdMap_dY dZ=$TSdMap_dZ

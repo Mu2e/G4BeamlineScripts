@@ -1,0 +1,348 @@
+# ****************************************************************************
+#                         Detector Solenoid Neutron Shield
+# ****************************************************************************
+# Neutron Shield made of B-Polyethylene. 
+# From MECO-MUB-03-005V1.00
+
+param DS_intNshield_material=B_Polyethylene
+ 
+##********************
+## DS Internal Neutron Shield
+
+param DS_intNshield0_innerR=850.0
+param DS_intNshield0_outerR=950.0
+param DS_intNshield1_innerR=480.0
+param DS_intNshield2_innerR=500.0
+param DS_intNshield3_innerR=520.0
+param DS_intNshield4_innerR=540.0
+param DS_intNshield5_innerR=560.0
+param DS_intNshield6_innerR=580.0
+param DS_intNshield7_innerR=600.0
+param DS_intNshield8_innerR=620.0
+param DS_intNshield9_innerR=640.0
+param DS_intNshield10_innerR=660.0
+param DS_intNshield11_innerR=676.0
+param DS_intNshield12_innerR=691.5
+param DS_intNshield13_innerR=710.0
+
+param DS_intNshield0_length=1000.0
+param DS_intNshield01_length=561.0
+param DS_intNshield1_9_length=300.0
+param DS_intNshield10_length=270.0
+param DS_intNshield11_length=600.0 
+param DS_intNshield12_length=600.0
+param DS_intNshield13_length=700.0
+ 
+param DS_intNshield0_z=$DScryo_z+0.5*$DScryo_length-0.5*$DS_intNshield01_length
+param DS_intNshield1_z=$DS_intNshield0_z-11*$DS_intNshield0_length-0.5*$DS_intNshield01_length+0.5*$DS_intNshield1_9_length
+param DS_intNshield2_z=$DS_intNshield1_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield3_z=$DS_intNshield2_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield4_z=$DS_intNshield3_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield5_z=$DS_intNshield4_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield6_z=$DS_intNshield5_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield7_z=$DS_intNshield6_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield8_z=$DS_intNshield7_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield9_z=$DS_intNshield8_z+0.5*($DS_intNshield1_9_length+$DS_intNshield1_9_length)
+param DS_intNshield10_z=$DS_intNshield9_z+0.5*($DS_intNshield1_9_length+$DS_intNshield10_length)
+param DS_intNshield11_z=$DS_intNshield10_z+0.5*($DS_intNshield10_length+$DS_intNshield11_length)
+param DS_intNshield12_z=$DS_intNshield11_z+0.5*($DS_intNshield11_length+$DS_intNshield12_length)
+param DS_intNshield13_z=$DS_intNshield12_z+0.5*($DS_intNshield12_length+$DS_intNshield13_length)
+ 
+ tubs DS_intNshield0_a  innerRadius=$DS_intNshield0_innerR outerRadius=$DS_intNshield0_outerR \
+                 length=$DS_intNshield0_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield0_b  innerRadius=$DS_intNshield0_innerR outerRadius=$DS_intNshield0_outerR \
+                 length=$DS_intNshield0_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible 
+
+ tubs DS_intNshield01_a  innerRadius=$DS_intNshield0_innerR outerRadius=$DS_intNshield0_outerR \
+                 length=$DS_intNshield01_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield01_b  innerRadius=$DS_intNshield0_innerR outerRadius=$DS_intNshield0_outerR \
+                 length=$DS_intNshield01_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible 
+ 
+ tubs DS_intNshield1_a  innerRadius=$DS_intNshield1_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield1_b  innerRadius=$DS_intNshield1_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield2_a  innerRadius=$DS_intNshield2_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield2_b  innerRadius=$DS_intNshield2_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield3_a  innerRadius=$DS_intNshield3_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield3_b  innerRadius=$DS_intNshield3_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield4_a  innerRadius=$DS_intNshield4_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield4_b  innerRadius=$DS_intNshield4_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield5_a  innerRadius=$DS_intNshield5_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield5_b  innerRadius=$DS_intNshield5_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield6_a  innerRadius=$DS_intNshield6_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield6_b  innerRadius=$DS_intNshield6_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield7_a  innerRadius=$DS_intNshield7_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield7_b  innerRadius=$DS_intNshield7_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield8_a  innerRadius=$DS_intNshield8_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield8_b  innerRadius=$DS_intNshield8_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield9_a  innerRadius=$DS_intNshield9_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield9_b  innerRadius=$DS_intNshield9_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield1_9_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield10_a  innerRadius=$DS_intNshield10_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield10_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield10_b  innerRadius=$DS_intNshield10_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield10_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield11_a  innerRadius=$DS_intNshield11_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield11_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield11_b  innerRadius=$DS_intNshield11_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield11_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield12_a  innerRadius=$DS_intNshield12_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield12_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield12_b  innerRadius=$DS_intNshield12_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield12_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ tubs DS_intNshield13_a  innerRadius=$DS_intNshield13_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield13_length \
+                 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=$DS_intNshield_material color=$DS_intNshield_color
+
+ tubs DS_intNshield13_b  innerRadius=$DS_intNshield13_innerR outerRadius=$DS_intNshield0_innerR \
+                 length=$DS_intNshield13_length \
+                 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=$DS_intNshield_material color=$Invisible  
+ 
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-10.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-10.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-9.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-9.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-8.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-8.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-7.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-7.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-6.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-6.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-5.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-5.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-4.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-4.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-3.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-3.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-2.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-2.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-1.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-1.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-0.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield0_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z-0.5*$DS_intNshield0_length-0.5*$DS_intNshield01_length
+ place DS_intNshield01_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z
+ place DS_intNshield01_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z
+
+ place DS_intNshield1_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
+ place DS_intNshield1_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
+ place DS_intNshield2_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
+ place DS_intNshield2_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
+ place DS_intNshield3_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield3_z
+ place DS_intNshield3_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield3_z
+ place DS_intNshield4_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield4_z
+ place DS_intNshield4_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield4_z
+ place DS_intNshield5_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield5_z
+ place DS_intNshield5_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield5_z
+ place DS_intNshield6_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield6_z
+ place DS_intNshield6_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield6_z
+ place DS_intNshield7_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield7_z
+ place DS_intNshield7_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield7_z
+ place DS_intNshield8_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield8_z
+ place DS_intNshield8_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield8_z
+ place DS_intNshield9_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield9_z
+ place DS_intNshield9_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield9_z
+ place DS_intNshield10_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield10_z
+ place DS_intNshield10_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield10_z
+ place DS_intNshield11_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield11_z
+ place DS_intNshield11_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield11_z
+ place DS_intNshield12_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield12_z
+ place DS_intNshield12_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield12_z
+ place DS_intNshield13_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield13_z
+ place DS_intNshield13_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield13_z
+
+
+##********************
+## Detector Solenoid External Neutron Shielding 
+
+param DS_extNshield_thick=150.
+param DS_extNshield_length=12680.0
+param DS_extNshield_material=B_Polyethylene
+param DS_extNshield_z=9921.0+7929.0
+
+##********************
+## top (bottom) right 
+
+box DS_extNshield_1 \
+    height=$DS_extNshield_thick \
+    width=$DScryo_shield_distanceX1 \
+    length=$DS_extNshield_length \
+    material=$DS_extNshield_material \
+    color=$DS_extNshield_color
+
+##********************
+## right
+		
+box DS_extNshield_2 \
+    height=2*$DScryo_shield_distanceX1-2*$DS_extNshield_thick \
+    width=$DS_extNshield_thick \
+    length=$DS_extNshield_length \
+    material=$DS_extNshield_material \
+    color=$DS_extNshield_color
+
+##********************
+## top (bottom) left (invisible)
+
+box DS_extNshield_3 \
+    height=$DS_extNshield_thick \
+    width=$DScryo_shield_distanceX1 \
+    length=$DS_extNshield_length \
+    material=$DS_extNshield_material \
+    color=invisible
+
+##********************
+## left (invisible)
+
+box DS_extNshield_4 \
+    height=2*$DScryo_shield_distanceX1-2*$DS_extNshield_thick \
+    width=$DS_extNshield_thick \
+    length=$DS_extNshield_length \
+    material=$DS_extNshield_material \
+    color=invisible
+
+##********************		
+## top right	
+	
+place DS_extNshield_1 \
+      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+      z=$DS_extNshield_z
+
+##********************
+## top left
+		
+place DS_extNshield_3 \
+      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+      z=$DS_extNshield_z
+
+##********************		
+## right
+
+place DS_extNshield_2 \
+      x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+      y=0 \
+      z=$DS_extNshield_z
+
+##********************
+## bottom left	
+
+place DS_extNshield_3 \
+      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+      z=$DS_extNshield_z
+
+##********************
+## bottom right	
+
+place DS_extNshield_1 \
+      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+      z=$DS_extNshield_z
+
+##********************		
+## left		
+
+place DS_extNshield_4 \
+      x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+      y=0 \
+      z=$DS_extNshield_z

@@ -1,0 +1,44 @@
+# ****************************************************************************
+#                       Detector Solenoid Cyrostat
+# ****************************************************************************
+# From 
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+# One important note at the outset: in order to supplement the shielding of 
+# all of the coils in the upstream TS (TSu), the current simulation assumes 
+# that the TSu inner cryostat wall is 2 cm thick, rather than the 1 cm listed 
+# in MIT's Conceptual Design Report. The additional centimeter is added inside
+# the warm bore, thus the revised warm bore of TSu is 24 cm. 
+#
+# I kludge together a toroidal shape with a series of cylinders- for pretty pictures with cut-away view.
+# Otherwise use a torus command and make crytostat invisible
+
+param DScryo_innerR=950.0
+param DScryo_outerR=970.0
+param -unset DScryo_color=$Aluminum
+param DScryo_length=((22608+0.5*980)-(11433-0.5*430))
+param DScryo_z=0.5*((22608+0.5*980)+(11433-0.5*430))
+
+tubs DS_Cryo_a  \
+     innerRadius=$DScryo_innerR outerRadius=$DScryo_outerR \
+     length=$DScryo_length \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Al \
+     color=$TScryo_color_a \
+     kill=$TScryo_kill
+
+tubs DS_Cryo_b  \
+     innerRadius=$DScryo_innerR outerRadius=$DScryo_outerR \
+     length=$DScryo_length \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Al \
+     color=$TScryo_color_b \
+     kill=$TScryo_kill
+     
+place DS_Cryo_a \
+      x=-2*$TScryo_Radius-1950 \
+      z=$DScryo_z
+      
+place DS_Cryo_b \
+      x=-2*$TScryo_Radius-1950 \
+      z=$DScryo_z

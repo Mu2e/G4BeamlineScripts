@@ -1,0 +1,90 @@
+# ****************************************************************************
+#                   Detector Solenoid Iron Shield
+# ****************************************************************************
+# Made up mainly to stop flux of particles from upstream taking 
+# shortcuts into the DS, and to shield the Cosmic Ray Veto
+# JPM- 7feb10
+
+param DScryo_shield_distanceX1=1550.0
+param DScryo_shield_distanceX2=2050.0
+param DScryo_shield_thick=$DScryo_shield_distanceX2-$DScryo_shield_distanceX1
+param DScryo_shield_length=((22608+0.5*980)-(11433-0.5*430))+1000
+param DScryo_shield_z=0.5*((22608+0.5*980)+(11433-0.5*430))
+
+if $DScryo_shield==1
+box DS_Cryo_shield_a1 \
+		height=$DScryo_shield_thick \
+		width=$DScryo_shield_distanceX1 \
+		length=$DScryo_shield_length \
+		material=Fe \
+		color=$DS_Iron_Shield_color
+		
+box DS_Cryo_shield_b1 \
+		height=2.0*$DScryo_shield_distanceX2 \
+		width=$DScryo_shield_thick \
+		length=$DScryo_shield_length \
+		material=Fe \
+		color=$DS_Iron_Shield_color
+
+box DS_Cryo_shield_c1 \
+		height=$DScryo_shield_thick \
+		width=$DScryo_shield_distanceX1 \
+		length=$DScryo_shield_length \
+		material=Fe \
+		color=invisible
+		
+box DS_Cryo_shield_d1 \
+		height=2.0*$DScryo_shield_distanceX2 \
+		width=$DScryo_shield_thick \
+		length=$DScryo_shield_length \
+		material=Fe \
+		color=invisible
+
+##********************
+## 1st iron block
+
+place DS_Cryo_shield_a1 \
+		x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+		y=-0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		z=$DScryo_shield_z
+
+##********************
+## 3rd iron block
+
+place DS_Cryo_shield_a1 \
+		x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+		y=0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		z=$DScryo_shield_z
+
+##********************
+## 2nd iron block
+
+place DS_Cryo_shield_b1 \
+		x=-2*$TScryo_Radius-1950-0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		y=0.0 \
+		z=$DScryo_shield_z
+
+##********************
+## 6st iron block (invisible)
+
+place DS_Cryo_shield_c1 \
+		x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+		y=-0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		z=$DScryo_shield_z
+
+##********************
+## 4rd iron block (invisible)
+
+place DS_Cryo_shield_c1 \
+		x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+		y=0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		z=$DScryo_shield_z
+
+##********************
+## 5nd iron block (invisible)
+
+place DS_Cryo_shield_d1 \
+		x=-2*$TScryo_Radius-1950+0.5*($DScryo_shield_distanceX1+$DScryo_shield_distanceX2) \
+		y=0.0 \
+		z=$DScryo_shield_z
+endif

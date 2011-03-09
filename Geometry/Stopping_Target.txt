@@ -1,0 +1,54 @@
+# ****************************************************************************
+#                                Stopping Target
+# ****************************************************************************
+# From 
+# "DRAFT MECO Technical Proposal"
+# Version: August 1, 2001
+#
+# The baseline target, with mass 159 g, has seventeen 0.02 cm aluminum disks; 
+# they are arranged parallel to each other, centered on the Solenoid Magnet 
+# axis and with each face perpendicular to it. 
+# The target is tapered in the downstream direction, with 5.0 cm disk spacing 
+# and radii from 8.30 cm to 6.53 cm. 
+# The target is placed in the graded portion of the DS magnetic field, 
+# with the first disk at 1.57 T and the last at 1.30 T.
+# The Density of Aluminum = 2.64 g/cm^3
+
+param -unset Aluminum="0.66,0.67,0.71"
+param -unset Stop_Target_Color=$Aluminum
+
+tubs Stop_Tgt_01 outerRadius=83.00 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_02 outerRadius=81.89 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_03 outerRadius=80.79 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_04 outerRadius=79.68 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_05 outerRadius=78.58 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_06 outerRadius=77.47 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_07 outerRadius=76.36 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_08 outerRadius=75.26 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_09 outerRadius=74.15 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_10 outerRadius=73.04 length=0.20 material=Al color=$Stop_Target_Color kill=0						
+tubs Stop_Tgt_11 outerRadius=71.94 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_12 outerRadius=70.83 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_13 outerRadius=69.73 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_14 outerRadius=68.62 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_15 outerRadius=67.51 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_16 outerRadius=66.41 length=0.20 material=Al color=$Stop_Target_Color kill=0
+tubs Stop_Tgt_17 outerRadius=65.30 length=0.20 material=Al color=$Stop_Target_Color kill=0
+
+place Stop_Tgt_01 z=13400.00 x=-7808.00
+place Stop_Tgt_02 z=13450.00 x=-7808.00
+place Stop_Tgt_03 z=13500.00 x=-7808.00
+place Stop_Tgt_04 z=13550.00 x=-7808.00
+place Stop_Tgt_05 z=13600.00 x=-7808.00
+place Stop_Tgt_06 z=13650.00 x=-7808.00
+place Stop_Tgt_07 z=13700.00 x=-7808.00
+place Stop_Tgt_08 z=13750.00 x=-7808.00
+place Stop_Tgt_09 z=13800.00 x=-7808.00
+place Stop_Tgt_10 z=13850.00 x=-7808.00
+place Stop_Tgt_11 z=13900.00 x=-7808.00
+place Stop_Tgt_12 z=13950.00 x=-7808.00
+place Stop_Tgt_13 z=14000.00 x=-7808.00
+place Stop_Tgt_14 z=14050.00 x=-7808.00
+place Stop_Tgt_15 z=14100.00 x=-7808.00
+place Stop_Tgt_16 z=14150.00 x=-7808.00
+place Stop_Tgt_17 z=14200.00 x=-7808.00
