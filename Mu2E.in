@@ -1,0 +1,597 @@
+# $Id$
+# $Date$
+# $Author$
+
+param -unset First_Event=1
+param -unset Num_Events=10000
+
+#
+#    G4Beamline input file for running on local machines and GRID cluster.
+#    Modified by Rick Coleman and Vladimir Khalatian
+#    coleman@fnal.gov
+#    vkhal@fnal.gov
+#    Dec. 10, 2010
+#    Created by Mike Martens
+#    martens@fnal.gov
+#    July 22, 2008 
+#
+#
+#    Includes:
+#
+#      Coordinate System
+#        The origin of the coordinate system for this G4beamline file is related
+#        to the "Mu2e Standard" coordinates system which
+#        has the origin in the center of TS3.
+#      For reference see
+#        "Mu2e Coordinate System Definition", Doc-db 1213-v1, Tom Page
+#        x(Mu2e)=x(g4bl)+3904 mm, z(Mu2e)=z(g4bl)-7929 mm, y= same in both
+#
+#      Gold Target
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#      Proton Beam
+#        The incoming proton beam has 8 GeV of kinetic energy 
+#       
+#      Production Solenoid Shielding
+#        "Optimization of a Mu2e Production Solenoid Absorber Using MARS15"
+#        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
+#
+#      Solenoidal coils 
+#      (Set of 94, with transport coils rotated an extra 1.6 degrees, 
+#      but not considering effects of iron shielding)
+#        "MECO Superconducting Solenoid System Conceptual Design Report",
+#        Prepared by the Massachusetts Institute of Technology
+#        Plasma Science and Fusion Center
+#        June 6, 2002
+#
+#      Collimators in the Transport Solenoid
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+#
+#      Stopping Target (Set of 17 Al disks) from
+#        "DRAFT MECO Technical Proposal"
+#        Version: August 1, 2001
+#
+#       (For show only!) Tracker and Calorimeter
+#        Electron Calorimeter Reference Design
+#        MECO-CAL-05-001, 2/11/2005, R. Djilkibaev, A. Mincer, P. Nemethy
+#        Tracking Detector Reference Design
+#        MECO-TRK-05-001, 3/21/2005, E.V. Hungerford
+#        Note: These are for show only. Postions and size are only approximate.
+#
+#      (An approximation of) Transport Solenoid Cryostat
+#        A 2m thick, 24 cm inner radius, aluminum toroidal tube.
+#        Mainly this is used to prevent stray particles leaving between 
+#        the gaps in the coils.
+#
+#        Muon Beam Dump
+#        See Mu2e Proposal
+#
+#        Iron Shield Detector Solenoid- No end caps yet just sides/top/bottom
+#        See Mu2e Proposal
+#        L = 13,164 mm, 0.5m thick, 3.1 m inside
+
+
+
+# ****************************************************************************
+#                         Some handy RGB color definitions
+# ****************************************************************************
+
+param Black="0,0,0"
+param White="1,1,1"
+param Red="1,0,0"
+param Green="0,1,0"
+param Blue="0,0,1"
+param SkyBlue="0.53,0.81,0.92"
+param Gray="0.6,0.6,0.6"
+param Yellow="1,1,0"
+param Cyan="0,1,1"
+param Magenta="1,0,1"
+param Teal="0,0.5,0.5"
+param Orange="1,0.5,0"
+param Chartreuse="0.5,1,0"
+param Purple="0.5,0,0.5"
+param Aluminum="0.66,0.67,0.71"
+param Copper="0.72,0.45,0.2"
+param Gold="1.0,0.843,0.0"
+param Brown="0.647,0.165,0.165"
+param Tungsten="1.0,0.83,0.67"
+param DarkOliveGreen="0.33,0.42,0.18"
+param PaleVioletRed="0.86,0.44,0.57"
+param SkyBlue="0.53,0.80,0.92"
+param LightBlue="0.72,0.87,0.9"
+param ForestGreen="0.13,0.54,0.13"
+param DarkKhaki="0.74,0.71,0.42"
+param SoftGreen="0.1,0.84,0.1"
+param Invisible="invisible"
+
+##********************
+## Set colors of various parts of the Mu2e beamline
+
+param Target_Color=$Gold
+param Coil_Color=$ForestGreen
+param TScryo_color=$DarkKhaki
+param DScryo_color=$DarkKhaki
+param DS_intNshield_color=$LightBlue
+param DS_extNshield_color=$LightBlue
+param DS_Iron_Shield_color=$Gray
+param PS_Shield_Cu_Color=$Copper
+param PS_Shield_W_Color=$Tungsten
+param TS_Collimator_Color=$Copper
+param Stop_Target_Color=$Purple
+param Tracker_Color=$Brown
+param Calorimeter_Color=$SoftGreen
+
+
+# ****************************************************************************
+#                                Set materials
+# ****************************************************************************
+
+material B_Polyethylene density=0.95 C,0.612 H,0.116 B,0.05 O,0.222
+material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04 
+material HighSilicon density=8.53 Cu,0.97 Si,0.03 
+
+# ****************************************************************************
+#                                Physics Setup 
+# ****************************************************************************
+# QGSP_BERT - QGSP(now obsolete) GEANT4 automatically substitutes QGSP_BERT 
+#              "Comparison of pion production in QGSP and QGSP_BERT with HARP
+#               data", Ivan Logashenko,Doc-db 1279-v1.
+#
+# Common PDGid-s:
+# e- 11 e+ -11
+# mu- 13 mu+ -13
+# pi+ 211 pi- -211
+# proton 2212 anti_proton -2212
+# neutron 2112 anti_neutron -2112
+# gamma 22
+
+physics QGSP_BERT
+
+
+# ****************************************************************************
+#                                Set the kill parameter on various shielding
+# ****************************************************************************
+
+param -unset PS_Shield_kill=1
+param -unset TScryo_kill=1
+param -unset TS_Collimator_kill=1
+param -unset Muon_Dump_kill=1
+param -unset Proton_Dump_kill=1
+
+
+# ****************************************************************************
+#                                Tracking Setup  
+# ****************************************************************************
+param steppingFormat="N STEP KE GLOBAL CL VOL MAT PROCESS"
+param -unset steppingVerbose=0
+
+##********************
+## This is for making pretty pictures
+param -unset Pretty_Pictures=0
+
+if $Pretty_Pictures==1
+   param maxStep=10
+   trackcuts kineticEnergyCut=1.0 \
+             keep=proton,pi-,pi+,mu-,mu+ \
+             steppingVerbose=0
+    
+   particlecolor proton=invisible
+   particlecolor pi+=invisible
+   particlecolor pi-=invisible
+   particlecolor mu-=$Red
+   particlecolor mu+=$Blue
+   particlecolor pi-=$Blue
+   particlecolor e-=$Green
+
+else
+   trackcuts kineticEnergyCut=0.10 \
+             keep=proton,mu+,mu-,pi+,pi-
+
+endif
+
+
+# ****************************************************************************
+#                           Random Number Generator
+# ****************************************************************************
+# A default Random Seed is an Event Number. It makes possible to rerun 
+# interesting event with the same Random Number that it(event) had in 
+# previous run
+
+param -unset Random_Seed=EventNumber
+
+randomseed $Random_Seed
+
+
+# ****************************************************************************
+#                           Coordinate System
+# ****************************************************************************
+# This file (G4beamline) has origin at the start of the Production Solenoid
+# The Mu2e coordinate system is centered at the middle of TS3
+
+param MECO_G4_xTrans=-(2.929+1.950/2.0)*1000
+param MECO_G4_zTrans=(5.00+2.929)*1000
+
+
+
+# ****************************************************************************
+#                            Production Solenoid
+#                            Transport Solenoid 
+#                            Detector Solenoid
+# ****************************************************************************
+#
+# Use the set of 94 coils* from the 
+# MECO Superconducting Solenoid System Conceptual Design Report 
+# Prepared by the Massachusetts Institute of Technology
+# Plasma Science and Fusion Center
+# June 6, 2002
+# (* but with an extra 1.6 degrees of rotation in some of the transport 
+#    solenoid coils.) 
+# (* See the Excel spreadsheet Mu2e_Muon_Beamline_003.xls)
+#
+# This geometry differs from the Draft MECO Technical Design Report, but 
+# according to Jim Miller the MIT CDR is the most recent version of the 
+# coil design and supercedes the TDR.
+#
+# Note: There is a discrepancy between Figure 3.1 and Table 3.1.
+# In Table 3.1 the section TS3 of the transport is 1.95 meters long, but 
+# Figure 3.1 has this distance as 2 meters.
+# The coils in Table 3.2 match the parameters in Table 3.1.
+
+param -unset Use_Field=1
+param Generate_Fieldmap=0
+
+if $Use_Field==1
+   if $Generate_Fieldmap==1
+      include ./Geometry/Generated_Field.txt
+   
+   else
+      include ./Geometry/Mu2e_Short_Coils_Material.txt
+
+      fieldmap PSMagneticField  \
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_PSMap.txt
+ 
+      place PSMagneticField \
+            x=0 \
+            y=0 \
+            z=0
+ 
+      fieldmap DSMagneticField \
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_DSMap.txt
+ 
+      place DSMagneticField \
+            x=0 \
+            y=0 \
+            z=0
+ 
+      fieldmap TSuMagneticField \
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_TSuMap.txt
+ 
+      place TSuMagneticField \
+            x=0 \
+            y=0 \
+            z=0
+ 
+      fieldmap TsdMagneticField \
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_TSdMap.txt
+ 
+      place TsdMagneticField \
+            x=0 \
+            y=0 \
+            z=0
+   
+   endif
+   
+endif
+
+##********************
+## This is used to output the magnetic field along the reference line 
+## through the center of the solenoidal and torroidal coils.
+
+probefield file=./Geometry/FieldProbePoints.txt
+
+
+# ****************************************************************************
+#                              Electron Beam Stop
+# ****************************************************************************
+# Note: added rhb 3/23/09 to Mu2e_Muon_Beamline_005.in for g4Beamline
+# this is based on MECO-63, "Do we need a small beam stop
+#                            on the axis of the production solenoid?"
+# I got the actual size and location from MECOproduction088.gmc
+# but units are mm here, cm there
+
+param -unset MECO_eplug=0
+
+if $MECO_eplug==1
+   include ./Geometry/Electron_Beam_Stop.txt
+
+endif      
+
+
+# ****************************************************************************
+#           Transport Solenoid and Detector Solenoid Cyrostats
+# ****************************************************************************
+# From 
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+# One important note at the outset: in order to supplement the shielding of 
+# all of the coils in the upstream TS (TSu), the current simulation assumes 
+# that the TSu inner cryostat wall is 2 cm thick, rather than the 1 cm listed 
+# in MIT's Conceptual Design Report. The additional centimeter is added inside
+# the warm bore, thus the revised warm bore of TSu is 24 cm. 
+#
+# I kludge together a toroidal shape with a series of cylinders- for pretty pictures with cut-away view.
+# Otherwise use a torus command and make crytostat invisible
+
+param -unset Use_Cryostat=1
+
+if $Use_Cryostat==1
+  include ./Geometry/TS_Cryostat.txt
+  include ./Geometry/DS_Cryostat.txt
+
+endif
+
+
+# ****************************************************************************
+#                         Production Solenoid Shielding
+# ****************************************************************************
+# Use the Bronze and Hevimet shielding design
+#        "Optimization of a Mu2e Production Solenoid Absorber Using MARS15"
+#        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
+# Modified: 11/15/10, V. Khalatian
+
+include ./Geometry/PS_Mu2e_Short_Shield.txt
+
+
+# ****************************************************************************
+#                   Detector Solenoid Iron Shield
+# ****************************************************************************
+# Made up mainly to stop flux of particles from upstream taking 
+# shortcuts into the DS, and to shield the Cosmic Ray Veto
+# JPM- 7feb10
+
+param -unset DScryo_shield=1
+
+include ./Geometry/DS_Iron_Shield.txt
+
+##********************
+## COLL_05 shielding wall, hole in the middle 
+## Add shielding to the TS to prevent background taking shortcuts into the DS
+## This consists of a cylindrical shell that is coaxial with Detector Solenoid.
+
+param Coll_05s_Rout=1120.0
+param Coll_05s_length=400.0
+param Coll_05s_Rin=450.0
+param Coll_05s_x=-3904+$MECO_G4_xTrans
+param Coll_05s_z=3030+$MECO_G4_zTrans
+
+tubs Coll_05s_a \
+     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
+     length=$Coll_05s_length \
+     maxStep=0.1\
+     initialPhi=90.0 finalPhi=270.0 \
+     material=Cu \
+     color=$Blue \
+     kill=$TS_Collimator_kill
+     
+place Coll_05s_a \
+      x=$Coll_05s_x \
+      z=$Coll_05s_z
+
+tubs Coll_05s_b \
+     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
+     length=$Coll_05s_length \
+     maxStep=0.1\
+     initialPhi=-90.0 finalPhi=90.0 \
+     material=Cu \
+     color=$Invisible \
+     kill=$TS_Collimator_kill
+     
+place Coll_05s_b \
+      x=$Coll_05s_x \
+      z=$Coll_05s_z
+
+
+# ****************************************************************************
+#                         Detector Solenoid Neutron Shield
+# ****************************************************************************
+# Neutron Shield made of B-Polyethylene. 
+# From MECO-MUB-03-005V1.00
+
+include ./Geometry/DS_Neutron_Shield.txt
+
+
+# ****************************************************************************
+#                                 Cosmic Ray Veto
+# ****************************************************************************
+# Cosmic Ray Veto 
+# From document MECO-CRS-05-001V1.01
+
+param -unset Cosmic_Ray_Veto=1
+
+##********************
+## If you want to include scintillator detectors to "g4beamline.root" output file
+## Use_Scin_Det parameter should be 1
+
+param -unset Use_Scin_Det=0
+
+if $Cosmic_Ray_Veto==1
+   include ./Geometry/Cosmic_Ray_Veto.txt
+
+endif
+
+
+# ****************************************************************************
+#                                Proton Beam Stop
+# ****************************************************************************
+# Just a piece of metal for now.
+
+include ./Geometry/PS_Proton_Beam_Stop.txt
+
+
+# ****************************************************************************
+#                                Transport Solenoid 
+#                                Collimators
+# ****************************************************************************
+# Geometry take from
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+
+include ./Geometry/TS_Collimators.txt
+
+
+# ****************************************************************************
+#                                Stopping Target
+# ****************************************************************************
+# From 
+# "DRAFT MECO Technical Proposal"
+# Version: August 1, 2001
+#
+# The baseline target, with mass 159 g, has seventeen 0.02 cm aluminum disks; 
+# they are arranged parallel to each other, centered on the Solenoid Magnet 
+# axis and with each face perpendicular to it. 
+# The target is tapered in the downstream direction, with 5.0 cm disk spacing 
+# and radii from 8.30 cm to 6.53 cm. 
+# The target is placed in the graded portion of the DS magnetic field, 
+# with the first disk at 1.57 T and the last at 1.30 T.
+# The Density of Aluminum = 2.64 g/cm^3
+
+include ./Geometry/Stopping_Target.txt
+
+
+# ****************************************************************************
+#                                Calorimeter
+# ****************************************************************************
+# Electron Calorimeter Reference Design
+# MECO-CAL-05-001, 2/11/2005, R. Djilkibaev, A. Mincer, P. Nemethy
+# Tracking Detector Reference Design
+# MECO-TRK-05-001
+#
+# Note: These are for show only. Postions and size are only approximate.
+
+include ./Geometry/Calorimeter.txt 
+
+
+# ****************************************************************************
+#                                Tracker
+# ****************************************************************************
+# 3 types of tracker:
+# MECO version of tracker - 1
+# Mu2e version of T-Tracker with straws - 2 
+# Mu2e version of T-Tracker with planes (no straws) - 3 
+
+param -unset tracker=1
+
+if $tracker==1 
+   include ./Geometry/MECO_Tracker.txt 
+
+elseif $tracker==2
+       include ./Geometry/T_Tracker_Straws.txt 
+
+elseif $tracker==3
+       include ./Geometry/T_Tracker_Planes.txt 
+
+endif
+
+
+# ****************************************************************************
+#                                Muon Beam Dump
+# ****************************************************************************
+# From Mu2e Proposal
+
+include ./Geometry/DS_Muon_Beam_Dump.txt
+
+
+# ****************************************************************************
+#                              Proton Target
+# ****************************************************************************
+#
+# From:
+#   Production Target Reference Design, 
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
+#   The target is a 16 cm long 6 mm diameter cylinder of gold  
+#    with a tapered end on the upstream side.  
+#   The center point of the target rod in MECO coordinates is 
+#    (x, y, z) = (390.4, 0.0, -656.45) (centimeters)
+#   The longitudinal axis of the target is rotated first with respect to 
+#    the +y axis by 14° and then about the x axis by 0.0°. 
+#
+#   This rotation is chosen to closely match the trajectory of the primary 
+#    proton beam through the axially graded PS field. 
+#
+# You can choose the type of the Proton Target changing "Use_Proton_Target" parameter:
+# 0 - No Proton Target
+# 1 - Only Golden Target
+# 2 - Golden Target inside titanium shell with 2 water pipes made of titanium too 
+# 3 - "Bicycle wheel" model of Proton Target
+
+param -unset Use_Proton_Target=2
+
+if $Use_Proton_Target==3
+include ./Geometry/Proton_Target_Bicycle.txt
+
+else
+include ./Geometry/Proton_Target.txt
+
+endif
+
+# ****************************************************************************
+#                                Proton Beam
+# ****************************************************************************
+
+param BoosterKE=8000.0
+param ProtonMass=938.27231
+param ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
+param xBeam=0.5*($Tlength+100)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param yBeam=-0.5*($Tlength+100)*sin($TXangle*3.14159/180.0)
+param zBeam=$Tposition+0.5*($Tlength+100)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param BYangle=$TYangle+180.0
+param BXangle=-1.0*($TXangle)
+param BsigmaX=1.0
+param BsigmaY=1.0
+param BsigmaT=30.0
+
+##********************
+## This is for chosing either QGSP_BERT production from the proton beam OR
+## the weighted HARP pion file for production
+
+param -unset HARP_Pion_File=0
+
+if $HARP_Pion_File==1
+   beam ascii \
+        filename=/mu2e/data/personal/vkhal/G4BeamLineScripts/BeamFiles/N1HARPSS_Short.txt
+
+else
+   beam gaussian \
+        particle=proton \
+        nEvents=$Num_Events firstEvent=$First_Event \
+        beamX=$xBeam beamY=$yBeam beamZ=$zBeam \
+        sigmaX=$BsigmaX sigmaY=$BsigmaY \
+	sigmaXp=0.00 sigmaYp=0.00 \
+        meanMomentum=$ProtonMomentum sigmaP=0.0 \
+        meanT=0.0 \
+	sigmaT=$BsigmaT \
+        rotation=X$BXangle,Y$BYangle
+
+endif
+
+# ****************************************************************************
+#                      Basic package of Virtual Detectors
+# ****************************************************************************
+# There are 8 basic virtual detectors in standart simulation:
+# detectors at the entrance and exit of each collimator (3x2)
+# one detector at the middle of collimator 03 (1)
+# one detector containing particle tracks when lost in stopping targets (1)
+# All data from those detectors would be in "g4beamline.root" output file
+
+param -unset Use_Basic_Det=1
+
+include ./Geometry/Basic_Detectors.txt
+
+# ****************************************************************************
+#                                  THE END
+# ****************************************************************************
