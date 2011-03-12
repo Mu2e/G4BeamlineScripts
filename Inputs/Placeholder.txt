@@ -1,2 +1,0 @@
-CVS does not like empty directories.  Delete this file once
-there are files in this directory.
