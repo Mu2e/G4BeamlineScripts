@@ -250,7 +250,7 @@ if $Use_Field==1
       include ./Geometry/Mu2e_Short_Coils_Material.txt
 
       fieldmap PSMagneticField  \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_PSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_PSMap.txt
  
       place PSMagneticField \
             x=0 \
@@ -258,7 +258,7 @@ if $Use_Field==1
             z=0
  
       fieldmap DSMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_DSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_DSMap.txt
  
       place DSMagneticField \
             x=0 \
@@ -266,7 +266,7 @@ if $Use_Field==1
             z=0
  
       fieldmap TSuMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_TSuMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_TSuMap.txt
  
       place TSuMagneticField \
             x=0 \
@@ -274,7 +274,7 @@ if $Use_Field==1
             z=0
  
       fieldmap TsdMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau4/Mau4_TSdMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_TSdMap.txt
  
       place TsdMagneticField \
             x=0 \
