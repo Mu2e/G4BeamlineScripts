@@ -87,5 +87,10 @@ outstagecluster=${outstage}/${cluster}
 test -e $outstagecluster || mkdir $outstagecluster
 
 # Making copy of output files(add more lines and change filenames if you have different output files)
+echo "making copy of output files"
 /grid/fermiapp/minos/scripts/cpn g4beamline.root ${outstagecluster}/g4beamline_$process.root
+if [ $process -eq 0 ]; then
+    echo "Making copy of input archive"
+    /grid/fermiapp/minos/scripts/cpn $g4bltar ${outstagecluster}/g4bl_grid.tar
+fi
 exit 0

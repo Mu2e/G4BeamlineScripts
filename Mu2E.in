@@ -563,7 +563,7 @@ param -unset HARP_Pion_File=0
 
 if $HARP_Pion_File==1
    beam ascii \
-        filename=/mu2e/data/personal/vkhal/G4BeamLineScripts/BeamFiles/N1HARPSS_Short.txt
+        filename=/grid/fermiapp/mu2e/DataFiles/ExampleDataFiles/Mu2e_HARP_PION.txt
 
 else
    beam gaussian \
