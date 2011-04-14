@@ -3,7 +3,8 @@
 # $Author$
 
 # Use these lines to generate the fieldmap files from the coils         
-   include Mu2e_Rotated_Magnet_Coils.txt
+   include ./Geometry/Mu2e_Generated_Mau5_Coils.txt
+
    param PSMap_Zstart=-2000.0
    param PSMap_Zend=5000.0
    param PSMap_Xstart=-1100.0

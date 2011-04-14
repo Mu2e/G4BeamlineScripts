@@ -240,14 +240,14 @@ param MECO_G4_zTrans=(5.00+2.929)*1000
 # The coils in Table 3.2 match the parameters in Table 3.1.
 
 param -unset Use_Field=1
-param Generate_Fieldmap=0
+param -unset Generate_Fieldmap=0
 
 if $Use_Field==1
    if $Generate_Fieldmap==1
       include ./Geometry/Generated_Field.txt
    
    else
-      include ./Geometry/Mu2e_Short_Coils_Material.txt
+      include ./Geometry/Mu2e_Mau5_Coils.txt
 
       fieldmap PSMagneticField  \
                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_PSMap.txt

@@ -34,7 +34,7 @@ param GR1_z=338.1-$CN1_z GR1_x=-223.4 GR1_inner_r=0.0 GR1_outer_r=200.0 GR1_leng
 param GR2_z=338.1-$CL2a_z GR2_x=$GR1_x GR2_inner_r=$GR1_inner_r GR2_outer_r=$GR1_outer_r GR2_length=$GR1_length
 
 tubs  GR1_vis innerRadius=$GR1_inner_r outerRadius=$GR1_outer_r length=$GR1_length \
-      material=Vacuum color=$Invisible kill=0 
+      material=Vacuum color=$Red kill=0 
                  
 polycone CN1_a_vis1 innerRadius=$CN1_inner_r1,$CN1_inner_r2 outerRadius=$CN1_outer_r,$CN1_outer_r initialPhi=$PS_Phi1 finalPhi=$PS_Phi2 \
 		z=$CN1_z-0.5*$CN1_length,$CN1_z+0.5*$CN1_length \
@@ -75,7 +75,7 @@ place CL1_vis x=0.0 y=0.0 z=$CL1_z
 place CL1_inv x=0.0 y=0.0 z=$CL1_z
 
 tubs  GR2_vis innerRadius=$GR2_inner_r outerRadius=$GR2_outer_r length=$GR2_length\
-      material=Vacuum color=$Invisible kill=0 
+      material=Vacuum color=$Red kill=0 
 
 tubs  CL2a_vis innerRadius=$CL2a_inner_r outerRadius=$CL2a_outer_r length=$CL2a_length initialPhi=$PS_Phi1 finalPhi=$PS_Phi4 \
       material=$PS_Shield_material2 color=$PS_Shield_W_Color kill=$PS_Shield_kill  
