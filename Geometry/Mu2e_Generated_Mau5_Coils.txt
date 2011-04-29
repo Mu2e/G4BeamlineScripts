@@ -1,3 +1,7 @@
+# $Id: 
+# $Date: 
+# $Author: 
+
 # Magnet Coils for generating fieldmaps
 param TS_Tolerance=0.010
 param PS_Tolerance=0.010

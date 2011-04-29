@@ -348,7 +348,7 @@ group proton_target
             z=$target_center+$cap4_z_rear
 
 ##********************
-## Cooling pipes
+## Vertical Cooling pipes
 
       tubs pipe \
            innerRadius=$pipe_r1 \
@@ -370,6 +370,42 @@ group proton_target
             rotation=X90
 
 endgroup
+
+##********************
+## Horizontal Cooling pipes
+
+param pipe_h_r1=.5*.49*25.4
+param pipe_h_r2=.5*.68*25.4
+param pipe_h_x=$pipe_z1*sin($TYangle*3.14159/180)
+param pipe_h_y=$CL1_inner_r-.5*$pipe_h_r2-4
+param pipe_h_z1=$Tposition+$pipe_z1*cos($TYangle*3.14159/180)-$pipe_r2
+param pipe_h_z2=$Tposition-$pipe_z1*cos($TYangle*3.14159/180)-$pipe_r2
+param pipe_h_l1=$pipe_h_z1+491.0
+param pipe_h_l2=$pipe_h_z2+491.0
+
+tubs pipe_h1 \
+     innerRadius=$pipe_h_r1 \
+     outerRadius=$pipe_h_r2 \
+     length=$pipe_h_l1 \
+     material=Ti \
+     color=$Target_Shell_Color
+
+tubs pipe_h2 \
+     innerRadius=$pipe_h_r1 \
+     outerRadius=$pipe_h_r2 \
+     length=$pipe_h_l2 \
+     material=Ti \
+     color=$Target_Shell_Color
+
+place pipe_h1 \
+      x=$pipe_h_x \
+      y=$pipe_h_y \
+      z=$pipe_h_z1-.5*$pipe_h_l1
+
+place pipe_h2 \
+      x=-$pipe_h_x \
+      y=$pipe_h_y \
+      z=$pipe_h_z2-.5*$pipe_h_l2
 
 place proton_target \
       x=0 \

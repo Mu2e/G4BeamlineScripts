@@ -526,8 +526,9 @@ include ./Geometry/DS_Muon_Beam_Dump.txt
 # You can choose the type of the Proton Target changing "Use_Proton_Target" parameter:
 # 0 - No Proton Target
 # 1 - Only Golden Target
-# 2 - Golden Target inside titanium shell with 2 water pipes made of titanium too 
-# 3 - "Bicycle wheel" model of Proton Target
+# 2 - Golden Target inside titanium shell with 2 horizontal and 2 vertical 
+#     water pipes made of titanium too 
+# 3 -"Bicycle wheel" model of Proton Target
 
 param -unset Use_Proton_Target=2
 
