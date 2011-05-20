@@ -15,7 +15,7 @@ param Coll_01_length=1000.0
 param Coll_01_Rin_up=150.0
 param Coll_01_Rin_down=170.0
 param Coll_01_x=0.0
-param Coll_01_z=4381.-$Coll_01_length/2.0
+param Coll_01_z=4385.-$Coll_01_length/2.0
 param -unset TS_Collimator_Color=$Copper
 param -unset TS_Collimator_kill=1
 
@@ -49,7 +49,7 @@ place Coll_01_b \
 ## PBAR WINDOW/Absorber 
 
 param Coll_pbar_Rout=230.0
-param Coll_pbar_length=120.e-3
+param Coll_pbar_length=360.e-3
 param Coll_pbar_Rin=0.0
 param Coll_pbar_x=$MECO_G4_xTrans
 param Coll_pbar_z=$MECO_G4_zTrans

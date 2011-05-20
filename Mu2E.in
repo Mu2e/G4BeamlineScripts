@@ -154,9 +154,9 @@ physics QGSP_BERT
 #                                Set the kill parameter on various shielding
 # ****************************************************************************
 
-param -unset PS_Shield_kill=1
-param -unset TScryo_kill=1
-param -unset TS_Collimator_kill=1
+param -unset PS_Shield_kill=0
+param -unset TScryo_kill=0
+param -unset TS_Collimator_kill=0
 param -unset Muon_Dump_kill=1
 param -unset Proton_Dump_kill=1
 
@@ -187,7 +187,7 @@ if $Pretty_Pictures==1
 
 else
    trackcuts kineticEnergyCut=0.10 \
-             keep=proton,mu+,mu-,pi+,pi-
+             keep=proton,mu+,mu-,pi+,pi-,e+,e-
 
 endif
 
