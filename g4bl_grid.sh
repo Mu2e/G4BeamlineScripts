@@ -66,7 +66,7 @@ echo " "
 tar -xf $g4bltar
 
 # Run Mu2e setup and setup G4BeamLine (You can change version of G4BeamLine)
-source /grid/fermiapp/products/mu2e/setupmu2e.sh
+source /grid/fermiapp/products/mu2e/setupmu2e-v1.sh
 setup G4beamline v2_06
 
 # Run G4BeamLine 
