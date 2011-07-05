@@ -1,25 +1,303 @@
-# $Id$
-# $Date$
-# $Author$
+# **********************************************
+# Proton Beam Stop and Extinction Monitor Filter
+# **********************************************
+param pi=acos(-1)
+param Concrete="0.55,0.55,0.45"
+param DarkConcrete="0.5,0.5,0.4"
+param ChannelShield=invisible
 
-# ****************************************************************************
-#                               Proton Beam Stop
-# ****************************************************************************
-# A block of Al
+# **********************************
+# Filter parameters
+# **********************************
 
-param pStop_length=2000.
+param -unset FilterMomentum=9000
 
-box pStop \
-     height=1500. \
-     width=1500.\
-     length=$pStop_length \
-     material=Al \
-     color=$Aluminum\
-     kill=0
-#     kill=$Proton_Dump_kill     
-     
-place pStop \
-      x=-2546. \
-      y=264. \
-      z=-11500.\
-      rotation=y13.3
+if $FilterMomentum>0
+ param addFilt_H=2000
+ param x=1000/$FilterMomentum
+ param filt_ang=0.1652+0.0074*$x-0.0114*$x**2
+ param filt_x=110.91-176.44*$x
+ param filt_y1=-500
+ param filt_y2=200
+ param filt_L1=($filt_y2-$filt_y1)/sin($filt_ang)
+ param filt_z1=0
+ param filt_z2=$filt_z1+$filt_L1*cos($filt_ang)
+
+ param filt_w=50
+ param filt_M=3556
+ param filt_B=0.222
+ param filt_bend=0.5*$filt_B*0.2998*$filt_M/$FilterMomentum
+ param filt_T=2*$filt_L1*cos($filt_bend)+$filt_M/2
+ param filt_h=min(100,(tan($filt_bend)*($filt_T-$filt_M/2)**2)/(2*$filt_T))
+
+ param filt_L2=($filt_T-$filt_M)/cos($filt_bend)-$filt_L1
+ param filt_y3=$filt_y2+$filt_M*sin($filt_ang-$filt_bend)
+ param filt_z3=$filt_z2+$filt_M*cos($filt_ang-$filt_bend)
+ param filt_y4=$filt_y3+$filt_L2*sin($filt_ang-2*$filt_bend)
+ param filt_z4=$filt_z3+$filt_L2*cos($filt_ang-2*$filt_bend)
+endif
+
+# **********************************
+# Proton beam stop parameters
+# **********************************
+
+param pStop_Kill=1
+
+param pStop_t=1000.
+param pStop_h=1500.
+param pStop_w=1500.
+param pStop_l=2000.
+param pStop_H=$pStop_h+2*$pStop_t
+param pStop_W=$pStop_w+2*$pStop_t
+param pStop_L=$pStop_l+3*$pStop_t
+param pStop_c=$pStop_W/3
+
+param pStop_x=-3237 
+param pStop_y=528.     
+param pStop_z=-11500 
+param pStop_rot=13.3
+
+# **********************************
+#   Construct beam stop 
+# **********************************
+
+box pStop color=invisible length=$pStop_L height=$pStop_H width=$pStop_W
+
+# Back section of beam stop
+
+box pStopBack material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_t height=$pStop_H width=$pStop_W
+
+# Middle section of beam stop
+
+box pStopMiddle color=invisible length=$pStop_l width=$pStop_W height=$pStop_H
+  box pStopMTop color=invisible length=$pStop_l width=$pStop_W height=$pStop_t
+  box pStopMMid color=invisible length=$pStop_l width=$pStop_W height=$pStop_h
+  box pStopMBot material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_l width=$pStop_W height=$pStop_t
+
+  box pStopMcore material=Al color=$Aluminum kill=$pStop_Kill \
+	length=$pStop_l height=$pStop_h width=$pStop_w
+  box pStopMside material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_l height=$pStop_h width=$pStop_t
+  box pStopMcnr material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_l height=$pStop_t width=$pStop_c
+  box pStopMfilt material=CONCRETE color=$ChannelShield \
+	length=$pStop_l height=$pStop_t width=$pStop_c
+  if $FilterMomentum>0
+    param y0=$pStop_t/2+$filt_y1
+    param y1=$y0+2*$pStop_t*tan($filt_ang)+0.5*$filt_h/cos($filt_ang)
+    param y2=$y0+2*$pStop_t*tan($filt_ang)-0.5*$filt_h/cos($filt_ang)
+    param y3=$pStop_t/2
+    param x1=$pStop_l/2
+    param x2=$x1-($pStop_t/2-$y2)/tan($filt_ang)
+    param x3=$x1-($pStop_t/2-$y1)/tan($filt_ang)
+    extrusion pStopMchan material=Air length=$filt_w \
+	vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x3,$y3
+    place pStopMchan parent=pStopMfilt rotation=y-90 x=$filt_x
+  endif
+
+  place pStopMside parent=pStopMMid x=+$pStop_w/2+$pStop_t/2
+  place pStopMcore parent=pStopMMid
+  place pStopMside parent=pStopMMid x=-$pStop_w/2-$pStop_t/2
+  place pStopMcnr  parent=pStopMTop x=+$pStop_c
+  place pStopMfilt parent=pStopMTop
+  place pStopMcnr  parent=pStopMTop x=-$pStop_c
+
+# Neutron cave section of beam stop
+
+box pStopCave color=invisible length=$pStop_l height=$pStop_H width=$pStop_W
+  box pStopCTop color=invisible length=$pStop_t width=$pStop_W height=$pStop_t/2
+  box pStopCMid material=Air color=invisible \
+	length=$pStop_t width=$pStop_W height=$pStop_h+$pStop_t
+  box pStopCBot material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
+	length=$pStop_t width=$pStop_W height=$pStop_t/2
+
+  box pStopCside material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
+	length=$pStop_t height=$pStop_h+$pStop_t width=$pStop_t/2
+  box pStopCcnr material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
+	length=$pStop_t height=$pStop_t/2 width=$pStop_c
+  box pStopCfilt material=CONCRETE color=$ChannelShield \
+	length=$pStop_t height=$pStop_t/2 width=$pStop_c
+  if $FilterMomentum>0
+    param y0=$pStop_t/4+$filt_y1
+    param y1=$y0+$pStop_t*tan($filt_ang)+0.5*$filt_h/cos($filt_ang)
+    param y2=$y0+$pStop_t*tan($filt_ang)-0.5*$filt_h/cos($filt_ang)
+    param y3=$y2+$pStop_t*tan($filt_ang)
+    param y4=$y1+$pStop_t*tan($filt_ang)
+    param x1=$pStop_t/2
+    param x2=-$pStop_t/2
+    extrusion pStopCchan material=Air length=$filt_w \
+	vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x2,$y4
+    place pStopCchan parent=pStopCfilt rotation=y-90 x=$filt_x
+  endif
+
+  place pStopCside parent=pStopCMid x=+$pStop_w/2+3*$pStop_t/4
+  place pStopCside parent=pStopCMid x=-$pStop_w/2-3*$pStop_t/4
+  place pStopCcnr  parent=pStopCTop x=+$pStop_c
+  place pStopCfilt parent=pStopCTop
+  place pStopCcnr  parent=pStopCTop x=-$pStop_c
+
+# Front section of beam stop
+
+box pStopFront color=invisible length=$pStop_l height=$pStop_H width=$pStop_W
+  box pStopFTop color=invisible length=$pStop_t width=$pStop_W height=$pStop_t
+  box pStopFMid material=Air color=invisible \
+	length=$pStop_t width=$pStop_W height=$pStop_t
+  box pStopFBot material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_t width=$pStop_W height=$pStop_t
+
+  box pStopFside material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_t height=$pStop_h width=$pStop_t
+  box pStopFcnr material=CONCRETE color=$Concrete kill=$pStop_Kill \
+	length=$pStop_t height=$pStop_t width=$pStop_c
+  box pStopFfilt material=CONCRETE color=$ChannelShield \
+	length=$pStop_t height=$pStop_t width=$pStop_c
+  if $FilterMomentum>0
+    param y0=$pStop_t/2+$filt_y1
+    param y1=$y0+0.5*$filt_h/cos($filt_ang)
+    param y2=$y0-0.5*$filt_h/cos($filt_ang)
+    param y3=$y2+$pStop_t*tan($filt_ang)
+    param y4=$y1+$pStop_t*tan($filt_ang)
+    param x1=$pStop_t/2
+    param x2=-$pStop_t/2
+    extrusion pStopFchan material=Air length=$filt_w \
+	vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x2,$y4
+    place pStopFchan parent=pStopFfilt rotation=y-90 x=$filt_x
+  endif
+
+  place pStopFside parent=pStopFMid x=+$pStop_w/2+$pStop_t/2
+  place pStopFside parent=pStopFMid x=-$pStop_w/2-$pStop_t/2
+  place pStopFcnr  parent=pStopFTop x=+$pStop_c
+  place pStopFfilt parent=pStopFTop
+  place pStopFcnr  parent=pStopFTop x=-$pStop_c
+
+# Put beam stop sections together
+
+place pStopMBot parent=pStopMiddle y=-$pStop_h/2-$pStop_t/2
+place pStopMMid parent=pStopMiddle
+place pStopMTop parent=pStopMiddle y=+$pStop_h/2+$pStop_t/2
+
+place pStopCBot parent=pStopCave y=-$pStop_h/2-3*$pStop_t/4
+place pStopCMid parent=pStopCave
+place pStopCTop parent=pStopCave y=+$pStop_h/2+3*$pStop_t/4
+
+place pStopFBot parent=pStopFront y=-$pStop_h/2-$pStop_t/2
+place pStopFMid parent=pStopFront
+place pStopFTop parent=pStopFront y=+$pStop_h/2+$pStop_t/2
+
+place pStopBack   parent=pStop z=$pStop_L/2-2.5*$pStop_t-$pStop_l
+place pStopMiddle parent=pStop z=$pStop_L/2-2.0*$pStop_t-$pStop_l/2
+place pStopCave   parent=pStop z=$pStop_L/2-1.5*$pStop_t
+place pStopFront  parent=pStop z=$pStop_L/2-0.5*$pStop_t
+
+# **********************************
+#   Construct filter 
+# **********************************
+
+if $FilterMomentum>0
+ param filtL=$filt_z4-$filt_z1
+ box filter material=Air color=invisible \
+	length=$filtL width=$pStop_W height=$addFilt_H
+
+ param filt_space=150
+
+# Front channel
+
+ param filt_lenF=$filt_z2-$filt_z1-$filt_space
+ box filtFront material=CONCRETE color=$ChannelShield \
+	length=$filt_lenF width=$pStop_W height=$addFilt_H
+  param y0=$filt_y2-$filt_space*tan($filt_ang)-$addFilt_H/2
+  param y1=$y0+0.5*$filt_h/cos($filt_ang)
+  param y2=$y0-0.5*$filt_h/cos($filt_ang)
+  param y3=-$addFilt_H/2
+  param x1=-$filt_lenF/2
+  param x2=$x1+($y2-$y3)/tan($filt_ang)
+  param x3=$x1+($y1-$y3)/tan($filt_ang)
+  extrusion filtFchan material=Air length=$filt_w \
+      vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x3,$y3
+  place filtFchan parent=filtFront rotation=y-90 x=$filt_x
+
+# Back channel
+
+ param filt_lenB=$filt_z4-$filt_z3-$filt_space
+ box filtBack material=CONCRETE color=$ChannelShield \
+	length=$filt_lenB width=$pStop_W height=$addFilt_H
+  param y0=$filt_y3+$filt_space*tan($filt_ang-2*$filt_bend)-$addFilt_H/2
+  param y1=$y0+0.5*$filt_h/cos($filt_ang-2*$filt_bend)
+  param y2=$y0-0.5*$filt_h/cos($filt_ang-2*$filt_bend)
+  param y0=$filt_y4-$addFilt_H/2
+  param y3=$y0-0.5*$filt_h/cos($filt_ang-2*$filt_bend)
+  param y4=$y0+0.5*$filt_h/cos($filt_ang-2*$filt_bend)
+  param x1=$filt_lenB/2
+  param x2=-$filt_lenB/2
+  extrusion filtBchan material=Air length=$filt_w \
+      vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x2,$y4
+  place filtBchan parent=filtBack rotation=y-90 x=$filt_x
+
+# Magnet
+
+ genericbend filtMagnt ironWidth=300 ironHeight=190 ironLength=$filt_M \
+	fieldWidth=100 fieldHeight=$filt_w fieldLength=$filt_M \
+	fieldMaterial=Air By=$filt_B ironMaterial=Fe ironColor=$Teal
+
+# Combine sections
+
+ place filtFront parent=filter z=($filtL-$filt_lenF)/2
+ place filtBack  parent=filter z=-($filtL-$filt_lenB)/2
+ param dy=(100-$filt_h)/2
+ place filtMagnt parent=filter x=$filt_x \
+	z=-($filt_z3+$filt_z2)/2+$filtL/2+$dy*sin($filt_ang-$filt_bend) \
+	y=($filt_y3+$filt_y2-$addFilt_H)/2+$dy*cos($filt_ang-$filt_bend) \
+	rotation=z-90,x($filt_ang-$filt_bend)*180/$pi
+endif
+
+# **********************************
+# Create combined filter and beam stopcontainer 
+# **********************************
+
+if $FilterMomentum>0
+  param pSF_L=$filt_z4-$filt_z1
+  param pSF_H=$pStop_H+$addFilt_H
+else
+  param pSF_L=$pStop_L
+  param pSF_H=$pStop_H
+endif
+
+box pStopFilter color=invisible length=$pSF_L width=$pStop_W height=$pSF_H
+
+place pStop parent=pStopFilter y=($pStop_H-$pSF_H)/2 z=($pSF_L-$pStop_L)/2
+if $FilterMomentum>0
+  box filtFloor material=CONCRETE color=$Brown kill=1 \
+	length=$pSF_L-$pStop_L width=$pStop_W height=$pStop_H
+  place filter parent=pStopFilter y=($pSF_H-$addFilt_H)/2
+  place filtFloor parent=pStopFilter y=($pStop_H-$pSF_H)/2 z=-$pStop_L/2
+endif
+
+# **********************************
+#  Place filter and beam stop
+# **********************************
+
+ place pStopFilter y=$pStop_y-($pStop_H-$pSF_H)/2 \
+	x=$pStop_x-($pSF_L/2-$pStop_l/2-2*$pStop_t)*sin($pStop_rot*$pi/180) \
+	z=$pStop_z-($pSF_L/2-$pStop_l/2-2*$pStop_t)*cos($pStop_rot*$pi/180) \
+	rotation=y$pStop_rot
+
+# **********************************
+#   Air gap between solenoid and beam stop 
+# **********************************
+
+param pStop_s=sin($pStop_rot*acos(-1)/180.0)
+param pStop_c=cos($pStop_rot*acos(-1)/180.0)
+param dx=0.5*$pStop_w+$pStop_t
+param dz=0.5*$pStop_l+2*$pStop_t
+
+param x1=$pStop_x-$dx*$pStop_c+$dz*$pStop_s
+param z1=$pStop_z+$dx*$pStop_s+$dz*$pStop_c
+param x2=$pStop_x+$dx*$pStop_c+$dz*$pStop_s
+param z2=$pStop_z-$dx*$pStop_s+$dz*$pStop_c
+param x3=1000
+param z3=-536.5
+extrusion AirGap material=Air color=invisible length=$pStop_H \
+	vertices=$x1,$z1;$x2,$z2;$x3,$z3;-$x3,$z3
+place AirGap x=0 z=0 y=$pStop_y rotation=x90
