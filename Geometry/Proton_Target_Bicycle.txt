@@ -8,7 +8,7 @@
 
 param Tposition=-6564.5+$MECO_G4_zTrans+400.
 param Tlength=160.0 Tradius=3.0
-param TYangle=13.65
+param TYangle=14.00
 param TXangle=0.0
 param -unset Target_Color=$Gold
 param -unset Target_Shell_Color=$Gray
