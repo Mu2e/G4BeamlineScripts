@@ -17,7 +17,7 @@
 #   The center point of the target rod in MECO coordinates is 
 #    (x, y, z) = (390.4, 0.0, -656.45) (centimeters)
 #   The longitudinal axis of the target is rotated first with respect to 
-#    the +y axis by 13.65° and then about the x axis by 0.0°. 
+#    the +y axis by 14.00° and then about the x axis by 0.0°. 
 #
 #   This rotation is chosen to closely match the trajectory of the primary 
 #    proton beam through the axially graded PS field. 
@@ -25,7 +25,7 @@
 
 param Tposition=-6564.5+$MECO_G4_zTrans+400.
 param Tlength=160.0 Tradius=3.0
-param TYangle=13.65
+param TYangle=14.00
 param TXangle=0.0
 param -unset Target_Color=$Gold
 param -unset Target_Shell_Color=$Gray
