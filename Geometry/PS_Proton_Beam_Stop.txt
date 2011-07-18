@@ -11,6 +11,8 @@ param ChannelShield=invisible
 # **********************************
 
 param -unset FilterMomentum=9000
+param -unset FilterDetectors=0
+param -unset FilterDetectorSize=0
 
 if $FilterMomentum>0
  param addFilt_H=2000
@@ -161,6 +163,18 @@ box pStopFront color=invisible length=$pStop_l height=$pStop_H width=$pStop_W
     param y4=$y1+$pStop_t*tan($filt_ang)
     param x1=$pStop_t/2
     param x2=-$pStop_t/2
+    param fdh=$FilterDetectorSize
+    param fdw=$FilterDetectorSize
+    if $fdw<$filt_w
+      param fdh=$filt_h/cos($filt_ang)
+      param fdw=$filt_w
+    endif
+    if ($FilterDetectors==1)||($FilterDetectors==3)
+      virtualdetector FiltIn height=$fdh width=$fdw length=0.2 material=Vacuum
+      place FiltIn parent=pStopFfilt rename=FiltIn \
+	x=$filt_x y=($y2+$y1)/2 z=$x1-0.1
+      param x1=$pStop_t/2-0.2
+    endif
     extrusion pStopFchan material=Air length=$filt_w \
 	vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x2,$y4
     place pStopFchan parent=pStopFfilt rotation=y-90 x=$filt_x
@@ -231,6 +245,18 @@ if $FilterMomentum>0
   param y4=$y0+0.5*$filt_h/cos($filt_ang-2*$filt_bend)
   param x1=$filt_lenB/2
   param x2=-$filt_lenB/2
+  param fdh=$FilterDetectorSize
+  param fdw=$FilterDetectorSize
+  if $fdw<$filt_w
+    param fdh=$filt_h/cos($filt_ang-2*$filt_bend)
+    param fdw=$filt_w
+  endif
+  if ($FilterDetectors==2)||($FilterDetectors==3)
+    virtualdetector FiltOut height=$fdh width=$fdw length=0.2 material=Vacuum
+    place FiltOut parent=filtBack rename=FiltOut \
+	x=$filt_x y=($y4+$y3)/2 z=$x2+0.1
+    param x2=-$filt_lenB/2+0.2
+  endif
   extrusion filtBchan material=Air length=$filt_w \
       vertices=$x1,$y1;$x1,$y2;$x2,$y3;$x2,$y4
   place filtBchan parent=filtBack rotation=y-90 x=$filt_x

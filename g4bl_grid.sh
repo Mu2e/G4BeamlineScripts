@@ -17,7 +17,7 @@
 # Notes:
 #
 # 1) You have to run Mu2e setup on each worker node and setup G4BeamLine.
-# 2) Each job does 10000 events and the first event number is (10000*process + 1)
+# 2) Each job does 100000 events and the first event number is (100000*process + 1)
 # 3) The output files are presumed to be a large file and are copied to
 #    the outstage area using the cpn program.  For discussions of cpn and outstage see:
 #      http://mu2e.fnal.gov/atwork/computing/fermigrid.shtml#cpn
@@ -56,8 +56,8 @@ mv $ORIGDIR/* .
 outstage=/grid/data/mu2e/outstage/$user
 
 # Compute range of event numbers for this job.
-First_Event=$(( $process*10000 + 1))
-Num_Events=10000 
+First_Event=$(( $process*100000 + 1))
+Num_Events=100000 
 #echo "First event number will be: " $First_Event
 #echo "Number of events will be:   " $Num_Events
 echo " " 
