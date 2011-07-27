@@ -11,7 +11,7 @@
 # MECO-TRK-05-001
 #
 # Note: These are for show only. Postions and size are only approximate.
-
+# D. Hedin 7-2011 move cal from z=20729 to z=20394 per WBS 5.10 doc 1383
 param -unset Calorimeter_Color=$SkyBlue
 
 box Top_Cal \
@@ -45,20 +45,20 @@ box Right_Cal \
 place Top_Cal \
       x=-7808.0 \
       y=540.0 \
-      z=20729.0
+      z=20394.0
       
 place Bot_Cal \
       x=-7808.0 \
       y=-540.0 \
-      z=20729.0
+      z=20394.0
       
 place Left_Cal \
       x=-7268.0 \
       y=0.0 \
-      z=20729.0
+      z=20394.0
       
 place Right_Cal \
       x=-8348.0 \
       y=0.0 \
-      z=20729.0
+      z=20394.0
 
