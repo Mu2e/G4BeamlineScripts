@@ -6,14 +6,17 @@
 # Muon Beam Dump
 # *********************
 # From Mu2e Proposal
-
+# Updated 7-18-2011 Dave Hedin, Joe Kozminski, Use corrected geometry
+# in WBS 5.8 Mu2e-doc-1351 dated 2011-02-16 with corrections from Rodger 
+# Bossert on 7-18-2011. use Blue for support tube color
+#  BSTS
 param MBD_tube_innerR=410.0
 param MBD_tube_outerR=430.0
-param -unset MBD_tube_color=$Aluminum
+param -unset MBD_tube_color=$Blue
 param MBD_tube_color_a=$MBD_tube_color
 param MBD_tube_color_b=$Invisible
-param MBD_tube_length=3440.0
-param MBD_tube_z=23089.0
+param MBD_tube_length=4116.0
+param MBD_tube_z=23187.0
 
 tubs MBD_tube_a \
      innerRadius=$MBD_tube_innerR outerRadius=$MBD_tube_outerR \
@@ -38,46 +41,14 @@ place MBD_tube_a \
 place MBD_tube_b \
       x=-7808.0 \
       z=$MBD_tube_z
-      
-#param MBD_cap_innerR=410.0
-param MBD_cap_outerR=430.0
-param -unset MBD_cap_color=$Aluminum
-param MBD_cap_color_a=$MBD_tube_color
-param MBD_cap_color_b=$Invisible
-param MBD_cap_length=20.0
-param MBD_cap_z=24819.0
-
-tubs MBD_cap_a \
-     outerRadius=$MBD_cap_outerR \
-     length=$MBD_cap_length \
-     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Fe \
-     color=$MBD_cap_color_a \
-     kill=$Muon_Dump_kill
-
-tubs MBD_cap_b \
-     outerRadius=$MBD_cap_outerR \
-     length=$MBD_cap_length \
-     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Fe \
-     color=$MBD_cap_color_b \
-     kill=$Muon_Dump_kill
-     
-place MBD_cap_a \
-      x=-7808.0 \
-      z=$MBD_cap_z
-      
-place MBD_cap_b \
-      x=-7808.0 \
-      z=$MBD_cap_z
-      
-param MBD_poly1_innerR=389.0
+# BSTC
+param MBD_poly1_innerR=390.0
 param MBD_poly1_outerR=409.999
 param -unset MBD_poly1_color=$Yellow
 param MBD_poly1_color_a=$MBD_poly1_color
 param MBD_poly1_color_b=$Invisible
-param MBD_poly1_length=3430.0
-param MBD_poly1_z=23084.0
+param MBD_poly1_length=650.0
+param MBD_poly1_z=21454.0
 
 tubs MBD_poly1_a \
      innerRadius=$MBD_poly1_innerR outerRadius=$MBD_poly1_outerR \
@@ -103,13 +74,14 @@ place MBD_poly1_b \
       x=-7808.0 \
       z=$MBD_poly1_z
 
+# BSBS
 param MBD_poly2_innerR=320.0
-param MBD_poly2_outerR=388.999
+param MBD_poly2_outerR=409.999
 param -unset MBD_poly2_color=$Yellow
 param MBD_poly2_color_a=$MBD_poly2_color
 param MBD_poly2_color_b=$Invisible
-param MBD_poly2_length=2680.0
-param MBD_poly2_z=23459.0
+param MBD_poly2_length=3466.0
+param MBD_poly2_z=23512.0
 
 tubs MBD_poly2_a \
      innerRadius=$MBD_poly2_innerR outerRadius=$MBD_poly2_outerR \
@@ -135,13 +107,14 @@ place MBD_poly2_b \
       x=-7808.0 \
       z=$MBD_poly2_z
 
+# CLV2
 param MBD_poly3_innerR=50.0
 param MBD_poly3_outerR=319.999
-param -unset MBD_poly3_color=$Yellow
+param -unset MBD_poly3_color=$Red
 param MBD_poly3_color_a=$MBD_poly3_color
 param MBD_poly3_color_b=$Invisible
-param MBD_poly3_length=60.0
-param MBD_poly3_z=24769.0
+param MBD_poly3_length=100.0
+param MBD_poly3_z=25195.0
 
 tubs MBD_poly3_a \
      innerRadius=$MBD_poly3_innerR outerRadius=$MBD_poly3_outerR \
@@ -167,13 +140,14 @@ place MBD_poly3_b \
       x=-7808.0 \
       z=$MBD_poly3_z
       
+# SPBS
 param MBD_PB_innerR=430.001
-param MBD_PB_outerR=450.
+param MBD_PB_outerR=452.
 param -unset MBD_PB_color=$Red
 param MBD_PB_color_a=$MBD_PB_color
 param MBD_PB_color_b=$Invisible
-param MBD_PB_length=1840.0
-param MBD_PB_z=23879.0
+param MBD_PB_length=2640.0
+param MBD_PB_z=23925.0
 
 tubs MBD_PB_a \
      innerRadius=$MBD_PB_innerR outerRadius=$MBD_PB_outerR \
