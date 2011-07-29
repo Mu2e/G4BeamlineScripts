@@ -67,7 +67,7 @@ tar -xf $g4bltar
 
 # Run Mu2e setup and setup G4BeamLine (You can change version of G4BeamLine)
 source /grid/fermiapp/products/mu2e/setupmu2e-v1.sh
-setup G4beamline v2_06
+setup G4beamline v2_08
 
 # Run G4BeamLine 
 g4bl Mu2E.in First_Event=$First_Event Num_Events=$Num_Events
