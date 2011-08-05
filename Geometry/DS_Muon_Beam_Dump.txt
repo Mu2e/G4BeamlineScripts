@@ -9,6 +9,7 @@
 # Updated 7-18-2011 Dave Hedin, Joe Kozminski, Use corrected geometry
 # in WBS 5.8 Mu2e-doc-1351 dated 2011-02-16 with corrections from Rodger 
 # Bossert on 7-18-2011. use Blue for support tube color
+# Hedin 8-5-2011 replace Fe with POLYETHYLENE for BSTC,BSBS,CLV2
 #  BSTS
 param MBD_tube_innerR=410.0
 param MBD_tube_outerR=430.0
@@ -54,7 +55,7 @@ tubs MBD_poly1_a \
      innerRadius=$MBD_poly1_innerR outerRadius=$MBD_poly1_outerR \
      length=$MBD_poly1_length \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly1_color_a \
      kill=$Muon_Dump_kill
 
@@ -62,7 +63,7 @@ tubs MBD_poly1_b \
      innerRadius=$MBD_poly1_innerR outerRadius=$MBD_poly1_outerR \
      length=$MBD_poly1_length \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly1_color_b \
      kill=$Muon_Dump_kill
      
@@ -87,7 +88,7 @@ tubs MBD_poly2_a \
      innerRadius=$MBD_poly2_innerR outerRadius=$MBD_poly2_outerR \
      length=$MBD_poly2_length \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly2_color_a \
      kill=$Muon_Dump_kill
 
@@ -95,7 +96,7 @@ tubs MBD_poly2_b \
      innerRadius=$MBD_poly2_innerR outerRadius=$MBD_poly2_outerR \
      length=$MBD_poly2_length \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly2_color_b \
      kill=$Muon_Dump_kill
      
@@ -120,7 +121,7 @@ tubs MBD_poly3_a \
      innerRadius=$MBD_poly3_innerR outerRadius=$MBD_poly3_outerR \
      length=$MBD_poly3_length \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly3_color_a \
      kill=$Muon_Dump_kill
 
@@ -128,7 +129,7 @@ tubs MBD_poly3_b \
      innerRadius=$MBD_poly3_innerR outerRadius=$MBD_poly3_outerR \
      length=$MBD_poly3_length \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Fe \
+     material=POLYETHYLENE \
      color=$MBD_poly3_color_b \
      kill=$Muon_Dump_kill
      
