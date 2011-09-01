@@ -11,7 +11,6 @@ param -unset Tungsten="1.0,0.83,0.67"
 param -unset PS_Shield_Cu_Color=$Copper
 param -unset PS_Shield_W_Color=$Tungsten
 param -unset Invisible="invisible"
-param -unset PS_Shield_kill=1
 
 # Cylindrical section of copper upstream (in proton direction) of target.
 # Note: This should actually have a "hole" within it for the proton beam entrance

@@ -17,7 +17,6 @@ param Coll_01_Rin_down=170.0
 param Coll_01_x=0.0
 param Coll_01_z=4385.-$Coll_01_length/2.0
 param -unset TS_Collimator_Color=$Copper
-param -unset TS_Collimator_kill=1
 
 polycone Coll_01_a \
          innerRadius=$Coll_01_Rin_up,$Coll_01_Rin_down \

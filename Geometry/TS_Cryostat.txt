@@ -28,7 +28,6 @@ param TScryo_Length=$M_PI/2*($TScryo_Radius+$TScryo_outerR)/$TScryo_Nsegs
 param TScryo_angle=$M_PI/2/$TScryo_Nsegs
 
 param -unset TScryo_color=$Yellow
-param -unset TScryo_kill=1
 
 param TScryo_color_a=$TScryo_color
 param TScryo_color_b=$Invisible
