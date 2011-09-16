@@ -19,9 +19,11 @@ param -unset FilterTestGeom=0
 if $IncludeFilter==1
  param filtChanW=50
  param filtChanH=50
+ param filtExitW=75
+ param filtExitH=75
  param filtChanSpace=25.4/2
- param filtChanRdown=6*25.4
- param filtChanRup=$filtChanRdown-2*$filtChanSpace-25.4
+ param filtChanRdown=7*25.4
+ param filtChanRup=100
  param filtMagAW=50
  param filtMagAH=100
  param filtMagTW=190
@@ -35,7 +37,7 @@ endif
 # Proton beam stop parameters
 # **********************************
 
-param pStop_Kill=1
+param -unset pStop_Kill=1
 
 param pStop_t=1000.
 param pStop_h=1500.
@@ -47,7 +49,7 @@ param pStop_L=$pStop_l+3*$pStop_t
 
 param filtUS=$pStop_l+2*$pStop_t
 param filtMS=4200.
-param filtDS=2000.
+param filtDS=4000.
 param filtHS=2200.
 
 param pStop_x=-3237 
@@ -55,6 +57,7 @@ param pStop_y=528.
 param pStop_z=-11500 
 param pStop_rot=13.3
 param pStop_ang=$pStop_rot*$pi/180
+param pStop_Cave=$pStop_t/2
 
 if $IncludeFilter==1
   param pStop_Trgt_X=-1.0-186.7*(1000/$FilterMomentum)**1.58
@@ -62,9 +65,14 @@ if $IncludeFilter==1
   param pStop_Trgt_Z=1764.5
   param d=sqrt(($pStop_Trgt_X-$pStop_x)**2+($pStop_Trgt_Z-$pStop_z)**2)
   param pStop_Chan_X=($pStop_Trgt_X-$d*sin($pStop_ang)-$pStop_x)*cos($pStop_ang)
-  param pStop_Chan_A=atan(($pStop_y+$pStop_h/2+$pStop_t/2)/($d-$pStop_l/2-2*$pStop_t))
-  param pStop_Chan_W=2.0*$pStop_t*sin($pStop_Chan_A)
+  param pStop_Chan_A=atan(($pStop_y+$pStop_h/2+$pStop_t/2-$pStop_Trgt_Y)/($d-$pStop_l/2-2*$pStop_t))
+  param pStop_Chan_W=2.0*($filtChanSpace+$filtChanRdown)
+  param d=$pStop_t*tan($pStop_Chan_A)-$pStop_Chan_W/(2*cos($pStop_Chan_A))
+  if $d<1
+    param pStop_Cave=$pStop_t/2-(1-$d)
+  endif
 else
+  param filtHS=1.
   param pStop_Trgt_X=0
   param pStop_Trgt_Y=0
   param pStop_Trgt_Z=1764.5
@@ -99,7 +107,7 @@ box psUB color=invisible length=$filtUS height=$pStop_H-$pStop_t width=$pStop_W
 box psDT length=$filtMS+$filtDS height=$filtHS width=$pStop_W \
   color=invisible material=Air
 box psDB length=$filtMS+$filtDS height=$pStop_H width=$pStop_W \
-  color=$DarkConcrete material=CONCRETE kill=$pStop_Kill
+  color=invisible material=Air
 
 # Bottom of upstream section
 
@@ -135,9 +143,16 @@ place psUB parent=psUp x=0 y=($pStop_H-$pStop_t-$psTotH)/2 z=0
 
 # Bottom of downstream section
 
-box pStopBack material=CONCRETE color=$Concrete kill=$pStop_Kill \
+box pStopBack material=CONCRETE color=$Concrete \
 	length=$pStop_t height=$pStop_H width=$pStop_W
 place pStopBack parent=psDB x=0 y=0 z=($filtMS+$filtDS-$pStop_t)/2
+
+if $IncludeFilter==1
+  box pStopDirt material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
+	length=$filtMS+$filtDS-$pStop_t height=$pStop_H width=$pStop_W
+  place pStopDirt parent=psDB x=0 y=0 z=-$pStop_t/2
+endif
+
 place psDB parent=psDn x=0 y=($pStop_H-$psTotH)/2 z=0
 
 # Top of upstream section
@@ -147,13 +162,8 @@ param wi=$pStop_W/2-$pStop_Chan_X-$pStop_Chan_W/2-$pStop_t/2
 param x=$filtUS/2
 param xa=$x-$pStop_t
 param xb=$xa-$pStop_t
-param xc=$x-$pStop_Chan_W*sin($pStop_Chan_A)
 param y=($filtHS+$pStop_t)/2
-param ya=$pStop_t/2-$y
-param yb=$ya+0.5*$pStop_Chan_W/cos($pStop_Chan_A)
-param yc=$yb-$pStop_Chan_W*cos($pStop_Chan_A)
-param yd=$ya+$filtUS*tan($pStop_Chan_A)-0.5*$pStop_Chan_W/cos($pStop_Chan_A)
-param ye=$yd+$pStop_Chan_W*cos($pStop_Chan_A)
+param ya=$pStop_Cave-$y
 
 box psUTS material=CONCRETE length=$filtUS height=2*$y width=$pStop_t/2
 box psUTV material=Air color=invisible length=$filtUS height=2*$y width=$wv
@@ -169,14 +179,18 @@ extrusion psUTIConc material=CONCRETE color=invisible length=$wi \
 place psUTIConc parent=psUTI x=0 y=0 z=0 rotation=y-90
 
 extrusion psUTCConc material=CONCRETE color=invisible length=$pStop_Chan_W \
-  vertices=$x,$y;$x,$yb;$xc,$yc;$x,-$y;$xa,-$y;$xa,$ya;$xb,$ya;$xb,-$y;-$x,-$y;-$x,$yd;-$xc,$ye;-$x,$y
+  vertices=$x,$y;$x,-$y;$xa,-$y;$xa,$ya;$xb,$ya;$xb,-$y;-$x,-$y;-$x,$y
 
 # upstream filter channel
 
 if $IncludeFilter==1
+  param ya=$pStop_Chan_W/cos($pStop_Chan_A)/2-$filtUS*tan($pStop_Chan_A)/2+0.1
+  param yb=$ya-$pStop_Chan_W/cos($pStop_Chan_A)-0.1
+  extrusion filtUpA material=Air color=invisible length=$pStop_Chan_W \
+	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
   param L=$filtUS/cos($pStop_Chan_A)-$pStop_Chan_W*tan($pStop_Chan_A)-0.1
-  tubs filtUp material=CONCRETE color=invisible length=$L \
-	innerRadius=0 outerRadius=$pStop_Chan_W/2
+  box filtUp material=CONCRETE color=invisible length=$L \
+	width=$pStop_Chan_W height=$pStop_Chan_W
   tubs filtAirUa material=Air color=invisible length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
   tubs filtConcUa material=CONCRETE color=$DarkConcrete length=$L/2 \
@@ -193,8 +207,9 @@ if $IncludeFilter==1
   place filtConcUb parent=filtAirUb x=0 y=0 z=0
   place filtAirUa parent=filtUp x=0 y=0 z=$L/4
   place filtAirUb parent=filtUp x=0 y=0 z=-$L/4
-  place filtUp parent=psUTCConc rotation=x$pStop_Chan_A*180/$pi,y90 \
-	x=0 y=($filtUS*tan($pStop_Chan_A)-$filtHS)/2 z=0
+  place filtUp parent=filtUpA rotation=x$pStop_Chan_A*180/$pi,y90 x=0 y=0 z=0
+  place filtUpA parent=psUTCConc \
+  	x=0 y=$filtUS*tan($pStop_Chan_A)/2-$filtHS/2 z=0
 endif
 place psUTCConc parent=psUTC x=0 y=0 z=0 rotation=y-90
 
@@ -224,13 +239,6 @@ if $IncludeFilter==1
   place psDTM parent=psDT x=0 y=0 z=$filtDS/2
 
   box psDTD material=Air color=invisible length=$filtDS height=$filtHS width=$pStop_W
-  param x=$filtDS/2
-  param xa=$x-$pStop_Chan_W*sin($ad)
-  param y=$filtHS/2
-  param ya=$Yd+0.5*$pStop_Chan_W/cos($ad)
-  param yb=$ya-$pStop_Chan_W*cos($ad)
-  param yc=$Yd+$filtDS*tan($ad)-$pStop_Chan_W*cos($ad)/2
-  param yd=$yc+$pStop_Chan_W/cos($ad)
 
   box psDTDV material=CONCRETE color=$Concrete length=$filtDS height=$filtHS \
 	width=$pStop_W/2+$pStop_Chan_X-$pStop_Chan_W/2
@@ -240,12 +248,16 @@ if $IncludeFilter==1
 	width=$pStop_W/2-$pStop_Chan_X-$pStop_Chan_W/2
   place psDTDI parent=psDTD x=$pStop_Chan_X/2+$pStop_Chan_W/4+$pStop_W/4 y=0 z=0
 
-  box psDTDC material=Air color=invisible length=$filtDS height=$filtHS width=$pStop_Chan_W
-  extrusion psDTDCConc material=CONCRETE color=invisible length=$pStop_Chan_W \
-    vertices=$x,$y;$x,$ya;$xa,$yb;$x,-$y;-$x,-$y;-$x,$yc;-$xa,$yd;-$x,$y
+  box psDTDC material=CONCRETE color=invisible length=$filtDS height=$filtHS \
+  	width=$pStop_Chan_W
+  param x=$filtDS/2
+  param ya=$pStop_Chan_W/cos($ad)/2-$filtDS*tan($ad)/2+0.1
+  param yb=$ya-$pStop_Chan_W/cos($ad)-0.1
+  extrusion filtDnA material=Air color=invisible length=$pStop_Chan_W \
+	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
   param L=$filtDS/cos($ad)-$pStop_Chan_W*tan($ad)-0.1
-  tubs filtDn material=CONCRETE color=invisible length=$L \
-	innerRadius=0 outerRadius=$pStop_Chan_W/2
+  box filtDn material=CONCRETE color=invisible length=$L \
+	width=$pStop_Chan_W height=$pStop_Chan_W
   tubs filtAirDa material=Air color=invisible length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
   tubs filtConcDa material=CONCRETE color=$DarkConcrete length=$L/2 \
@@ -254,18 +266,19 @@ if $IncludeFilter==1
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRdown
   tubs filtConcDb material=CONCRETE color=$DarkConcrete length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanRdown
-  box filtDpChan material=Air color=$Black length=$L/2 \
+  box filtDnChan material=Air color=$Black length=$L/2 \
 	height=$filtChanH width=$filtChanW
-  place filtDpChan parent=filtConcDa x=0 y=0 z=0
-  place filtDpChan parent=filtConcDb x=0 y=0 z=0
+  box filtDnExit material=Air color=$Black length=$L/2 \
+	height=$filtExitH width=$filtExitW
+  place filtDnChan parent=filtConcDa x=0 y=0 z=0
+  place filtDnExit parent=filtConcDb x=0 y=0 z=0
   place filtConcDa parent=filtAirDa x=0 y=0 z=0
   place filtConcDb parent=filtAirDb x=0 y=0 z=0
   place filtAirDa parent=filtDn x=0 y=0 z=$L/4
   place filtAirDb parent=filtDn x=0 y=0 z=-$L/4
-  place filtDn parent=psDTDCConc rotation=x$ad*180/$pi,y90 \
-	x=0 y=$Yd+$filtDS*tan($ad)/2 z=0
+  place filtDn parent=filtDnA rotation=x$ad*180/$pi,y90 x=0 y=0 z=0
+  place filtDnA parent=psDTDC x=0 y=$Yd+$filtDS*tan($ad)/2 z=0 rotation=y-90
 
-  place psDTDCConc parent=psDTDC x=0 y=0 z=0 rotation=y-90
   place psDTDC parent=psDTD x=$pStop_Chan_X y=0 z=0
 
   place psDTD parent=psDT x=0 y=0 z=-$filtMS/2
@@ -307,7 +320,7 @@ place pStop x=$psTotx y=$psToty z=$psTotz rotation=y$pStop_rot
 # **********************************
 
 param dx=0.5*$pStop_w+$pStop_t
-param dz=0.5*$pStop_l+2*$pStop_t+1
+param dz=0.5*$pStop_l+2*$pStop_t+1.1
 param x1=$pStop_x-$dx*cos($pStop_ang)+$dz*sin($pStop_ang)
 param z1=$pStop_z+$dx*sin($pStop_ang)+$dz*cos($pStop_ang)
 param x2=$pStop_x+$dx*cos($pStop_ang)+$dz*sin($pStop_ang)
@@ -318,8 +331,6 @@ extrusion AirGap material=Air color=invisible length=$pStop_H \
        vertices=$x1,$z1;$x2,$z2;$x3,$z3;-$x3,$z3
 place AirGap x=0 z=0 y=$pStop_y rotation=x90
 
-#box marker height=25 width=200 length=$pStop_l+4*$pStop_t
-#place marker x=$pStop_x y=$pStop_y+$pStop_h/2+$pStop_t/2 z=$pStop_z rotation=y$pStop_rot
 # **********************************
 #   Test beam points to channel location 
 # **********************************
