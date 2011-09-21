@@ -19,8 +19,8 @@ param -unset FilterTestGeom=0
 if $IncludeFilter==1
  param filtChanW=50
  param filtChanH=50
- param filtExitW=75
- param filtExitH=75
+ param filtExitW=50
+ param filtExitH=50
  param filtChanSpace=25.4/2
  param filtChanRdown=7*25.4
  param filtChanRup=100
@@ -38,6 +38,7 @@ endif
 # **********************************
 
 param -unset pStop_Kill=1
+param filt_Kill=$pStop_Kill
 
 param pStop_t=1000.
 param pStop_h=1500.
@@ -49,7 +50,7 @@ param pStop_L=$pStop_l+3*$pStop_t
 
 param filtUS=$pStop_l+2*$pStop_t
 param filtMS=4200.
-param filtDS=4000.
+param filtDS=2000.
 param filtHS=2200.
 
 param pStop_x=-3237 
@@ -60,6 +61,7 @@ param pStop_ang=$pStop_rot*$pi/180
 param pStop_Cave=$pStop_t/2
 
 if $IncludeFilter==1
+  param filt_Kill=0
   param pStop_Trgt_X=-1.0-186.7*(1000/$FilterMomentum)**1.58
   param pStop_Trgt_Y=-5.0+94.40*(1000/$FilterMomentum)**2.07
   param pStop_Trgt_Z=1764.5
@@ -78,7 +80,7 @@ else
   param pStop_Trgt_Z=1764.5
   param pStop_Chan_X=0
   param pStop_Chan_A=0
-  param pStop_Chan_W=100
+  param pStop_Chan_W=0
 endif
 
 # **********************************
@@ -111,31 +113,32 @@ box psDB length=$filtMS+$filtDS height=$pStop_H width=$pStop_W \
 
 # Bottom of upstream section
 
-param x=$pStop_W/2
-param y=($pStop_H-$pStop_t)/2
-param d=$pStop_t
-extrusion psCore material=CONCRETE color=$Concrete kill=$pStop_Kill \
-  length=$pStop_l \
-  vertices=$x,$y;$x,-$y;-$x,-$y;-$x,$y;-$x+$d,$y;-$x+$d,-$y+$d;$x-$d,-$y+$d;$x-$d,$y
+box psUBD material=CONCRETE color=$Concrete kill=$pStop_Kill  \
+	length=$pStop_l height=$pStop_h+$pStop_t width=$pStop_W
+box psCore material=Al color=$Aluminum\
+	length=$pStop_l height=$pStop_h width=$pStop_w
+place psCore parent=psUBD x=0 y=$pStop_t/2 z=0
 
-extrusion psFace material=CONCRETE color=$Concrete kill=$pStop_Kill \
-  length=$pStop_t \
-  vertices=$x,$y;$x,-$y;-$x,-$y;-$x,$y;-$x+$d,$y;-$x+$d,-$y+$d;$x-$d,-$y+$d;$x-$d,$y
+box psUBM material=Air color=invisible kill=$pStop_Kill  \
+	length=$pStop_t height=$pStop_h+$pStop_t width=$pStop_W
+box psUBMB material=CONCRETE color=$DarkConcrete \
+	length=$pStop_t height=$pStop_t/2 width=$pStop_W
+box psUBMS material=CONCRETE color=$DarkConcrete \
+	length=$pStop_t height=$pStop_h+$pStop_t/2 width=$pStop_t/2
+place psUBMB parent=psUBM x=0 y=-$pStop_h/2-$pStop_t/4 z=0
+place psUBMS parent=psUBM x=$pStop_W/2-$pStop_t/4 y=$pStop_t/4 z=0
+place psUBMS parent=psUBM x=$pStop_t/4-$pStop_W/2 y=$pStop_t/4 z=0
 
-param d=$pStop_t/2
-extrusion psCave material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
-  length=$pStop_t \
-  vertices=$x,$y;$x,-$y;-$x,-$y;-$x,$y;-$x+$d,$y;-$x+$d,-$y+$d;$x-$d,-$y+$d;$x-$d,$y
-
-box psUBD material=Al color=$Aluminum  \
-	length=$pStop_l height=$pStop_H-$pStop_t width=$pStop_W
-place psCore parent=psUBD x=0 y=0 z=0
-box psUBM material=Air color=invisible  \
-	length=$pStop_t height=$pStop_H-$pStop_t width=$pStop_W
-place psCave parent=psUBM x=0 y=0 z=0
 box psUBU material=Air color=invisible  \
-	length=$pStop_t height=$pStop_H-$pStop_t width=$pStop_W
-place psFace parent=psUBU x=0 y=0 z=0
+	length=$pStop_t height=$pStop_h+$pStop_t width=$pStop_W
+box psUBUB material=CONCRETE color=$Concrete \
+	length=$pStop_t height=$pStop_t width=$pStop_W
+box psUBUS material=CONCRETE color=$Concrete \
+	length=$pStop_t height=$pStop_h width=$pStop_t
+place psUBUB parent=psUBU x=0 y=-$pStop_h/2 z=0
+place psUBUS parent=psUBU x=$pStop_W/2-$pStop_t/2 y=$pStop_t/2 z=0
+place psUBUS parent=psUBU x=$pStop_t/2-$pStop_W/2 y=$pStop_t/2 z=0
+
 place psUBD parent=psUB x=0 y=0 z=($pStop_l-$filtUS)/2
 place psUBM parent=psUB x=0 y=0 z=($filtUS-$pStop_t)/2-$pStop_t
 place psUBU parent=psUB x=0 y=0 z=($filtUS-$pStop_t)/2
@@ -143,7 +146,7 @@ place psUB parent=psUp x=0 y=($pStop_H-$pStop_t-$psTotH)/2 z=0
 
 # Bottom of downstream section
 
-box pStopBack material=CONCRETE color=$Concrete \
+box pStopBack material=CONCRETE color=$Concrete kill=$pStop_Kill \
 	length=$pStop_t height=$pStop_H width=$pStop_W
 place pStopBack parent=psDB x=0 y=0 z=($filtMS+$filtDS-$pStop_t)/2
 
@@ -159,31 +162,54 @@ place psDB parent=psDn x=0 y=($pStop_H-$psTotH)/2 z=0
 
 param wv=$pStop_W/2+$pStop_Chan_X-$pStop_Chan_W/2-$pStop_t/2
 param wi=$pStop_W/2-$pStop_Chan_X-$pStop_Chan_W/2-$pStop_t/2
-param x=$filtUS/2
-param xa=$x-$pStop_t
-param xb=$xa-$pStop_t
-param y=($filtHS+$pStop_t)/2
-param ya=$pStop_Cave-$y
+param h=$filtHS+$pStop_t
 
-box psUTS material=CONCRETE length=$filtUS height=2*$y width=$pStop_t/2
-box psUTV material=Air color=invisible length=$filtUS height=2*$y width=$wv
-box psUTC material=Air color=invisible length=$filtUS height=2*$y width=$pStop_Chan_W
-box psUTI material=Air color=invisible length=$filtUS height=2*$y width=$wi
+box psUTS material=CONCRETE length=$filtUS height=$h width=$pStop_t/2 \
+	kill=$pStop_Kill
+box psUTV material=Air color=invisible length=$filtUS height=$h width=$wv \
+	kill=$filt_Kill
+box psUTI material=Air color=invisible length=$filtUS height=$h width=$wi \
+	kill=$filt_Kill
+if $pStop_Chan_W>0
+  box psUTC material=CONCRETE color=invisible \
+  	length=$filtUS height=$h width=$pStop_Chan_W
+endif
 
-extrusion psUTVConc material=CONCRETE color=$Concrete length=$wv \
-  vertices=$x,$y;$x,-$y;$xa,-$y;$xa,$ya;$xb,$ya;$xb,-$y;-$x,-$y;-$x,$y
-place psUTVConc parent=psUTV x=0 y=0 z=0 rotation=y-90
+box psUTVU material=CONCRETE color=$Concrete height=$h width=$wv \
+  length=$pStop_t
+box psUTVC material=Air color=invisible length=$pStop_t height=$h width=$wv
+box psUTVCconc material=CONCRETE color=$DarkConcrete length=$pStop_t \
+  height=$h-$pStop_Cave width=$wv
+place psUTVCconc parent=psUTVC x=0 y=$pStop_Cave/2 z=0
+box psUTVD material=CONCRETE color=$Concrete height=$h width=$wv \
+  length=$filtUS-2*$pStop_t
+place psUTVU parent=psUTV x=0 y=0 z=$filtUS/2-$pStop_t/2
+place psUTVC parent=psUTV x=0 y=0 z=$filtUS/2-$pStop_t-$pStop_t/2
+place psUTVD parent=psUTV x=0 y=0 z=-$pStop_t
 
-extrusion psUTIConc material=CONCRETE color=invisible length=$wi \
-  vertices=$x,$y;$x,-$y;$xa,-$y;$xa,$ya;$xb,$ya;$xb,-$y;-$x,-$y;-$x,$y
-place psUTIConc parent=psUTI x=0 y=0 z=0 rotation=y-90
+box psUTIU material=CONCRETE color=invisible height=$h width=$wi length=$pStop_t
+box psUTIC material=Air color=invisible height=$h width=$wi length=$pStop_t
+box psUTICconc material=CONCRETE color=invisible height=$h-$pStop_Cave \
+  width=$wi length=$pStop_t
+place psUTICconc parent=psUTIC x=0 y=$pStop_Cave/2 z=0
+box psUTID material=CONCRETE color=invisible height=$h width=$wi \
+  length=$filtUS-2*$pStop_t
+place psUTIU parent=psUTI x=0 y=0 z=$filtUS/2-$pStop_t/2
+place psUTIC parent=psUTI x=0 y=0 z=$filtUS/2-$pStop_t-$pStop_t/2
+place psUTID parent=psUTI x=0 y=0 z=-$pStop_t
 
-extrusion psUTCConc material=CONCRETE color=invisible length=$pStop_Chan_W \
-  vertices=$x,$y;$x,-$y;$xa,-$y;$xa,$ya;$xb,$ya;$xb,-$y;-$x,-$y;-$x,$y
+if $pStop_Chan_W>0
+  box psUTCair material=Air color=invisible \
+	height=$pStop_Cave width=$pStop_Chan_W length=$pStop_t
+  place psUTCair parent=psUTC x=0 y=$pStop_Cave/2-$h/2 \
+	z=$filtUS/2-$pStop_t-$pStop_t/2
+endif
 
 # upstream filter channel
 
 if $IncludeFilter==1
+  param x=$filtUS/2
+  param y=($filtHS+$pStop_t)/2
   param ya=$pStop_Chan_W/cos($pStop_Chan_A)/2-$filtUS*tan($pStop_Chan_A)/2+0.1
   param yb=$ya-$pStop_Chan_W/cos($pStop_Chan_A)-0.1
   extrusion filtUpA material=Air color=invisible length=$pStop_Chan_W \
@@ -208,14 +234,15 @@ if $IncludeFilter==1
   place filtAirUa parent=filtUp x=0 y=0 z=$L/4
   place filtAirUb parent=filtUp x=0 y=0 z=-$L/4
   place filtUp parent=filtUpA rotation=x$pStop_Chan_A*180/$pi,y90 x=0 y=0 z=0
-  place filtUpA parent=psUTCConc \
-  	x=0 y=$filtUS*tan($pStop_Chan_A)/2-$filtHS/2 z=0
+  place filtUpA parent=psUTC \
+  	x=0 y=$filtUS*tan($pStop_Chan_A)/2-$filtHS/2 z=0 rotation=y-90
 endif
-place psUTCConc parent=psUTC x=0 y=0 z=0 rotation=y-90
 
 place psUTS parent=psUT color=$DarkConcrete x=($pStop_t/2-$pStop_W)/2 y=0 z=0
 place psUTV parent=psUT x=($wv+$pStop_t-$pStop_W)/2 y=0 z=0
-place psUTC parent=psUT x=$pStop_Chan_X y=0 z=0
+if $pStop_Chan_W>0
+  place psUTC parent=psUT x=$pStop_Chan_X y=0 z=0
+endif
 place psUTI parent=psUT x=($pStop_W-$wi-$pStop_t)/2 y=0 z=0
 place psUTS parent=psUT color=invisible x=($pStop_W-$pStop_t/2)/2 y=0 z=0
 place psUT parent=psUp x=0 y=($psTotH-$filtHS-$pStop_t)/2 z=0
