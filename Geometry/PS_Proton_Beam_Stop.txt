@@ -15,12 +15,20 @@ param -unset FilterMomentum=8000
 param -unset FilterInDetector=0
 param -unset FilterOutDetector=0
 param -unset FilterTestGeom=0
+param -unset FilterView=0
+if $FilterView==0
+  param filtBoxCol=invisible
+  param filtGapCol=invisible
+else
+  param filtBoxCol=$Concrete
+  param filtGapCol=$Black
+endif
 
 if $IncludeFilter==1
  param filtChanW=50
  param filtChanH=50
- param filtExitW=50
- param filtExitH=50
+ param filtExitW=75
+ param filtExitH=75
  param filtChanSpace=25.4/2
  param filtChanRdown=7*25.4
  param filtChanRup=100
@@ -50,7 +58,7 @@ param pStop_L=$pStop_l+3*$pStop_t
 
 param filtUS=$pStop_l+2*$pStop_t
 param filtMS=4200.
-param filtDS=2000.
+param filtDS=3000.
 param filtHS=2200.
 
 param pStop_x=-3237 
@@ -70,9 +78,6 @@ if $IncludeFilter==1
   param pStop_Chan_A=atan(($pStop_y+$pStop_h/2+$pStop_t/2-$pStop_Trgt_Y)/($d-$pStop_l/2-2*$pStop_t))
   param pStop_Chan_W=2.0*($filtChanSpace+$filtChanRdown)
   param d=$pStop_t*tan($pStop_Chan_A)-$pStop_Chan_W/(2*cos($pStop_Chan_A))
-  if $d<1
-    param pStop_Cave=$pStop_t/2-(1-$d)
-  endif
 else
   param filtHS=1.
   param pStop_Trgt_X=0
@@ -81,6 +86,10 @@ else
   param pStop_Chan_X=0
   param pStop_Chan_A=0
   param pStop_Chan_W=0
+  param d=1
+endif
+if $d<1
+  param pStop_Cave=$pStop_t/2-(1-$d)
 endif
 
 # **********************************
@@ -215,13 +224,13 @@ if $IncludeFilter==1
   extrusion filtUpA material=Air color=invisible length=$pStop_Chan_W \
 	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
   param L=$filtUS/cos($pStop_Chan_A)-$pStop_Chan_W*tan($pStop_Chan_A)-0.1
-  box filtUp material=CONCRETE color=invisible length=$L \
+  box filtUp material=CONCRETE color=$filtBoxCol length=$L \
 	width=$pStop_Chan_W height=$pStop_Chan_W
-  tubs filtAirUa material=Air color=invisible length=$L/2 \
+  tubs filtAirUa material=Air color=$filtGapCol length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
   tubs filtConcUa material=CONCRETE color=$DarkConcrete length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanRup
-  tubs filtAirUb material=Air color=invisible length=$L/2 \
+  tubs filtAirUb material=Air color=$filtGapCol length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRdown
   tubs filtConcUb material=CONCRETE color=$DarkConcrete length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanRdown
@@ -283,13 +292,13 @@ if $IncludeFilter==1
   extrusion filtDnA material=Air color=invisible length=$pStop_Chan_W \
 	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
   param L=$filtDS/cos($ad)-$pStop_Chan_W*tan($ad)-0.1
-  box filtDn material=CONCRETE color=invisible length=$L \
+  box filtDn material=CONCRETE color=$filtBoxCol length=$L \
 	width=$pStop_Chan_W height=$pStop_Chan_W
-  tubs filtAirDa material=Air color=invisible length=$L/2 \
+  tubs filtAirDa material=Air color=$filtGapCol length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
   tubs filtConcDa material=CONCRETE color=$DarkConcrete length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanRup
-  tubs filtAirDb material=Air color=invisible length=$L/2 \
+  tubs filtAirDb material=Air color=$filtGapCol length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRdown
   tubs filtConcDb material=CONCRETE color=$DarkConcrete length=$L/2 \
 	innerRadius=0 outerRadius=$filtChanRdown
