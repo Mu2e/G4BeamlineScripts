@@ -247,39 +247,39 @@ if $Use_Field==1
       include ./Geometry/Generated_Field.txt
    
    else
-      include ./Geometry/Mu2e_Mau5_Coils.txt
+      include ./Geometry/Mu2e_Mau7_Coils.txt
 
       fieldmap PSMagneticField  \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_PSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_PSMap.txt
  
       place PSMagneticField \
-            x=0 \
+            x=-3904.0 \
             y=0 \
-            z=0
+            z=7929.0
  
       fieldmap DSMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_DSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_DSMap.txt
  
       place DSMagneticField \
-            x=0 \
+            x=-3904.0 \
             y=0 \
-            z=0
+            z=7929.0
  
       fieldmap TSuMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_TSuMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_TSuMap.txt
  
       place TSuMagneticField \
-            x=0 \
+            x=-3904.0 \
             y=0 \
-            z=0
+            z=7929.0
  
       fieldmap TsdMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau5/Mu2e_TSdMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_TSdMap.txt
  
       place TsdMagneticField \
-            x=0 \
+            x=-3904.0 \
             y=0 \
-            z=0
+            z=7929.0
    
    endif
    
