@@ -48,7 +48,7 @@ place Coll_01_b \
 ## PBAR WINDOW/Absorber 
 
 param Coll_pbar_Rout=230.0
-param Coll_pbar_length=360.e-3
+param Coll_pbar_length=672.e-3
 param Coll_pbar_Rin=0.0
 param Coll_pbar_x=$MECO_G4_xTrans
 param Coll_pbar_z=$MECO_G4_zTrans
@@ -58,7 +58,7 @@ tubs Coll_pbar \
      length=$Coll_pbar_length \
      maxStep=50.e-3\
      initialPhi=0.0 finalPhi=360.0 \
-     material=Be \
+     material=KAPTON \
      color=$Yellow \
      kill=0
 
