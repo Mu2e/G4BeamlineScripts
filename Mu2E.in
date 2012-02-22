@@ -119,6 +119,7 @@ param DS_Iron_Shield_color=$Gray
 param PS_Shield_Cu_Color=$Copper
 param PS_Shield_W_Color=$Tungsten
 param TS_Collimator_Color=$Copper
+param TS_Collimator_Color_layer=$Gray
 param Stop_Target_Color=$Purple
 param Tracker_Color=$Brown
 param Calorimeter_Color=$SoftGreen

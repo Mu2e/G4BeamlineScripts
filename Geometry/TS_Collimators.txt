@@ -9,41 +9,71 @@
 # Geometry take from
 #        "Collimators Design" 
 #        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+#
+#
+# Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 
+# 
+
 
 param Coll_01_Rout=240.0
+param Coll_01_Rin_1=150.0
+param Coll_01_Rin_2=160.0
 param Coll_01_length=1000.0
-param Coll_01_Rin_up=150.0
-param Coll_01_Rin_down=170.0
 param Coll_01_x=0.0
-param Coll_01_z=4385.-$Coll_01_length/2.0
+param Coll_01_z=4385.0-$Coll_01_length/2.0
 param -unset TS_Collimator_Color=$Copper
 
-polycone Coll_01_a \
-         innerRadius=$Coll_01_Rin_up,$Coll_01_Rin_down \
-         outerRadius=$Coll_01_Rout,$Coll_01_Rout \
-         initialPhi=90.0 finalPhi=270.0 \
-         z=0.0,$Coll_01_length \
-	 material=Cu \
-         color=$TS_Collimator_Color \
-	 kill=$TS_Collimator_kill
+tube Coll_01_a_in \
+    innerRadius=$Coll_01_Rin_1 \
+    outerRadius=$Coll_01_Rin_2 \
+    length=$Coll_01_length \
+    initialPhi=90.0 finalPhi=270.0 \
+    material=C \
+    color=$TS_Collimator_Color_layer \
+    kill=$TS_Collimator_kill
 
-place Coll_01_a \
+tube Coll_01_a_out \
+    innerRadius=$Coll_01_Rin_2 \
+    outerRadius=$Coll_01_Rout \
+    length=$Coll_01_length \
+    initialPhi=90.0 finalPhi=270.0 \
+    material=Cu \
+    color=$TS_Collimator_Color \
+    kill=$TS_Collimator_kill
+        
+place Coll_01_a_in \
       x=$Coll_01_x \
-      z=$Coll_01_z
+      z=$Coll_01_z+$Coll_01_length/2.0
 
-polycone Coll_01_b \
-         innerRadius=$Coll_01_Rin_up,$Coll_01_Rin_down \
-         outerRadius=$Coll_01_Rout,$Coll_01_Rout \
-         initialPhi=-90.0 finalPhi=90.0 \
-         z=0.0,$Coll_01_length \
-	 material=Cu \
-         color=invisible \
-	 kill=$TS_Collimator_kill
-
-place Coll_01_b \
+place Coll_01_a_out \
       x=$Coll_01_x \
-      z=$Coll_01_z
+      z=$Coll_01_z+$Coll_01_length/2.0
 
+tube Coll_01_b_in \
+    innerRadius=$Coll_01_Rin_1 \
+    outerRadius=$Coll_01_Rin_2 \
+    length=$Coll_01_length \
+    initialPhi=-90.0 finalPhi=90.0 \
+    material=C \
+    color=invisible \
+    kill=$TS_Collimator_kill
+
+tube Coll_01_b_out \
+    innerRadius=$Coll_01_Rin_2 \
+    outerRadius=$Coll_01_Rout \
+    length=$Coll_01_length \
+    initialPhi=-90.0 finalPhi=90.0 \
+    material=Cu \
+    color=invisible\
+    kill=$TS_Collimator_kill
+
+place Coll_01_b_in \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
+
+place Coll_01_b_out \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
 ##********************
 ## PBAR WINDOW/Absorber 
 
