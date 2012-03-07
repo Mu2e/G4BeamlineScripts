@@ -109,7 +109,7 @@ param Invisible="invisible"
 ##********************
 ## Set colors of various parts of the Mu2e beamline
 
-param Target_Color=$Gold
+param -unset Target_Color=$Tungsten
 param Coil_Color=$ForestGreen
 param TScryo_color=$DarkKhaki
 param DScryo_color=$DarkKhaki
@@ -530,16 +530,26 @@ include ./Geometry/DS_Muon_Beam_Dump.txt
 # 2 - Golden Target inside titanium shell with 2 horizontal and 2 vertical 
 #     water pipes made of titanium too 
 # 3 -"Bicycle wheel" model of Proton Target
+# 4 - Only Tangsten Target
+# 5 -"Bicycle wheel" model of Tangsten Target
 
-param -unset Use_Proton_Target=2
+param -unset Use_Proton_Target=5
 
 if $Use_Proton_Target==3
-include ./Geometry/Proton_Target_Bicycle.txt
+    include ./Geometry/Proton_Target_Bicycle.txt
+
+elseif $Use_Proton_Target==4
+    include ./Geometry/Proton_Target_W.txt
+
+elseif $Use_Proton_Target==5
+    include ./Geometry/Proton_Target_W.txt
 
 else
-include ./Geometry/Proton_Target.txt
+    include ./Geometry/Proton_Target.txt
 
 endif
+
+
 
 # ****************************************************************************
 #                                Proton Beam
