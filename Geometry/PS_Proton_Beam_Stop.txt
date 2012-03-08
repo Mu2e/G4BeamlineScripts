@@ -2,380 +2,294 @@
 # Proton Beam Stop and Extinction Monitor Filter
 # **********************************************
 param pi=acos(-1)
-param Concrete="0.55,0.55,0.45"
-param DarkConcrete="0.5,0.5,0.4"
-param ChannelShield=invisible
+param Concrete="0.5,0.5,0.4"
+param IVconc="0.5,0.5,0.4,0.5"
+param Iconc="0.5,0.5,0.4,0.2"
+param Iair=invisible
+param Igap=invisible
 
-# **********************************
-# Filter parameters
-# **********************************
-
-param -unset IncludeFilter=0
-param -unset FilterMomentum=8000
-param -unset FilterInDetector=0
-param -unset FilterOutDetector=0
-param -unset FilterTestGeom=0
-param -unset FilterView=0
-if $FilterView==0
-  param filtBoxCol=invisible
-  param filtGapCol=invisible
-else
-  param filtBoxCol=$Concrete
-  param filtGapCol=$Black
-endif
-
-if $IncludeFilter==1
- param filtChanW=50
- param filtChanH=50
- param filtExitW=75
- param filtExitH=75
- param filtChanSpace=25.4/2
- param filtChanRdown=7*25.4
- param filtChanRup=100
- param filtMagAW=50
- param filtMagAH=100
- param filtMagTW=190
- param filtMagTH=300
- param filtMagL=3556
- param filtMagB=0.222
- param filtBend=0.5*$filtMagB*0.2998*$filtMagL/$FilterMomentum
-endif
+param -unset IncludeFilter=1
+param -unset PBS_Kill=0
+param -unset filt_Kill=0
 
 # **********************************
 # Proton beam stop parameters
 # **********************************
 
-param -unset pStop_Kill=1
-param filt_Kill=$pStop_Kill
+param PBS_t=$pBeamStop_conc
+param PBS_h=$pBeamStop_h
+param PBS_w=$pBeamStop_w
+param PBS_l=$pBeamStop_l
+param PBS_HB=$PBS_h+$PBS_t
+param PBS_W=$PBS_w+2*$PBS_t
+param PBS_L=$PBS_l+3*$PBS_t
 
-param pStop_t=1000.
-param pStop_h=1500.
-param pStop_w=1500.
-param pStop_l=2000.
-param pStop_H=$pStop_h+2*$pStop_t
-param pStop_W=$pStop_w+2*$pStop_t
-param pStop_L=$pStop_l+3*$pStop_t
-
-param filtUS=$pStop_l+2*$pStop_t
-param filtMS=4200.
-param filtDS=3000.
-param filtHS=2200.
-
-param pStop_x=-3237 
-param pStop_y=528.     
-param pStop_z=-11500 
-param pStop_rot=13.3
-param pStop_ang=$pStop_rot*$pi/180
-param pStop_Cave=$pStop_t/2
+param PBS_x=$pBeamStop_x
+param PBS_y=$pBeamStop_y	
+param PBS_z=$pBeamStop_z
+param PBS_rot=$pBeamStop_yrot
+param PBS_ang=$PBS_rot*$pi/180
+param PBS_Cave=$PBS_t/2
 
 if $IncludeFilter==1
-  param filt_Kill=0
-  param pStop_Trgt_X=-1.0-186.7*(1000/$FilterMomentum)**1.58
-  param pStop_Trgt_Y=-5.0+94.40*(1000/$FilterMomentum)**2.07
-  param pStop_Trgt_Z=1764.5
-  param d=sqrt(($pStop_Trgt_X-$pStop_x)**2+($pStop_Trgt_Z-$pStop_z)**2)
-  param pStop_Chan_X=($pStop_Trgt_X-$d*sin($pStop_ang)-$pStop_x)*cos($pStop_ang)
-  param pStop_Chan_A=atan(($pStop_y+$pStop_h/2+$pStop_t/2-$pStop_Trgt_Y)/($d-$pStop_l/2-2*$pStop_t))
-  param pStop_Chan_W=2.0*($filtChanSpace+$filtChanRdown)
-  param d=$pStop_t*tan($pStop_Chan_A)-$pStop_Chan_W/(2*cos($pStop_Chan_A))
+  param psTotL=$EMFilter_lu+$EMFilter_ld+$EMFilter_lspace
+  param psTU_L=$EMFilter_lu
+  param PBS_HT=$PBS_t+$EMDetector_hroom
+  param PBS_Chan_X=$EMFilter_dx
+  param PBS_Chan_W=2.0*$EMFilter_r2d
 else
-  param filtHS=1.
-  param pStop_Trgt_X=0
-  param pStop_Trgt_Y=0
-  param pStop_Trgt_Z=1764.5
-  param pStop_Chan_X=0
-  param pStop_Chan_A=0
-  param pStop_Chan_W=0
+  param psTotL=$PBS_L
+  param psTU_L=$PBS_L-$PBS_t
+  param PBS_HT=$PBS_t
+  param PBS_Chan_X=$PBS_t/4
+  param PBS_Chan_W=$PBS_t/2
   param d=1
 endif
-if $d<1
-  param pStop_Cave=$pStop_t/2-(1-$d)
-endif
+param psTotH=$PBS_HB+$PBS_HT
+param psTotx=$PBS_x-sin($PBS_ang)*($psTotL-$PBS_l-4*$PBS_t)/2.0
+param psToty=$PBS_y-$PBS_t-($PBS_h-$psTotH)/2.0
+param psTotz=$PBS_z-cos($PBS_ang)*($psTotL-$PBS_l-4*$PBS_t)/2.0
 
 # **********************************
 #   Construct beam stop 
 # **********************************
+# Volume hierarchy:
+#  pStop
+#   |_ psT(pStopT) : Top section above top of core that contains the filter
+#   |	|_ psTU(pStopTU) : Upstream section with filter entry channel
+#   |	|   |_ psTUS(pStopTUSI,pStopTUSIV) : x2 Concrete Sides
+#   |	|   |_ psTUV(pStopTUV) : Visible concrete
+#   |	|   |	|_ psTUVF(pStopTUVF) : Front section
+#   |	|   |	|_ psTUVN(pStopTUVN) : Neuton trap section
+#   |	|   |	|   |_ psTUVNAir(pStopTUVNAir) : Neuton trap section air
+#   |	|   |	|   |_ psTUVNConc(pStopTUVNConc) : Neuton trap section concrete
+#   |	|   |	|_ psTUVC(pStopTUVC) : Core section
+#   |	|   |_ psTUC(pStopTUC) : Filter entry channel volume
+#   |	|   |	|_ psTUCAir(pStopTUCAir) : Neuton trap air
+#   |	|   |_ psTUI(pStopTUI) : Invisible concrete
+#   |	|	|_ psTUIF(pStopTUIF) : Front section
+#   |	|	|_ psTUIN(pStopTUIN) : Neuton trap section
+#   |	|	|   |_ psTUINAir(pStopTUINAir) : Neuton trap section air
+#   |	|	|   |_ psTUINConc(pStopTUINConc) : Neuton trap section concrete
+#   |	|	|_ psTUIC(pStopTUIC) : Core section
+#   |	|_ psTD(pStopTD) : Section downstream of filter entry channel
+#   |	    |_ psTDBase(pStopTDBase) : Concrete floor
+#   |_ psB(pStop) : Bottom section below top of core
+#	|_ psBF(pStopBF) : Front section
+#	|   |_ psBFMid(pStopBFM) : Middle
+#	|   |	|_ psBFAir(pStopBFMAir) : Air opening
+#	|   |	|_ psBFBot(pStopBFMBot) : Concrete bottom
+#	|   |_ psBFSide(pStopBFS1,pStopBFS2) : x2 Concrete Sides
+#	|_ psBN(pStopBN) : Neutron trap section
+#	|   |_ psBNMid(pStopBNM) : Middle
+#	|   |	|_ psBNAir(pStopBNMAir) : Air opening
+#	|   |	|_ psBNBot(pStopBNMBot) : Concrete bottom
+#	|   |_ psBNSide(pStopBNS1,pStopBNS2) : x2 Concrete Sides
+#	|_ psBC(pStopBC) : Core section
+#	|   |_ psBCMid(pStopBCM) : Middle
+#	|   |	|_ psBCAl(pStopBCMAl) : Al core
+#	|   |	|_ psBCBot(pStopBCMBot) : Concrete bottom
+#	|   |_ psBCSide(pStopBCS1,pStopBCS2) : x2 Concrete Sides
+#	|_ psBBack(pStopBBack) : Concrete behind core
+#	|_ psBDirt(pStopBDirt) : *Dirt below filter
 
-param psTotL=$filtUS+$filtMS+$filtDS
-param psTotH=$filtHS+$pStop_H
-box pStop color=invisible material=Air \
-	length=$psTotL+2 height=$psTotH width=$pStop_W
-param psTotx=$pStop_x-sin($pStop_ang)*($psTotL-$pStop_l-4*$pStop_t)/2.0
-param psToty=$pStop_y+$filtHS/2.0
-param psTotz=$pStop_z-cos($pStop_ang)*($psTotL-$pStop_l-4*$pStop_t)/2.0
+# Bottom front section
+box psBFAir material=Air color=$Iair \
+	length=$PBS_t height=$PBS_h width=$PBS_w
+box psBFBot  material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_t width=$PBS_w
+box psBFSide material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_HB width=$PBS_t
 
-# Split into upstream and downstream section
-box psUp color=invisible length=$filtUS         height=$psTotH width=$pStop_W
-box psDn color=invisible  length=$filtMS+$filtDS height=$psTotH width=$pStop_W
+group psBFMid length=$PBS_t height=$PBS_HB width=$PBS_w
+place psBFBot rename=+Bot x=0 y=-$PBS_h/2. z=0
+place psBFAir rename=+Air x=0 y=$PBS_t/2. z=0
+endgroup
 
-# Split upstream section into top and bottom sections
+group psBF length=$PBS_t height=$PBS_HB width=$PBS_W
+place psBFMid  rename=+M  x=0 y=0 z=0
+place psBFSide rename=+S1 x=$PBS_W/2.-$PBS_t/2. y=0 z=0
+place psBFSide rename=+S2 x=$PBS_t/2.-$PBS_W/2. y=0 z=0
+endgroup
 
-box psUT color=invisible length=$filtUS height=$filtHS+$pStop_t width=$pStop_W
-box psUB color=invisible length=$filtUS height=$pStop_H-$pStop_t width=$pStop_W
+# Bottom neutron trap section
+box psBNAir material=Air color=$Iair \
+	length=$PBS_t height=$PBS_HB-$PBS_t/2. width=$PBS_W-$PBS_t
+box psBNBot  material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_t/2. width=$PBS_W-$PBS_t
+box psBNSide material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_HB width=$PBS_t/2.
 
-# Split downstream section into top and bottom sections
+group psBNMid length=$PBS_t height=$PBS_HB width=$PBS_W-$PBS_t
+place psBNBot rename=+Bot x=0 y=-$PBS_h/2.-$PBS_t/4 z=0
+place psBNAir rename=+Air x=0 y=$PBS_t/4 z=0
+endgroup
 
-box psDT length=$filtMS+$filtDS height=$filtHS width=$pStop_W \
-  color=invisible material=Air
-box psDB length=$filtMS+$filtDS height=$pStop_H width=$pStop_W \
-  color=invisible material=Air
+group psBN length=$PBS_t height=$PBS_HB width=$PBS_W
+place psBNMid  rename=+M  x=0 y=0 z=0
+place psBNSide rename=+S1 x=$PBS_W/2.-$PBS_t/4 y=0 z=0
+place psBNSide rename=+S2 x=$PBS_t/4-$PBS_W/2. y=0 z=0
+endgroup
 
-# Bottom of upstream section
+# Bottom core section
+box psBCAl material=Fe color=$Aluminum \
+	length=$PBS_l height=$PBS_h width=$PBS_w
+box psBCBot  material=CONCRETE color=$Concrete \
+	length=$PBS_l height=$PBS_t width=$PBS_w
+box psBCSide material=CONCRETE color=$Concrete \
+	length=$PBS_l height=$PBS_HB width=$PBS_t
 
-box psUBD material=CONCRETE color=$Concrete kill=$pStop_Kill  \
-	length=$pStop_l height=$pStop_h+$pStop_t width=$pStop_W
-box psCore material=Al color=$Aluminum\
-	length=$pStop_l height=$pStop_h width=$pStop_w
-place psCore parent=psUBD x=0 y=$pStop_t/2 z=0
+group psBCMid length=$PBS_l height=$PBS_HB width=$PBS_w
+place psBCBot parent=psBCMid rename=+Bot x=0 y=-$PBS_h/2. z=0
+place psBCAl  parent=psBCMid rename=+Al  x=0 y=$PBS_t/2. z=0
+endgroup
 
-box psUBM material=Air color=invisible kill=$pStop_Kill  \
-	length=$pStop_t height=$pStop_h+$pStop_t width=$pStop_W
-box psUBMB material=CONCRETE color=$DarkConcrete \
-	length=$pStop_t height=$pStop_t/2 width=$pStop_W
-box psUBMS material=CONCRETE color=$DarkConcrete \
-	length=$pStop_t height=$pStop_h+$pStop_t/2 width=$pStop_t/2
-place psUBMB parent=psUBM x=0 y=-$pStop_h/2-$pStop_t/4 z=0
-place psUBMS parent=psUBM x=$pStop_W/2-$pStop_t/4 y=$pStop_t/4 z=0
-place psUBMS parent=psUBM x=$pStop_t/4-$pStop_W/2 y=$pStop_t/4 z=0
+group psBC length=$PBS_l height=$PBS_HB width=$PBS_W
+place psBCMid  rename=+M  x=0 y=0 z=0
+place psBCSide rename=+S1 x=$PBS_W/2.-$PBS_t/2. y=0 z=0
+place psBCSide rename=+S2 x=$PBS_t/2.-$PBS_W/2. y=0 z=0
+endgroup
 
-box psUBU material=Air color=invisible  \
-	length=$pStop_t height=$pStop_h+$pStop_t width=$pStop_W
-box psUBUB material=CONCRETE color=$Concrete \
-	length=$pStop_t height=$pStop_t width=$pStop_W
-box psUBUS material=CONCRETE color=$Concrete \
-	length=$pStop_t height=$pStop_h width=$pStop_t
-place psUBUB parent=psUBU x=0 y=-$pStop_h/2 z=0
-place psUBUS parent=psUBU x=$pStop_W/2-$pStop_t/2 y=$pStop_t/2 z=0
-place psUBUS parent=psUBU x=$pStop_t/2-$pStop_W/2 y=$pStop_t/2 z=0
-
-place psUBD parent=psUB x=0 y=0 z=($pStop_l-$filtUS)/2
-place psUBM parent=psUB x=0 y=0 z=($filtUS-$pStop_t)/2-$pStop_t
-place psUBU parent=psUB x=0 y=0 z=($filtUS-$pStop_t)/2
-place psUB parent=psUp x=0 y=($pStop_H-$pStop_t-$psTotH)/2 z=0
-
-# Bottom of downstream section
-
-box pStopBack material=CONCRETE color=$Concrete kill=$pStop_Kill \
-	length=$pStop_t height=$pStop_H width=$pStop_W
-place pStopBack parent=psDB x=0 y=0 z=($filtMS+$filtDS-$pStop_t)/2
-
+# Bottom back section
+box psBBack material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_HB width=$PBS_W
 if $IncludeFilter==1
-  box pStopDirt material=CONCRETE color=$DarkConcrete kill=$pStop_Kill \
-	length=$filtMS+$filtDS-$pStop_t height=$pStop_H width=$pStop_W
-  place pStopDirt parent=psDB x=0 y=0 z=-$pStop_t/2
+  box psBDirt material=CONCRETE color="0.3,0.1,0.1" \
+	length=$psTotL-$PBS_L height=$PBS_HB width=$PBS_W
 endif
 
-place psDB parent=psDn x=0 y=($pStop_H-$psTotH)/2 z=0
+# Upstream top section
 
-# Top of upstream section
+param wv=$PBS_W/2.+$PBS_Chan_X-$PBS_Chan_W/2.-$PBS_t/2.
+param wi=$PBS_W/2.-$PBS_Chan_X-$PBS_Chan_W/2.-$PBS_t/2.
 
-param wv=$pStop_W/2+$pStop_Chan_X-$pStop_Chan_W/2-$pStop_t/2
-param wi=$pStop_W/2-$pStop_Chan_X-$pStop_Chan_W/2-$pStop_t/2
-param h=$filtHS+$pStop_t
+# Top upstream sides
 
-box psUTS material=CONCRETE length=$filtUS height=$h width=$pStop_t/2 \
-	kill=$pStop_Kill
-box psUTV material=Air color=invisible length=$filtUS height=$h width=$wv \
-	kill=$filt_Kill
-box psUTI material=Air color=invisible length=$filtUS height=$h width=$wi \
-	kill=$filt_Kill
-if $pStop_Chan_W>0
-  box psUTC material=CONCRETE color=invisible \
-  	length=$filtUS height=$h width=$pStop_Chan_W
-endif
+box psTUS material=CONCRETE \
+	length=$psTU_L height=$PBS_HT width=$PBS_t/2.
 
-box psUTVU material=CONCRETE color=$Concrete height=$h width=$wv \
-  length=$pStop_t
-box psUTVC material=Air color=invisible length=$pStop_t height=$h width=$wv
-box psUTVCconc material=CONCRETE color=$DarkConcrete length=$pStop_t \
-  height=$h-$pStop_Cave width=$wv
-place psUTVCconc parent=psUTVC x=0 y=$pStop_Cave/2 z=0
-box psUTVD material=CONCRETE color=$Concrete height=$h width=$wv \
-  length=$filtUS-2*$pStop_t
-place psUTVU parent=psUTV x=0 y=0 z=$filtUS/2-$pStop_t/2
-place psUTVC parent=psUTV x=0 y=0 z=$filtUS/2-$pStop_t-$pStop_t/2
-place psUTVD parent=psUTV x=0 y=0 z=-$pStop_t
+# Top upstream visible section
 
-box psUTIU material=CONCRETE color=invisible height=$h width=$wi length=$pStop_t
-box psUTIC material=Air color=invisible height=$h width=$wi length=$pStop_t
-box psUTICconc material=CONCRETE color=invisible height=$h-$pStop_Cave \
-  width=$wi length=$pStop_t
-place psUTICconc parent=psUTIC x=0 y=$pStop_Cave/2 z=0
-box psUTID material=CONCRETE color=invisible height=$h width=$wi \
-  length=$filtUS-2*$pStop_t
-place psUTIU parent=psUTI x=0 y=0 z=$filtUS/2-$pStop_t/2
-place psUTIC parent=psUTI x=0 y=0 z=$filtUS/2-$pStop_t-$pStop_t/2
-place psUTID parent=psUTI x=0 y=0 z=-$pStop_t
+box psTUVF material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_HT width=$wv
+box psTUVNAir material=Air color=$Iair \
+	length=$PBS_t height=$PBS_Cave width=$wv
+box psTUVNConc material=CONCRETE color=$Concrete \
+	length=$PBS_t height=$PBS_HT-$PBS_Cave width=$wv
+box psTUVC material=CONCRETE color=$Concrete \
+	length=$psTU_L-2*$PBS_t height=$PBS_HT width=$wv
 
-if $pStop_Chan_W>0
-  box psUTCair material=Air color=invisible \
-	height=$pStop_Cave width=$pStop_Chan_W length=$pStop_t
-  place psUTCair parent=psUTC x=0 y=$pStop_Cave/2-$h/2 \
-	z=$filtUS/2-$pStop_t-$pStop_t/2
-endif
+group psTUVN length=$PBS_t height=$PBS_HT width=$wv
+place psTUVNConc rename=+Conc x=0 y=$PBS_Cave/2. z=0
+place psTUVNAir rename=+Air x=0 y=($PBS_Cave-$PBS_HT)/2. z=0
+endgroup
+
+group psTUV length=$psTU_L height=$PBS_HT width=$wv
+place psTUVF rename=+F x=0 y=0 z=($psTU_L-$PBS_t)/2.
+place psTUVN rename=+N x=0 y=0 z=($psTU_L-$PBS_t)/2.-$PBS_t
+place psTUVC rename=+C x=0 y=0 z=-$PBS_t
+endgroup
+
+# Top upstream invisible section
+
+box psTUIF material=CONCRETE color=invisible \
+	length=$PBS_t height=$PBS_HT width=$wi
+box psTUINAir material=Air color=$Iair \
+	length=$PBS_t height=$PBS_Cave width=$wi
+box psTUINConc material=CONCRETE color=invisible \
+	length=$PBS_t height=$PBS_HT-$PBS_Cave width=$wi
+box psTUIC material=CONCRETE color=invisible \
+	length=$psTU_L-2*$PBS_t height=$PBS_HT width=$wi
+
+group psTUIN length=$PBS_t height=$PBS_HT width=$wi
+place psTUINConc rename=+Conc x=0 y=$PBS_Cave/2. z=0
+place psTUINAir rename=+Air x=0 y=($PBS_Cave-$PBS_HT)/2. z=0
+endgroup
+
+group psTUI color=$Iconc length=$psTU_L height=$PBS_HT width=$wi
+place psTUIF rename=+F x=0 y=0 z=($psTU_L-$PBS_t)/2.
+place psTUIN rename=+N x=0 y=0 z=($psTU_L-$PBS_t)/2.-$PBS_t
+place psTUIC rename=+C x=0 y=0 z=-$PBS_t
+endgroup
 
 # upstream filter channel
 
 if $IncludeFilter==1
-  param x=$filtUS/2
-  param y=($filtHS+$pStop_t)/2
-  param ya=$pStop_Chan_W/cos($pStop_Chan_A)/2-$filtUS*tan($pStop_Chan_A)/2+0.1
-  param yb=$ya-$pStop_Chan_W/cos($pStop_Chan_A)-0.1
-  extrusion filtUpA material=Air color=invisible length=$pStop_Chan_W \
-	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
-  param L=$filtUS/cos($pStop_Chan_A)-$pStop_Chan_W*tan($pStop_Chan_A)-0.1
-  box filtUp material=CONCRETE color=$filtBoxCol length=$L \
-	width=$pStop_Chan_W height=$pStop_Chan_W
-  tubs filtAirUa material=Air color=$filtGapCol length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
-  tubs filtConcUa material=CONCRETE color=$DarkConcrete length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanRup
-  tubs filtAirUb material=Air color=$filtGapCol length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRdown
-  tubs filtConcUb material=CONCRETE color=$DarkConcrete length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanRdown
-  box filtUpChan material=Air color=$Black length=$L/2 \
-	height=$filtChanH width=$filtChanW
-  place filtUpChan parent=filtConcUa x=0 y=0 z=0
-  place filtUpChan parent=filtConcUb x=0 y=0 z=0
-  place filtConcUa parent=filtAirUa x=0 y=0 z=0
-  place filtConcUb parent=filtAirUb x=0 y=0 z=0
-  place filtAirUa parent=filtUp x=0 y=0 z=$L/4
-  place filtAirUb parent=filtUp x=0 y=0 z=-$L/4
-  place filtUp parent=filtUpA rotation=x$pStop_Chan_A*180/$pi,y90 x=0 y=0 z=0
-  place filtUpA parent=psUTC \
-  	x=0 y=$filtUS*tan($pStop_Chan_A)/2-$filtHS/2 z=0 rotation=y-90
+  include ./Geometry/ExtinctionMonitor.txt
+else
+  box psTUC material=CONCRETE color=$Iconc \
+      length=$psTU_L height=$PBS_HT width=$PBS_Chan_W
+  box psTUCAir material=Air color=$Iair \
+      height=$PBS_Cave width=$PBS_Chan_W length=$PBS_t
+  place psTUCAir parent=psTUC rename=+Air \
+      x=0 y=($PBS_Cave-$PBS_HT)/2 z=($psTU_L-$PBS_t)/2-$PBS_t
 endif
 
-place psUTS parent=psUT color=$DarkConcrete x=($pStop_t/2-$pStop_W)/2 y=0 z=0
-place psUTV parent=psUT x=($wv+$pStop_t-$pStop_W)/2 y=0 z=0
-if $pStop_Chan_W>0
-  place psUTC parent=psUT x=$pStop_Chan_X y=0 z=0
-endif
-place psUTI parent=psUT x=($pStop_W-$wi-$pStop_t)/2 y=0 z=0
-place psUTS parent=psUT color=invisible x=($pStop_W-$pStop_t/2)/2 y=0 z=0
-place psUT parent=psUp x=0 y=($psTotH-$filtHS-$pStop_t)/2 z=0
+# Downstream part of top section
 
-# Top of downstream section
+box psTDBase material=CONCRETE color=$Concrete \
+	length=$psTotL-$psTU_L height=$PBS_t width=$PBS_W
 
+# Put bottom section together
+
+group psB length=$psTotL height=$PBS_HB width=$PBS_W
+place psBF rename=+F x=0 y=0 z=($psTotL-$PBS_t)/2.
+place psBN rename=+N x=0 y=0 z=($psTotL-$PBS_t)/2.-$PBS_t
+place psBC rename=+C x=0 y=0 z=($psTotL-$PBS_l)/2.-2*$PBS_t
+place psBBack rename=+Back x=0 y=0 z=($psTotL-$PBS_t)/2.-2*$PBS_t-$PBS_l
 if $IncludeFilter==1
-  param au=$pStop_Chan_A-$filtBend
-  param ad=$pStop_Chan_A-2*$filtBend
-  param space=($filtMS-$filtMagL*cos($au))/2
-  param Yu=($filtUS+$space)*tan($pStop_Chan_A)-$pStop_t/2-$filtHS/2
-  param Yd=$Yu+$filtMagL*sin($au)+$space*tan($ad)
-  box psDTM material=Air color=invisible length=$filtMS height=$filtHS width=$pStop_W
-  genericbend filtMag ironMaterial=Fe fieldMaterial=Air ironColor=$Teal \
-	 ironWidth=$filtMagTH  ironHeight=$filtMagTW  ironLength=$filtMagL \
-	fieldWidth=$filtMagAH fieldHeight=$filtMagAW fieldLength=$filtMagL \
-	By=$filtMagB
-  param d=($filtMagAH-$filtChanH/cos($filtBend))/2
-  place filtMag parent=psDTM rotation=z-90,x$au*180/$pi \
-	x=$pStop_Chan_X y=$Yu+$filtMagL*sin($au)/2+$d*cos($au) z=$d*sin($au)
-  place psDTM parent=psDT x=0 y=0 z=$filtDS/2
-
-  box psDTD material=Air color=invisible length=$filtDS height=$filtHS width=$pStop_W
-
-  box psDTDV material=CONCRETE color=$Concrete length=$filtDS height=$filtHS \
-	width=$pStop_W/2+$pStop_Chan_X-$pStop_Chan_W/2
-  place psDTDV parent=psDTD x=$pStop_Chan_X/2-$pStop_Chan_W/4-$pStop_W/4 y=0 z=0
-
-  box psDTDI material=CONCRETE color=invisible length=$filtDS height=$filtHS \
-	width=$pStop_W/2-$pStop_Chan_X-$pStop_Chan_W/2
-  place psDTDI parent=psDTD x=$pStop_Chan_X/2+$pStop_Chan_W/4+$pStop_W/4 y=0 z=0
-
-  box psDTDC material=CONCRETE color=invisible length=$filtDS height=$filtHS \
-  	width=$pStop_Chan_W
-  param x=$filtDS/2
-  param ya=$pStop_Chan_W/cos($ad)/2-$filtDS*tan($ad)/2+0.1
-  param yb=$ya-$pStop_Chan_W/cos($ad)-0.1
-  extrusion filtDnA material=Air color=invisible length=$pStop_Chan_W \
-	vertices=$x,$ya;$x,$yb;-$x,-$ya;-$x,-$yb
-  param L=$filtDS/cos($ad)-$pStop_Chan_W*tan($ad)-0.1
-  box filtDn material=CONCRETE color=$filtBoxCol length=$L \
-	width=$pStop_Chan_W height=$pStop_Chan_W
-  tubs filtAirDa material=Air color=$filtGapCol length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRup
-  tubs filtConcDa material=CONCRETE color=$DarkConcrete length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanRup
-  tubs filtAirDb material=Air color=$filtGapCol length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanSpace+$filtChanRdown
-  tubs filtConcDb material=CONCRETE color=$DarkConcrete length=$L/2 \
-	innerRadius=0 outerRadius=$filtChanRdown
-  box filtDnChan material=Air color=$Black length=$L/2 \
-	height=$filtChanH width=$filtChanW
-  box filtDnExit material=Air color=$Black length=$L/2 \
-	height=$filtExitH width=$filtExitW
-  place filtDnChan parent=filtConcDa x=0 y=0 z=0
-  place filtDnExit parent=filtConcDb x=0 y=0 z=0
-  place filtConcDa parent=filtAirDa x=0 y=0 z=0
-  place filtConcDb parent=filtAirDb x=0 y=0 z=0
-  place filtAirDa parent=filtDn x=0 y=0 z=$L/4
-  place filtAirDb parent=filtDn x=0 y=0 z=-$L/4
-  place filtDn parent=filtDnA rotation=x$ad*180/$pi,y90 x=0 y=0 z=0
-  place filtDnA parent=psDTDC x=0 y=$Yd+$filtDS*tan($ad)/2 z=0 rotation=y-90
-
-  place psDTDC parent=psDTD x=$pStop_Chan_X y=0 z=0
-
-  place psDTD parent=psDT x=0 y=0 z=-$filtMS/2
-
-  place psDT parent=psDn x=0 y=($psTotH-$filtHS)/2 z=0
+  place psBDirt rename=+Dirt x=0 y=0 z=-$PBS_L/2.
 endif
+endgroup
 
-# Put sections together
+# Put Top section together
 
-place psUp parent=pStop x=0 y=0 z=($filtMS+$filtDS)/2
-place psDn parent=pStop x=0 y=0 z=-$filtUS/2
+group psTU color=invisible height=$PBS_HT width=$PBS_W length=$psTU_L
+place psTUS rename=+SV x=($PBS_t/2.-$PBS_W)/2. y=0 z=0 color=$Concrete
+place psTUS rename=+SI x=($PBS_W-$PBS_t/2.)/2. y=0 z=0 color=$Iconc
+place psTUV rename=+V x=($wv+$PBS_t-$PBS_W)/2. y=0 z=0
+place psTUC rename=+C x=$PBS_Chan_X y=0 z=0
+place psTUI rename=+I x=($PBS_W-$PBS_t-$wi)/2. y=0 z=0
+endgroup
+
+group psTD height=$PBS_HT width=$PBS_W length=$psTotL-$psTU_L
+place psTDBase rename=+Base x=0 y=($PBS_t-$PBS_HT)/2. z=0
+if $IncludeFilter==1
+  place psTDFilt rename=+F x=0 y=$PBS_t/2. z=0
+endif
+endgroup
+
+group psT length=$psTotL height=$PBS_HT width=$PBS_W
+place psTU rename=+U x=0 y=0 z=($psTotL-$psTU_L)/2.
+place psTD rename=+D x=0 y=0 z=-$psTU_L/2.
+endgroup
 
 # **********************************
-#   Add virtual detectors 
+#   Add virtual detectors and kill zones
 # **********************************
+group pStop length=$psTotL+2 height=$psTotH+2 width=$PBS_W+2
+place psB rename=+B x=0 y=-$PBS_HT/2. z=0
+place psT rename=+T x=0 y=$PBS_HB/2. z=0
+	
 if $FilterInDetector==1
-  virtualdetector FiltIn height=$pStop_H width=$pStop_W length=1
-  place FiltIn parent=pStop x=0 y=$pStop_H/2-$psTotH/2 z=$psTotL/2+0.5
+  virtualdetector FiltIn height=$psTotH width=$PBS_W length=1 kill=1
+  place FiltIn color=invisible x=0 y=0 z=($psTotL+1)/2.
+endif
+if ($FilterInDetector==0)&&($FilterOutDetector==0)
+  box psfrontKill color=invisible height=$psTotH width=$PBS_W length=1 kill=1
+  place psfrontKill x=0 y=0 z=($psTotL+1)/2.
 endif
 if $FilterOutDetector==1
-  virtualdetector FiltOut height=$filtHS width=$pStop_W length=1
-  place FiltOut parent=pStop x=0 y=$psTotH/2-$filtHS/2 z=-$psTotL/2-0.5
+  box psTopKill color=invisible material=Vacuum \
+	length=$psTotL+2 height=1 width=$PBS_W+2 kill=1
+  box psSideKill color=invisible material=Vacuum \
+	length=$psTotL+2 height=$psTotH width=1 kill=1
+  place psTopKill rename=+TKill x=0 y=($psTotH+1)/2. z=0
+  place psTopKill rename=+TKill x=0 y=-($psTotH+1)/2. z=0
+  place psSideKill rename=+S1Kill x=($PBS_W+1)/2. y=0 z=0
+  place psSideKill rename=+S2Kill x=-($PBS_W+1)/2. y=0 z=0
+  virtualdetector FiltOut height=$psTotH width=$PBS_W length=1 kill=1
+  place FiltOut color=invisible x=0 y=0 z=-($psTotL+1)/2.
 endif
-if $FilterInDetector>1
-  virtualdetector FiltIn height=$FilterInDetector width=$FilterInDetector length=1
-  place FiltIn parent=pStop x=$pStop_Chan_X z=$psTotL/2+0.5 \
-	y=$pStop_H-$pStop_t/2-$psTotH/2
-endif
-if ($FilterOutDetector>1)&&($IncludeFilter==1)
-  virtualdetector FiltOut height=$FilterOutDetector width=$FilterOutDetector length=1
-  place FiltOut parent=pStop x=$pStop_Chan_X z=-$psTotL/2-0.5 \
-	y=$pStop_H+$filtHS/2+$Yd+$filtDS*tan($ad)-$psTotH/2
-endif
-
-place pStop x=$psTotx y=$psToty z=$psTotz rotation=y$pStop_rot
-
-# **********************************
-#   Air gap between solenoid and beam stop 
-# **********************************
-
-param dx=0.5*$pStop_w+$pStop_t
-param dz=0.5*$pStop_l+2*$pStop_t+1.1
-param x1=$pStop_x-$dx*cos($pStop_ang)+$dz*sin($pStop_ang)
-param z1=$pStop_z+$dx*sin($pStop_ang)+$dz*cos($pStop_ang)
-param x2=$pStop_x+$dx*cos($pStop_ang)+$dz*sin($pStop_ang)
-param z2=$pStop_z-$dx*sin($pStop_ang)+$dz*cos($pStop_ang)
-param x3=1000
-param z3=-536.5
-extrusion AirGap material=Air color=invisible length=$pStop_H \
-       vertices=$x1,$z1;$x2,$z2;$x3,$z3;-$x3,$z3
-place AirGap x=0 z=0 y=$pStop_y rotation=x90
-
-# **********************************
-#   Test beam points to channel location 
-# **********************************
-
-if $FilterTestGeom==1
-  beam gaussian particle=proton nEvents=$Num_Events firstEvent=$First_Event \
-              beamX=$pStop_Trgt_X beamY=$pStop_Trgt_Y beamZ=$pStop_Trgt_Z \
-              sigmaX=0 sigmaY=0 sigmaXp=0.0 sigmaYp=0.0 \
-              meanMomentum=$FilterMomentum sigmaP=0.0 \
-              meanT=0.0 sigmaT=0.0 \
-              rotation=x-$pStop_Chan_A*180/$pi,y180+$pStop_rot
-endif
+endgroup
+place pStop x=$psTotx y=$psToty z=$psTotz rotation=y$PBS_rot

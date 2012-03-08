@@ -1,0 +1,166 @@
+param filtUS=$EMFilter_lu
+param filtMS=$EMFilter_lspace
+param filtDS=$EMFilter_ld
+param filtHT=$EMDetector_hroom
+param filtChanA=$EMFilter_rot
+param filtChanW=$EMFilter_wu
+param filtChanH=$EMFilter_hu
+param filtExitW=$EMFilter_wd
+param filtExitH=$EMFilter_hd
+param filtMagAW=$EMFilter_wgap
+param filtMagAH=$EMFilter_hgap
+param filtMagTW=$EMFilter_wmagnet
+param filtMagTH=$EMFilter_hmagnet
+param filtMagL=$EMFilter_lmagnet
+param filtMagB=$EMFilter_B/10.0
+param filtBend=0.5*$filtMagB*0.2998*$filtMagL/(1000.0*$EMFilter_p)
+
+# Volume hierarchy: ( * => if filter included )
+# psTUC(pStopTUC) : *Filter entry channel concrete shield
+#  |_ filtUpA(pStopTUCA1,2) : *x2 Air extrusion
+#  |_ filtAirUa(pStopTUCfiltAu) : *Upstream alignment hole
+#  |   |_ filtConcUa(pStopTUCfiltAuC) : *Concrete plug
+#  |	   |_ filtUpChan(pStopTUCfiltAuCChan) : *Air channel
+#  |_ filtAirUb(pStopTUCfiltAd) : *Upstream alignment hole
+#      |_ filtConcUb(pStopTUCfiltAdC) : *Concrete plug
+#   	   |_ filtUpChan(pStopTUCfiltAdCChan) : *Air channel
+# psTD(pStopTD) : Section downstream of filter entry channel
+#  |_ psTDBase(pStopTDBase) : Concrete floor
+#  |_ psTDFilt(pStopTDF) : *Downstream filter components
+#      |_ psTDFMag(pStopTDFM) : *Magnet space
+#      |   |_ filtMag(pStopTDFMfiltMag) : *Magnet
+#      |_ psTDFExt(pStopTDFE) : *Exit channel section
+#          |_ psTDFEV(pStopTDFEV) : *Visible concrete
+#          |_ psTDFEI(pStopTDFEI) : *Invisible concrete
+#          |_ psTDFEC(pStopTDFEC) : *Filter exit channel parent
+#              |_ filtDnA(pStopTDFECA1,2) : *x2 Air extrusion
+#              |_ filtAirDa(pStopTDFECfiltAu) : *Downstream alignment hole
+#              |   |_ filtConcDa(pStopTDFECfiltAuC) : *Concrete plug
+#              |       |_ filtDnChan(pStopTDFECfiltAuCChan) : *Air channel
+#              |_ filtAirDb(pStopTDFECfiltAd) : *Downstream alignment hole
+#                  |_ filtConcDb(pStopTDFECfiltAdC) : *Concrete plug
+#                      |_ filtDnExit(pStopTDFECfiltAdCChan) : *Air channel
+
+# upstream filter channel
+
+param L=$filtUS/cos($filtChanA)-$PBS_Chan_W*tan($filtChanA)-0.1
+tubs filtAirUa material=Air color=$Igap length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r2u
+tubs filtConcUa material=CONCRETE color=$Concrete length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r1u
+box filtUpChan material=Air color=$Black length=$L/2. \
+      height=$filtChanH width=$filtChanW
+place filtUpChan parent=filtConcUa rename=+Chan x=0 y=0 z=0
+place filtConcUa parent=filtAirUa rename=+C x=0 y=0 z=0
+
+tubs filtAirUb material=Air color=$Igap length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r2d
+tubs filtConcUb material=CONCRETE color=$Concrete length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r1d
+place filtUpChan parent=filtConcUb rename=+Chan x=0 y=0 z=0
+place filtConcUb parent=filtAirUb rename=+C x=0 y=0 z=0
+
+param x=tan($filtChanA)*$PBS_Chan_W/2.-0.05
+extrusion filtUpA material=Air color=$Iair length=$PBS_Chan_W \
+   vertices=-$x,-$PBS_Chan_W/2.;-$x,$PBS_Chan_W/2.;$x-0.1,-$PBS_Chan_W/2.
+param dy=$EMFilter_dy-$pBeamStop_h/2-$pBeamStop_conc/2
+param y=$dy-$filtHT/2.-$PBS_Chan_W*(cos($filtChanA)-1)/2.
+
+box psTUCAir material=Air color=$Iair \
+      height=$PBS_Cave width=$PBS_Chan_W length=$PBS_t
+
+group psTUC material=CONCRETE color=$Iconc \
+      length=$psTU_L height=$PBS_HT width=$PBS_Chan_W
+place filtAirUa rename=+filtAu x=0 \
+      y=$dy-$filtHT/2+$filtUS*tan($filtChanA)/2-$L*sin($filtChanA)/4 \
+      z=$L*cos($filtChanA)/4 rotation=x$filtChanA*180/$pi
+place filtAirUb rename=+filtAd x=0 \
+      y=$dy-$filtHT/2+$filtUS*tan($filtChanA)/2+$L*sin($filtChanA)/4 \
+      z=-$L*cos($filtChanA)/4 rotation=x$filtChanA*180/$pi
+place filtUpA rename=+A1 x=0 y=$y z=$filtUS/2.-$x-0.05 \
+      rotation=y90
+place filtUpA rename=+A2 x=0 y=$y+$filtUS*tan($filtChanA) z=$x+0.05-$filtUS/2. \
+      rotation=z180,y90
+place psTUCAir rename=+Air \
+      x=0 y=($PBS_Cave-$PBS_HT)/2. z=($psTU_L-$PBS_t)/2.-$PBS_t
+endgroup
+
+# Downstream part of top section
+
+box psTDBase material=CONCRETE color=$Concrete \
+	length=$psTotL-$psTU_L height=$PBS_t width=$PBS_W
+
+# Filter magnet
+param au=$filtChanA-$filtBend
+param ad=$filtChanA-2*$filtBend
+param space=($filtMS-$filtMagL*cos($au))/2.
+param Yu=$dy+($filtUS+$space)*tan($filtChanA)-$PBS_t/2.-$filtHT/2.
+param Yd=$Yu+$filtMagL*sin($au)+$space*tan($ad)
+genericbend filtMag ironMaterial=Fe fieldMaterial=Air ironColor=$Teal \
+       ironWidth=$filtMagTH  ironHeight=$filtMagTW  ironLength=$filtMagL \
+      fieldWidth=$filtMagAH fieldHeight=$filtMagAW fieldLength=$filtMagL \
+      By=$filtMagB
+param d=($filtMagAH-$filtChanH/cos($filtBend))/2.
+
+group psTDFMag material=Air color=$Iair \
+      length=$filtMS height=$filtHT width=$PBS_W
+place filtMag rotation=z-90,x$au*180/$pi \
+      x=$PBS_Chan_X y=$Yu+$filtMagL*sin($au)/2.+$d*cos($au) z=$d*sin($au)
+endgroup
+
+# Exit channel section
+param wfv=$PBS_W/2.+$PBS_Chan_X-$PBS_Chan_W/2.
+param wfi=$PBS_W/2.-$PBS_Chan_X-$PBS_Chan_W/2.
+box psTDFEV material=CONCRETE color=$Concrete \
+      length=$filtDS height=$filtHT width=$wfv
+box psTDFEI material=CONCRETE color=$IVconc \
+      length=$filtDS height=$filtHT width=$wfi
+
+param L=$filtDS/cos($ad)-$PBS_Chan_W*tan($ad)-0.1
+tubs filtAirDa material=Air color=$Igap length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r2u
+tubs filtConcDa material=CONCRETE color=$Concrete length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r1u
+box filtDnChan material=Air color=$Black length=$L/2. \
+      height=$filtChanH width=$filtChanW
+place filtDnChan parent=filtConcDa rename=+Chan x=0 y=0 z=0
+place filtConcDa parent=filtAirDa rename=+C x=0 y=0 z=0
+
+tubs filtAirDb material=Air color=$Igap length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r2d
+tubs filtConcDb material=CONCRETE color=$Concrete length=$L/2. \
+      innerRadius=0 outerRadius=$EMFilter_r1d
+box filtDnExit material=Air color=$Black length=$L/2. \
+      height=$filtExitH width=$filtExitW
+place filtDnExit parent=filtConcDb rename=+Chan x=0 y=0 z=0
+place filtConcDb parent=filtAirDb rename=+C x=0 y=0 z=0
+
+param x=tan($ad)*$PBS_Chan_W/2.-0.05
+extrusion filtDnA material=Air color=$Iair length=$PBS_Chan_W \
+   vertices=-$x,-$PBS_Chan_W/2.;-$x,$PBS_Chan_W/2.;$x,-$PBS_Chan_W/2.
+param y=$Yd-$PBS_Chan_W*(cos($ad)-1)/2.
+
+group psTDFEC material=CONCRETE color=$Iconc \
+      length=$filtDS height=$filtHT width=$PBS_Chan_W
+place filtAirDa rename=+filtAu x=0 \
+      y=$Yd+$filtDS*tan($ad)/2-$L*sin($ad)/4 \
+      z=$L*cos($ad)/4 rotation=x$ad*180/$pi
+place filtAirDb rename=+filtAd x=0 \
+      y=$Yd+$filtDS*tan($ad)/2+$L*sin($ad)/4 \
+      z=-$L*cos($ad)/4 rotation=x$ad*180/$pi
+place filtDnA rename=+A1 x=0 y=$y z=$filtDS/2.-$x-0.05 \
+      rotation=y90
+place filtDnA rename=+A2 x=0 y=$y+$filtDS*tan($ad) z=$x+0.05-$filtDS/2. \
+      rotation=z180,y90
+endgroup
+
+group psTDFExt length=$filtDS height=$filtHT width=$PBS_W
+place psTDFEV rename=+V x=($wfv-$PBS_W)/2. y=0 z=0
+place psTDFEC rename=+C x=$PBS_Chan_X y=0 z=0
+place psTDFEI rename=+I x=($PBS_W-$wfi)/2. y=0 z=0
+endgroup
+
+group psTDFilt length=$filtMS+$filtDS height=$filtHT width=$PBS_W
+place psTDFExt rename=+E x=0 y=0 z=-$filtMS/2.
+place psTDFMag rename=+M x=0 y=0 z=$filtDS/2.
+endgroup

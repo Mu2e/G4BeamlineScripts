@@ -1,0 +1,193 @@
+# **************************************************************
+#   PS crystat coils and heat shield 
+# **************************************************************
+param pi=acos(-1.0)
+param x=$PScryostat_x
+param y=$PScryostat_y
+param z=$PScryostat_z+$PScryostat_Offset+$PScryostat_length/2
+
+# cryostat
+tubs PSCryoOuterV outerRadius=$PScryostat_R4 innerRadius=$PScryostat_R3 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScryostat_length material=Fe color=$ForestGreen
+tubs PSCryoOuterI outerRadius=$PScryostat_R4 innerRadius=$PScryostat_R3 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScryostat_length material=Fe color=invisible
+tubs PSCryoInnerV outerRadius=$PScryostat_R2 innerRadius=$PScryostat_R1 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScryostat_length material=Fe color=$ForestGreen
+tubs PSCryoInnerI outerRadius=$PScryostat_R2 innerRadius=$PScryostat_R1 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScryostat_length material=Fe color=invisible
+tubs PSCryoEndV outerRadius=$PScryostat_R3 innerRadius=$PScryostat_R2 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScryostat_thick material=Fe color=$ForestGreen
+tubs PSCryoEndI outerRadius=$PScryostat_R3 innerRadius=$PScryostat_R2 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScryostat_thick material=Fe color=invisible
+place PSCryoOuterV x=$x y=$y z=$z
+place PSCryoOuterI x=$x y=$y z=$z
+place PSCryoInnerV x=$x y=$y z=$z
+place PSCryoInnerI x=$x y=$y z=$z
+place PSCryoEndV x=$x y=$y z=$z+($PScryostat_length-$PScryostat_thick)/2
+place PSCryoEndV x=$x y=$y z=$z-($PScryostat_length-$PScryostat_thick)/2
+place PSCryoEndI x=$x y=$y z=$z+($PScryostat_length-$PScryostat_thick)/2
+place PSCryoEndI x=$x y=$y z=$z-($PScryostat_length-$PScryostat_thick)/2
+
+# coil support
+param len1=$PScoils_D1+$PScoils_L1+$PScoils_D2
+param z1=$PScryostat_z+$PScoils_Offset+0.5*$len1
+tubs PSCoil1supV outerRadius=$PScoils_R1b innerRadius=$PScoils_R0 \
+	initialPhi=180 finalPhi=360 \
+	length=$len1 material=Al color=$Aluminum
+tubs PSCoil1supI outerRadius=$PScoils_R1b innerRadius=$PScoils_R0 \
+	initialPhi=0 finalPhi=180 \
+	length=$len1 material=Al color=invisible
+
+param len23=$PScoils_L2+$PScoils_D3+$PScoils_L3+$PScoils_D4
+param z23=$PScryostat_z+$PScoils_Offset+$len1+0.5*$len23
+tubs PSCoil23supV outerRadius=$PScoils_R23b innerRadius=$PScoils_R0 \
+	initialPhi=180 finalPhi=360 \
+	length=$len23 material=Al color=$Aluminum
+tubs PSCoil23supI outerRadius=$PScoils_R23b innerRadius=$PScoils_R0 \
+	initialPhi=0 finalPhi=180 \
+	length=$len23 material=Al color=invisible
+
+# coils
+tubs PSCoil1V outerRadius=$PScoils_R1a innerRadius=$PScoils_R0 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScoils_L1 material=Ti color=$Brown
+place PSCoil1V parent=PSCoil1supV z=($PScoils_D1-$PScoils_D2)/2
+tubs PSCoil1I outerRadius=$PScoils_R1a innerRadius=$PScoils_R0 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScoils_L1 material=Ti color=invisible
+place PSCoil1I parent=PSCoil1supI z=($PScoils_D1-$PScoils_D2)/2
+
+tubs PSCoil2V outerRadius=$PScoils_R23a innerRadius=$PScoils_R0 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScoils_L2 material=Ti color=$Brown
+place PSCoil2V parent=PSCoil23supV z=($PScoils_L2-$len23)/2
+tubs PSCoil2I outerRadius=$PScoils_R23a innerRadius=$PScoils_R0 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScoils_L2 material=Ti color=invisible
+place PSCoil2I parent=PSCoil23supI z=($PScoils_L2-$len23)/2
+
+tubs PSCoil3V outerRadius=$PScoils_R23a innerRadius=$PScoils_R0 \
+	initialPhi=180 finalPhi=360 \
+	length=$PScoils_L3 material=Ti color=$Brown
+place PSCoil3V parent=PSCoil23supV z=($len23-$PScoils_L3)/2-$PScoils_D4
+tubs PSCoil3I outerRadius=$PScoils_R23a innerRadius=$PScoils_R0 \
+	initialPhi=0 finalPhi=180 \
+	length=$PScoils_L3 material=Ti color=invisible
+place PSCoil3I parent=PSCoil23supI z=($len23-$PScoils_L3)/2-$PScoils_D4
+
+place PSCoil1supV x=$x y=$y z=$z1
+place PSCoil1supI x=$x y=$y z=$z1
+place PSCoil23supV x=$x y=$y z=$z23
+place PSCoil23supI x=$x y=$y z=$z23
+
+# heat shield
+param rout=$PSshield_OuterR
+param ct=cos($PSshield_GrooveCentAng*$pi/180.0)
+param st=sin($PSshield_GrooveCentAng*$pi/180.0)
+param r=$PSshield_GrooveRad
+param Rx=$PSshield_r1
+param d0=$PSshield_GrooveCentX0
+param dx=$d0-$PSshield_z1*$st
+param ca=(sqrt(($dx*$ct)^2+($Rx^2-$r^2)*$st^2)-$dx*$ct^2)/($Rx*$st^2)
+param a=acos($ca)*180/$pi
+polycone PSshield1V material=Cu color=$Copper initialPhi=180+$a finalPhi=360 \
+	innerRadius=$PSshield_r0,$PSshield_r1,$PSshield_r4,$PSshield_r5 \
+ 	outerRadius=$rout,$rout,$rout,$rout \
+	z=$PSshield_z0,$PSshield_z1,$PSshield_z4,$PSshield_z5
+polycone PSshield1I material=Cu color=invisible initialPhi=0 finalPhi=180-$a \
+	innerRadius=$PSshield_r0,$PSshield_r1,$PSshield_r4,$PSshield_r5 \
+ 	outerRadius=$rout,$rout,$rout,$rout \
+	z=$PSshield_z0,$PSshield_z1,$PSshield_z4,$PSshield_z5
+place PSshield1V x=$x y=$y z=$PScryostat_z+$PSshield_Offset
+place PSshield1I x=$x y=$y z=$PScryostat_z+$PSshield_Offset
+
+tubs PSshield2V material=Cu color=$Copper initialPhi=180-$a finalPhi=360 \
+	innerRadius=$PSshield_r2 outerRadius=$PSshield_r3 \
+	length=$PSshield_z3-$PSshield_z2
+tubs PSshield2I material=Cu color=invisible initialPhi=0 finalPhi=180-$a \
+	innerRadius=$PSshield_r2 outerRadius=$PSshield_r3 \
+	length=$PSshield_z3-$PSshield_z2
+place PSshield2V x=$x y=$y z=$PScryostat_z+$PSshield_Offset+($PSshield_z3+$PSshield_z2)/2
+place PSshield2I x=$x y=$y z=$PScryostat_z+$PSshield_Offset+($PSshield_z3+$PSshield_z2)/2
+
+# Groove equations
+# Ro(z) = Ro - sr*z = HS inner radius
+# r = groove radius
+# theta = angle of groove axis wrt z-axis
+# ct = cos(theta), st = sin(theta)
+# d(z) = do - st*z = groove centre of curvature distance from z-axis
+# alpha = azimuthal angle wrt groove axis
+# ca = cos(alpha), sa = sin(alpha)
+# R(z,alpha) = effective HS inner radius
+#
+# At fixed z groove surface is an elipse: x^2 + y^2 * ct^2 = r^2
+# where x = R * sa   and   y + d = R * ca
+# i.e. R^2 - (R*ca*st)^2 + (d*ct)^2 - 2*R*d*ca*ct^2 = r^2
+# Solve for R:-
+# R = {sqrt[r^2*(1-(ca*st)^2) - (d*sa*ct)^2] + d*ca*ct^2}/(1-(ca*st)^2)
+# Solve for ca:-
+# ca = {sqrt[(d*ct)^2 + (R^2-r^2)*st^2] - d*ct^2}/(R*st^2)
+# Solve for d:-
+# d = sqrt[r^2 - (R*sa)^2]/ct - R*ca
+
+param z0=$PSshield_z0
+param r0=$d0+$r/$ct
+param aw=10
+param zmx=($d0+$r/$ct-$Rx)/$st
+param a1=$a/(2*$aw+1)
+polycone PSshieldG0 material=Cu color=$Copper \
+	initialPhi=180-$a1 finalPhi=180+$a1 \
+	innerRadius=$r0,$Rx,$PSshield_r4,$PSshield_r5 \
+ 	outerRadius=$rout,$rout,$rout,$rout \
+	z=$z0,$zmx,$PSshield_z4,$PSshield_z5
+place PSshieldG0 x=$x y=$y z=$PScryostat_z+$PSshield_Offset
+
+do i 1 $aw
+ param a2=$a1+2*$a/(2*$aw+1)
+ param ap=($a1+$a2)/2
+ param ca=cos($ap*$pi/180.0)
+ param sa=sin($ap*$pi/180.0)
+ param det=$r^2-($Rx*$sa)^2
+ if $det<0 'param det=0'
+ param zmx=($d0-$Rx*$ca+sqrt($det)/$ct)/$st
+ if $zmx<$PSshield_z1 'param zmx=$PSshield_z1'
+ do j 0 5
+   param z=$z0+$j*($PSshield_z1-$z0)/5
+   param d=$d0-$z*$st
+   param Rmin=$PSshield_r0+$j*($PSshield_r1-$PSshield_r0)/5
+   param det=$r^2*(1-($ca*$st)^2)-($d*$sa*$ct)^2
+   if $det<0 'param det=0'
+   param Rg=(sqrt($det)+$d*$ca*$ct^2)/(1-($ca*$st)^2)
+   if $Rg<$Rmin 'param Rg=$Rmin'
+   if $j==0 'param r0=$Rg'
+   if $j==1 'param r1=$Rg'
+   if $j==2 'param r2=$Rg'
+   if $j==3 'param r3=$Rg'
+   if $j==4 'param r4=$Rg'
+   if $j==5 'param r5=$Rg'
+   if $j==1 'param z1=$z'
+   if $j==2 'param z2=$z'
+   if $j==3 'param z3=$z'
+   if $j==4 'param z4=$z'
+   if $j==5 'param z5=$z'
+ enddo
+ polycone PSshieldGp$i material=Cu color=$Copper \
+	initialPhi=180-$a2 finalPhi=180-$a1 \
+	innerRadius=$r0,$r1,$r2,$r3,$r4,$r5,$Rx,$PSshield_r4,$PSshield_r5 \
+ 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+	z=$z0,$z1,$z2,$z3,$z4,$z5,$zmx,$PSshield_z4,$PSshield_z5
+ place PSshieldGp$i x=$x y=$y z=$PScryostat_z+$PSshield_Offset
+ polycone PSshieldGm$i material=Cu color=$Copper \
+	initialPhi=180+$a1 finalPhi=180+$a2 \
+	innerRadius=$r0,$r1,$r2,$r3,$r4,$r5,$Rx,$PSshield_r4,$PSshield_r5 \
+ 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+	z=$z0,$z1,$z2,$z3,$z4,$z5,$zmx,$PSshield_z4,$PSshield_z5
+ place PSshieldGm$i x=$x y=$y z=$PScryostat_z+$PSshield_Offset
+ param a1=$a2
+enddo
