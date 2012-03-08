@@ -1,0 +1,81 @@
+# **************************************************************
+#   PS Vaccum window and air gap between solenoid and beam stop 
+# **************************************************************
+
+param high=$TargetHall_h
+param dx=0.5*$pBeamStop_w+$pBeamStop_conc
+param dz=0.5*$pBeamStop_l+2*$pBeamStop_conc+1.1
+param ang=$pBeamStop_yrot*acos(-1)/180
+param x0=$pBeamStop_x+($dx-1)*cos($ang)+$dz*sin($ang)
+param z0=$pBeamStop_z-($dx-1)*sin($ang)+$dz*cos($ang)
+param x1=$pBeamStop_x-$dx*cos($ang)+$dz*sin($ang)
+param z1=$pBeamStop_z+$dx*sin($ang)+$dz*cos($ang)
+param x2=$pBeamStop_x+($dx+$TargetHall_aisle)*cos($ang)+$dz*sin($ang)
+param z2=$pBeamStop_z-($dx+$TargetHall_aisle)*sin($ang)+$dz*cos($ang)
+param x3=$x2+($TargetHall_z-$z2)*tan($ang)
+param z3=$TargetHall_z
+param x4=$TargetHall_xside2
+param z4=$PScryostat_z+$PScryostat_Offset
+param x5=$TargetHall_xside1
+param z5=$z1-($x1-$x5)/tan($ang)
+param Iair="1,1,1,0.1"
+extrusion AirGap material=Air color=invisible length=$high \
+       vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
+
+# End Cap
+param ir=$PSendcap_OuterR-$PSendcap_thick
+param ln=$PSendcap_length-$PSendcap_thick
+
+tubs shell outerRadius=$PSendcap_OuterR innerRadius=$ir \
+	length=$PSendcap_length material=Al color=$Aluminum
+tubs face outerRadius=$ir innerRadius=0.0 length=$PSendcap_thick \
+	material=Al color=$Aluminum
+tubs vacc outerRadius=$ir innerRadius=0.0 length=$PSendcap_length \
+	material=Vacuum color=invisible
+place face parent=vacc x=0 y=0 z=-$ln/2
+group endcap length=$PSendcap_length radius=$PSendcap_OuterR
+  place shell x=0 y=0 z=0
+  place vacc x=0 y=0 z=0
+endgroup
+place endcap parent=AirGap x=$PScryostat_x y=$z4-$PSendcap_length/2 \
+	z=-$PScryostat_y+$TargetHall_y rotation=x-90
+
+# top and bottom kill zones
+extrusion AirKilla material=Air color=$Iair kill=1 length=1 \
+       vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
+place AirKilla parent=AirGap z=$high/2-0.5
+place AirKilla parent=AirGap z=-$high/2+0.5
+
+# side kill zones
+box AirKillb material=Air color=$Iair height=1 width=$x4-$x3 length=$high-2
+place AirKillb parent=AirGap kill=1 x=($x4+$x3)/2-1 y=$z3+0.5 z=0
+box AirKillc material=Air color=$Iair width=1 height=$z4-$z3 length=$high-2
+place AirKillc parent=AirGap kill=1 y=($z3+$z4)/2 x=$x4-0.5 z=0
+box AirKilld material=Air color=$Iair width=1 height=$z4-$z5 length=$high-2
+place AirKilld parent=AirGap kill=1 y=($z5+$z4)/2 x=$x5+0.5 z=0
+param c=cos($ang)
+param s=sin($ang)
+param len=($z3-$z2)/$c-1.5
+box AirKille material=Air color=$Iair width=0.9 height=$len length=$high-2
+place AirKille parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
+	x=($x2+$x3+$s-$c)/2 y=($z2+$z3+$c+$s)/2 z=0
+param len=($z5-$z1)/$c-1.1
+box AirKillf material=Air color=$Iair width=0.9 height=$len length=$high-2
+place AirKillf parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
+	x=($x5+$x1+$s+$c)/2 y=($z5+$z1+$c-$s)/2 z=0
+
+# Beam stop kill zones
+param step=$pBeamStop_y-$pBeamStop_conc-$pBeamStop_h/2-$TargetHall_y+$high/2
+param len=($x2-$x0)/$c-0.1
+box AirKillg material=Air color=$Iair width=$len height=0.9 length=$high-$step-1
+place AirKillg parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
+       x=($x0+$x2)/2+0.5*$s y=($z0+$z2)/2+0.5*$c z=-$step/2+0.5
+
+param len=($x2-$x1)/$c
+box AirKillh material=Air color=$Iair width=0.9 height=$len length=$step-1
+place AirKillh parent=AirGap kill=1 rotation=z90-$pBeamStop_yrot \
+	x=($x1+$x2)/2+0.5*$s y=($z1+$z2)/2+0.5*$c z=$high/2-$step/2-0.5
+
+
+place AirGap x=0 z=0 y=$TargetHall_y rotation=x90
+
