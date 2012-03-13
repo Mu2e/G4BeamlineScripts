@@ -215,6 +215,20 @@ param MECO_G4_xTrans=-(2.929+1.950/2.0)*1000
 param MECO_G4_zTrans=(5.00+2.929)*1000
 
 
+# ****************************************************************************
+#                                Proton Beam Stop
+# ****************************************************************************
+# Includes extinction monitor.
+
+include ./Geometry/GeometryParameters.txt
+include ./Geometry/PS_Proton_Beam_Stop.txt
+
+
+# ****************************************************************************
+#                                Target hall air volume
+# ****************************************************************************
+include ./Geometry/TargetHall.txt
+
 
 # ****************************************************************************
 #                            Production Solenoid
@@ -342,6 +356,7 @@ endif
 #        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
 # Modified: 11/15/10, V. Khalatian
 
+#include ./Geometry/PScryostat.txt
 include ./Geometry/PS_Mu2e_Short_Shield.txt
 
 
@@ -421,14 +436,6 @@ if $Cosmic_Ray_Veto==1
    include ./Geometry/Cosmic_Ray_Veto.txt
 
 endif
-
-
-# ****************************************************************************
-#                                Proton Beam Stop
-# ****************************************************************************
-# Just a piece of metal for now.
-
-include ./Geometry/PS_Proton_Beam_Stop.txt
 
 
 # ****************************************************************************

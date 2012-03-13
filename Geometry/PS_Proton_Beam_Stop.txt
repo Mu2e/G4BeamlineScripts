@@ -9,13 +9,18 @@ param Iair=invisible
 param Igap=invisible
 
 param -unset IncludeFilter=1
+param -unset FilterInDetector=0
+param -unset FilterOutDetector=0
+param -unset PBSdetector=0
 param -unset PBS_Kill=0
 param -unset filt_Kill=0
+param -unset PBSdetector=0
 
 # **********************************
 # Proton beam stop parameters
 # **********************************
 
+param air=$TargetHall_material
 param PBS_t=$pBeamStop_conc
 param PBS_h=$pBeamStop_h
 param PBS_w=$pBeamStop_w
@@ -94,7 +99,7 @@ param psTotz=$PBS_z-cos($PBS_ang)*($psTotL-$PBS_l-4*$PBS_t)/2.0
 #	|_ psBDirt(pStopBDirt) : *Dirt below filter
 
 # Bottom front section
-box psBFAir material=Air color=$Iair \
+box psBFAir material=$air color=$Iair \
 	length=$PBS_t height=$PBS_h width=$PBS_w
 box psBFBot  material=CONCRETE color=$Concrete \
 	length=$PBS_t height=$PBS_t width=$PBS_w
@@ -113,7 +118,7 @@ place psBFSide rename=+S2 x=$PBS_t/2.-$PBS_W/2. y=0 z=0
 endgroup
 
 # Bottom neutron trap section
-box psBNAir material=Air color=$Iair \
+box psBNAir material=$air color=$Iair \
 	length=$PBS_t height=$PBS_HB-$PBS_t/2. width=$PBS_W-$PBS_t
 box psBNBot  material=CONCRETE color=$Concrete \
 	length=$PBS_t height=$PBS_t/2. width=$PBS_W-$PBS_t
@@ -132,12 +137,16 @@ place psBNSide rename=+S2 x=$PBS_t/4-$PBS_W/2. y=0 z=0
 endgroup
 
 # Bottom core section
-box psBCAl material=Fe color=$Aluminum \
+box psBCAl material=$pBeamStop_mat color=$Aluminum \
 	length=$PBS_l height=$PBS_h width=$PBS_w
 box psBCBot  material=CONCRETE color=$Concrete \
 	length=$PBS_l height=$PBS_t width=$PBS_w
 box psBCSide material=CONCRETE color=$Concrete \
 	length=$PBS_l height=$PBS_HB width=$PBS_t
+if $PBSdetector==1
+  virtualdetector PBScore height=$PBS_h width=$PBS_w length=1 kill=1
+  place PBScore parent=psBCAl color=invisible x=0 y=0 z=($PBS_l-1)/2.
+endif
 
 group psBCMid length=$PBS_l height=$PBS_HB width=$PBS_w
 place psBCBot parent=psBCMid rename=+Bot x=0 y=-$PBS_h/2. z=0
@@ -172,7 +181,7 @@ box psTUS material=CONCRETE \
 
 box psTUVF material=CONCRETE color=$Concrete \
 	length=$PBS_t height=$PBS_HT width=$wv
-box psTUVNAir material=Air color=$Iair \
+box psTUVNAir material=$air color=$Iair \
 	length=$PBS_t height=$PBS_Cave width=$wv
 box psTUVNConc material=CONCRETE color=$Concrete \
 	length=$PBS_t height=$PBS_HT-$PBS_Cave width=$wv
@@ -194,7 +203,7 @@ endgroup
 
 box psTUIF material=CONCRETE color=invisible \
 	length=$PBS_t height=$PBS_HT width=$wi
-box psTUINAir material=Air color=$Iair \
+box psTUINAir material=$air color=$Iair \
 	length=$PBS_t height=$PBS_Cave width=$wi
 box psTUINConc material=CONCRETE color=invisible \
 	length=$PBS_t height=$PBS_HT-$PBS_Cave width=$wi
@@ -219,7 +228,7 @@ if $IncludeFilter==1
 else
   box psTUC material=CONCRETE color=$Iconc \
       length=$psTU_L height=$PBS_HT width=$PBS_Chan_W
-  box psTUCAir material=Air color=$Iair \
+  box psTUCAir material=$air color=$Iair \
       height=$PBS_Cave width=$PBS_Chan_W length=$PBS_t
   place psTUCAir parent=psTUC rename=+Air \
       x=0 y=($PBS_Cave-$PBS_HT)/2 z=($psTU_L-$PBS_t)/2-$PBS_t
@@ -275,7 +284,7 @@ if $FilterInDetector==1
   virtualdetector FiltIn height=$psTotH width=$PBS_W length=1 kill=1
   place FiltIn color=invisible x=0 y=0 z=($psTotL+1)/2.
 endif
-if ($FilterInDetector==0)&&($FilterOutDetector==0)
+if ($FilterInDetector==0)&&($FilterOutDetector==0)&&($PBSdetector==0)
   box psfrontKill color=invisible height=$psTotH width=$PBS_W length=1 kill=1
   place psfrontKill x=0 y=0 z=($psTotL+1)/2.
 endif

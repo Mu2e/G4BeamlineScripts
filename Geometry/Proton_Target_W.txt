@@ -29,7 +29,7 @@ param Tposition=1764.5
 param Tlength=160.0 Tradius=6.299*.5
 param TYangle=14.00
 param TXangle=0.0
-param Tmaterial=W
+param -unset Tmaterial=W
 
 # ****************************************************************************
 #                   Proton target made of tungsten 

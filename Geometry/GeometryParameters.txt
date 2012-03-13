@@ -17,10 +17,11 @@ param pBeamStop_z=$Mu2E_z-19429.0
 # Core orientation (degrees)
 param pBeamStop_yrot=13.3
 
-# Core dimensions (mm)
+# Core dimensions (mm) and material
 param pBeamStop_h=1500.0
 param pBeamStop_w=1500.0
 param pBeamStop_l=2000.0
+param pBeamStop_mat=Al
 
 # Concrete Thickness (mm)
 param pBeamStop_conc=1000.0
@@ -73,6 +74,7 @@ param EMDetector_wroom=4571
 # ***********************
 # Target Hall parameters
 # ***********************
+param TargetHall_material=Air
 # x-coordinates of side walls
 param TargetHall_xside1=$Mu2E_x+1005
 param TargetHall_xside2=$Mu2E_x+7229
@@ -84,6 +86,7 @@ param TargetHall_y=$Mu2E_y+272
 param TargetHall_h=6402
 # width of aisle beside beam stop
 param TargetHall_aisle=1072
+
 
 # *******************************
 # Production Solenoid parameters
@@ -99,6 +102,7 @@ param PScryostat_R1=750.0
 param PScryostat_thick=30.0
 param PScryostat_length=4500.0
 param PScryostat_Offset=-22.0
+param PScryostat_material=Fe
 
 param PScoils_R1b=1031.0
 param PScoils_R23b=956.0
@@ -113,6 +117,7 @@ param PScoils_D3=120.0
 param PScoils_L3=750.0
 param PScoils_D4=25.0
 param PScoils_Offset=220.0
+param PScoils_material=Al
 
 # ***********************
 # PS Endcap parameters
@@ -120,11 +125,13 @@ param PScoils_Offset=220.0
 
 param PSendcap_OuterR=965.2
 param PSendcap_thick=19.05
-param PSendcap_length=806.0
+param PSendcap_length=900.0
+param PSendcap_material=Al
 
 # **************************
 # PS Heat shield parameters
 # **************************
+material Bronze density=8.53 Cu,0.97 Si,0.03
 
 param PSshield_z0=0.0
 param PSshield_z1=650.0
@@ -140,8 +147,9 @@ param PSshield_r4=300.0
 param PSshield_r5=150.0
 
 param PSshield_OuterR=700.0
-param PSshield_Offset=240.0
+param PSshield_Offset=-89.0
 
 param PSshield_GrooveRad=200.0
 param PSshield_GrooveCentX0=331
 param PSshield_GrooveCentAng=14
+param PSshield_material=Bronze
