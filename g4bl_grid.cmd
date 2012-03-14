@@ -8,4 +8,4 @@ log = grid_job.$(Cluster).$(Process).log
 transfer_input_files = g4bl_grid.tar
 when_to_transfer_output = ON_EXIT
 notification = NEVER
-queue 10
+queue 100
