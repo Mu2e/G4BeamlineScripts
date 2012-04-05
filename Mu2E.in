@@ -565,14 +565,14 @@ endif
 param BoosterKE=8000.0
 param ProtonMass=938.27231
 param ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
-param xBeam=0.5*($Tlength+100)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
-param yBeam=-0.5*($Tlength+100)*sin($TXangle*3.14159/180.0)
-param zBeam=$Tposition+0.5*($Tlength+100)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param xBeam=0.5*($Tlength+1)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param yBeam=-0.5*($Tlength+1)*sin($TXangle*3.14159/180.0)
+param zBeam=$Tposition+0.5*($Tlength+1)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
 param BYangle=$TYangle+180.0
 param BXangle=-1.0*($TXangle)
 param BsigmaX=1.0
 param BsigmaY=1.0
-param BsigmaT=30.0
+param BsigmaT=0.0001
 
 ##********************
 ## This is for chosing either QGSP_BERT production from the proton beam OR
