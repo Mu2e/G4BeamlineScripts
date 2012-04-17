@@ -256,6 +256,7 @@ include ./Geometry/TargetHall.txt
 
 param -unset Use_Field=1
 param -unset Generate_Fieldmap=0
+param -unset Use_External_Field=0
 
 if $Use_Field==1
    if $Generate_Fieldmap==1
@@ -295,6 +296,32 @@ if $Use_Field==1
             x=-3904.0 \
             y=0 \
             z=7929.0
+   
+      if $Use_External_Field==1
+            fieldmap ExtMonUCIAreaMagneticField \
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
+            
+            place ExtMonUCIAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+            
+            fieldmap ProtonDumpAreaMagneticField \
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ProtonDumpAreaMap.txt
+            
+            place ProtonDumpAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+            
+            fieldmap PStoDumpAreaMagneticField \
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/PStoDumpAreaMap.txt
+            
+            place PStoDumpAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+      endif
    
    endif
    
