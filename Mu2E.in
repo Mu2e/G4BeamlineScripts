@@ -356,8 +356,8 @@ endif
 #        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
 # Modified: 11/15/10, V. Khalatian
 
-#include ./Geometry/PScryostat.txt
-include ./Geometry/PS_Mu2e_Short_Shield.txt
+include ./Geometry/PScryostat.txt
+#include ./Geometry/PS_Mu2e_Short_Shield.txt
 
 
 # ****************************************************************************
