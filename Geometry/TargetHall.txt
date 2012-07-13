@@ -18,7 +18,6 @@ param x4=$TargetHall_xside2
 param z4=$PScryostat_z+$PScryostat_Offset-$PSendcap_length
 param x5=$TargetHall_xside1
 param z5=$z1-($x1-$x5)/tan($ang)
-param Iair="1,1,1,0.1"
 extrusion AirGap material=$mat color=invisible length=$high \
        vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
 
@@ -54,7 +53,7 @@ place AirKillg parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
        x=($x0+$x2)/2+0.5*$s y=($z0+$z2)/2+0.5*$c z=-$step/2+0.5
 
 param len=($x2-$x1)/$c
-box AirKillh material=$mat color=$Iair width=0.9 height=$len length=$step-1
+box AirKillh material=$mat color=$Iair width=0.9 height=$len-0.2 length=$step-1.2
 place AirKillh parent=AirGap kill=1 rotation=z90-$pBeamStop_yrot \
 	x=($x1+$x2)/2+0.5*$s y=($z1+$z2)/2+0.5*$c z=$high/2-$step/2-0.5
 

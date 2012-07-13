@@ -2,7 +2,6 @@ param filtUS=$EMFilter_lu
 param filtMS=$EMFilter_lspace
 param filtDS=$EMFilter_ld
 param filtHT=$EMDetector_hroom
-param filtChanA=$EMFilter_rot
 param filtChanW=$EMFilter_wu
 param filtChanH=$EMFilter_hu
 param filtExitW=$EMFilter_wd
@@ -13,10 +12,10 @@ param filtMagTW=$EMFilter_wmagnet
 param filtMagTH=$EMFilter_hmagnet
 param filtMagL=$EMFilter_lmagnet
 param filtMagB=$EMFilter_B/10.0
-param filtBend=0.5*$filtMagB*0.2998*$filtMagL/(1000.0*$EMFilter_p)
+param filtBend=0.5*$EMFilter_B*0.02998*$EMFilter_lmagnet/(1000.0*$EMFilter_p)
 
 # Volume hierarchy: ( * => if filter included )
-# psTUC(pStopTUC) : *Filter entry channel concrete shield
+# psTUI(pStopTUI) : *Filter entry channel concrete shield
 #  |_ filtUpA(pStopTUCA1,2) : *x2 Air extrusion
 #  |_ filtAirUa(pStopTUCfiltAu) : *Upstream alignment hole
 #  |   |_ filtConcUa(pStopTUCfiltAuC) : *Concrete plug
@@ -32,7 +31,6 @@ param filtBend=0.5*$filtMagB*0.2998*$filtMagL/(1000.0*$EMFilter_p)
 #      |_ psTDFExt(pStopTDFE) : *Exit channel section
 #          |_ psTDFEV(pStopTDFEV) : *Visible concrete
 #          |_ psTDFEI(pStopTDFEI) : *Invisible concrete
-#          |_ psTDFEC(pStopTDFEC) : *Filter exit channel parent
 #              |_ filtDnA(pStopTDFECA1,2) : *x2 Air extrusion
 #              |_ filtAirDa(pStopTDFECfiltAu) : *Downstream alignment hole
 #              |   |_ filtConcDa(pStopTDFECfiltAuC) : *Concrete plug
@@ -40,127 +38,196 @@ param filtBend=0.5*$filtMagB*0.2998*$filtMagL/(1000.0*$EMFilter_p)
 #              |_ filtAirDb(pStopTDFECfiltAd) : *Downstream alignment hole
 #                  |_ filtConcDb(pStopTDFECfiltAdC) : *Concrete plug
 #                      |_ filtDnExit(pStopTDFECfiltAdCChan) : *Air channel
-
 # upstream filter channel
-
-param L=$filtUS/cos($filtChanA)-$PBS_Chan_W*tan($filtChanA)-0.1
-tubs filtAirUa material=Air color=$Igap length=$L/2. \
-      innerRadius=0 outerRadius=$EMFilter_r2u
-tubs filtConcUa material=CONCRETE color=$Concrete length=$L/2. \
+param xrot=$EMFilter_pitch*180/acos(-1)
+param yrot=-$EMFilter_yaw*180/acos(-1)
+param xe=$wi/2+$EMFilter_dx+$pBeamStop_conc+$pBeamStop_w/2-$PBS_Top_W
+param ye=-$PBS_HT/2+$EMFilter_dy-$pBeamStop_h/2
+param ze=$filtUS/2
+param csth=cos($EMFilter_pitch)
+param snth=sin($EMFilter_pitch)
+param csa=cos($EMFilter_yaw)
+param sna=sin($EMFilter_yaw)
+param L=$filtUS/($csth*$csa)
+param dL=$EMFilter_r2u*($snth+$sna/$csa)/$csth
+tubs filtAirUa material=$TargetHall_material color=$Igap length=-$dL+$L/2. \
+      innerRadius=$EMFilter_r1u outerRadius=$EMFilter_r2u
+tubs filtConcUa material=CONCRETE color=$Concrete length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r1u
-box filtUpChan material=Air color=$Black length=$L/2. \
+box filtUpChana material=$TargetHall_material color=$Black length=-$dL+$L/2. \
       height=$filtChanH width=$filtChanW
-place filtUpChan parent=filtConcUa rename=+Chan x=0 y=0 z=0
-place filtConcUa parent=filtAirUa rename=+C x=0 y=0 z=0
+place filtUpChana parent=filtConcUa rename=+Chan x=0 y=0 z=0
+param xc=$xe+($L/4+$dL/2)*$csth*$sna
+param yc=$ye+($L/4+$dL/2)*$snth
+param zc=$ze-($L/4+$dL/2)*$csth*$csa
+place filtConcUa parent=psTUI rename=+FiltCUa x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
+place filtAirUa parent=psTUI rename=+FiltAUa x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
 
-tubs filtAirUb material=Air color=$Igap length=$L/2. \
-      innerRadius=0 outerRadius=$EMFilter_r2d
-tubs filtConcUb material=CONCRETE color=$Concrete length=$L/2. \
+param dx=$snth*$EMFilter_r2u
+param dy=$csth*$EMFilter_r2u
+extrusion wedgeUpAu material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2u vertices=-$dx,-$dy;-$dx,$dy;$dx,-$dy
+place wedgeUpAu parent=psTUI rename=+FiltWUAu rotation=y90+$yrot \
+	x=$xe+$dL*$csth*$sna y=$ye+$dL*$snth-0.1 z=$ze-$dL*$csth*$csa
+param dx=$sna*$EMFilter_r2u
+param dy=$csa*$EMFilter_r2u
+param dL=$EMFilter_r2u*$sna/($csth*$csa)
+extrusion wedgeUpBu material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2u vertices=-$dx,-$dy;-$dx,$dy;$dx,-$dy
+place wedgeUpBu parent=psTUI rename=+FiltWUBu rotation=y90,z-90 \
+	x=$xe+$dL*$csth*$sna-0.1 y=$ye+$dL*$snth z=$ze-$dL*$csth*$csa
+
+param dL=$EMFilter_r2d*($snth+$sna/$csa)/$csth
+tubs filtAirUb material=$TargetHall_material color=$Igap length=-$dL+$L/2. \
+      innerRadius=$EMFilter_r1d outerRadius=$EMFilter_r2d
+tubs filtConcUb material=CONCRETE color=$Concrete length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r1d
-place filtUpChan parent=filtConcUb rename=+Chan x=0 y=0 z=0
-place filtConcUb parent=filtAirUb rename=+C x=0 y=0 z=0
+box filtUpChanb material=$TargetHall_material color=$Black length=-$dL+$L/2. \
+      height=$filtChanH width=$filtChanW
+place filtUpChanb parent=filtConcUb rename=+Chan x=0 y=0 z=0
+param xc=$xe+(3*$L/4-$dL/2)*$csth*$sna
+param yc=$ye+(3*$L/4-$dL/2)*$snth
+param zc=$ze-(3*$L/4-$dL/2)*$csth*$csa
+place filtConcUb parent=psTUI rename=+FiltCUb x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
+place filtAirUb parent=psTUI rename=+FiltAUb x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
 
-param x=tan($filtChanA)*$PBS_Chan_W/2.-0.05
-extrusion filtUpA material=Air color=$Iair length=$PBS_Chan_W \
-   vertices=-$x,-$PBS_Chan_W/2.;-$x,$PBS_Chan_W/2.;$x-0.1,-$PBS_Chan_W/2.
-param dy=$EMFilter_dy-$pBeamStop_h/2-$pBeamStop_conc/2
-param y=$dy-$filtHT/2.-$PBS_Chan_W*(cos($filtChanA)-1)/2.
-
-box psTUCAir material=Air color=$Iair \
-      height=$PBS_Cave width=$PBS_Chan_W length=$PBS_t
-
-group psTUC material=CONCRETE color=$Iconc \
-      length=$psTU_L height=$PBS_HT width=$PBS_Chan_W
-place filtAirUa rename=+filtAu x=0 \
-      y=$dy-$filtHT/2+$filtUS*tan($filtChanA)/2-$L*sin($filtChanA)/4 \
-      z=$L*cos($filtChanA)/4 rotation=x$filtChanA*180/$pi
-place filtAirUb rename=+filtAd x=0 \
-      y=$dy-$filtHT/2+$filtUS*tan($filtChanA)/2+$L*sin($filtChanA)/4 \
-      z=-$L*cos($filtChanA)/4 rotation=x$filtChanA*180/$pi
-place filtUpA rename=+A1 x=0 y=$y z=$filtUS/2.-$x-0.05 \
-      rotation=y90
-place filtUpA rename=+A2 x=0 y=$y+$filtUS*tan($filtChanA) z=$x+0.05-$filtUS/2. \
-      rotation=z180,y90
-place psTUCAir rename=+Air \
-      x=0 y=($PBS_Cave-$PBS_HT)/2. z=($psTU_L-$PBS_t)/2.-$PBS_t
-endgroup
+param dx=$snth*$EMFilter_r2d
+param dy=$csth*$EMFilter_r2d
+extrusion wedgeUpAd material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2d vertices=$dx,$dy;$dx,-$dy;-$dx,$dy
+place wedgeUpAd parent=psTUI rename=+FiltWUAd rotation=y90+$yrot \
+	x=$xe+($L-$dL)*$csth*$sna y=$ye+($L-$dL)*$snth+0.1 z=$ze-($L-$dL)*$csth*$csa
+param dx=$sna*$EMFilter_r2d
+param dy=$csa*$EMFilter_r2d
+param dL=$EMFilter_r2d*$sna/($csth*$csa)
+extrusion wedgeUpBd material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2d vertices=$dx,$dy;$dx,-$dy;-$dx,$dy
+place wedgeUpBd parent=psTUI rename=+FiltWUBd rotation=y90,z-90 \
+	x=$xe+($L-$dL)*$csth*$sna+0.1 y=$ye+($L-$dL)*$snth z=$ze-($L-$dL)*$csth*$csa
 
 # Downstream part of top section
 
-box psTDBase material=CONCRETE color=$Concrete \
-	length=$psTotL-$psTU_L height=$PBS_t width=$PBS_W
-
 # Filter magnet
-param au=$filtChanA-$filtBend
-param ad=$filtChanA-2*$filtBend
-param space=($filtMS-$filtMagL*cos($au))/2.
-param Yu=$dy+($filtUS+$space)*tan($filtChanA)-$PBS_t/2.-$filtHT/2.
-param Yd=$Yu+$filtMagL*sin($au)+$space*tan($ad)
-genericbend filtMag ironMaterial=Fe fieldMaterial=Air ironColor=$Teal \
+genericbend filtMag ironMaterial=Fe fieldMaterial=$TargetHall_material ironColor=$Teal \
        ironWidth=$filtMagTH  ironHeight=$filtMagTW  ironLength=$filtMagL \
       fieldWidth=$filtMagAH fieldHeight=$filtMagAW fieldLength=$filtMagL \
       By=$filtMagB
+param ye=$ye-($PBS_HT-$filtHT)/2
+param au=$EMFilter_pitch-$filtBend
+param ad=$EMFilter_pitch-2*$filtBend
+param space=($filtMS/$csa-$filtMagL*cos($au))/2.
+param xu=$EMFilter_dx+($L+$space/$csa)*$csth*$sna-($PBS_Top_W-$PBS_W)/2
+param yu=$ye+($L+$space/$csa)*$snth
+param zu=$filtMS/2-($space/$csa)*$csth*$csa
 param d=($filtMagAH-$filtChanH/cos($filtBend))/2.
+if $d<0 'param d=0'
+param xm=$xu+$filtMagL*cos($au)*$sna/2.-$d*sin($au)*$sna
+param ym=$yu+$filtMagL*sin($au)/2.+$d*cos($au)
+param zm=$zu-$filtMagL*cos($au)*$csa/2.+$d*sin($au)*$csa
+param xrot=$au*180/acos(-1)
 
-group psTDFMag material=Air color=$Iair \
-      length=$filtMS height=$filtHT width=$PBS_W
-place filtMag rotation=z-90,x$au*180/$pi \
-      x=$PBS_Chan_X y=$Yu+$filtMagL*sin($au)/2.+$d*cos($au) z=$d*sin($au)
+group psTDFMag material=$TargetHall_material color=$Iair \
+      length=$filtMS height=$filtHT width=$PBS_Top_W
+place filtMag rotation=z-90,x$xrot,y$yrot x=$xm y=$ym z=$zm
 endgroup
 
 # Exit channel section
-param wfv=$PBS_W/2.+$PBS_Chan_X-$PBS_Chan_W/2.
-param wfi=$PBS_W/2.-$PBS_Chan_X-$PBS_Chan_W/2.
+#param Yd=$Yu+$filtMagL*sin($au)+$space*sin($ad)/$csa
+
 box psTDFEV material=CONCRETE color=$Concrete \
-      length=$filtDS height=$filtHT width=$wfv
+      length=$filtDS height=$filtHT width=$wv
 box psTDFEI material=CONCRETE color=$IVconc \
-      length=$filtDS height=$filtHT width=$wfi
+      length=$filtDS height=$filtHT width=$wi
 
-param L=$filtDS/cos($ad)-$PBS_Chan_W*tan($ad)-0.1
-tubs filtAirDa material=Air color=$Igap length=$L/2. \
+param xrot=$ad*180/acos(-1)
+param csth=cos($ad)
+param snth=sin($ad)
+param xe=$xe+($filtUS+$filtMS)*$sna/$csa
+param ye=$yu+$filtMagL*sin($au)+$space*$snth/$csa
+param ze=$filtDS/2
+param L=$filtDS/($csth*$csa)
+param dL=$EMFilter_r2u*($snth+$sna/$csa)/$csth
+tubs filtAirDa material=$TargetHall_material color=$Igap length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r2u
-tubs filtConcDa material=CONCRETE color=$Concrete length=$L/2. \
+tubs filtConcDa material=CONCRETE color=$Concrete length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r1u
-box filtDnChan material=Air color=$Black length=$L/2. \
+box filtDnChana material=$TargetHall_material color=$Black length=-$dL+$L/2. \
       height=$filtChanH width=$filtChanW
-place filtDnChan parent=filtConcDa rename=+Chan x=0 y=0 z=0
+place filtDnChana parent=filtConcDa rename=+Chan x=0 y=0 z=0
+param xc=$xe+($L/4+$dL/2)*$csth*$sna
+param yc=$ye+($L/4+$dL/2)*$snth
+param zc=$ze-($L/4+$dL/2)*$csth*$csa
 place filtConcDa parent=filtAirDa rename=+C x=0 y=0 z=0
+place filtAirDa parent=psTDFEI rename=+FiltADa x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
 
-tubs filtAirDb material=Air color=$Igap length=$L/2. \
+param dx=$snth*$EMFilter_r2u
+param dy=$csth*$EMFilter_r2u
+extrusion wedgeDnAu material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2u vertices=-$dx,-$dy;-$dx,$dy;$dx,-$dy
+place wedgeDnAu parent=psTDFEI rename=+FiltWDAu rotation=y90+$yrot \
+	x=$xe+$dL*$csth*$sna y=$ye+$dL*$snth-0.1 z=$ze-$dL*$csth*$csa
+param dx=$sna*$EMFilter_r2u
+param dy=$csa*$EMFilter_r2u
+param dL=$EMFilter_r2u*$sna/($csth*$csa)
+extrusion wedgeDnBu material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2u vertices=-$dx,-$dy;-$dx,$dy;$dx,-$dy
+place wedgeDnBu parent=psTDFEI rename=+FiltWDBu rotation=y90,z-90 \
+	x=$xe+$dL*$csth*$sna-0.1 y=$ye+$dL*$snth z=$ze-$dL*$csth*$csa
+
+param dL=$EMFilter_r2d*($snth+$sna/$csa)/$csth
+tubs filtAirDb material=$TargetHall_material color=$Igap length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r2d
-tubs filtConcDb material=CONCRETE color=$Concrete length=$L/2. \
+tubs filtConcDb material=CONCRETE color=$Concrete length=-$dL+$L/2. \
       innerRadius=0 outerRadius=$EMFilter_r1d
-box filtDnExit material=Air color=$Black length=$L/2. \
-      height=$filtExitH width=$filtExitW
-place filtDnExit parent=filtConcDb rename=+Chan x=0 y=0 z=0
+box filtDnChanb material=$TargetHall_material color=$Black length=-$dL+$L/2. \
+      height=$filtChanH width=$filtChanW
+place filtDnChanb parent=filtConcDb rename=+Chan x=0 y=0 z=0
+param xc=$xe+(3*$L/4-$dL/2)*$csth*$sna
+param yc=$ye+(3*$L/4-$dL/2)*$snth
+param zc=$ze-(3*$L/4-$dL/2)*$csth*$csa
 place filtConcDb parent=filtAirDb rename=+C x=0 y=0 z=0
+place filtAirDb parent=psTDFEI rename=+FiltADb x=$xc y=$yc z=$zc rotation=x$xrot,y$yrot
 
-param x=tan($ad)*$PBS_Chan_W/2.-0.05
-extrusion filtDnA material=Air color=$Iair length=$PBS_Chan_W \
-   vertices=-$x,-$PBS_Chan_W/2.;-$x,$PBS_Chan_W/2.;$x,-$PBS_Chan_W/2.
-param y=$Yd-$PBS_Chan_W*(cos($ad)-1)/2.
+param dx=$snth*$EMFilter_r2d
+param dy=$csth*$EMFilter_r2d
+extrusion wedgeDnAd material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2d vertices=$dx,$dy;$dx,-$dy;-$dx,$dy
+place wedgeDnAd parent=psTDFEI rename=+FiltWDAd rotation=y90+$yrot \
+	x=$xe+($L-$dL)*$csth*$sna y=$ye+($L-$dL)*$snth+0.1 z=$ze-($L-$dL)*$csth*$csa
+param dx=$sna*$EMFilter_r2d
+param dy=$csa*$EMFilter_r2d
+param dL=$EMFilter_r2d*$sna/($csth*$csa)
+extrusion wedgeDnBd material=$TargetHall_material color=$Iair \
+	length=1.9*$EMFilter_r2d vertices=$dx,$dy;$dx,-$dy;-$dx,$dy
+place wedgeDnBd parent=psTDFEI rename=+FiltWDBd rotation=y90,z-90 \
+	x=$xe+($L-$dL)*$csth*$sna+0.1 y=$ye+($L-$dL)*$snth z=$ze-($L-$dL)*$csth*$csa
 
-group psTDFEC material=CONCRETE color=$Iconc \
-      length=$filtDS height=$filtHT width=$PBS_Chan_W
-place filtAirDa rename=+filtAu x=0 \
-      y=$Yd+$filtDS*tan($ad)/2-$L*sin($ad)/4 \
-      z=$L*cos($ad)/4 rotation=x$ad*180/$pi
-place filtAirDb rename=+filtAd x=0 \
-      y=$Yd+$filtDS*tan($ad)/2+$L*sin($ad)/4 \
-      z=-$L*cos($ad)/4 rotation=x$ad*180/$pi
-place filtDnA rename=+A1 x=0 y=$y z=$filtDS/2.-$x-0.05 \
-      rotation=y90
-place filtDnA rename=+A2 x=0 y=$y+$filtDS*tan($ad) z=$x+0.05-$filtDS/2. \
-      rotation=z180,y90
+group psTDFExt length=$filtDS height=$filtHT width=$PBS_Top_W
+place psTDFEV rename=+V x=-$wi/2. y=0 z=0
+place psTDFEI rename=+I x=$wv/2. y=0 z=0
 endgroup
 
-group psTDFExt length=$filtDS height=$filtHT width=$PBS_W
-place psTDFEV rename=+V x=($wfv-$PBS_W)/2. y=0 z=0
-place psTDFEC rename=+C x=$PBS_Chan_X y=0 z=0
-place psTDFEI rename=+I x=($PBS_W-$wfi)/2. y=0 z=0
-endgroup
+# Create a Si detector plane
+param len=$EMDetector_d6-$EMDetector_d1
+box ExtMonitor length=$len+$EMDetector_l width=$EMDetector_w height=$EMDetector_h \
+	material=Air color=invisible
+virtualdetector plane material=Si color=$Gold \
+	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
+place plane rename=plane1 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d1
+place plane rename=plane2 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d2
+place plane rename=plane3 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d3
+place plane rename=plane4 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d4
+place plane rename=plane5 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d5
+place plane rename=plane6 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d6
+ntuple detector category=NTuples \
+	detectors=plane1,plane2,plane3,plane4,plane5,plane6
 
-group psTDFilt length=$filtMS+$filtDS height=$filtHT width=$PBS_W
-place psTDFExt rename=+E x=0 y=0 z=-$filtMS/2.
-place psTDFMag rename=+M x=0 y=0 z=$filtDS/2.
+group psTDFilt material=Air length=$psTotL-$psTU_L height=$filtHT width=$PBS_Top_W
+place psTDFExt rename=+E x=0 y=0 z=($psTotL-$psTU_L-$filtDS)/2-$filtMS
+place psTDFMag rename=+M x=0 y=0 z=($psTotL-$psTU_L-$filtMS)/2
+place ExtMonitor rename=ExtMonitor \
+	x=$wv/2.+$xe+($L+$EMDetector_d+$len/2)*$csth*$sna \
+	y=$ye+($L+$EMDetector_d+$len/2)*$snth \
+	z=($psTotL-$psTU_L)/2-$filtDS-$filtMS-($EMDetector_d+$len/2)*$csth*$csa \
+	rotation=x$xrot,y$yrot
 endgroup

@@ -1,4 +1,37 @@
 # *********************************************
+# Geometry switches
+# *********************************************
+# Set to 1 to use the double groove option
+# also affects the position of tthe extinction monitor
+param -unset PSshield_2ndGroove=0
+
+# Set to 0 to remove the beam entrance hole
+param -unset PSshield_Entrance=1
+
+# Set to 0 to remove the extinction monitor and filter
+param -unset IncludeFilter=1
+# *********************************************
+# Kill zone switches
+# *********************************************
+param -unset PScryostatKill=0
+param -unset PSshieldKill=0
+param -unset PBS_Kill=0
+param -unset filt_Kill=0
+
+# *********************************************
+# Visibility parameters
+# *********************************************
+param -unset PScryostatKill=0
+param -unset PSshieldKill=0
+param -unset PSCinvisCol=$Aluminum,0.0
+param -unset PSEinvisCol=$Aluminum,0.0
+param -unset PSSinvisCol=$Aluminum,0.0
+param -unset HRSinvisCol=$Copper,0.8
+param -unset Iair="1,1,1,0.1"
+param -unset Igap="1,1,1,0.1"
+param -unset Iconc="0.5,0.5,0.4,0.5"
+
+# *********************************************
 # Mu2E to G4Beamline Coordinate Transformation
 # *********************************************
 # Add these offsets to Mu2E coordinates to obtain G4Beamline cooordinates
@@ -6,16 +39,144 @@ param Mu2E_x=-3904
 param Mu2E_y=0
 param Mu2E_z=7929
 
+# *******************************
+# Production Solenoid parameters
+# *******************************
+
+param PScryostat_x=$Mu2E_x+3904
+param PScryostat_y=$Mu2E_y+0.0
+param PScryostat_z=$Mu2E_z-7929
+param PScryostat_R4=1300.0
+param PScryostat_R3=1280.0
+param PScryostat_R2=770.0
+param PScryostat_R1=750.0
+param PScryostat_thick=30.0
+param PScryostat_length=4500.0
+param PScryostat_Offset=-14.0
+param PScryostat_material=Fe
+
+param PScoils_R1b=1031.0
+param PScoils_R23b=956.0
+param PScoils_R1a=946.0
+param PScoils_R23a=914.0
+param PScoils_R0=850.0
+param PScoils_D1=40.0
+param PScoils_L1=1710.0
+param PScoils_D2=40.0
+param PScoils_L2=1332.0
+param PScoils_D3=120.0
+param PScoils_L3=750.0
+param PScoils_D4=25.0
+param PScoils_Offset=220.0
+param PScoils_material=Al
+
+# **************************
+# PS Heat shield parameters
+# **************************
+material Bronze density=8.53 Cu,0.97 Si,0.03
+
+param PSshield_z0=0.0
+param PSshield_z1=650.0
+param PSshield_z2=1240.5
+param PSshield_z3=2290.5
+param PSshield_z4=3530.0
+param PSshield_z5=3950.0
+param PSshield_r0=433.0
+param PSshield_r1=300.0
+param PSshield_r2=250.0
+param PSshield_r3=300.0
+param PSshield_r4=300.0
+param PSshield_r5=150.0
+
+param PSshield_OuterR=700.0
+param PSshield_AddR=700.0
+param PSshield_Offset=-89.0
+
+# Controls how well the grooves are modelled
+param GrooveLengthSteps=6
+param GrooveAngleSteps=40
+
+# Primary groove parameters
+#  cylinder radius, offset, pitch, azimuthal location
+param PSshield_pGrooveRad=200.0
+param PSshield_pGrooveCentX0=331
+param PSshield_pGrooveCentAng=14
+param PSshield_pGroovePosAng=180
+
+# Extinction groove parameters
+param PSshield_sGrooveRad=200.0
+param PSshield_sGrooveCentX0=331
+param PSshield_sGrooveCentAng=14
+param PSshield_sGroovePosAng=145
+
+param PSshield_material=Bronze
+
+# Beam entry pipe
+# radius
+param Rpipe=50
+# beam coordinates wrt upstream end of HRS R=sqrt(X^2 + Y^2)
+param ZbeamU=0
+param XbeamU=517.6
+param YbeamU=61.5
+param RbeamU=521.2
+# beam coordinates where it exits the pipe
+param ZbeamD=-892
+param XbeamD=299.2
+param YbeamD=21.1
+param RbeamD=300.0
+
+# ***********************
+# PS Endcap parameters
+# ***********************
+
+param PSendcap_OuterR=965.2
+param PSendcap_thick=19.05
+param PSendcap_wall=19.05
+param PSendcap_length=900.0
+param PSendcap_material=Fe
+
+param PSendcap_winT=2.84
+param PSendcap_winM=Ti
+# Primary beam window x,y and radius
+param PSendcap_winR1=200.0
+param PSendcap_winX1=-660.0
+param PSendcap_winY1=100.0
+
+# Extinction beam window x,y and radius
+param PSendcap_winR2=100.0
+param PSendcap_winX2=-415.0
+param PSendcap_winY2=455.0
+if $PSshield_2ndGroove==1
+  param PSendcap_winX2=-590.0
+  param PSendcap_winY2=455.0
+endif
+
+# ***********************
+# Target Hall parameters
+# ***********************
+param TargetHall_material=Air
+# x-coordinates of side walls
+param TargetHall_xside1=$Mu2E_x+1005
+param TargetHall_xside2=$Mu2E_x+7229
+# z-coordinate of back wall
+param TargetHall_z=$Mu2E_z-15301
+# y-coordinate of hall center
+param TargetHall_y=$Mu2E_y+272
+# hall height
+param TargetHall_h=6402
+# width of aisle beside beam stop
+param TargetHall_aisle=1072
+
 # ****************************
 # Proton beam stop parameters
 # ****************************
 # Core center coordinates 
-param pBeamStop_x=$Mu2E_x+667.0
-param pBeamStop_y=$Mu2E_y+528.0
-param pBeamStop_z=$Mu2E_z-19429.0
+param pBeamStop_x=$Mu2E_x+651.3
+param pBeamStop_y=$Mu2E_y+529.0
+param pBeamStop_z=$Mu2E_z-19428.2
 
 # Core orientation (degrees)
-param pBeamStop_yrot=13.3
+param pBeamStop_yrot=13.78
 
 # Core dimensions (mm) and material
 param pBeamStop_h=1500.0
@@ -30,14 +191,23 @@ param pBeamStop_conc=1000.0
 # Extinction Monitor Filter parameters
 # *************************************
 # Nominal signal momentum (GeV)
-param EMFilter_p=4.0
+param EMFilter_p=3.0
 
 # Entrance location wrt centre axis of beam stop
-param EMFilter_dx=79.4
+param EMFilter_dx=1000.0
 param EMFilter_dy=1250.0
 
-# Entry collimator vertical rotation angle (radians)
-param EMFilter_rot=0.1664
+# Entry collimator rotation angles (radians)
+param EMFilter_pitch=0.1645
+param EMFilter_yaw=0.0950
+
+if $PSshield_2ndGroove==1
+  param EMFilter_p=4.2
+  param EMFilter_dx=325.0
+  param EMFilter_dy=1250.0
+  param EMFilter_pitch=0.1653
+  param EMFilter_yaw=0.0317
+endif
 
 # Magnet field strength (kG)
 param EMFilter_B=2.22
@@ -48,7 +218,7 @@ param EMFilter_hu=50
 param EMFilter_wu=50
 
 # Downstream collimator dimensions (mm)
-param EMFilter_ld=1981
+param EMFilter_ld=2000
 param EMFilter_hd=75
 param EMFilter_wd=75
 
@@ -71,85 +241,16 @@ param EMDetector_lroom=3048
 param EMDetector_hroom=2743
 param EMDetector_wroom=4571
 
-# ***********************
-# Target Hall parameters
-# ***********************
-param TargetHall_material=Air
-# x-coordinates of side walls
-param TargetHall_xside1=$Mu2E_x+1005
-param TargetHall_xside2=$Mu2E_x+7229
-# z-coordinate of back wall
-param TargetHall_z=$Mu2E_z-15301
-# y-coordinate of hall center
-param TargetHall_y=$Mu2E_y+272
-# hall height
-param TargetHall_h=6402
-# width of aisle beside beam stop
-param TargetHall_aisle=1072
-
-
-# *******************************
-# Production Solenoid parameters
-# *******************************
-
-param PScryostat_x=$Mu2E_x+3904
-param PScryostat_y=$Mu2E_y+0.0
-param PScryostat_z=$Mu2E_z-7929
-param PScryostat_R4=1300.0
-param PScryostat_R3=1280.0
-param PScryostat_R2=770.0
-param PScryostat_R1=750.0
-param PScryostat_thick=30.0
-param PScryostat_length=4500.0
-param PScryostat_Offset=-22.0
-param PScryostat_material=Fe
-
-param PScoils_R1b=1031.0
-param PScoils_R23b=956.0
-param PScoils_R1a=946.0
-param PScoils_R23a=914.0
-param PScoils_R0=850.0
-param PScoils_D1=40.0
-param PScoils_L1=1710.0
-param PScoils_D2=40.0
-param PScoils_L2=1332.0
-param PScoils_D3=120.0
-param PScoils_L3=750.0
-param PScoils_D4=25.0
-param PScoils_Offset=220.0
-param PScoils_material=Al
-
-# ***********************
-# PS Endcap parameters
-# ***********************
-
-param PSendcap_OuterR=965.2
-param PSendcap_thick=19.05
-param PSendcap_length=900.0
-param PSendcap_material=Al
-
-# **************************
-# PS Heat shield parameters
-# **************************
-material Bronze density=8.53 Cu,0.97 Si,0.03
-
-param PSshield_z0=0.0
-param PSshield_z1=650.0
-param PSshield_z2=1240.5
-param PSshield_z3=2290.5
-param PSshield_z4=3530.0
-param PSshield_z5=3950.0
-param PSshield_r0=433.0
-param PSshield_r1=300.0
-param PSshield_r2=250.0
-param PSshield_r3=300.0
-param PSshield_r4=300.0
-param PSshield_r5=150.0
-
-param PSshield_OuterR=700.0
-param PSshield_Offset=-89.0
-
-param PSshield_GrooveRad=200.0
-param PSshield_GrooveCentX0=331
-param PSshield_GrooveCentAng=14
-param PSshield_material=Bronze
+# *************************************
+# Extinction Monitor Detector parameters
+# *************************************
+param EMDetector_h=40
+param EMDetector_w=40
+param EMDetector_l=0.3
+param EMDetector_d=150
+param EMDetector_d1=0
+param EMDetector_d2=10
+param EMDetector_d3=295
+param EMDetector_d4=305
+param EMDetector_d5=590
+param EMDetector_d6=600
