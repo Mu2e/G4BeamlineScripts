@@ -15,7 +15,7 @@ param z2=$pBeamStop_z-($dx+$TargetHall_aisle)*sin($ang)+$dz*cos($ang)
 param x3=$x2+($TargetHall_z-$z2)*tan($ang)
 param z3=$TargetHall_z
 param x4=$TargetHall_xside2
-param z4=$PScryostat_z+$PScryostat_Offset-$PSendcap_length
+param z4=$PScryostat_z+$PScryostat_Offset-$PSendcap_length-$PSendcap_winT
 param x5=$TargetHall_xside1
 param z5=$z1-($x1-$x5)/tan($ang)
 extrusion AirGap material=$mat color=invisible length=$high \

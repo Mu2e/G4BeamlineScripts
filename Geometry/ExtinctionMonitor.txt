@@ -207,27 +207,7 @@ place psTDFEV rename=+V x=-$wi/2. y=0 z=0
 place psTDFEI rename=+I x=$wv/2. y=0 z=0
 endgroup
 
-# Create a Si detector plane
-param len=$EMDetector_d6-$EMDetector_d1
-box ExtMonitor length=$len+$EMDetector_l width=$EMDetector_w height=$EMDetector_h \
-	material=Air color=invisible
-virtualdetector plane material=Si color=$Gold \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-place plane rename=plane1 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d1
-place plane rename=plane2 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d2
-place plane rename=plane3 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d3
-place plane rename=plane4 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d4
-place plane rename=plane5 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d5
-place plane rename=plane6 parent=ExtMonitor x=0 y=0 z=$len/2-$EMDetector_d6
-ntuple detector category=NTuples \
-	detectors=plane1,plane2,plane3,plane4,plane5,plane6
-
 group psTDFilt material=Air length=$psTotL-$psTU_L height=$filtHT width=$PBS_Top_W
 place psTDFExt rename=+E x=0 y=0 z=($psTotL-$psTU_L-$filtDS)/2-$filtMS
 place psTDFMag rename=+M x=0 y=0 z=($psTotL-$psTU_L-$filtMS)/2
-place ExtMonitor rename=ExtMonitor \
-	x=$wv/2.+$xe+($L+$EMDetector_d+$len/2)*$csth*$sna \
-	y=$ye+($L+$EMDetector_d+$len/2)*$snth \
-	z=($psTotL-$psTU_L)/2-$filtDS-$filtMS-($EMDetector_d+$len/2)*$csth*$csa \
-	rotation=x$xrot,y$yrot
 endgroup

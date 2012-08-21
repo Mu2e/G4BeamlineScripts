@@ -26,10 +26,10 @@ param -unset PSshieldKill=0
 param -unset PSCinvisCol=$Aluminum,0.0
 param -unset PSEinvisCol=$Aluminum,0.0
 param -unset PSSinvisCol=$Aluminum,0.0
-param -unset HRSinvisCol=$Copper,0.8
-param -unset Iair="1,1,1,0.1"
-param -unset Igap="1,1,1,0.1"
-param -unset Iconc="0.5,0.5,0.4,0.5"
+param -unset HRSinvisCol=$Copper,0.0
+param -unset Iair="0,0,0,0.1"
+param -unset Igap="0,0,0,0.1"
+param -unset Iconc="0.5,0.5,0.4,0.9"
 
 # *********************************************
 # Mu2E to G4Beamline Coordinate Transformation
@@ -38,6 +38,27 @@ param -unset Iconc="0.5,0.5,0.4,0.5"
 param Mu2E_x=-3904
 param Mu2E_y=0
 param Mu2E_z=7929
+
+# *********************************************
+# Target z-location x=y=0 is assumed
+# *********************************************
+param Tposition=1764.5
+
+# End of primary beam line
+param EndBeamOffset=500.0
+param EndBeamXrot=-2.7253
+param EndBeamYrot=13.6210
+param EndBeamX=1533.8
+param EndBeamY=273.0
+param EndBeamZ=8056.6
+# Outside of HRS
+param OutHRSBeamX=517.6
+param OutHRSBeamY=61.6
+param OutHRSBeamZ=3861.0
+# Inside of HRS
+param InHRSBeamX=299.2
+param InHRSBeamY=21.2
+param InHRSBeamZ=2969.0
 
 # *******************************
 # Production Solenoid parameters
@@ -114,16 +135,17 @@ param PSshield_material=Bronze
 # Beam entry pipe
 # radius
 param Rpipe=50
-# beam coordinates wrt upstream end of HRS R=sqrt(X^2 + Y^2)
+param PSshield_startZ=$PScryostat_z+$PSshield_Offset+$PSshield_z5
+# beam coordinates wrt upstream end of HRS
 param ZbeamU=0
-param XbeamU=517.6
-param YbeamU=61.5
-param RbeamU=521.2
+param XbeamU=$OutHRSBeamX
+param YbeamU=$OutHRSBeamY
+param RbeamU=sqrt($OutHRSBeamX*$OutHRSBeamX+$OutHRSBeamY*$OutHRSBeamY)
 # beam coordinates where it exits the pipe
-param ZbeamD=-892
-param XbeamD=299.2
-param YbeamD=21.1
-param RbeamD=300.0
+param ZbeamD=$InHRSBeamZ-$OutHRSBeamZ
+param XbeamD=$InHRSBeamX
+param YbeamD=$InHRSBeamY
+param RbeamD=sqrt($InHRSBeamX*$InHRSBeamX+$InHRSBeamY*$InHRSBeamY)
 
 # ***********************
 # PS Endcap parameters
@@ -209,9 +231,6 @@ if $PSshield_2ndGroove==1
   param EMFilter_yaw=0.0317
 endif
 
-# Magnet field strength (kG)
-param EMFilter_B=2.22
-
 # Upstream collimator dimensions (mm)
 param EMFilter_lu=4000
 param EMFilter_hu=50
@@ -221,6 +240,9 @@ param EMFilter_wu=50
 param EMFilter_ld=2000
 param EMFilter_hd=75
 param EMFilter_wd=75
+
+# Magnet field strength (kG)
+param EMFilter_B=2.22
 
 # Magnet dimensions (mm)
 param EMFilter_lspace=4200.0
@@ -247,10 +269,17 @@ param EMDetector_wroom=4571
 param EMDetector_h=40
 param EMDetector_w=40
 param EMDetector_l=0.3
-param EMDetector_d=150
-param EMDetector_d1=0
-param EMDetector_d2=10
-param EMDetector_d3=295
-param EMDetector_d4=305
-param EMDetector_d5=590
-param EMDetector_d6=600
+param EMDetector_d=750
+param EMDetector_d1=600
+param EMDetector_d2=590
+param EMDetector_d3=300
+param EMDetector_d4=-300
+param EMDetector_d5=-590
+param EMDetector_d6=-600
+param EMDetector_B=2.756
+param EMDetector_lmagnet=508
+param EMDetector_hmagnet=300.0
+param EMDetector_wmagnet=190.0
+param EMDetector_hgap=127.0
+param EMDetector_wgap=50.0
+

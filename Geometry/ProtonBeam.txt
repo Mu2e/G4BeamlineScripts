@@ -1,0 +1,163 @@
+# ******************
+# Proton Beamline
+# ******************
+# Beam line layout taken from CJJ layout of 4/25/11
+param FFFQ11=187480
+param FFFQ12=187710
+param FFDQ21=191630
+param FFDQ22=191830
+param FFH121=195910
+param FFH122=196520
+param FFDQ31=197230
+param FFDQ32=197430
+param FFV121=198540
+param FFV122=199150
+param FFH111=200260
+param FFH112=200870
+param FFFQ41=201600
+param FFFQ42=201830
+param FFV111=202930
+param FFV112=203540
+
+# **************************************************************************
+# Beam Start Point: This corresponds to the focal point of the quad
+# doublet  FFFQ1 and   FFDQ2
+# I assume point-parallel-point focussing and work out the rest from there
+# **************************************************************************
+
+# Focal point corresponds to the waist in CJJ's beam envelope  
+param StartBeamL=180560
+
+# Beam line orientation is mapped the target and PS geometry
+# using the location of the end of the last magnet as reference
+param StartBeamXrot=-0.04/degree
+param StartBeamYrot=$EndBeamYrot
+param ctheta=cos($StartBeamXrot*degree)
+param stheta=sin($StartBeamXrot*degree)
+param cphi=cos($StartBeamYrot*degree)
+param sphi=sin($StartBeamYrot*degree)
+param cEtheta=cos($EndBeamXrot*degree)
+param sEtheta=sin($EndBeamXrot*degree)
+
+param dtheta=($StartBeamXrot-$EndBeamXrot)*degree
+param corr=($FFV112-$FFV111)*sqrt((1-cos($dtheta))/(1+cos($dtheta)))
+param -unset BeamOffsetX=($EndBeamOffset*$cEtheta-$corr*$stheta)*$sphi
+param -unset BeamOffsetY=-$EndBeamOffset*$sEtheta+$corr*$ctheta
+param -unset BeamOffsetZ=($EndBeamOffset*$cEtheta-$corr*$stheta)*$cphi
+param StartBeamX=$EndBeamX+$ctheta*$sphi*($FFV112-$StartBeamL)+$BeamOffsetX
+param StartBeamY=$EndBeamY-$stheta*($FFV112-$StartBeamL)+$BeamOffsetY
+param StartBeamZ=$EndBeamZ+$ctheta*$cphi*($FFV112-$StartBeamL)+$BeamOffsetZ
+
+# Adjusted by hand to get a 1mm rms at the target
+param -unset StartBeamdX=0.0
+param -unset StartBeamdY=0.0
+param -unset StartBeamdXp=0.00015
+param -unset StartBeamdYp=2.2*$StartBeamdXp
+
+param Rot=x$StartBeamXrot,y$StartBeamYrot
+param lenFQ1=$FFFQ12-$FFFQ11
+param lenDQ2=$FFDQ22-$FFDQ21
+param lenDQ3=$FFDQ32-$FFDQ31
+param lenFQ4=$FFFQ42-$FFFQ41
+
+# Quad gradients adjusted by hand to get point-parallel-point focussing
+param -unset FQ1g=30.4
+param -unset FQ4g=31.5
+param La=($FFFQ11+$FFFQ12)/2.0-$StartBeamL
+param Da=($FFDQ21+$FFDQ22-$FFFQ11-$FFFQ12)/2.0
+param -unset DQ2g=$FQ1g*($La/($La+$Da))*($lenFQ1/$lenDQ2)
+param Lb=$FFV112-($FFFQ41+$FFFQ42)/2.0+($EndBeamZ-$Tposition)*cphi
+param Db=($FFDQ21+$FFDQ22-$FFFQ11-$FFFQ12)/2.0
+param -unset DQ3g=$FQ1g*($La/($La+$Da))*($lenFQ4/$lenDQ3)
+
+genericquad FQ1 apertureRadius=75. fieldLength=$lenFQ1 \
+      ironColor=1,0,0 ironRadius=300. ironLength=$lenFQ1 \
+      fieldMaterial=Vacuum ironMaterial=Fe 
+
+genericquad DQ2 apertureRadius=75. fieldLength=$lenDQ2 \
+      ironColor=1,0,0 ironRadius=300. ironLength=$lenDQ2 \
+      fieldMaterial=Vacuum ironMaterial=Fe 
+
+genericquad DQ3 apertureRadius=75. fieldLength=$lenDQ3 \
+      ironColor=1,0,0 ironRadius=300. ironLength=$lenDQ3 \
+      fieldMaterial=Vacuum ironMaterial=Fe 
+
+genericquad FQ4 apertureRadius=75. fieldLength=$lenFQ4 \
+      ironColor=1,0,0 ironRadius=300. ironLength=$lenFQ4 \
+      fieldMaterial=Vacuum ironMaterial=Fe 
+
+param xFQ1=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFFQ11/2-$FFFQ12/2)
+param xDQ2=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFDQ21/2-$FFDQ22/2)
+param xDQ3=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFDQ31/2-$FFDQ32/2)
+param xFQ4=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFFQ41/2-$FFFQ42/2)
+
+param yFQ1=$StartBeamY-$stheta*($StartBeamL-$FFFQ11/2-$FFFQ12/2)
+param yDQ2=$StartBeamY-$stheta*($StartBeamL-$FFDQ21/2-$FFDQ22/2)
+param yDQ3=$StartBeamY-$stheta*($StartBeamL-$FFDQ31/2-$FFDQ32/2)
+param yFQ4=$StartBeamY-$stheta*($StartBeamL-$FFFQ41/2-$FFFQ42/2)
+
+param zFQ1=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFFQ11/2-$FFFQ12/2)
+param zDQ2=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFDQ21/2-$FFDQ22/2)
+param zDQ3=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFDQ31/2-$FFDQ32/2)
+param zFQ4=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFFQ41/2-$FFFQ42/2)
+
+place FQ1 gradient=$FQ1g z=$zFQ1 x=$xFQ1 y=$yFQ1 rotation=Z90.,$Rot
+place DQ2 gradient=$DQ2g z=$zDQ2 x=$xDQ2 y=$yDQ2 rotation=$Rot
+place DQ3 gradient=$DQ3g z=$zDQ3 x=$xDQ3 y=$yDQ3 rotation=$Rot
+place FQ4 gradient=$FQ4g z=$zFQ4 x=$xFQ4 y=$yFQ4 rotation=Z90.,$Rot
+
+genericbend V11 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldWidth=100. fieldHeight=100.  fieldLength=$FFV112-$FFV111 \
+         ironWidth=400.  ironHeight=210.   ironLength=$FFV112-$FFV111
+
+genericbend H11 ironColor=$SkyBlue fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldWidth=100. fieldHeight=100.  fieldLength=$FFH112-$FFH111 \
+         ironWidth=400.  ironHeight=210.   ironLength=$FFH112-$FFH111
+
+genericbend V12 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldWidth=100. fieldHeight=100.  fieldLength=$FFV122-$FFV121 \
+         ironWidth=400.  ironHeight=210.   ironLength=$FFV122-$FFV121
+
+genericbend H12 ironColor=$SkyBlue fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldWidth=100. fieldHeight=100.  fieldLength=$FFH122-$FFH121 \
+         ironWidth=400.  ironHeight=210.   ironLength=$FFH122-$FFH121
+
+param xV11=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFV111/2-$FFV112/2)
+param xH11=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFH111/2-$FFH112/2)
+param xV12=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFV121/2-$FFV122/2)
+param xH12=$StartBeamX+$ctheta*$sphi*($StartBeamL-$FFH121/2-$FFH122/2)
+
+param yV11=$StartBeamY-$stheta*($StartBeamL-$FFV111/2-$FFV112/2)
+param yH11=$StartBeamY-$stheta*($StartBeamL-$FFH111/2-$FFH112/2)
+param yV12=$StartBeamY-$stheta*($StartBeamL-$FFV121/2-$FFV122/2)
+param yH12=$StartBeamY-$stheta*($StartBeamL-$FFH121/2-$FFH122/2)
+
+param zV11=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFV111/2-$FFV112/2)
+param zH11=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFH111/2-$FFH112/2)
+param zV12=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFV121/2-$FFV122/2)
+param zH12=$StartBeamZ+$ctheta*$cphi*($StartBeamL-$FFH121/2-$FFH122/2)
+
+param -unset V11b=-0.3675
+param -unset H11b=0.0
+param -unset V12b=0.0
+param -unset H12b=0.0
+
+place V11 By=$V11b z=$zV11 x=$xV11 y=$yV11 rotation=Z90.,$Rot
+place H11 By=$H11b z=$zH11 x=$xH11 y=$yH11 rotation=$Rot
+place V12 By=$V12b z=$zV12 x=$xV12 y=$yV12 rotation=Z90.,$Rot
+place H12 By=$H12b z=$zH12 x=$xH12 y=$yH12 rotation=$Rot
+
+# ***********************
+#  Protection collimator
+# ***********************
+
+param BeamColl_l=1500
+param BeamColl_ir=9
+param BeamColl_or=250
+tubs BeamColl material=Fe color=$Tungsten length=$BeamColl_l \
+	innerRadius=$BeamColl_ir outerRadius=$BeamColl_or
+
+param BCx=$EndBeamX-$cEtheta*$sphi*$BeamColl_l/2
+param BCy=$EndBeamY+$sEtheta*$BeamColl_l/2
+param BCz=$EndBeamZ-$cEtheta*$cphi*$BeamColl_l/2
+place BeamColl x=$BCx y=$BCy z=$BCz rotation=x$EndBeamXrot,y$EndBeamYrot

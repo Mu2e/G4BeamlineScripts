@@ -30,7 +30,7 @@ param PBS_ang=$PBS_rot*$pi/180.0
 param PBS_Cave=$PBS_t/2
 
 if $IncludeFilter==1
-  param psTotL=$EMFilter_lu+$EMFilter_ld+$EMFilter_lspace+$EMDetector_lroom
+  param psTotL=$EMFilter_lu+$EMFilter_ld+$EMFilter_lspace
   param psTU_L=$EMFilter_lu
   param PBS_HT=$PBS_t+$EMDetector_hroom
   param PBS_Chan_X=$EMFilter_dx
@@ -228,13 +228,25 @@ place psTU rename=+U x=0 y=0 z=($psTotL-$psTU_L)/2.
 place psTD rename=+D x=0 y=0 z=-$psTU_L/2.
 endgroup
 
+# Aisle beside dump
+param -unset pStopAisleMat=CONCRETE
+param -unset pStopAisleCol=$Concrete
+box pStopAisle length=$PBS_L height=$PBS_HB width=$PBS_Top_W-$PBS_W \
+	material=$pStopAisleMat color=$pStopAisleCol kill=$PBS_Kill
+if $IncludeFilter==1
+  box psADirt material=CONCRETE color="0.3,0.1,0.1" kill=$PBS_Kill \
+	length=$psTotL-$PBS_L height=$PBS_HB width=$PBS_Top_W-$PBS_W
+endif
+
 # **********************************
 #   Add virtual detectors and kill zones
 # **********************************
 group pStop height=$psTotH+2 width=$PBS_Top_W+2 length=$psTotL+2
 place psB rename=+B x=($PBS_W-$PBS_Top_W)/2 y=-$PBS_HT/2. z=0
 place psT rename=+T x=0 y=$PBS_HB/2. z=0
-	
+place pStopAisle rename=+Aisle x=$PBS_W/2 y=-$PBS_HT/2 z=($psTotL-$PBS_L)/2
+place psADirt rename=+ADirt x=$PBS_W/2 y=-$PBS_HT/2 z=-$PBS_L/2
+
 if $FilterInDetector==1
   virtualdetector FiltIn color=invisible height=$PBS_HT width=$PBS_Top_W length=1 kill=1
   box psfrontKill color=invisible height=$PBS_HB width=$PBS_Top_W length=1 kill=1
