@@ -1,0 +1,43 @@
+# $Id$
+# $Date$
+# $Author$
+# 
+# Construction of the Building (Walls, DS Floor and DS Ceiling)
+#
+
+param Walls_m=CONCRETE
+param Walls_h=7200
+
+param DS_Ceiling_h=914.4
+param DS_Ceiling_y=0.5*($Walls_h+$DS_Ceiling_h)
+
+param DS_Floor_h=914.4
+param DS_Floor_y=-0.5*($Walls_h+$DS_Floor_h)
+
+param Soil_m=Soil
+
+if $Invisible_Walls==1
+    param Walls_c=Invisible
+    param Soil_c=Invisible
+endif
+
+# Walls around the solenoids
+extrusion Walls_1 length=$Walls_h vertices=-12300,30325.75;-12300,3561.25;-3391,3561.25;-3391,-2553.77;-7643.93,-20000;-7181,-20000;-2941,-2607;-2941,4361.25;-11400,4361.25;-11400,29311.25;-4200,29311.25;-4200,10710.75;188.81,10710.75;5108.48,30325.75;4644.54,30325.75;-124.64,11310.75;-3600,11310.75;-3600,30325.75 material=$Walls_m color=$Walls_c
+place Walls_1 x=0 y=0 z=0 rotation=X90
+
+extrusion Walls_2 length=$Walls_h vertices=3340,-7424;700,-7424;700,-7874;3790,-7874;3790,11413.24;8533.48,30325.75;8069.54,30325.75;3340,11468.81 material=$Walls_m color=$Walls_c
+place Walls_2 x=0 y=0 z=0 rotation=X90
+
+#DS Ceiling
+extrusion DS_Ceiling length=$DS_Ceiling_h vertices=-3600,30325.75;-12300,30325.75;-12300,3561.25;-3600,3561.25 material=$Walls_m color=$Walls_c
+place DS_Ceiling x=0 y=$DS_Ceiling_y z=0 rotation=X90
+
+#DS Floor
+extrusion DS_Floor length=$DS_Floor_h vertices=-3600,30325.75;-12300,30325.75;-12300,3561.25;-3600,3561.25 material=$Walls_m color=$Walls_c
+place DS_Floor x=0 y=$DS_Floor_y z=0 rotation=X90
+
+# Soil around the builing
+extrusion Soil_Around length=10000 vertices=-12300,30325.75;-12300,3561.25;-3391,3561.25;-3391,-2553.77;-7643.93,-20000;700,-20000;700,-7874;3790,-7874;3790,11413.24;8533.48,30325.75;4644.54,30325.75;-124.64,11310.75;-3600,11310.75;-3600,30325.75;-12299.9,30325.75;-12299.9,33000;10000,33000;10000,-22000;-15000,-22000;-15000,33000;-12300,33000 material=$Soil_m color=$Soil_c
+place Soil_Around x=0 y=0 z=0 rotation=X90
+
+

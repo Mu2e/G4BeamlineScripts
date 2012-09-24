@@ -123,6 +123,8 @@ param TS_Collimator_Color_layer=$Gray
 param Stop_Target_Color=$Purple
 param Tracker_Color=$Brown
 param Calorimeter_Color=$SoftGreen
+param -unset Walls_c="0.6,0.6,0.6,0.5"
+param -unset Soil_c="0.2,0.2,0,0.5"
 
 
 # ****************************************************************************
@@ -132,6 +134,7 @@ param Calorimeter_Color=$SoftGreen
 material B_Polyethylene density=0.95 C,0.612 H,0.116 B,0.05 O,0.222
 material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04 
 material HighSilicon density=8.53 Cu,0.97 Si,0.03 
+material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
 
 # ****************************************************************************
 #                                Physics Setup 
@@ -222,6 +225,15 @@ param MECO_G4_zTrans=(5.00+2.929)*1000
 
 include ./Geometry/GeometryParameters.txt
 include ./Geometry/PS_Proton_Beam_Stop.txt
+
+
+# ****************************************************************************
+#                                Walls, Floor, Ceiling
+# ****************************************************************************
+# The default walls, floor and ceiling are invisible.
+# If you would like to see everything, define Invisible_Walls parameter to 0
+param -unset Invisible_Walls=1
+include ./Geometry/Walls_Floor.txt
 
 
 # ****************************************************************************
