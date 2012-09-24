@@ -1,10 +1,16 @@
 # $Id$
 # $Date$
 # $Author$
-
+# D. Hedin August 2012. add end flanges from doc-1481 and doc-1383
+# cryostat and coils from drawings from Tom Page. Still not all final
+# drawing 3973.330-LC. Material is stainless steel. Use Fe
+# cryostat z from 3239-13989 10750 plus 7929 for g4bl offset 11168-21918
+#  from Tom Page 8/2012, the start z of cryostat will change by 50-100 mm 
+#  when a bellows is added in the future
 # ****************************************************************************
 #                       Detector Solenoid Cyrostat
 # ****************************************************************************
+########################  OLD before Aug 2012
 # From 
 #        "Collimators Design" 
 #        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
@@ -16,33 +22,171 @@
 #
 # I kludge together a toroidal shape with a series of cylinders- for pretty pictures with cut-away view.
 # Otherwise use a torus command and make crytostat invisible
-
+########################  above old before Aug 2012#########################
 param DScryo_innerR=950.0
 param DScryo_outerR=970.0
 param -unset DScryo_color=$Aluminum
+####  don't use
 param DScryo_length=((22608+0.5*980)-(11433-0.5*430))
 param DScryo_z=0.5*((22608+0.5*980)+(11433-0.5*430))
-
+#  inner radius 20 mm thick
 tubs DS_Cryo_a  \
      innerRadius=$DScryo_innerR outerRadius=$DScryo_outerR \
-     length=$DScryo_length \
+     length=10750 \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Al \
-     color=$TScryo_color_a \
-     kill=$TScryo_kill
+     material=Fe color=$TScryo_color_a kill=$TScryo_kill
+
+#tubs DS_Cryo_a  \
+#     innerRadius=$DScryo_innerR outerRadius=$DScryo_outerR \
+#     length=$DScryo_length \
+#     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+#     material=Al \
+#     color=$TScryo_color_a \
+#     kill=$TScryo_kill
 
 tubs DS_Cryo_b  \
      innerRadius=$DScryo_innerR outerRadius=$DScryo_outerR \
-     length=$DScryo_length \
+     length=10750. \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Al \
-     color=$TScryo_color_b \
+     material=Fe color=$TScryo_color_b kill=$TScryo_kill
+#  outer radius 25 mm thick. note some places have this 20 mm
+tubs DS_Cryo_c  innerRadius=1303. outerRadius=1328. length=10750 \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$TScryo_color_a kill=$TScryo_kill
+
+tubs DS_Cryo_d  innerRadius=1303. outerRadius=1328. length=10750 \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$TScryo_color_b kill=$TScryo_kill
+
+# inside of outer wall 
+tubs DS_Cryo_e  innerRadius=1134. outerRadius=1146.7 length=10425.4 \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$TScryo_color_a kill=$TScryo_kill
+
+tubs DS_Cryo_f  innerRadius=1134. outerRadius=1146.7 length=10425.4 \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$TScryo_color_b kill=$TScryo_kill
+# end walls
+tubs DS_Cryo_g  innerRadius=970. outerRadius=1303. length=30. \
+     material=Fe color=$TScryo_color_a kill=$TScryo_kill
+tubs DS_Cryo_h  innerRadius=970. outerRadius=1134. length=12.7 \
+     material=Fe color=$TScryo_color_a kill=$TScryo_kill
+
+# cryostat z from 3239-13989 10750 plus 7929 for g4bl offset 11168-21918
+     place DS_Cryo_a x=-7808.0 z=16543.
+     place DS_Cryo_b x=-7808.0 z=16543.
+     place DS_Cryo_c x=-7808.0 z=16543.
+     place DS_Cryo_d x=-7808.0 z=16543.
+     place DS_Cryo_e x=-7808.0 z=16543.
+     place DS_Cryo_f x=-7808.0 z=16543.
+     place DS_Cryo_g x=-7808.0 z=11183.
+     place DS_Cryo_g x=-7808.0 z=21903.
+     place DS_Cryo_h x=-7808.0 z=11336.65
+     place DS_Cryo_h x=-7808.0 z=21749.35
+
+# put in end systems. see doc 1481 for VPSP and IFB
+# Vacuum Pump Spool piece VPSP. mostly ignore flanges
+tubs VPSP_a \
+     innerRadius=950. outerRadius=970. \
+     length=2707. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe \
+     color=$Green \
      kill=$TScryo_kill
-     
-place DS_Cryo_a \
-      x=-2*$TScryo_Radius-1950 \
-      z=$DScryo_z
-      
-place DS_Cryo_b \
-      x=-2*$TScryo_Radius-1950 \
-      z=$DScryo_z
+tubs VPSP_b \
+     innerRadius=950. outerRadius=970. \
+     length=2707. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe \
+     color=$Invisible \
+     kill=$TScryo_kill
+
+# cryostat z from 3239-13989 10750 plus 7929 for g4bl offset 11168-21918
+# VPSP from 21918-24625
+ place VPSP_a x=-7808.0 z=23271.5
+ place VPSP_b x=-7808.0 z=23271.5
+
+# VPSP upstream flange
+tubs VPSPF_a innerRadius=970. outerRadius=1100. length=40. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+tubs VPSPF_b innerRadius=970. outerRadius=1100. length=40. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$Invisible kill=$TScryo_kill
+
+# VPSP end flange
+tubs VPSPF_c innerRadius=970. outerRadius=1250. length=40. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+tubs VPSPF_d innerRadius=970. outerRadius=1250. length=40. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$Invisible kill=$TScryo_kill
+
+# IFB beginning flange
+tubs VPSPF_e innerRadius=1100. outerRadius=1250. length=40. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+tubs VPSPF_f innerRadius=1100. outerRadius=1250. length=40. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$Invisible kill=$TScryo_kill
+
+ place VPSPF_a x=-7808.0 z=21938.
+ place VPSPF_b x=-7808.0 z=21938.
+ place VPSPF_c x=-7808.0 z=24605.
+ place VPSPF_d x=-7808.0 z=24605.
+ place VPSPF_e x=-7808.0 z=24645.
+ place VPSPF_f x=-7808.0 z=24645.
+
+# first part of instrumentation feedthrough bulkhead IFB
+tubs IFB_1_a innerRadius=1080. outerRadius=1100. length=720. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+
+tubs IFB_1_b innerRadius=1080. outerRadius=1100. length=720. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$Invisible kill=$TScryo_kill
+
+# IFB from 24625-25345
+ place IFB_1_a x=-7808.0 z=24985.
+ place IFB_1_b x=-7808.0 z=24985.
+
+# end wall 
+tubs IFB_2_a innerRadius=500. outerRadius=1080. length=110. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+
+tubs IFB_2_b \
+     innerRadius=500. outerRadius=1080. length=110. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe  color=$Invisible kill=$TScryo_kill
+
+ place IFB_2_a x=-7808.0 z=25290.
+ place IFB_2_b x=-7808.0 z=25290.
+
+# end window
+tubs IFB_3_a outerRadius=50. length=1.1 \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe  color=$Green kill=$TScryo_kill
+
+tubs IFB_3_b outerRadius=50. length=1.1 \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe color=$Invisible kill=$TScryo_kill
+
+ place IFB_3_a x=-7808.0 z=25345.
+ place IFB_3_b x=-7808.0 z=25345.
+
+# end plate; thinkness may be wrong 
+tubs IFB_4_a innerRadius=50. outerRadius=550. length=100. \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     material=Fe color=$Green kill=$TScryo_kill
+
+tubs IFB_4_b \
+     innerRadius=50. outerRadius=550. length=100. \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     material=Fe  color=$Invisible kill=$TScryo_kill
+
+ place IFB_4_a x=-7808.0 z=25395.
+ place IFB_4_b x=-7808.0 z=25395.
+
+
+

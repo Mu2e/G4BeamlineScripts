@@ -1,7 +1,7 @@
 # $Id$
 # $Date$
 # $Author$
-
+# Hedin comment out external shield placement
 # ****************************************************************************
 #                         Detector Solenoid Neutron Shield
 # ****************************************************************************
@@ -306,47 +306,47 @@ box DS_extNshield_4 \
 ##********************		
 ## top right	
 	
-place DS_extNshield_1 \
-      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
-      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
-      z=$DS_extNshield_z
+#place DS_extNshield_1 \
+#      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+#      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+#      z=$DS_extNshield_z
 
 ##********************
 ## top left
 		
-place DS_extNshield_3 \
-      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
-      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
-      z=$DS_extNshield_z
+#place DS_extNshield_3 \
+#      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+#      y=$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+#      z=$DS_extNshield_z
 
 ##********************		
 ## right
 
-place DS_extNshield_2 \
-      x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
-      y=0 \
-      z=$DS_extNshield_z
+#place DS_extNshield_2 \
+#      x=-2*$TScryo_Radius-1950-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+#      y=0 \
+#      z=$DS_extNshield_z
 
 ##********************
 ## bottom left	
 
-place DS_extNshield_3 \
-      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
-      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
-      z=$DS_extNshield_z
+#place DS_extNshield_3 \
+#      x=-2*$TScryo_Radius-1950+0.5*$DScryo_shield_distanceX1 \
+#      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+#      z=$DS_extNshield_z
 
 ##********************
 ## bottom right	
 
-place DS_extNshield_1 \
-      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
-      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
-      z=$DS_extNshield_z
+#place DS_extNshield_1 \
+#      x=-2*$TScryo_Radius-1950-0.5*$DScryo_shield_distanceX1 \
+#      y=-$DScryo_shield_distanceX1+0.5*$DS_extNshield_thick \
+#      z=$DS_extNshield_z
 
 ##********************		
 ## left		
 
-place DS_extNshield_4 \
-      x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
-      y=0 \
-      z=$DS_extNshield_z
+#place DS_extNshield_4 \
+#      x=-2*$TScryo_Radius-1950+$DScryo_shield_distanceX1-0.5*$DS_extNshield_thick \
+#      y=0 \
+#      z=$DS_extNshield_z
