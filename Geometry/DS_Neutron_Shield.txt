@@ -227,10 +227,10 @@ param DS_intNshield13_z=$DS_intNshield12_z+0.5*($DS_intNshield12_length+$DS_intN
  place DS_intNshield01_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z
  place DS_intNshield01_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield0_z
 
- place DS_intNshield1_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
- place DS_intNshield1_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
- place DS_intNshield2_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
- place DS_intNshield2_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
+# place DS_intNshield1_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
+# place DS_intNshield1_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield1_z
+# place DS_intNshield2_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
+# place DS_intNshield2_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield2_z
  place DS_intNshield3_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield3_z
  place DS_intNshield3_b x=-2*$TScryo_Radius-1950 z=$DS_intNshield3_z
  place DS_intNshield4_a x=-2*$TScryo_Radius-1950 z=$DS_intNshield4_z

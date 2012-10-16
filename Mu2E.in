@@ -102,7 +102,7 @@ param PaleVioletRed="0.86,0.44,0.57"
 param SkyBlue="0.53,0.80,0.92"
 param LightBlue="0.72,0.87,0.9"
 param ForestGreen="0.13,0.54,0.13"
-param DarkKhaki="0.74,0.71,0.42"
+param DarkKhaki="0.74,0.71,0.42,0.3"
 param SoftGreen="0.1,0.84,0.1"
 param Invisible="invisible"
 
@@ -111,7 +111,7 @@ param Invisible="invisible"
 
 param -unset Target_Color=$Tungsten
 param Coil_Color=$ForestGreen
-param TScryo_color=$DarkKhaki
+param -unset TScryo_color=$DarkKhaki
 param DScryo_color=$DarkKhaki
 param DS_intNshield_color=$LightBlue
 param DS_extNshield_color=$LightBlue
@@ -125,7 +125,6 @@ param Tracker_Color=$Brown
 param Calorimeter_Color=$SoftGreen
 param -unset Walls_c="0.6,0.6,0.6,0.5"
 param -unset Soil_c="0.2,0.2,0,0.5"
-
 
 # ****************************************************************************
 #                                Set materials
@@ -421,32 +420,32 @@ param Coll_05s_Rin=450.0
 param Coll_05s_x=-3904+$MECO_G4_xTrans
 param Coll_05s_z=3030+$MECO_G4_zTrans
 
-tubs Coll_05s_a \
-     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
-     length=$Coll_05s_length \
-     maxStep=0.1\
-     initialPhi=90.0 finalPhi=270.0 \
-     material=Cu \
-     color=$Blue \
-     kill=$TS_Collimator_kill
-     
-place Coll_05s_a \
-      x=$Coll_05s_x \
-      z=$Coll_05s_z
-
-tubs Coll_05s_b \
-     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
-     length=$Coll_05s_length \
-     maxStep=0.1\
-     initialPhi=-90.0 finalPhi=90.0 \
-     material=Cu \
-     color=$Invisible \
-     kill=$TS_Collimator_kill
-     
-place Coll_05s_b \
-      x=$Coll_05s_x \
-      z=$Coll_05s_z
-
+#tubs Coll_05s_a \
+#     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
+#     length=$Coll_05s_length \
+#     maxStep=0.1\
+#     initialPhi=90.0 finalPhi=270.0 \
+#     material=Cu \
+#     color=$Blue \
+#     kill=$TS_Collimator_kill
+#     
+#place Coll_05s_a \
+#      x=$Coll_05s_x \
+#      z=$Coll_05s_z
+#
+#tubs Coll_05s_b \
+#     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
+#     length=$Coll_05s_length \
+#     maxStep=0.1\
+#     initialPhi=-90.0 finalPhi=90.0 \
+#     material=Cu \
+#     color=$Invisible \
+#     kill=$TS_Collimator_kill
+#     
+#place Coll_05s_b \
+#      x=$Coll_05s_x \
+#      z=$Coll_05s_z
+#
 
 # ****************************************************************************
 #                         Detector Solenoid Neutron Shield

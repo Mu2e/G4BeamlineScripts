@@ -1,253 +1,181 @@
 # $Id$
 # $Date$
 # $Author$
-
+#
+#
 # ****************************************************************************
 #                        Transport Solenoid Cyrostat
-# ****************************************************************************
-# From 
-#        "Collimators Design" 
-#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
-# One important note at the outset: in order to supplement the shielding of 
-# all of the coils in the upstream TS (TSu), the current simulation assumes 
-# that the TSu inner cryostat wall is 2 cm thick, rather than the 1 cm listed 
-# in MIT's Conceptual Design Report. The additional centimeter is added inside
-# the warm bore, thus the revised warm bore of TSu is 24 cm. 
 #
-# I kludge together a toroidal shape with a series of cylinders- for pretty pictures with cut-away view.
-# Otherwise use a torus command and make crytostat invisible
+# ****************************************************************************
+# From Mu2e CDR of March 2012
+# Used simple version of the cryostat - toroid shapes.
+#
 
-param M_PI=3.14159
+
+# Some parameters from the previous cryostat
 param TScryo_innerR=240.0
 param TScryo_outerR=260.0
 param TScryo_Radius=2929
-param TScryo_Xcenter=-1.0*$TScryo_Radius
-param TScryo_Zcenter=5000.0
-param TScryo_Nsegs=40
-param TScryo_Length=$M_PI/2*($TScryo_Radius+$TScryo_outerR)/$TScryo_Nsegs
-param TScryo_angle=$M_PI/2/$TScryo_Nsegs
-
-param -unset TScryo_color=$Yellow
 
 param TScryo_color_a=$TScryo_color
 param TScryo_color_b=$Invisible
-param InitialPhi_a=90.0
-param FinalPhi_a=270.0
-param InitialPhi_b=-90.0
-param FinalPhi_b=90.0
 
-param TS_InitialPhi_a=180.0
-param TS_FinalPhi_a=360.0
-param TS_InitialPhi_b=0.0
-param TS_FinalPhi_b=180.0
 
-##********************
-## This is for making pretty pictures- use series of cylinders & make 1/2 azumithual invisible
 
-if $Pretty_Pictures==1
-   tubs TS1_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a \
-        material=Al \
-        color=$TScryo_color_a \
-        kill=$TScryo_kill
-   
-   tubs TS1_Cryo_b \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b \
-        material=Al \
-        color=$TScryo_color_b \
-        kill=$TScryo_kill
-   
-   place TS1_Cryo_a \
-         x=0 \
-         z=4500
-   
-   place TS1_Cryo_b \
-         x=0 \
-         z=4500
+# TSu Cryostat
+# !!! only inner part of cryostat
+torus TSu_1 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+majorRadius=2929.0 \
+initialPhi=0.0 \
+finalPhi=90.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   tubs TS2_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=$TScryo_Length \
-        initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a \
-        material=Al \
-        color=$TScryo_color_a \
-        kill=$TScryo_kill
-		   
-   tubs TS2_Cryo_b \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=$TScryo_Length \
-        initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b \
-        material=Al \
-        color=$TScryo_color_b \
-        kill=$TScryo_kill
-		   
-   do i 1 $TScryo_Nsegs
-      param TScryo_rot=-($i-0.5)*$TScryo_angle*180/$M_PI
-     
-      place TS2_Cryo_a \
-            x=$TScryo_Xcenter+$TScryo_Radius*cos(($i-0.5)*$TScryo_angle) \
-            z=$TScryo_Zcenter+$TScryo_Radius*sin(($i-0.5)*$TScryo_angle) \
-            rotation=Y$TScryo_rot
-      place TS2_Cryo_b \
-            x=$TScryo_Xcenter+$TScryo_Radius*cos(($i-0.5)*$TScryo_angle) \
-            z=$TScryo_Zcenter+$TScryo_Radius*sin(($i-0.5)*$TScryo_angle) \
-            rotation=Y$TScryo_rot
-	    
-   enddo
+place TSu_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
 
-   tubs TS3_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1950 \
-        initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a \
-        material=Al \
-        color=$TScryo_color_a \
-        kill=$TScryo_kill
-	
-   tubs TS3_Cryo_b \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1950 \
-        initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b \
-        material=Al \
-        color=$TScryo_color_b \
-        kill=$TScryo_kill
-	
-   place TS3_Cryo_a \
-         x=-$TScryo_Radius-0.5*1950 \
-         z=5000+$TScryo_Radius \
-         rotation=Y-90
+tube TSu_2 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   place TS3_Cryo_b \
-         x=-$TScryo_Radius-0.5*1950 \
-         z=5000+$TScryo_Radius \
-         rotation=Y-90
+place TSu_2 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
 
-   param TScryo_Xcenter=-1950-$TScryo_Radius
-   param TScryo_Zcenter=5000.0+2*$TScryo_Radius
+tube TSu_3 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+length=1045.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   tubs TS4_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=$TScryo_Length \
-        initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a \
-        material=Al \
-        color=$TScryo_color_a \
-        kill=$TScryo_kill
-	
-   tubs TS4_Cryo_b \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=$TScryo_Length \
-        initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b \
-        material=Al \
-        color=$TScryo_color_b \
-        kill=$TScryo_kill
+place TSu_3 x=0.0 y=0.0 z=4477.5
 
-   do i 1 $TScryo_Nsegs
-      param TScryo_rot=-90+($i-0.5)*$TScryo_angle*180/$M_PI
-      
-      place TS4_Cryo_a \
-            x=$TScryo_Xcenter-$TScryo_Radius*sin(($i-0.5)*$TScryo_angle) \
-            z=$TScryo_Zcenter-$TScryo_Radius*cos(($i-0.5)*$TScryo_angle) \
-            rotation=Y$TScryo_rot
-   
-      place TS4_Cryo_b \
-            x=$TScryo_Xcenter-$TScryo_Radius*sin(($i-0.5)*$TScryo_angle) \
-            z=$TScryo_Zcenter-$TScryo_Radius*cos(($i-0.5)*$TScryo_angle) \
-            rotation=Y$TScryo_rot
-   
-   enddo
+tube TSu_4 \
+innerRadius=250.0 \
+outerRadius=832.5 \
+length=30.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   tubs TS5_Cryo_a  \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a \
-        material=Al \
-        color=$TScryo_color_a \
-        kill=$TScryo_kill
-	
-   tubs TS5_Cryo_b \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b \
-        material=Al \
-        color=$TScryo_color_b \
-        kill=$TScryo_kill
-	
-   place TS5_Cryo_a \
-         x=-2*$TScryo_Radius-1950 \
-         z=5000+2*$TScryo_Radius+500
-	 
-   place TS5_Cryo_b \ 
-         x=-2*$TScryo_Radius-1950 \
-         z=5000+2*$TScryo_Radius+500
+place TSu_4 x=-3864.0 y=0.0 z=7929.0 rotation=Y90
 
-else
+tube TSu_5 \
+innerRadius=250.0 \
+outerRadius=725.0 \
+length=30.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-##********************
-## Use torus
+place TSu_5 x=0.0 y=0.0 z=3910.0
 
-   tubs TS1_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=0.0 finalPhi=360. \
-        material=Al \
-        color=invisible \
-        kill=$TScryo_kill
+torus TSu_6 \
+innerRadius=812.5 \
+outerRadius=832.5 \
+majorRadius=2929.0 \
+initialPhi=0.0 \
+finalPhi=90.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   place TS1_Cryo_a \
-         x=0 \
-         z=4500
+place TSu_6 x=-2929.0 y=0.0 z=5000.0 rotation=X90
 
-   torus TS2_Cryo_a \
-         innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-         majorRadius=2929\
-         initialPhi=0.0 finalPhi=90.0 \
-         material=Al \
-         color=invisible \
-         kill=$TScryo_kill
+tube TSu_7 \
+innerRadius=812.5 \
+outerRadius=832.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   place TS2_Cryo_a \
-         x=-2929 \
-         z=5000.0 \
-         rotation=X90.
+place TSu_7 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
 
-   tubs TS3_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1950 \
-        initialPhi=0.0 finalPhi=360. \
-        material=Al \
-        color=invisible \
-        kill=$TScryo_kill
-		
-   place TS3_Cryo_a \
-         x=-$TScryo_Radius-0.5*1950 \
-         z=5000+$TScryo_Radius \
-         rotation=Y-90
+tube TSu_8 \
+innerRadius=705.0 \
+outerRadius=725.0 \
+length=1045.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   torus TS4_Cryo_a \
-         innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-         majorRadius=2929\
-         initialPhi=0.0 finalPhi=90.0 \
-         material=Al \
-         color=invisible \
-         kill=$TScryo_kill
-	
-   place TS4_Cryo_a \
-         x=-4879 \
-         z=10858. \
-         rotation=X90.,Y180.
+place TSu_8 x=0.0 y=0.0 z=4477.5
 
-   tubs TS5_Cryo_a \
-        innerRadius=$TScryo_innerR outerRadius=$TScryo_outerR \
-        length=1000 \
-        initialPhi=0.0 finalPhi=360. \
-        material=Al \
-        color=invisible \
-        kill=$TScryo_kill
+# TSd Cryostat
+# !!! only inner part of cryostat
+torus TSd_1 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+majorRadius=2929.0 \
+initialPhi=180.0 \
+finalPhi=270.0 \
+material=Stainless316 \
+color=$TScryo_color
 
-   place TS5_Cryo_a \
-         x=-2*$TScryo_Radius-1950 \
-         z=5000+2*$TScryo_Radius+500
-endif
+place TSd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+tube TSd_2 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_2 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_3 \
+innerRadius=250.0 \
+outerRadius=270.0 \
+length=1220.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_3 x=-7808.0 y=0.0 z=11468.0
+
+tube TSd_4 \
+innerRadius=250.0 \
+outerRadius=832.5 \
+length=30.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_4 x=-3944.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_5 \
+innerRadius=250.0 \
+outerRadius=832.5 \
+length=30.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_5 x=-7808.0 y=0.0 z=12093.0 
+
+torus TSd_6 \
+innerRadius=812.5 \
+outerRadius=832.5 \
+majorRadius=2929.0 \
+initialPhi=180.0 \
+finalPhi=270.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_6 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+tube TSd_7 \
+innerRadius=812.5 \
+outerRadius=832.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_7 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_8 \
+innerRadius=812.5 \
+outerRadius=832.5 \
+length=1220.0 \
+material=Stainless316 \
+color=$TScryo_color
+
+place TSd_8 x=-7808.0 y=0.0 z=11468.0
+
+
