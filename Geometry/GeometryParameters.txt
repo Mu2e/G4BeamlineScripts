@@ -1,11 +1,13 @@
 # *********************************************
 # Geometry switches
 # *********************************************
-# Set to 1 to use the double groove option
-# also affects the position of tthe extinction monitor
-param -unset PSshield_2ndGroove=0
+# Set to 0 to use the no groove option
+# Set to 1 to use the single groove option
+# Set to 2 to use the double groove option
+# also affects the position of the extinction monitor
+param -unset PSshield_Grooves=2
 
-# Set to 0 to remove the beam entrance hole
+# Set to 0 to remove the beam entrance hole in HRS
 param -unset PSshield_Entrance=1
 
 # Set to 0 to remove the extinction monitor and filter
@@ -27,10 +29,10 @@ param -unset PSCinvisCol=$Aluminum,0.0
 param -unset PSEinvisCol=$Aluminum,0.0
 param -unset PSSinvisCol=$Aluminum,0.0
 param -unset HRSinvisCol=$Copper,0.0
-param -unset Iair="0,0,0,0.1"
-param -unset Igap="0,0,0,0.1"
+param -unset Iair=invisible
+param -unset Igap=invisible
 param -unset Iconc="0.5,0.5,0.4,0.9"
-
+param -unset TargetHall_color=$Blue,0.2
 # *********************************************
 # Mu2E to G4Beamline Coordinate Transformation
 # *********************************************
@@ -46,14 +48,14 @@ param Tposition=1764.5
 
 # End of primary beam line
 param EndBeamOffset=500.0
-param EndBeamXrot=-2.7253
-param EndBeamYrot=13.6210
+param EndBeamXrot=-2.7255
+param EndBeamYrot=13.6203
 param EndBeamX=1533.8
-param EndBeamY=273.0
+param EndBeamY=273.1
 param EndBeamZ=8056.6
 # Outside of HRS
 param OutHRSBeamX=517.6
-param OutHRSBeamY=61.6
+param OutHRSBeamY=61.5
 param OutHRSBeamZ=3861.0
 # Inside of HRS
 param InHRSBeamX=299.2
@@ -108,6 +110,10 @@ param PSshield_r2=250.0
 param PSshield_r3=300.0
 param PSshield_r4=300.0
 param PSshield_r5=150.0
+if $PSshield_Grooves==0
+  param PSshield_r0=537.0
+  param PSshield_z1=951.0
+endif
 
 param PSshield_OuterR=700.0
 param PSshield_AddR=700.0
@@ -116,6 +122,10 @@ param PSshield_Offset=-89.0
 # Controls how well the grooves are modelled
 param GrooveLengthSteps=6
 param GrooveAngleSteps=40
+if $PSshield_Grooves==0
+  param GrooveLengthSteps=1
+  param GrooveAngleSteps=1
+endif
 
 # Primary groove parameters
 #  cylinder radius, offset, pitch, azimuthal location
@@ -166,11 +176,11 @@ param PSendcap_winY1=100.0
 
 # Extinction beam window x,y and radius
 param PSendcap_winR2=100.0
-param PSendcap_winX2=-415.0
+param PSendcap_winX2=-590.0
 param PSendcap_winY2=455.0
-if $PSshield_2ndGroove==1
-  param PSendcap_winX2=-590.0
-  param PSendcap_winY2=455.0
+if $PSshield_Grooves==1
+  param PSendcap_winX2=-415.0
+  param PSendcap_winY2=445.0
 endif
 
 # ***********************
@@ -213,22 +223,22 @@ param pBeamStop_conc=1000.0
 # Extinction Monitor Filter parameters
 # *************************************
 # Nominal signal momentum (GeV)
-param EMFilter_p=3.0
+param EMFilter_p=4.2
 
 # Entrance location wrt centre axis of beam stop
-param EMFilter_dx=1000.0
+param EMFilter_dx=325.0
 param EMFilter_dy=1250.0
 
 # Entry collimator rotation angles (radians)
-param EMFilter_pitch=0.1645
-param EMFilter_yaw=0.0950
+param EMFilter_pitch=0.1653
+param EMFilter_yaw=0.0317
 
-if $PSshield_2ndGroove==1
-  param EMFilter_p=4.2
-  param EMFilter_dx=325.0
+if $PSshield_Grooves==1
+  param EMFilter_p=3.0
+  param EMFilter_dx=1000.0
   param EMFilter_dy=1250.0
-  param EMFilter_pitch=0.1653
-  param EMFilter_yaw=0.0317
+  param EMFilter_pitch=0.1645
+  param EMFilter_yaw=0.0950
 endif
 
 # Upstream collimator dimensions (mm)

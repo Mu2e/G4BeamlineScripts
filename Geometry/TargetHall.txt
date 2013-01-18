@@ -1,6 +1,7 @@
 # ********************************************
 #   Air volume between solenoid and beam stop 
 # ********************************************
+param -unset TargetHall_color=invisible
 param mat=$TargetHall_material
 param high=$TargetHall_h
 param dx=0.5*$pBeamStop_w+$pBeamStop_conc
@@ -18,7 +19,7 @@ param x4=$TargetHall_xside2
 param z4=$PScryostat_z+$PScryostat_Offset-$PSendcap_length-$PSendcap_winT
 param x5=$TargetHall_xside1
 param z5=$z1-($x1-$x5)/tan($ang)
-extrusion AirGap material=$mat color=invisible length=$high \
+extrusion AirGap material=$mat color=$TargetHall_color length=$high \
        vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
 
 # top and bottom kill zones

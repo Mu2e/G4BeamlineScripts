@@ -126,7 +126,7 @@ param ym=$yu+$filtMagL*sin($au)/2.+$d*cos($au)
 param zm=$zu-$filtMagL*cos($au)*$csa/2.+$d*sin($au)*$csa
 param xrot=$au*180/acos(-1)
 
-group psTDFMag material=$TargetHall_material color=$Iair \
+group psTDFMag material=$TargetHall_material color=$TargetHall_color \
       length=$filtMS height=$filtHT width=$PBS_Top_W
 place filtMag rotation=z-90,x$xrot,y$yrot x=$xm y=$ym z=$zm
 endgroup

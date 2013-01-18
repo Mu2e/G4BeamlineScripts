@@ -5,7 +5,7 @@
 ####################################
 param detBend=0.5*$EMDetector_B*0.02998*$EMDetector_lmagnet/(1000.0*$EMFilter_p)
 
-box EMRoom material=Air color=$Iair \
+box EMRoom material=Air color=$TargetHall_color \
   length=$EMDetector_lroom width=$EMDetector_wroom height=$EMDetector_hroom 
 
 # Create Si detector planes
