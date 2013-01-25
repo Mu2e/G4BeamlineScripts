@@ -156,6 +156,8 @@ material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 
 physics QGSP_BERT
 
+#physics QGSP_BERT_HP
+#muminuscapturefix 2.5
 
 # ****************************************************************************
 #                                Set the kill parameter on various shielding
@@ -281,7 +283,7 @@ if $Use_Field==1
       include ./Geometry/Mu2e_Mau7_Coils.txt
 
       fieldmap PSMagneticField  \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_PSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau8/Mu2e_PSMap.txt
  
       place PSMagneticField \
             x=-3904.0 \
@@ -289,7 +291,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap DSMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_DSMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau8/Mu2e_DSMap.txt
  
       place DSMagneticField \
             x=-3904.0 \
@@ -297,7 +299,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TSuMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_TSuMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau8/Mu2e_TSuMap.txt
  
       place TSuMagneticField \
             x=-3904.0 \
@@ -305,7 +307,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TsdMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7/Mu2e_TSdMap.txt
+               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau8/Mu2e_TSdMap.txt
  
       place TsdMagneticField \
             x=-3904.0 \
