@@ -1,0 +1,288 @@
+# $Id$
+# $Date$
+# $Author$
+
+# *********************
+# Muon Beam Dump
+# *********************
+# From Mu2e Proposal
+# Updated 7-18-2011 Dave Hedin, Joe Kozminski, Use corrected geometry
+# in WBS 5.8 Mu2e-doc-1351 dated 2011-02-16 with corrections from Rodger 
+# Bossert on 7-18-2011. use Blue for support tube color
+# Hedin 8-5-2011 replace Fe with POLYETHYLENE for BSTC,BSBS,CLV2
+# Hedin July 2012 add bulkhead and concrete after MBS
+# Hedin 1/2013 major change
+# MBS z range  21129-25245  -7929 to go to mu2e coordinates
+# stainless steel first
+tubs MS1a innerRadius=450. outerRadius=680. length=20. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS1b innerRadius=450. outerRadius=680. length=20. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS1a x=-7808.0 z=21139.
+place MS1b x=-7808.0 z=21139.
+
+tubs MS2a innerRadius=410. outerRadius=450. length=1160. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS2b innerRadius=410. outerRadius=450. length=1160. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS2a x=-7808.0 z=21709.
+place MS2b x=-7808.0 z=21709.
+      
+tubs MS3a innerRadius=540. outerRadius=560. length=1140. \
+material=POLYETHYLENE \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MS3b innerRadius=540. outerRadius=560. length=1140. \
+material=POLYETHYLENE \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS3a x=-7808.0 z=21719.
+place MS3b x=-7808.0 z=21719.
+
+tubs MS4a innerRadius=690. outerRadius=700. length=3300. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS4b innerRadius=690. outerRadius=700. length=3300. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS4a x=-7808.0 z=22779.
+place MS4b x=-7808.0 z=22779.
+
+tubs MS5a innerRadius=390. outerRadius=680. length=40. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS5b innerRadius=390. outerRadius=680. length=40. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS5a x=-7808.0 z=22309.
+place MS5b x=-7808.0 z=22309.
+
+tubs MS6a innerRadius=410. outerRadius=420. length=2896. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS6b innerRadius=410. outerRadius=420. length=2896. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS6a x=-7808.0 z=23777.
+place MS6b x=-7808.0 z=23777.
+
+tubs MS7a innerRadius=540. outerRadius=560. length=2080. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS7b innerRadius=540. outerRadius=560. length=2080. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS7a x=-7808.0 z=23369.
+place MS7b x=-7808.0 z=23369.
+
+tubs MS8a innerRadius=420. outerRadius=680. length=20. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS8b innerRadius=420. outerRadius=680. length=20. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS8a x=-7808.0 z=24419.
+place MS8b x=-7808.0 z=24419.
+
+tubs MS9a innerRadius=460. outerRadius=480. length=816. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS9b innerRadius=460. outerRadius=480. length=816. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS9a x=-7808.0 z=24837.
+place MS9b x=-7808.0 z=24837.
+
+tubs MS10a innerRadius=110. outerRadius=410. length=20. \
+material=POLYETHYLENE \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MS10b innerRadius=110. outerRadius=410. length=20. \
+material=POLYETHYLENE \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS10a x=-7808.0 z=25195.
+place MS10b x=-7808.0 z=25195.
+
+tubs MS11a innerRadius=110. outerRadius=460. length=20. material=Fe \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Red kill=$Muon_Dump_kill
+
+tubs MS11b innerRadius=110. outerRadius=460. length=20. material=Fe \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MS11a x=-7808.0 z=25235.
+place MS11b x=-7808.0 z=25235.
+
+# poly
+
+tubs MP1a innerRadius=390. outerRadius=410. length=1160. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP1b innerRadius=390. outerRadius=410. length=1160. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP1a x=-7808.0 z=21709.
+place MP1b x=-7808.0 z=21709.
+
+tubs MP2a innerRadius=450. outerRadius=540. length=1140. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP2b innerRadius=450. outerRadius=540. length=1140. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP2a x=-7808.0 z=21719.
+place MP2b x=-7808.0 z=21719.
+
+tubs MP3a innerRadius=560. outerRadius=690. length=1140. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP3b innerRadius=560. outerRadius=690. length=1140. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP3a x=-7808.0 z=21719.
+place MP3b x=-7808.0 z=21719.
+
+tubs MP4a innerRadius=320. outerRadius=390. length=600. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP4b innerRadius=320. outerRadius=390. length=600. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP4a x=-7808.0 z=22029.
+place MP4b x=-7808.0 z=22029.
+
+tubs MP5a innerRadius=350. outerRadius=410. length=1600. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP5b innerRadius=350. outerRadius=410. length=1600. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP5a x=-7808.0 z=23129.
+place MP5b x=-7808.0 z=23129.
+
+tubs MP6a innerRadius=420. outerRadius=540. length=2080. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP6b innerRadius=420. outerRadius=540. length=2080. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP6a x=-7808.0 z=23369.
+place MP6b x=-7808.0 z=23369.
+
+tubs MP7a innerRadius=560. outerRadius=690. length=2080. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP7b innerRadius=560. outerRadius=690. length=2080. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP7a x=-7808.0 z=23369.
+place MP7b x=-7808.0 z=23369.
+
+
+tubs MP8a innerRadius=320. outerRadius=410. length=1256. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP8b innerRadius=320. outerRadius=410. length=1256. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP8a x=-7808.0 z=24557.
+place MP8b x=-7808.0 z=24557.
+
+
+tubs MP9a innerRadius=420. outerRadius=460. length=796. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP9b innerRadius=420. outerRadius=460. length=796. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP9a x=-7808.0 z=24827.
+place MP9b x=-7808.0 z=24827.
+
+tubs MP10a innerRadius=110. outerRadius=320. length=60. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP10b innerRadius=110. outerRadius=320. length=60. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP10a x=-7808.0 z=25155.
+place MP10b x=-7808.0 z=25155.
+
+tubs MP11a innerRadius=110. outerRadius=410. length=20. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP11b innerRadius=110. outerRadius=410. length=20. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP11a x=-7808.0 z=25215.
+place MP11b x=-7808.0 z=25215.
+
+tubs MP12a innerRadius=40. outerRadius=110. length=120. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP12b innerRadius=40. outerRadius=110. length=120. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP12a x=-7808.0 z=25185.
+place MP12b x=-7808.0 z=25185.
+
+tubs MP13a innerRadius=280. outerRadius=320. length=700. \
+material=POLYETHYLENE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP13b innerRadius=280. outerRadius=320. length=700. \
+  material=POLYETHYLENE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible kill=$Muon_Dump_kill
+
+place MP13a x=-7808.0 z=24775.
+place MP13b x=-7808.0 z=24775.
+
