@@ -552,7 +552,9 @@ endif
 # ****************************************************************************
 # From Mu2e Proposal
 
-include ./Geometry/DS_Muon_Beam_Dump.txt
+#include ./Geometry/DS_Muon_Beam_Dump.txt
+include ./Geometry/DS_Muon_Beam_Dump_n14.txt
+
 
 
 # ****************************************************************************
