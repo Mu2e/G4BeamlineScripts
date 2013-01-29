@@ -84,4 +84,37 @@ place Coll_05_Det \
 beamlossntuple LostInTarget_Ntuple \
                require="z>13000&&z<14600&&x>-7908&&x<-7708&&y<100&&y>-100"
 	       
+
+virtualdetector Tracker_Det \
+    file=mu2eout \
+    length=0.3\
+    radius=680-0.5 \
+    color=$Red
+		
+place Tracker_Det \
+    x=-2*3904 \
+    z=8410-0.3+7929 \
+    rename=Tracker_DetIn
+ 
+place Tracker_Det \
+    x=-2*3904 \
+    z=11660+0.3+7929 \
+    rename=Tracker_DetOut
+
+virtualdetector Calorimeter_Det \
+    file=mu2eout \
+    length=0.3\
+    radius=690-0.5 \
+    color=$Red
+		
+place Calorimeter_Det \
+    x=-2*3904 \
+    z=11740-0.3+7929 \
+    rename=Calorimeter_DetIn
+ 
+place Calorimeter_Det \
+    x=-2*3904 \
+    z=13190+0.3+7929 \
+    rename=Calorimeter_DetOut
+
 endif
