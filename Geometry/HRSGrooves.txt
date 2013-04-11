@@ -15,15 +15,15 @@ param r=$PSshield_pGrooveRad
 param d0=$PSshield_pGrooveCentX0
 param aop=$PSshield_pGroovePosAng
 param aw=21
-param dx=$d0-$PSshield_z1*$st
-param ca=(sqrt(($dx*$ct)^2+($Rx^2-$r^2)*$st^2)-$dx*$ct^2)/($Rx*$st^2)
+param dx=$d0-$Zx1*$st
+param ca=(sqrt(($dx*$ct)^2+($Rx1^2-$r^2)*$st^2)-$dx*$ct^2)/($Rx1*$st^2)
 param a=acos($ca)*180/$pi
 param amin=floor($aop-$a+0.5)
 param amax=floor($aop+$a+0.5)
 param ca=(sqrt(($d0*$ct)^2+($R0^2-$r^2)*$st^2)-$d0*$ct^2)/($R0*$st^2)
 param a0min=$aop-acos($ca)*180/$pi
 param a0max=$aop+acos($ca)*180/$pi
-param dzamin=($Zx-$z0)/($a-acos($ca)*180/$pi)
+param dzamin=($Zx1-$Z0)/($a-acos($ca)*180/$pi)
 param dzamax=$dzamin
 
 if $PSshield_Grooves==2
@@ -32,16 +32,16 @@ if $PSshield_Grooves==2
   param rs=$PSshield_sGrooveRad
   param d0s=$PSshield_sGrooveCentX0
   param aos=$PSshield_sGroovePosAng
-  param dx=$d0s-$PSshield_z1*$sts
-  param ca=(sqrt(($dx*$cts)^2+($Rx^2-$rs^2)*$sts^2)-$dx*$cts^2)/($Rx*$sts^2)
+  param dx=$d0s-$Zx1*$sts
+  param ca=(sqrt(($dx*$cts)^2+($Rx1^2-$rs^2)*$sts^2)-$dx*$cts^2)/($Rx1*$sts^2)
   param a=acos($ca)*180/$pi
   if $aop>$aos 'param amin=floor($aos-$a+0.5)'
   if $aop<$aos 'param amax=floor($aos+$a+0.5)'
   param ca=(sqrt(($d0s*$cts)^2+($R0^2-$rs^2)*$sts^2)-$d0s*$cts^2)/($R0*$sts^2)
   if $aop>$aos 'param a0min=$aop-acos($ca)*180/$pi'
   if $aop<$aos 'param a0max=$aop+acos($ca)*180/$pi'
-  if $aop>$aos 'param dzamin=($Zx-$z0)/($a-acos($ca)*180/$pi)'
-  if $aop<$aos 'param dzamax=($Zx-$z0)/($a-acos($ca)*180/$pi)'
+  if $aop>$aos 'param dzamin=($Zx1-$Z0)/($a-acos($ca)*180/$pi)'
+  if $aop<$aos 'param dzamax=($Zx1-$Z0)/($a-acos($ca)*180/$pi)'
 endif
 # Groove equations
 # Ro(z) = Ro - sr*z = HS inner radius
@@ -72,15 +72,15 @@ do count 1 $na
   param phiF=$amax-($na-$count)*$resolution
   param i=($phiI+$phiF)/2
   param zmx=$PSshield_z1
-  param zmn=$z0+($Zx-$z0)/($nz+1)
-  if $i<$a0min 'param zmn=$z0+($a0min-$i)*$dzamin'
-  if $i>$a0max 'param zmn=$z0-($a0max-$i)*$dzamax'
-  if $zmn>$Zx 'param zmn=$Zx-($Zx-$z0)/($nz+1)'
+  param zmn=$Z0+($Zx1-$Z0)/($nz+1)
+  if $i<$a0min 'param zmn=$Z0+($a0min-$i)*$dzamin'
+  if $i>$a0max 'param zmn=$Z0-($a0max-$i)*$dzamax'
+  if $zmn>$Zx1 'param zmn=$Zx1-($Zx1-$Z0)/($nz+1)'
   param ap=abs($i+0.5-$aop)
   param ca=cos($ap*$pi/180.0)
   param sa=sin($ap*$pi/180.0)
-  param det=$r^2-($Rx*$sa)^2
-  if $det>0 'param zmx=($d0-$Rx*$ca+sqrt($det)/$ct)/$st'
+  param det=$r^2-($Rx1*$sa)^2
+  if $det>0 'param zmx=($d0-$Rx1*$ca+sqrt($det)/$ct)/$st'
   param Rg0=$R0
   param det=$r^2*(1-($ca*$st)^2)-($d0*$sa*$ct)^2
   if $det>0 'param Rg0=(sqrt($det)+$d0*$ca*$ct^2)/(1-($ca*$st)^2)'
@@ -88,9 +88,9 @@ do count 1 $na
     param as=abs($i+0.5-$aos)
     param cas=cos($as*$pi/180.0)
     param sas=sin($as*$pi/180.0)
-    param det=$rs^2-($Rx*$sas)^2
+    param det=$rs^2-($Rx1*$sas)^2
     param zs=$PSshield_z1
-    if $det>0 'param zs=($d0s-$Rx*$cas+sqrt($det)/$cts)/$sts'
+    if $det>0 'param zs=($d0s-$Rx1*$cas+sqrt($det)/$cts)/$sts'
     if $zs>$zmx 'param zmx=$zs'
     param Rg0s=$R0
     param det=$r^2*(1-($cas*$sts)^2)-($d0s*$sas*$cts)^2
@@ -100,8 +100,8 @@ do count 1 $na
   if $zmx<$PSshield_z1 'param zmx=$PSshield_z1'
   if $Rg0<$R0 'param Rg0=$R0'
   do j 0 $nz
-    param z=$zmn+$j*($Zx-$zmn)/$nz
-    param Rmin=$R0+($z-$z0)*($Rx-$R0)/($Zx-$z0)
+    param z=$zmn+$j*($Zx1-$zmn)/$nz
+    param Rmin=$R0+($z-$Z0)*($Rx1-$R0)/($Zx1-$Z0)
     param d=$d0-$z*$st
     param det=$r^2*(1-($ca*$st)^2)-($d*$sa*$ct)^2
     param Rg=$Rmin
@@ -114,17 +114,17 @@ do count 1 $na
      if $Rgs>$Rg 'param Rg=$Rgs'
     endif
     if $Rg<$Rmin 'param Rg=$Rmin'
-    if $j==0 'param zlist=$z0,$z'
+    if $j==0 'param zlist=$Z0,$z'
     if $j>0 'param zlist=$zlist,$z'
     if $j==0 'param rlist=$Rg0,$Rg'
     if $j>0 'param rlist=$rlist,$Rg'
-    if $j==0 'param olist=$radd,$radd'
-    if $j>0 'param olist=$olist,$radd'
+    if $j==0 'param olist=$rout,$rout'
+    if $j>0 'param olist=$olist,$rout'
   enddo
   polycone PSshieldG$i material=$m color=$Copper \
          initialPhi=$phiI finalPhi=$phiF \
-         innerRadius=$rlist,$Rx,$Rx,$Rx1,$Rx1,$Rx2,$Rx3,$Rx4 \
-         outerRadius=$olist,$radd,$radd,$rout,$rout,$rout,$rout,$rout \
-         z=$zlist,$zmx,$Zx1,$Zx1,$Zx2,$Zx2,$Zx3,$Zx4
+         innerRadius=$rlist,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+         outerRadius=$olist,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+         z=$zlist,$zmx,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
   place PSshieldG$i x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
 enddo

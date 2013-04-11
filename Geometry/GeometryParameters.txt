@@ -1,11 +1,14 @@
 # *********************************************
 # Geometry switches
 # *********************************************
-# Set to 0 to use the no groove option
-# Set to 1 to use the single groove option
-# Set to 2 to use the double groove option
+# Set to 0 to use the no groove HRS options
+# Set to 1 to use the single groove HRS option
+# Set to 2 to use the double groove HRS option
 # also affects the position of the extinction monitor
 param -unset PSshield_Grooves=2
+
+# Set to 1 to use the reduced material. no groove HRS option
+param -unset PSshield_reduced=0
 
 # Set to 0 to remove the beam entrance hole in HRS
 param -unset PSshield_Entrance=1
@@ -47,12 +50,11 @@ param Mu2E_z=7929
 param Tposition=1764.5
 
 # End of primary beam line
-param EndBeamOffset=500.0
-param EndBeamXrot=-2.7255
-param EndBeamYrot=13.6203
-param EndBeamX=1533.8
-param EndBeamY=273.1
-param EndBeamZ=8056.6
+param EndBeamXrot=-2.7247
+param EndBeamYrot=13.6211
+param EndBeamX=$Mu2E_x+5675.9
+param EndBeamY=$Mu2E_y+321.3
+param EndBeamZ=$Mu2E_z+1110.0
 # Outside of HRS
 param OutHRSBeamX=517.6
 param OutHRSBeamY=61.5
@@ -101,23 +103,48 @@ material Bronze density=8.53 Cu,0.97 Si,0.03
 param PSshield_z0=0.0
 param PSshield_z1=650.0
 param PSshield_z2=1240.5
-param PSshield_z3=2290.5
-param PSshield_z4=3530.0
-param PSshield_z5=3950.0
+param PSshield_z3=1240.5
+param PSshield_z4=2290.5
+param PSshield_z5=2290.5
+param PSshield_z6=3530.0
+param PSshield_z7=3950.0
 param PSshield_r0=433.0
 param PSshield_r1=300.0
-param PSshield_r2=250.0
-param PSshield_r3=300.0
-param PSshield_r4=300.0
-param PSshield_r5=150.0
-if $PSshield_Grooves==0
-  param PSshield_r0=537.0
-  param PSshield_z1=951.0
-endif
-
-param PSshield_OuterR=700.0
-param PSshield_AddR=700.0
+param PSshield_r2=300.0
+param PSshield_r3=250.0
+param PSshield_r4=250.0
+param PSshield_r5=300.0
+param PSshield_r6=300.0
+param PSshield_r7=150.0
+param PSshield_out=700.0
+param PSshield_Radd=0.0
+param PSshield_radd=0.0
+param PSshield_zadd=0.0
 param PSshield_Offset=-89.0
+if $PSshield_Grooves==0
+  if $PSshield_reduced==0
+    param PSshield_r0=537.0
+    param PSshield_z1=951.0
+  else
+    param PSshield_r0=650.0
+    param PSshield_r1=200.0
+    param PSshield_r2=200.0
+    param PSshield_r3=550.0
+    param PSshield_radd=200.0
+    param PSshield_Radd=738.0
+    param PSshield_zadd=1590.0
+    param PSshield_z1=1200.0
+    param PSshield_z2=1790.0
+    param PSshield_z3=2540.0
+    param PSshield_r4=300.0
+    param PSshield_r5=150.0
+    param PSshield_r6=400.0
+    param PSshield_r7=493.0
+    param PSshield_z4=3390.0
+    param PSshield_z5=3790.0
+    param PSshield_Offset=85.0
+  endif
+endif
 
 # Controls how well the grooves are modelled
 param GrooveLengthSteps=6
@@ -255,7 +282,7 @@ param EMFilter_wd=75
 param EMFilter_B=2.22
 
 # Magnet dimensions (mm)
-param EMFilter_lspace=4200.0
+param EMFilter_lspace=4330.0
 param EMFilter_lmagnet=3556.0
 param EMFilter_hmagnet=300.0
 param EMFilter_wmagnet=190.0

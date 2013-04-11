@@ -129,19 +129,25 @@ place PSCoilsupI x=$x y=$y z=$PScryostat_z+$PScoils_Offset
 # heat shield
 # **************************************************************
 param R0=$PSshield_r0
-param Rx=$PSshield_r1
-param Rx1=$PSshield_r2
-param Rx2=$PSshield_r3
-param Rx3=$PSshield_r4
-param Rx4=$PSshield_r5
-param z0=$PSshield_z0
-param Zx=$PSshield_z1
-param Zx1=$PSshield_z2
-param Zx2=$PSshield_z3
-param Zx3=$PSshield_z4
-param Zx4=$PSshield_z5
-param rout=$PSshield_OuterR
-param radd=$PSshield_AddR
+param Rx1=$PSshield_r1
+param Rx2=$PSshield_r2
+param Rx3=$PSshield_r3
+param Rx4=$PSshield_r4
+param Rx5=$PSshield_r5
+param Rx6=$PSshield_r6
+param Rx7=$PSshield_r7
+param Z0=$PSshield_z0
+param Zx1=$PSshield_z1
+param Zx2=$PSshield_z2
+param Zx3=$PSshield_z3
+param Zx4=$PSshield_z4
+param Zx5=$PSshield_z5
+param Zx6=$PSshield_z6
+param Zx7=$PSshield_z7
+param rout=$PSshield_out
+param radd=$PSshield_Radd
+param ra=$PSshield_radd
+param za=$PSshield_zadd
 param m=$PSshield_material
 
 param amin=$HRSinvisPhi+270.0
@@ -151,21 +157,46 @@ if $PSshield_Grooves>0
   include ./Geometry/HRSGrooves.txt
 endif
 
-polycone PSshieldV1 material=$m color=$Copper \
-	initialPhi=$HRSinvisPhi+180 finalPhi=$amin \
-	innerRadius=$PSshield_r0,$Rx,$Rx,$Rx1,$Rx1,$Rx2,$Rx3,$Rx4 \
- 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout,$rout,$rout \
-	z=$PSshield_z0,$Zx,$Zx1,$Zx1,$Zx2,$Zx2,$Zx3,$Zx4
-polycone PSshieldV2 material=$m color=$Copper \
-	initialPhi=$amax finalPhi=$HRSinvisPhi+360 \
-	innerRadius=$PSshield_r0,$Rx,$Rx,$Rx1,$Rx1,$Rx2,$Rx3,$Rx4 \
- 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout,$rout,$rout \
-	z=$PSshield_z0,$Zx,$Zx1,$Zx1,$Zx2,$Zx2,$Zx3,$Zx4
-polycone PSshieldI material=$m color=$HRSinvisCol \
+if $PSshield_reduced==1&&$PSshield_Grooves==0
+
+  polycone PSshieldV1 material=$m color=$Copper \
+	initialPhi=$HRSinvisPhi+180 finalPhi=$HRSinvisPhi+360 \
+	innerRadius=$R0,$Rx1,$ra,$ra,$Rx2,$Rx3 \
+ 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout \
+	z=$Z0,$Zx1,$za,$za,$Zx2,$Zx3
+
+  polycone PSshieldI material=$m color=$HRSinvisCol \
 	initialPhi=$HRSinvisPhi finalPhi=$HRSinvisPhi+180 \
-	innerRadius=$PSshield_r0,$Rx,$Rx,$Rx1,$Rx1,$Rx2,$Rx3,$Rx4 \
- 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout,$rout,$rout \
-	z=$PSshield_z0,$Zx,$Zx1,$Zx1,$Zx2,$Zx2,$Zx3,$Zx4
+	innerRadius=$R0,$Rx1,$ra,$ra,$Rx2,$Rx3 \
+ 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout \
+	z=$Z0,$Zx1,$za,$za,$Zx2,$Zx3
+	
+  polycone PSshieldV2 material=$m color=$Copper \
+	initialPhi=0 finalPhi=360 \
+	innerRadius=$Rx4,$Rx5 \
+ 	outerRadius=$Rx6,$Rx7 \
+	z=$Zx4,$Zx5
+
+else
+
+  polycone PSshieldV1 material=$m color=$Copper \
+	initialPhi=$HRSinvisPhi+180 finalPhi=$amin \
+	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+ 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+  polycone PSshieldV2 material=$m color=$Copper \
+	initialPhi=$amax finalPhi=$HRSinvisPhi+360 \
+	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+ 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+  polycone PSshieldI material=$m color=$HRSinvisCol \
+	initialPhi=$HRSinvisPhi finalPhi=$HRSinvisPhi+180 \
+	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+ 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+
+endif
+
 place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
 place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
 place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
@@ -191,6 +222,6 @@ param Ypipe=$YbeamU+$Zpipe*$dy/$dz
 param theta=atan(sqrt($dx*$dx+$dy*$dy)/$ZbeamD)*180/$pi
 param phi=atan2($dy,$dx)*180/$pi
 if $PSshield_Entrance==1
-  place PSpipe x=$Xpipe y=$Ypipe z=$PScryostat_z+$PSshield_Offset+$Zx4+$Zpipe \
+  place PSpipe x=$Xpipe y=$Ypipe z=$PScryostat_z+$PSshield_Offset+$Zx7+$Zpipe \
 	rotation=y$theta,z$phi
 endif
