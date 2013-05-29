@@ -240,9 +240,13 @@ param TargetHall_xside2=$Mu2E_x+7229
 # z-coordinate of back wall
 param TargetHall_z=$Mu2E_z-15301
 # y-coordinate of hall center
-param TargetHall_y=$Mu2E_y+272
+# Vladimir Khalatyan changes: Start
+#param TargetHall_y=$Mu2E_y+272
+param TargetHall_y=$Mu2E_y+339.6
 # hall height
-param TargetHall_h=6402
+#param TargetHall_h=6402
+param TargetHall_h=4738.8
+# VK changes: Done
 # width of aisle beside beam stop
 param TargetHall_aisle=1072
 

@@ -6,8 +6,13 @@
 #
 
 param Walls_m=CONCRETE_MARS
-param Walls_h=7200-50.8
-param Walls_y=0.5*50.8
+#param Walls_h=7200-50.8
+# New walls height = 5486mm according to Mu2e Conventional Facilities
+# Requirements Specification (2013-05-02)
+param Walls_h=5486
+# Beam height = 2312mm
+# In this case floor intersects with CRV. Floor is moved lower for 38mm
+param Walls_y=$Walls_h*0.5-2312-338
 
 param DS_Ceiling_h=914.4
 param DS_Ceiling_y=0.5*($Walls_h+$DS_Ceiling_h)+$Walls_y

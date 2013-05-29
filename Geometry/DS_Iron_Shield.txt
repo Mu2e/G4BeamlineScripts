@@ -50,69 +50,69 @@ place DS_Cryo_shield_top x=-7808 y=1809.76 z=17241.
 # flat. For simplicity (and that it may not matter), we'll ignore the
 # base steel supports and have the concrete blocks extend from the
 # top to .75" above the floor and so a height of 5070-19.1= 5050.9 
-box DS_Cryo_shield_side_1 height=5050.9 width=458. length=7264.4\
+box DS_Cryo_shield_side_1 height=4226.26 width=458. length=7264.4\
     material=CONCRETE color=$DS_Iron_Shield_color
 
-box DS_Cryo_shield_side_2 height=5050.9 width=458. length=5448.3\
+box DS_Cryo_shield_side_2 height=4226.26 width=458. length=5448.3\
     material=CONCRETE color=$DS_Iron_Shield_color
 # these are the stainless steel support structures 
-box DS_Cryo_shield_side_3 height=5070. width=508. length=19.\
+box DS_Cryo_shield_side_3 height=4230.76 width=508. length=19.\
     material=Fe color=$DS_Iron_Shield_color
-box DS_Cryo_shield_side_4 height=5070. width=19. length=254.\
+box DS_Cryo_shield_side_4 height=4230.76 width=19. length=254.\
     material=Fe color=$DS_Iron_Shield_color
-box DS_Cryo_shield_side_5 height=5070. width=19. length=508.\
+box DS_Cryo_shield_side_5 height=4230.76 width=19. length=508.\
     material=Fe color=$DS_Iron_Shield_color
 # repeat except make invisible
-box DS_Cryo_shield_side_1i height=5050.9 width=458. length=7264.4\
+box DS_Cryo_shield_side_1i height=4226.26 width=458. length=7264.4\
     material=CONCRETE color=$Invisible
-box DS_Cryo_shield_side_2i height=5050.9 width=458. length=5448.3\
+box DS_Cryo_shield_side_2i height=4226.26 width=458. length=5448.3\
     material=CONCRETE color=$Invisible
 # these are the stainless steel support structures 
-box DS_Cryo_shield_side_3i height=5070. width=508. length=19.\
+box DS_Cryo_shield_side_3i height=4230.76 width=508. length=19.\
     material=Fe color=$Invisible
-box DS_Cryo_shield_side_4i height=5070. width=19. length=254.\
+box DS_Cryo_shield_side_4i height=4230.76 width=19. length=254.\
     material=Fe color=$Invisible
-box DS_Cryo_shield_side_5i height=5070. width=19. length=508.\
+box DS_Cryo_shield_side_5i height=4230.76 width=19. length=508.\
     material=Fe color=$Invisible
 
 # right side x=-7808-3962.4/2+458/2= -7808 - 1752.2 = -9560.2
 # highest y is bottom on top layer =y=2550.16-458=2092.16
 # z goes from 2875 to 15749 (plus 7929 for g4bl offset 10804-23678)
 # first is steel support
-place DS_Cryo_shield_side_3 x=-9560.2 y=-954.24 z=10813.55
+place DS_Cryo_shield_side_3 x=-9560.2 y=-534.62 z=10813.55
 # next is long concrete, 1" air gap on each side, z from 2919.5-10183.9
-place DS_Cryo_shield_side_1 x=-9560.2 y=-949.19 z=14480.7
+place DS_Cryo_shield_side_1 x=-9560.2 y=-536.87 z=14480.7
 # middle steel support
-place DS_Cryo_shield_side_3 x=-9560.2 y=-954.24 z=18147.85
+place DS_Cryo_shield_side_3 x=-9560.2 y=-534.62 z=18147.85
 # next is short concrete, 1" air gap on each side, z from 10253.8-15702.1
-place DS_Cryo_shield_side_2 x=-9560.2 y=-949.19 z=20906.95
+place DS_Cryo_shield_side_2 x=-9560.2 y=-536.87 z=20906.95
 # end steel support has extra 2.4 mm of air
-place DS_Cryo_shield_side_3 x=-9560.2 y=-954.24 z=23668.45
+place DS_Cryo_shield_side_3 x=-9560.2 y=-534.62 z=23668.45
 # side walls of steel supports
-place DS_Cryo_shield_side_4 x=-9823.7 y=-954.24 z=10931.
-place DS_Cryo_shield_side_4 x=-9296.7 y=-954.24 z=10931.
-place DS_Cryo_shield_side_4 x=-9823.7 y=-954.24 z=23551.
-place DS_Cryo_shield_side_4 x=-9296.7 y=-954.24 z=23551.
-place DS_Cryo_shield_side_5 x=-9823.7 y=-954.24 z=18147.85
-place DS_Cryo_shield_side_5 x=-9296.7 y=-954.24 z=18147.85
+place DS_Cryo_shield_side_4 x=-9823.7 y=-534.62 z=10931.
+place DS_Cryo_shield_side_4 x=-9296.7 y=-534.62 z=10931.
+place DS_Cryo_shield_side_4 x=-9823.7 y=-534.62 z=23551.
+place DS_Cryo_shield_side_4 x=-9296.7 y=-534.62 z=23551.
+place DS_Cryo_shield_side_5 x=-9823.7 y=-534.62 z=18147.85
+place DS_Cryo_shield_side_5 x=-9296.7 y=-534.62 z=18147.85
 # left side x= -7808 + 1752.2 = -6055.8
 # first is steel support
-place DS_Cryo_shield_side_3i x=-6055.8 y=-954.24 z=10813.55
+place DS_Cryo_shield_side_3i x=-6055.8 y=-534.62 z=10813.55
 # next is long concrete, 1" air gap on each side, z from 2919.5-10183.9
-place DS_Cryo_shield_side_1i x=-6055.8 y=-949.19 z=14480.7
+place DS_Cryo_shield_side_1i x=-6055.8 y=-536.87 z=14480.7
 # middle steel support
-place DS_Cryo_shield_side_3i x=-6055.8 y=-954.24 z=18147.85
+place DS_Cryo_shield_side_3i x=-6055.8 y=-534.62 z=18147.85
 # next is short concrete, 1" air gap on each side, z from 10253.8-15702.1
-place DS_Cryo_shield_side_2i x=-6055.8 y=-949.19 z=20906.95
+place DS_Cryo_shield_side_2i x=-6055.8 y=-536.87 z=20906.95
 # end steel support has extra 2.4 mm of air
-place DS_Cryo_shield_side_3i x=-6055.8 y=-954.24 z=23668.45
+place DS_Cryo_shield_side_3i x=-6055.8 y=-534.62 z=23668.45
 # side walls of steel supports
-place DS_Cryo_shield_side_4i x=-6319.3 y=-954.24 z=10931.
-place DS_Cryo_shield_side_4i x=-5792.3 y=-954.24 z=10931.
-place DS_Cryo_shield_side_4i x=-6319.3 y=-954.24 z=23551.
-place DS_Cryo_shield_side_4i x=-5792.3 y=-954.24 z=23551.
-place DS_Cryo_shield_side_5i x=-6319.3 y=-954.24 z=18147.85
-place DS_Cryo_shield_side_5i x=-5792.3 y=-954.24 z=18147.85
+place DS_Cryo_shield_side_4i x=-6319.3 y=-534.62 z=10931.
+place DS_Cryo_shield_side_4i x=-5792.3 y=-534.62 z=10931.
+place DS_Cryo_shield_side_4i x=-6319.3 y=-534.62 z=23551.
+place DS_Cryo_shield_side_4i x=-5792.3 y=-534.62 z=23551.
+place DS_Cryo_shield_side_5i x=-6319.3 y=-534.62 z=18147.85
+place DS_Cryo_shield_side_5i x=-5792.3 y=-534.62 z=18147.85
 
 # do end cap
 # z 15749 to 18049 plus 7929 23678-25978 for g4bl offset per doc-1371 
