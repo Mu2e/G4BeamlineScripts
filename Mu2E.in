@@ -154,10 +154,10 @@ material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 # neutron 2112 anti_neutron -2112
 # gamma 22
 
-physics QGSP_BERT
+#physics QGSP_BERT
 
-#physics QGSP_BERT_HP
-#muminuscapturefix 2.5
+physics QGSP_BERT_HP
+muminuscapturefix 2.5
 
 # ****************************************************************************
 #                                Set the kill parameter on various shielding
@@ -195,8 +195,8 @@ if $Pretty_Pictures==1
    particlecolor e-=$Green
 
 else
-   trackcuts kineticEnergyCut=0.10 \
-             keep=proton,mu+,mu-,pi+,pi-,e+,e-
+   trackcuts kineticEnergyCut=0.0 \
+             keep=proton,mu+,mu-,pi+,pi-,e+,e-,neutron
 
 endif
 
@@ -208,7 +208,7 @@ endif
 # interesting event with the same Random Number that it(event) had in 
 # previous run
 
-param -unset Random_Seed=EventNumber
+param -unset Random_Seed=Time
 
 randomseed $Random_Seed
 
