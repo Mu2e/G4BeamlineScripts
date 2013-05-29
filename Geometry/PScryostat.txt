@@ -177,6 +177,124 @@ if $PSshield_reduced==1&&$PSshield_Grooves==0
  	outerRadius=$Rx6,$Rx7 \
 	z=$Zx4,$Zx5
 
+    place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+    place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+    place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+
+elseif $PSshield_new==1&&$PSshield_Grooves==0 
+    
+  polycone HRS_St_S \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r0,$PSshield_r1,$PSshield_r1,$PSshield_r1,$PSshield_r1 \
+    outerRadius=$PSshield_r2,$PSshield_r3,$PSshield_r3,$PSshield_r3,$PSshield_r3 \
+    initialPhi=90 \
+    finalPhi=270 \
+    material=Stainless316 \
+    color="0,0,1"
+
+  polycone HRS_St_S_invis \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r0,$PSshield_r1,$PSshield_r1,$PSshield_r1,$PSshield_r1 \
+    outerRadius=$PSshield_r2,$PSshield_r3,$PSshield_r3,$PSshield_r3,$PSshield_r3 \
+    initialPhi=-90 \
+    finalPhi=90 \
+    material=Stainless316 \
+    color=invisible
+
+  place HRS_St_S \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  place HRS_St_S_invis \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  polycone HRS_Water_in \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r2,$PSshield_r3,$PSshield_r3,$PSshield_r3,$PSshield_r3 \
+    outerRadius=$PSshield_r4,$PSshield_r5,$PSshield_r5,$PSshield_r5,$PSshield_r5 \
+    initialPhi=90 \
+    finalPhi=270 \
+    material=WATER \
+    color="0,0,0"
+
+  polycone HRS_Water_in_invis \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r2,$PSshield_r3,$PSshield_r3,$PSshield_r3,$PSshield_r3 \
+    outerRadius=$PSshield_r4,$PSshield_r5,$PSshield_r5,$PSshield_r5,$PSshield_r5 \
+    initialPhi=-90 \
+    finalPhi=90 \
+    material=WATER \
+    color=invisible
+
+  place HRS_Water_in \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  place HRS_Water_in_invis \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  polycone HRS_Bronze \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r4,$PSshield_r5,$PSshield_r5,$PSshield_r5,$PSshield_r5 \
+    outerRadius=$PSshield_r6,$PSshield_r6,$PSshield_r6,$PSshield_r7,$PSshield_r7 \
+    initialPhi=90 \
+    finalPhi=270 \
+    material=Bronze \
+    color=".5,.5,.5"
+
+  polycone HRS_Bronze_invis \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r4,$PSshield_r5,$PSshield_r5,$PSshield_r5,$PSshield_r5 \
+    outerRadius=$PSshield_r6,$PSshield_r6,$PSshield_r6,$PSshield_r7,$PSshield_r7 \
+    initialPhi=-90 \
+    finalPhi=90 \
+    material=Bronze \
+    color=invisible
+
+  place HRS_Bronze \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  place HRS_Bronze_invis \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  polycone HRS_Water_out \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r6,$PSshield_r6,$PSshield_r6,$PSshield_r7,$PSshield_r7 \
+    outerRadius=750.0,750.0,750.0,750.0,750.0 \
+    initialPhi=90 \
+    finalPhi=270 \
+    material=WATER \
+    color="0,0.8,0"
+
+  polycone HRS_Water_out_invis \
+    z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
+    innerRadius=$PSshield_r6,$PSshield_r6,$PSshield_r6,$PSshield_r7,$PSshield_r7 \
+    outerRadius=750.0,750.0,750.0,750.0,750.0 \
+    initialPhi=-90 \
+    finalPhi=90 \
+    material=WATER \
+    color=invisible
+
+  place HRS_Water_out \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
+  place HRS_Water_out_invis \
+    x=0.0 \
+    y=0.0 \
+    z=$G4bl_Mars_z
+
 else
 
   polycone PSshieldV1 material=$m color=$Copper \
@@ -195,11 +313,11 @@ else
  	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
 	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
 
+    place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+    place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+    place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
 endif
 
-place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
 
 # **************************************************************
 # Beam entry pipe

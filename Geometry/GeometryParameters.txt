@@ -10,6 +10,9 @@ param -unset PSshield_Grooves=2
 # Set to 1 to use the reduced material. no groove HRS option
 param -unset PSshield_reduced=0
 
+# Set to 1 to use the new (May 21) HRS version. no groove HRS option
+param -unset PSshield_new=0
+
 # Set to 0 to remove the beam entrance hole in HRS
 param -unset PSshield_Entrance=1
 
@@ -125,6 +128,23 @@ if $PSshield_Grooves==0
   if $PSshield_reduced==0
     param PSshield_r0=537.0
     param PSshield_z1=951.0
+    if $PSshield_new==1
+      param PSshield_r0=650.0
+      param PSshield_r1=200.0
+      param PSshield_r2=670.0
+      param PSshield_r3=220.0
+      param PSshield_r4=680.0
+      param PSshield_r5=230.0
+      param PSshield_r6=700.0
+      param PSshield_r7=500.0
+      param PSshield_r8=750.0
+      param PSshield_z0=1210.0
+      param PSshield_z1=2410.0
+      param PSshield_z2=3000.0
+      param PSshield_z3=3500.0
+      param PSshield_z4=5000.0
+      param G4bl_Mars_z=-1139.0
+    endif 
   else
     param PSshield_r0=650.0
     param PSshield_r1=200.0

@@ -63,7 +63,7 @@ if $Use_Proton_Target==5
     ##********************
     ## Target Hold Ring
     
-    param Target_Hold_r2=$CL1_inner_r
+    param Target_Hold_r2=200
     param Target_Hold_r1=$Target_Hold_r2-10.0
     param Target_Hold_l=10.0
     param Target_Hold_mat=Ti

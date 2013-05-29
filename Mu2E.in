@@ -348,7 +348,7 @@ endif
 ## This is used to output the magnetic field along the reference line 
 ## through the center of the solenoidal and torroidal coils.
 
-probefield file=./Geometry/FieldProbePoints.txt
+#probefield file=./Geometry/FieldProbePoints.txt
 
 
 # ****************************************************************************
