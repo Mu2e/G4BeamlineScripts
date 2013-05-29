@@ -79,12 +79,12 @@ if $Use_Proton_Target==5
         ##********************
         ## Target support rods (front side) 
 
-        param Bx=$L*sin($TYangle*3.14159/180)+$R*sin(($rod_angle+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
-        param By=$R*cos(($rod_angle+$i*120)*3.14159/180)
+        param Bx=$L*sin($TYangle*3.14159/180)+($R+0.5)*sin(($rod_angle+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
+        param By=($R+0.5)*cos(($rod_angle+$i*120)*3.14159/180)
         param Bz=$L*cos($TYangle*3.14159/180)-$R*sin(($rod_angle+$i*120)*3.14159/180)*sin($TYangle*3.14159/180)
         
-        param Cx=$Target_Hold_r1*sin(($rod_angle+$i*120)*3.14159/180)
-        param Cy=$Target_Hold_r1*cos(($rod_angle+$i*120)*3.14159/180)
+        param Cx=($Target_Hold_r1-0.5)*sin(($rod_angle+$i*120)*3.14159/180)
+        param Cy=($Target_Hold_r1-0.5)*cos(($rod_angle+$i*120)*3.14159/180)
         param Cz=0
         
         
@@ -106,12 +106,12 @@ if $Use_Proton_Target==5
         ##********************
         ## Target support rods (back side)
         
-        param Dx=-$L*sin($TYangle*3.14159/180)+$R*sin(($rod_angle+180+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
-        param Dy=$R*cos(($rod_angle+180+$i*120)*3.14159/180)
+        param Dx=-$L*sin($TYangle*3.14159/180)+($R+0.5)*sin(($rod_angle+180+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
+        param Dy=($R+0.5)*cos(($rod_angle+180+$i*120)*3.14159/180)
         param Dz=-$L*cos($TYangle*3.14159/180)-$R*sin(($rod_angle+180+$i*120)*3.14159/180)*sin($TYangle*3.14159/180)
         
-        param Fx=$Target_Hold_r1*sin(($rod_angle+180+$i*120)*3.14159/180)
-        param Fy=$Target_Hold_r1*cos(($rod_angle+180+$i*120)*3.14159/180)
+        param Fx=($Target_Hold_r1-0.5)*sin(($rod_angle+180+$i*120)*3.14159/180)
+        param Fy=($Target_Hold_r1-0.5)*cos(($rod_angle+180+$i*120)*3.14159/180)
         param Fz=0
         
         param rod_x2=.5*($Dx+$Fx)
