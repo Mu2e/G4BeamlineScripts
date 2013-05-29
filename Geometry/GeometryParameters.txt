@@ -5,13 +5,13 @@
 # Set to 1 to use the single groove HRS option
 # Set to 2 to use the double groove HRS option
 # also affects the position of the extinction monitor
-param -unset PSshield_Grooves=2
+param -unset PSshield_Grooves=0
 
 # Set to 1 to use the reduced material. no groove HRS option
 param -unset PSshield_reduced=0
 
 # Set to 1 to use the new (May 21) HRS version. no groove HRS option
-param -unset PSshield_new=0
+param -unset PSshield_new=1
 
 # Set to 0 to remove the beam entrance hole in HRS
 param -unset PSshield_Entrance=1
