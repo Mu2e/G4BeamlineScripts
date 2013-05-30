@@ -14,7 +14,7 @@ param -unset PSshield_reduced=0
 param -unset PSshield_new=1
 
 # Set to 0 to remove the beam entrance hole in HRS
-param -unset PSshield_Entrance=1
+param -unset PSshield_Entrance=0
 
 # Set to 0 to remove the extinction monitor and filter
 param -unset IncludeFilter=1
