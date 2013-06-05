@@ -156,7 +156,7 @@ tubs Coll_05_a \
      outerRadius=$Coll_05_Rout innerRadius=$Coll_05_Rin \
      length=$Coll_05_length  \
      initialPhi=90.0 finalPhi=270.0 \
-     material=Cu \
+     material=POLYETHYLENE \
      color=$TS_Collimator_Color \
      kill=$TS_Collimator_kill
      
