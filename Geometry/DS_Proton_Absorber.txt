@@ -1,0 +1,18 @@
+# ****************************************************************************
+#                         Detector Solenoid Proton Absorber
+# ****************************************************************************
+# 
+# From doc 1439 page 8. use regular poly and not HDPE
+#   Hedin 5/2013    z at front is 6300+7929 = 14229
+
+ polycone DS_pabs_a  innerRadius=334.5,384.5 outerRadius=335.,385. \ 
+z=0.,2100. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=POLYETHYLENE color=$Orange
+
+ polycone DS_pabs_b  innerRadius=334.5,384.5 outerRadius=335.,385. \ 
+z=0.,2100. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=POLYETHYLENE color=$Invisible
+
+    place DS_pabs_a x=-7808.0 z=14229.
+    place DS_pabs_b x=-7808.0 z=14229.
+

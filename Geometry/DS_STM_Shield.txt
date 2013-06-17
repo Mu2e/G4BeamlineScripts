@@ -1,0 +1,22 @@
+#######################################################################
+# temporary shield for stopping target monitor region as muon, etc
+# hit the wall of the building
+# Hedin May 2013   for now put at closer z and set kill=1
+##########################################################################
+
+box DS_STMA width=1600. height=1600. length=2000. \
+     material=POLYETHYLENE color=$Yellow kill=1
+
+box DS_STMB width=2000. height=2000. length=2000. \
+     material=CONCRETE color=$SkyBlue kill=1
+
+tubs DS_STM_hole outerRadius=600. length=2000. material=AIR color=$Red kill=1 
+
+place DS_STM_hole parent=DS_STMA
+
+place DS_STMA parent=DS_STMB
+ 
+place DS_STMB x=-7808. y=0. z=31500.
+
+#place DS_STMB x=-7808. y=0. z=43000.
+

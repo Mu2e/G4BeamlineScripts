@@ -13,6 +13,22 @@
 
 if $Use_Basic_Det==1 
 
+##*******************
+## Code to write our beam source file for neutron studies
+##
+
+virtualdetector BeamFile \
+    file=mu2eout \
+    length=0.3\
+    height=10000 \
+    width=20000 \
+    color=$Blue
+		
+#place BeamFile \
+    x=-3904 \
+    z=$Coll_01_z-2.3 \
+      
+
 ##********************
 ## Virtual detectors at the entrance and exit of the collimators
 ## Place virtualdetector at upstream and downstream end 

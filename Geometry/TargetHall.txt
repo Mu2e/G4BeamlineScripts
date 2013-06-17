@@ -60,13 +60,19 @@ place AirKillh parent=AirGap kill=1 rotation=z90-$pBeamStop_yrot \
 
 place AirGap x=0 z=0 y=$TargetHall_y rotation=x90
 
-polycone PSEoutside outerRadius=2*$PScryostat_R4,$PScryostat_R4 \
+# There are overlaps between :
+# 1. PSEoutside and PS_Shield 
+# 2. AirKilli and PS_Shield and Floor
+# Temporary solution: 
+#   Reduce Outer Radiuses of PSEoutside and AirKilli
+param -unset R_cut=467
+polycone PSEoutside outerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
 	innerRadius=$PSendcap_OuterR,$PSendcap_OuterR \
 	z=-$PSendcap_length,0 \
-	material=$TargetHall_material color=invisible
-polycone AirKilli outerRadius=2*$PScryostat_R4+1,$PScryostat_R4+1 \
-	innerRadius=2*$PScryostat_R4,$PScryostat_R4 \
+	material=$TargetHall_material color=$Invisible
+polycone AirKilli outerRadius=2*$PScryostat_R4+1-$R_cut,$PScryostat_R4+1 \
+	innerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
 	z=-$PSendcap_length,0 \
-	material=$TargetHall_material color=$Iair
+	material=$TargetHall_material color=$Red
 place PSEoutside x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset
 place AirKilli kill=1 x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset

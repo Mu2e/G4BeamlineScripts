@@ -3,7 +3,7 @@
 # $Author$
 
 param -unset First_Event=1
-param -unset Num_Events=10000
+param -unset Num_Events=1000
 
 #
 #    G4Beamline input file for running on local machines and GRID cluster.
@@ -138,6 +138,10 @@ material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
 material CONCRETE_MARS density=2.35 H,0.006 C,0.03 O,0.5 Na,0.01 Al,0.03 Si,0.2 K,0.01 Ca,0.2 Fe,.014
 material CONCRETE_HEAVY density=3.637 H,0.007 B,0.013 O,0.35 Na,0.013 Al,0.02 Si,0.02 Ca,0.027 Fe,0.55
 material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
+material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
+material Fake_Cu density=8.960 Fe,1.00
+material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.4431 
+
 
 # ****************************************************************************
 #                                Physics Setup 
@@ -196,7 +200,7 @@ if $Pretty_Pictures==1
 
 else
    trackcuts kineticEnergyCut=0.0 \
-             keep=proton,mu+,mu-,pi+,pi-,e+,e-,neutron
+             keep=proton,mu+,mu-,pi+,pi-,neutron
 
 endif
 
@@ -253,23 +257,9 @@ include ./Geometry/TargetHall.txt
 #                            Detector Solenoid
 # ****************************************************************************
 #
-# Use the set of 94 coils* from the 
-# MECO Superconducting Solenoid System Conceptual Design Report 
-# Prepared by the Massachusetts Institute of Technology
-# Plasma Science and Fusion Center
-# June 6, 2002
-# (* but with an extra 1.6 degrees of rotation in some of the transport 
-#    solenoid coils.) 
-# (* See the Excel spreadsheet Mu2e_Muon_Beamline_003.xls)
+# Solenoid Fields from Mauricio Lopes 
+# See  http://mu2e.fnal.gov/atwork/computing/BFieldMaps.shtml
 #
-# This geometry differs from the Draft MECO Technical Design Report, but 
-# according to Jim Miller the MIT CDR is the most recent version of the 
-# coil design and supercedes the TDR.
-#
-# Note: There is a discrepancy between Figure 3.1 and Table 3.1.
-# In Table 3.1 the section TS3 of the transport is 1.95 meters long, but 
-# Figure 3.1 has this distance as 2 meters.
-# The coils in Table 3.2 match the parameters in Table 3.1.
 
 param -unset Use_Field=1
 param -unset Generate_Fieldmap=0
@@ -403,9 +393,19 @@ endif
 include ./Geometry/PScryostat.txt
 #include ./Geometry/PS_Mu2e_Short_Shield.txt
 
+# ****************************************************************************
+#                       Transport Solenoid Shielding
+# **************************************************************************
+
+param -unset Use_TS_Shield=1
+
+if $Use_TS_Shield==1
+  include ./Geometry/TS_Shield.txt
+
+endif
 
 # ****************************************************************************
-#                   Detector Solenoid Iron Shield
+#                   Detector Solenoid Shield
 # ****************************************************************************
 # Made up mainly to stop flux of particles from upstream taking 
 # shortcuts into the DS, and to shield the Cosmic Ray Veto
@@ -413,53 +413,28 @@ include ./Geometry/PScryostat.txt
 
 param -unset DScryo_shield=1
 
-include ./Geometry/DS_Iron_Shield.txt
-
-##********************
-## COLL_05 shielding wall, hole in the middle 
-## Add shielding to the TS to prevent background taking shortcuts into the DS
-## This consists of a cylindrical shell that is coaxial with Detector Solenoid.
-
-param Coll_05s_Rout=1120.0
-param Coll_05s_length=400.0
-param Coll_05s_Rin=450.0
-param Coll_05s_x=-3904+$MECO_G4_xTrans
-param Coll_05s_z=3030+$MECO_G4_zTrans
-
-#tubs Coll_05s_a \
-#     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
-#     length=$Coll_05s_length \
-#     maxStep=0.1\
-#     initialPhi=90.0 finalPhi=270.0 \
-#     material=Cu \
-#     color=$Blue \
-#     kill=$TS_Collimator_kill
-#     
-#place Coll_05s_a \
-#      x=$Coll_05s_x \
-#      z=$Coll_05s_z
-#
-#tubs Coll_05s_b \
-#     outerRadius=$Coll_05s_Rout innerRadius=$Coll_05s_Rin \
-#     length=$Coll_05s_length \
-#     maxStep=0.1\
-#     initialPhi=-90.0 finalPhi=90.0 \
-#     material=Cu \
-#     color=$Invisible \
-#     kill=$TS_Collimator_kill
-#     
-#place Coll_05s_b \
-#      x=$Coll_05s_x \
-#      z=$Coll_05s_z
-#
+include ./Geometry/DS_Iron_Shield_Reduced.txt
 
 # ****************************************************************************
 #                         Detector Solenoid Neutron Shield
 # ****************************************************************************
-# Neutron Shield made of B-Polyethylene. 
-# From MECO-MUB-03-005V1.00
+# From Dave Hedin 5-23-2013 
 
 include ./Geometry/DS_Neutron_Shield.txt
+
+# ****************************************************************************
+#                         Detector Solenoid Proton Absorber
+# ****************************************************************************
+# From Dave Hedin 5-23-2013 
+
+include ./Geometry/DS_Proton_Absorber.txt
+
+# ****************************************************************************
+#                         Muon Beamline Crystal Monitor 
+# ****************************************************************************
+# From Dave Hedin 5-23-2013- Placeholder for now until studies done
+
+include ./Geometry/DS_STM_Shield.txt
 
 
 # ****************************************************************************
@@ -474,10 +449,10 @@ param -unset Cosmic_Ray_Veto=1
 ## If you want to include scintillator detectors to "g4beamline.root" output file
 ## Use_Scin_Det parameter should be 1
 
-param -unset Use_Scin_Det=0
+param -unset Use_Scin_Det=1
 
 if $Cosmic_Ray_Veto==1
-   include ./Geometry/Cosmic_Ray_Veto.txt
+   include ./Geometry/Cosmic_Ray_Veto_Reduced.txt
 
 endif
 
@@ -533,7 +508,7 @@ include ./Geometry/Calorimeter.txt
 # Mu2e version of T-Tracker with straws - 2 
 # Mu2e version of T-Tracker with planes (no straws) - 3 
 
-param -unset tracker=1
+param -unset tracker=3
 
 if $tracker==1 
    include ./Geometry/MECO_Tracker.txt 
@@ -542,7 +517,7 @@ elseif $tracker==2
        include ./Geometry/T_Tracker_Straws.txt 
 
 elseif $tracker==3
-       include ./Geometry/T_Tracker_Planes.txt 
+#       include ./Geometry/T_Tracker_Planes.txt 
 
 endif
 
@@ -550,10 +525,10 @@ endif
 # ****************************************************************************
 #                                Muon Beam Dump
 # ****************************************************************************
-# From Mu2e Proposal
+# From Dave Hedin 5-23-2013
 
-#include ./Geometry/DS_Muon_Beam_Dump.txt
-include ./Geometry/DS_Muon_Beam_Dump_n14.txt
+include ./Geometry/DS_Muon_Beam_Dump.txt
+
 
 
 
@@ -624,11 +599,11 @@ param BsigmaT=0.0001
 ## This is for chosing either QGSP_BERT production from the proton beam OR
 ## the weighted HARP pion file for production
 
-param -unset HARP_Pion_File=0
+param -unset READ_Beam_File=1
 
-if $HARP_Pion_File==1
-   beam ascii \
-        filename=/grid/fermiapp/mu2e/DataFiles/ExampleDataFiles/Mu2e_HARP_PION.txt
+if $READ_Beam_File==1
+   beam ascii nEvents=1000\
+        filename=/grid/data/mu2e/personal/coleman/neutrons/PS_Only2.txt
 
 else
    beam gaussian \
