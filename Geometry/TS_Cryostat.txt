@@ -178,4 +178,34 @@ color=$TScryo_color
 
 place TSd_8 x=-7808.0 y=0.0 z=11468.0
 
+#### Add Poly liner to TS
+
+# TSu Poly Liner
+# 
+torus TSuPoly_1 \
+innerRadius=210.0 \
+outerRadius=249.0 \
+majorRadius=2929.0 \
+initialPhi=5.0 \
+finalPhi=85.0 \
+material=POLYETHYLENE \
+color=$Yellow
+
+place TSuPoly_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+
+
+
+# TSd Poly Liner
+# 
+torus TSdPoly_1 \
+innerRadius=210.0 \
+outerRadius=249.0 \
+majorRadius=2929.0 \
+initialPhi=185.0 \
+finalPhi=265.0 \
+material=POLYETHYLENE \
+color=$Yellow
+
+place TSdPoly_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
 

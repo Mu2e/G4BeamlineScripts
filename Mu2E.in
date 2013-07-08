@@ -141,6 +141,7 @@ material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
 material Fake_Cu density=8.960 Fe,1.00
 material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.4431 
+material Half_Poly density=0.465 POLYETHYLENE,1.00
 
 
 # ****************************************************************************
@@ -170,7 +171,7 @@ muminuscapturefix 2.5
 param -unset PS_Shield_kill=0
 param -unset TScryo_kill=0
 param -unset TS_Collimator_kill=0
-param -unset Muon_Dump_kill=1
+param -unset Muon_Dump_kill=0
 param -unset Proton_Dump_kill=1
 
 
@@ -405,15 +406,16 @@ if $Use_TS_Shield==1
 endif
 
 # ****************************************************************************
-#                   Detector Solenoid Shield
+#                   Detector Solenoid CRV Shield Wall
 # ****************************************************************************
-# Made up mainly to stop flux of particles from upstream taking 
-# shortcuts into the DS, and to shield the Cosmic Ray Veto
-# JPM- 7feb10
+#
+# DScryo_shield= 0, 1, 2 for none, 18", 36" thick walls
+#
 
-param -unset DScryo_shield=1
 
-include ./Geometry/DS_Iron_Shield_Reduced.txt
+param -unset DScryo_shield=2
+
+include ./Geometry/DS_CRV_ShieldWalls.txt
 
 # ****************************************************************************
 #                         Detector Solenoid Neutron Shield
@@ -452,7 +454,7 @@ param -unset Cosmic_Ray_Veto=1
 param -unset Use_Scin_Det=1
 
 if $Cosmic_Ray_Veto==1
-   include ./Geometry/Cosmic_Ray_Veto_Reduced.txt
+   include ./Geometry/Cosmic_Ray_Veto_Reduced_2x.txt
 
 endif
 

@@ -73,6 +73,6 @@ polycone PSEoutside outerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
 polycone AirKilli outerRadius=2*$PScryostat_R4+1-$R_cut,$PScryostat_R4+1 \
 	innerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
 	z=-$PSendcap_length,0 \
-	material=$TargetHall_material color=$Red
+	material=$TargetHall_material color=$Invisible
 place PSEoutside x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset
 place AirKilli kill=1 x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset
