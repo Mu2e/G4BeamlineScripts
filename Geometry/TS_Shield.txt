@@ -179,10 +179,13 @@ place crv_shield_7 x=0 y=2069. z=0 rotation=X90
 
 # Now add L-shaped concrete above the "high Z" material- high Z changed to concrete 5/4/2013
 
-extrusion crv_shield_12 length=1500. vertices=-3359.0,10708.;-3359.0,5329.;-9998.0,5329.0;-9998.0,4361.25;-2950.0,4361.25;-2950.0,10708.0 material=$crv_shield_m color=$Yellow
+extrusion crv_shield_12 length=1500. vertices=-3359.0,10708.;-3359.0,5329.;-9998.0,5329.0;-9998.0,4361.25;-2654.0,4361.25;-2654.0,10708.0 material=$crv_shield_m color=$PS_Shield_Con_c
 place crv_shield_12 x=0 y=2875. z=0 rotation=X90
 
+# At least for now with two ceiling heights in PS and TS/DS we had overlap of #12 block with PS ceiling- block#13 squeezes the same shielding in just below PS ceiling for now
 
+extrusion crv_shield_13 length=743. vertices=-2650.0,10708;-2650.,4361.25;-2446.0,4361.25;-2446.0,10708.0 material=$crv_shield_m color=$PS_Shield_Con_c
+place crv_shield_13 x=0 y=2497.5 z=0 rotation=X90
 endif
 
 

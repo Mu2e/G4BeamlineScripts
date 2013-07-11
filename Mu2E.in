@@ -601,7 +601,7 @@ param BsigmaT=0.0001
 ## This is for chosing either QGSP_BERT production from the proton beam OR
 ## the weighted HARP pion file for production
 
-param -unset READ_Beam_File=1
+param -unset READ_Beam_File=0
 
 if $READ_Beam_File==1
    beam ascii nEvents=1000\
