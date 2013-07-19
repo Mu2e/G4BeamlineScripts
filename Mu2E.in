@@ -271,7 +271,7 @@ if $Use_Field==1
       include ./Geometry/Generated_Field.txt
    
    else
-      include ./Geometry/Mu2e_Mau7_Coils.txt
+      include ./Geometry/Mu2e_Mau9_Coils.txt
 
       fieldmap PSMagneticField  \
                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_PSMap.txt
