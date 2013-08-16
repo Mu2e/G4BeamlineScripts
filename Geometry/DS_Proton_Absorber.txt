@@ -3,33 +3,33 @@
 # ****************************************************************************
 # 
 # From doc 1439 page 8. use regular poly and not HDPE
-#   Hedin 5/2013    z at front is 6300+7929 = 14229
+#   Hedin 5/2013    z at front is 6276.02+7929 = 14205.02 
 # Hedin 6/2013 add "outer" ring per Myeongjae Lee proposal
-#                 z at front is 4000+7929 = 11929
+#  DH updated 8/8/13 z at front is 4180+7929 = 12109
 
- polycone DS_pabs_a  innerRadius=334.5,384.5 outerRadius=335.,385. \ 
-z=0.,2100. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+ polycone DS_pabs_a  innerRadius=334.7,352.62 outerRadius=335.2,353.12 \ 
+z=0.,1000. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
                  material=POLYETHYLENE color=$Orange
 
- polycone DS_pabs_b  innerRadius=334.5,384.5 outerRadius=335.,385. \ 
-z=0.,2100. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+ polycone DS_pabs_b  innerRadius=334.7,352.62 outerRadius=335.2,353.12 \ 
+z=0.,1000. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
                  material=POLYETHYLENE color=$Invisible
 
-    place DS_pabs_a x=-7808.0 z=14229.
-    place DS_pabs_b x=-7808.0 z=14229.
+    place DS_pabs_a x=-7808.0 z=14205.02
+    place DS_pabs_b x=-7808.0 z=14205.02
 
-# try 4400->4200 and move back by 200
+# try 4400 doesn't work. try 4300
 
- polycone DS_pabs_c  innerRadius=436.,720. outerRadius=466.,750. \ 
-z=0.,4200. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+ polycone DS_pabs_c  innerRadius=447.6,720. outerRadius=467.6,740. \ 
+z=0.,4220. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
                  material=POLYETHYLENE color=$Orange
 
- polycone DS_pabs_d  innerRadius=436.,720. outerRadius=466.,750. \ 
-z=0.,4200. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+ polycone DS_pabs_d  innerRadius=447.6,720. outerRadius=467.6,740. \ 
+z=0.,4220. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
                  material=POLYETHYLENE color=$Invisible
 
-# 11929 --> 12129
+# front z = 12109
 
-    place DS_pabs_c x=-7808.0 z=12129.
-    place DS_pabs_d x=-7808.0 z=12129.
+    place DS_pabs_c x=-7808.0 z=12109.
+    place DS_pabs_d x=-7808.0 z=12109.
 
