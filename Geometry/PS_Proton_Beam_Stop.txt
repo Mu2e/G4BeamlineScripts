@@ -6,8 +6,6 @@ param Concrete="0.5,0.5,0.4"
 param IVconc=$Iconc
 
 param -unset FilterInDetector=0
-param -unset FilterOutDetector=0
-param -unset PBSdetector=0
 
 # **********************************
 # Proton beam stop parameters
@@ -18,8 +16,8 @@ param PBS_t=$pBeamStop_conc
 param PBS_h=$pBeamStop_h
 param PBS_w=$pBeamStop_w
 param PBS_l=$pBeamStop_l
-param PBS_HB=$PBS_h+$PBS_t
-param PBS_W=$PBS_w+2*$PBS_t
+param PBS_HB=$pBeamStop_y-$TargetHall_y+($TargetHall_h+$pBeamStop_h)/2.0
+param PBS_W=$TargetHall_dump_width
 param PBS_L=$PBS_l+3*$PBS_t
 
 param PBS_x=$pBeamStop_x
@@ -27,22 +25,21 @@ param PBS_y=$pBeamStop_y
 param PBS_z=$pBeamStop_z
 param PBS_rot=$pBeamStop_yrot
 param PBS_ang=$PBS_rot*$pi/180.0
-param PBS_Cave=$PBS_t/2
 
 if $IncludeFilter==1
   param psTotL=$EMFilter_lu+$EMFilter_ld+$EMFilter_lspace
   param psTU_L=$EMFilter_lu
-  param PBS_HT=$PBS_t+$EMDetector_hroom
+  param PBS_HT=$EMDetector_yfloor-$pBeamStop_y-$pBeamStop_h/2+$EMDetector_hroom
   param PBS_Chan_X=$EMFilter_dx
   param PBS_Chan_W=2.0*$EMFilter_r2d
-  param PBS_Top_W=$EMDetector_wroom
+  param PBS_EMfloor_H=$PBS_HT-$EMDetector_hroom
 else
   param psTotL=$PBS_L
   param psTU_L=$PBS_L-$PBS_t
-  param PBS_HT=$PBS_t
+  param PBS_HT=$TargetHall_h-$PBS_HB
   param PBS_Chan_X=0
   param PBS_Chan_W=0
-  param PBS_Top_W=$PBS_W
+  param PBS_EMfloor_H=$PBS_HT-1.0
 endif
 param psTotH=$PBS_HB+$PBS_HT
 
@@ -81,64 +78,76 @@ param psTotH=$PBS_HB+$PBS_HT
 #	|_ psBDirt(pStopBDirt) : *Dirt below filter
 
 # Bottom front section
+param cw=($PBS_W-$PBS_w)/2
+param aw=$PBS_w
+param ch=$PBS_HB-$PBS_h
+param ah=$PBS_h
 box psBFAir material=$air color=$Iair  kill=$PBS_Kill\
-	length=$PBS_t height=$PBS_h width=$PBS_w
+	length=$PBS_t height=$ah width=$aw
 box psBFBot  material=CONCRETE color=$Concrete  kill=$PBS_Kill\
-	length=$PBS_t height=$PBS_t width=$PBS_w
+	length=$PBS_t height=$ch width=$aw
 box psBFSide material=CONCRETE color=$Concrete  kill=$PBS_Kill\
-	length=$PBS_t height=$PBS_HB width=$PBS_t
+	length=$PBS_t height=$PBS_HB width=$cw
 
-group psBFMid length=$PBS_t height=$PBS_HB width=$PBS_w
-place psBFBot rename=+Bot x=0 y=-$PBS_h/2. z=0
-place psBFAir rename=+Air x=0 y=$PBS_t/2. z=0
+group psBFMid length=$PBS_t height=$PBS_HB width=$aw
+place psBFBot rename=+Bot x=0 y=-$ah/2 z=0
+place psBFAir rename=+Air x=0 y=$ch/2 z=0
 endgroup
 
 group psBF length=$PBS_t height=$PBS_HB width=$PBS_W
 place psBFMid  rename=+M  x=0 y=0 z=0
-place psBFSide rename=+S1 x=$PBS_W/2.-$PBS_t/2. y=0 z=0
-place psBFSide rename=+S2 x=$PBS_t/2.-$PBS_W/2. y=0 z=0
+place psBFSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
+place psBFSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
 endgroup
 
 # Bottom neutron trap section
+param cw=($PBS_W-$PBS_w-$PBS_t)/2
+param aw=$PBS_w+$PBS_t
+param ch=$PBS_HB-$PBS_h-$PBS_t/2
+param ah=$PBS_h+$PBS_t/2
 box psBNAir material=$air color=$Iair kill=$PBS_Kill \
-	length=$PBS_t height=$PBS_HB-$PBS_t/2. width=$PBS_W-$PBS_t
+	length=$PBS_t height=$ah width=$aw
 box psBNBot  material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_t height=$PBS_t/2. width=$PBS_W-$PBS_t
+	length=$PBS_t height=$ch width=$aw
 box psBNSide material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_t height=$PBS_HB width=$PBS_t/2.
+	length=$PBS_t height=$PBS_HB width=$cw
 
-group psBNMid length=$PBS_t height=$PBS_HB width=$PBS_W-$PBS_t
-place psBNBot rename=+Bot x=0 y=-$PBS_h/2.-$PBS_t/4 z=0
-place psBNAir rename=+Air x=0 y=$PBS_t/4 z=0
+group psBNMid length=$PBS_t height=$PBS_HB width=$aw
+place psBNBot rename=+Bot x=0 y=-$ah/2 z=0
+place psBNAir rename=+Air x=0 y=$ch/2 z=0
 endgroup
 
 group psBN length=$PBS_t height=$PBS_HB width=$PBS_W
 place psBNMid  rename=+M  x=0 y=0 z=0
-place psBNSide rename=+S1 x=$PBS_W/2.-$PBS_t/4 y=0 z=0
-place psBNSide rename=+S2 x=$PBS_t/4-$PBS_W/2. y=0 z=0
+place psBNSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
+place psBNSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
 endgroup
 
 # Bottom core section
+param cw=($PBS_W-$PBS_w)/2
+param aw=$PBS_w
+param ch=$PBS_HB-$PBS_h
+param ah=$PBS_h
 box psBCAl material=$pBeamStop_mat color=$Aluminum kill=$PBS_Kill \
-	length=$PBS_l height=$PBS_h width=$PBS_w
+	length=$PBS_l height=$ah width=$aw
 box psBCBot  material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_l height=$PBS_t width=$PBS_w
+	length=$PBS_l height=$ch width=$aw
 box psBCSide material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_l height=$PBS_HB width=$PBS_t
+	length=$PBS_l height=$PBS_HB width=$cw
 if $PBSdetector==1
-  virtualdetector PBScore height=$PBS_h width=$PBS_w length=1 kill=1
+  virtualdetector PBScore height=$ah width=$aw length=1 kill=1
   place PBScore parent=psBCAl color=invisible x=0 y=0 z=($PBS_l-1)/2.
 endif
 
-group psBCMid length=$PBS_l height=$PBS_HB width=$PBS_w
-place psBCBot parent=psBCMid rename=+Bot x=0 y=-$PBS_h/2. z=0
-place psBCAl  parent=psBCMid rename=+Al  x=0 y=$PBS_t/2. z=0
+group psBCMid length=$PBS_l height=$PBS_HB width=$aw
+place psBCBot parent=psBCMid rename=+Bot x=0 y=-$ah/2 z=0
+place psBCAl  parent=psBCMid rename=+Al  x=0 y=$ch/2 z=0
 endgroup
 
 group psBC length=$PBS_l height=$PBS_HB width=$PBS_W
 place psBCMid  rename=+M  x=0 y=0 z=0
-place psBCSide rename=+S1 x=$PBS_W/2.-$PBS_t/2. y=0 z=0
-place psBCSide rename=+S2 x=$PBS_t/2.-$PBS_W/2. y=0 z=0
+place psBCSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
+place psBCSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
 endgroup
 
 # Bottom back section
@@ -152,7 +161,7 @@ endif
 # Upstream top section
 
 param wv=$PBS_W/2.+$PBS_Chan_X-$PBS_Chan_W/2.
-param wi=$PBS_Top_W-$wv
+param wi=$PBS_W-$wv
 
 # Top upstream visible section
 
@@ -162,8 +171,8 @@ box psTUVN material=$air color=invisible \
 	length=$PBS_t height=$PBS_HT width=$wv
 param y=$PBS_HT/2.0
 param x=$wv/2.0
-param yc=-$y+$PBS_Cave
-param xc=-$x+$PBS_t-$PBS_Cave
+param yc=-$y+$PBS_t/2
+param xc=-$x+$PBS_W/2-$PBS_w/2-$PBS_t/2
 extrusion psTUVNConc material=CONCRETE color=$Concrete length=$PBS_t \
 	vertices=-$x,-$y;-$x,$y;$x,$y;$x,$yc;$xc,$yc;$xc,-$y
 place psTUVNConc parent=psTUVN x=0 y=0 z=0
@@ -178,13 +187,13 @@ endgroup
 
 # Top upstream invisible section
 
-param w=$PBS_W-$wv-$PBS_t+$PBS_Cave
-box psTUIA material=$air color=$Iair length=$PBS_t height=$PBS_Cave width=$w
+param w=$wi-$PBS_W/2+$PBS_w/2+$PBS_t/2
+box psTUIA material=$air color=$Iair length=$PBS_t height=$PBS_t/2 width=$w
 
 box psTUI material=CONCRETE color=$Iconc \
 	length=$psTU_L height=$PBS_HT width=$wi
 place psTUIA parent=psTUI rename=+A \
-	x=($w-$wi)/2 y=-($PBS_HT-$PBS_Cave)/2 z=($psTU_L-3*$PBS_t)/2.
+	x=($w-$wi)/2 y=-($PBS_HT-$PBS_t/2)/2 z=($psTU_L-3*$PBS_t)/2.
 
 # upstream filter channel
 
@@ -193,9 +202,8 @@ if $IncludeFilter==1
 endif
 
 # Downstream part of top section
-
-box psTDBase material=CONCRETE color=$Concrete \
-	length=$psTotL-$psTU_L height=$PBS_t width=$PBS_Top_W
+box psTDfloor material=CONCRETE color=$Concrete \
+	length=$psTotL-$psTU_L height=$PBS_EMfloor_H width=$PBS_W
 
 # Put bottom section together
 
@@ -211,71 +219,30 @@ endgroup
 
 # Put Top section together
 
-group psTU color=invisible height=$PBS_HT width=$PBS_Top_W length=$psTU_L
+group psTU color=invisible height=$PBS_HT width=$PBS_W length=$psTU_L
 place psTUV rename=+V x=-$wi/2. y=0 z=0
 place psTUI rename=+I x=$wv/2. y=0 z=0
 endgroup
 
-group psTD height=$PBS_HT width=$PBS_Top_W length=$psTotL-$psTU_L
-place psTDBase rename=+Base x=0 y=($PBS_t-$PBS_HT)/2. z=0
+group psTD height=$PBS_HT width=$PBS_W length=$psTotL-$psTU_L
+place psTDfloor rename=+floor x=0 y=($PBS_EMfloor_H-$PBS_HT)/2. z=0
 if $IncludeFilter==1
-  place psTDFilt rename=+F x=0 y=$PBS_t/2. z=0
+  place psTDT rename=+T x=0 y=$PBS_EMfloor_H/2. z=0
 endif
 endgroup
 
-group psT length=$psTotL height=$PBS_HT width=$PBS_Top_W
+group psT length=$psTotL height=$PBS_HT width=$PBS_W
 place psTU rename=+U x=0 y=0 z=($psTotL-$psTU_L)/2.
 place psTD rename=+D x=0 y=0 z=-$psTU_L/2.
 endgroup
 
-# Aisle beside dump
-param -unset pStopAisleMat=CONCRETE
-param -unset pStopAisleCol=$Concrete
-box pStopAisle length=$PBS_L height=$PBS_HB width=$PBS_Top_W-$PBS_W \
-	material=$pStopAisleMat color=$pStopAisleCol kill=$PBS_Kill
-if $IncludeFilter==1
-  box psADirt material=CONCRETE color="0.3,0.1,0.1" kill=$PBS_Kill \
-	length=$psTotL-$PBS_L height=$PBS_HB width=$PBS_Top_W-$PBS_W
-endif
-
-# **********************************
-#   Add virtual detectors and kill zones
-# **********************************
-group pStop height=$psTotH+2 width=$PBS_Top_W+2 length=$psTotL+2
-place psB rename=+B x=($PBS_W-$PBS_Top_W)/2 y=-$PBS_HT/2. z=0
+group pStop height=$psTotH width=$PBS_W length=$psTotL
+place psB rename=+B x=0 y=-$PBS_HT/2. z=0
 place psT rename=+T x=0 y=$PBS_HB/2. z=0
-place pStopAisle rename=+Aisle x=$PBS_W/2 y=-$PBS_HT/2 z=($psTotL-$PBS_L)/2
-place psADirt rename=+ADirt x=$PBS_W/2 y=-$PBS_HT/2 z=-$PBS_L/2
-
-if $FilterInDetector==1
-  virtualdetector FiltIn color=invisible height=$PBS_HT width=$PBS_Top_W length=1 kill=1
-  box psfrontKill color=invisible height=$PBS_HB width=$PBS_Top_W length=1 kill=1
-  place FiltIn x=0 y=$PBS_HB/2. z=($psTotL+1)/2.
-  place psfrontKill x=0 y=-$PBS_HT/2. z=($psTotL+1)/2.
-endif
-if $FilterInDetector==2
-  virtualdetector FiltIn height=$EMFilter_hu width=$EMFilter_wu length=1 kill=1
-  box psfrontKill color=invisible height=$PBS_HB width=$PBS_Top_W length=1 kill=1
-  place FiltIn x=$EMFilter_dx+($PBS_W-$PBS_Top_W)/2.0 \
-               y=$EMFilter_dy+$PBS_t+($PBS_h-$psTotH)/2.0 z=($psTotL+1)/2.
-  place psfrontKill x=0 y=-$PBS_HT/2. z=($psTotL+1)/2.
-endif
-if $FilterOutDetector==1
-  box psTopKill color=invisible material=Vacuum \
-	length=$psTotL+2 height=1 width=$PBS_Top_W+2 kill=1
-  box psSideKill color=invisible material=Vacuum \
-	length=$psTotL+2 height=$psTotH width=1 kill=1
-  place psTopKill rename=+TKill x=0 y=($psTotH+1)/2. z=0
-  place psTopKill rename=+TKill x=0 y=-($psTotH+1)/2. z=0
-  place psSideKill rename=+S1Kill x=($PBS_Top_W+1)/2. y=0 z=0
-  place psSideKill rename=+S2Kill x=-($PBS_Top_W+1)/2. y=0 z=0
-  virtualdetector FiltOut height=$psTotH width=$PBS_Top_W length=1 kill=1
-  place FiltOut color=invisible x=0 y=0 z=-($psTotL+1)/2.
-endif
 endgroup
-param dx=($PBS_Top_W-$PBS_W)/2.0
+
 param dz=($psTotL-$PBS_l)/2.0-2.0*$PBS_t
-param psTotx=$PBS_x+cos($PBS_ang)*$dx-sin($PBS_ang)*$dz
-param psToty=$PBS_y-$PBS_t-($PBS_h-$psTotH)/2.0
-param psTotz=$PBS_z-cos($PBS_ang)*$dz-sin($PBS_ang)*$dx
+param psTotx=$PBS_x-sin($PBS_ang)*$dz
+param psToty=$PBS_y+$PBS_h/2-$PBS_HB+$psTotH/2.
+param psTotz=$PBS_z-cos($PBS_ang)*$dz
 place pStop x=$psTotx y=$psToty z=$psTotz rotation=y$PBS_rot

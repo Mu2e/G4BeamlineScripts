@@ -3,99 +3,94 @@
 # Extinction monitor detector room
 #
 ####################################
-param detBend=0.5*$EMDetector_B*0.02998*$EMDetector_lmagnet/(1000.0*$EMFilter_p)
+param bend=$EMFilter_Bdl*0.2998/$EMFilter_p
+param detBend=$EMDetector_Bdl*0.2998/$EMFilter_p
+param au=$EMFilter_pitch-$bend
+param ad=$EMFilter_pitch-$bend-$dbend
+param phi=$pBeamStop_yrot*degree
+param yaw=$EMFilter_yaw
 
 box EMRoom material=Air color=$TargetHall_color \
   length=$EMDetector_lroom width=$EMDetector_wroom height=$EMDetector_hroom 
 
-# Create Si detector planes
-virtualdetector plane1 color="0.7,0.7,0.7" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-virtualdetector plane2 color="0.6,0.6,0.6" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-virtualdetector plane3 color="0.5,0.5,0.5" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-virtualdetector plane4 color="0.5,0.5,0.5" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-virtualdetector plane5 color="0.6,0.6,0.6" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
-virtualdetector plane6 color="0.7,0.7,0.7" material=Si \
-	length=$EMDetector_l width=$EMDetector_w height=$EMDetector_h
+#Calculate location of room centroid
+param dz=$EMDetector_lroom/2+$EMFilter_lu+$EMFilter_lspace+$EMFilter_ld-$pBeamStop_face
+param xr=$pBeamStop_x-$dz*sin($phi)
+param yr=$EMDetector_yfloor+$EMDetector_hroom/2
+param zr=$pBeamStop_z-$dz*cos($phi)
+
+param xu=$EMDetector_xstart
+# Create detector planes
+param ux=($EMDetector_xstart-$xr)*cos($phi)-($EMDetector_zstart-$zr)*sin($phi)
+param uy=$EMDetector_ystart-$yr
+param uz=($EMDetector_zstart-$zr)*cos($phi)+($EMDetector_xstart-$xr)*sin($phi)
+param dx=($EMDetector_xend-$xr)*cos($phi)-($EMDetector_zend-$zr)*sin($phi)
+param dy=$EMDetector_yend-$yr
+param dz=($EMDetector_zend-$zr)*cos($phi)+($EMDetector_xend-$xr)*sin($phi)
+if $ScintDetector==1
+  virtualdetector scintu color=$Green material=PLASTIC_SC_VINYLTOLUENE \
+      length=$EMDetector_lc width=$EMDetector_uw height=$EMDetector_uh
+  virtualdetector scintd color=$Green material=PLASTIC_SC_VINYLTOLUENE \
+      length=$EMDetector_lc width=$EMDetector_dw height=$EMDetector_dh
+else
+  box scintu color=$Green material=PLASTIC_SC_VINYLTOLUENE \
+      length=$EMDetector_lc width=$EMDetector_uw height=$EMDetector_uh
+  box scintd color=$Green material=PLASTIC_SC_VINYLTOLUENE \
+      length=$EMDetector_lc width=$EMDetector_dw height=$EMDetector_dh
+endif
+place scintu rename=+scint1 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$ux y=$uy z=$uz
+place scintd rename=+scint6 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$dx y=$dy z=$dz
+param dl=$EMDetector_sc
+place scintu rename=+scint2 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$ux+$dl*cos($au)*sin($yaw) y=$uy+$dl*sin($au) z=$uz-$dl*cos($au)*cos($yaw)
+place scintd rename=+scint5 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$dx-$dl*cos($ad)*sin($yaw) y=$dy-$dl*sin($ad) z=$dz+$dl*cos($ad)*cos($yaw)
+param dl=3*$EMDetector_sc+($EMDetector_planes-1)*$EMDetector_sd
+place scintu rename=+scint3 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$ux+$dl*cos($au)*sin($yaw) y=$uy+$dl*sin($au) z=$uz-$dl*cos($au)*cos($yaw)
+place scintd rename=+scint4 parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+    x=$dx-$dl*cos($ad)*sin($yaw) y=$dy-$dl*sin($ad) z=$dz+$dl*cos($ad)*cos($yaw)
+param dl=2*$EMDetector_sc
+do i 1 $EMDetector_planes
+  if $PixelDetector==1
+    virtualdetector plane$i color=$Red material=Si \
+	length=$EMDetector_l width=$EMDetector_uw height=$EMDetector_uh
+  else
+    box plane$i color=$Red material=Si \
+	length=$EMDetector_l width=$EMDetector_uw height=$EMDetector_uh
+  endif
+  place plane$i parent=EMRoom rotation=x$au/degree,y$yaw/degree \
+  	x=$ux+$dl*cos($au)*sin($yaw) \
+	y=$uy+$dl*sin($au) \
+	z=$uz-$dl*cos($au)*cos($yaw)
+  param j=1+2*$EMDetector_planes-$i
+  if $PixelDetector==1
+    virtualdetector plane$j color=$Red material=Si \
+	length=$EMDetector_l width=$EMDetector_dw height=$EMDetector_dh
+  else
+    box plane$j color=$Red material=Si \
+	length=$EMDetector_l width=$EMDetector_dw height=$EMDetector_dh
+  endif
+  place plane$j parent=EMRoom rotation=x$ad/degree,y$yaw/degree \
+  	x=$dx-$dl*cos($ad)*sin($yaw) \
+	y=$dy-$dl*sin($ad) \
+	z=$dz+$dl*cos($ad)*cos($yaw)
+  param dl=$dl+$EMDetector_sd
+enddo
 
 # Create spectrometer magnet
-genericbend detMag ironColor=$Teal By=$EMDetector_B/10.0 \
+genericbend detMag ironColor=$Teal By=$EMDetector_B \
 	ironMaterial=Fe fieldMaterial=$TargetHall_material \
 	ironWidth=$EMDetector_hmagnet  fieldWidth=$EMDetector_hgap \
 	ironHeight=$EMDetector_wmagnet fieldHeight=$EMDetector_wgap \
-	ironLength=$EMDetector_lmagnet fieldLength=$EMDetector_lmagnet
+	ironLength=$EMDetector_lmagnet fieldLength=$EMDetector_lgap
 
-param magrot=$detBend/degree
-param csb=cos($detBend)
-param snb=sin($detBend)
-param ym=0.5*$EMDetector_lmagnet*(1/$csb-0.5*(1+$csb))/$snb
-
-# Create detector volume
-param len=($EMDetector_d1-$EMDetector_d6)*$csb+$EMDetector_h*$snb+$EMDetector_l
-param ht=2*$ym+$EMDetector_hmagnet
-box airvol length=$len width=$EMDetector_wmagnet height=$ht \
-	material=Air color=invisible
-
-place detMag parent=airvol x=0 y=-$ym z=0 rotation=z-90
-
-param z1=$EMDetector_d1*$csb
-param y1=-$EMDetector_d1*$snb
-place plane1 parent=airvol x=0 y=$y1 z=$z1 rotation=x$magrot
-param z2=$EMDetector_d2*$csb
-param y2=-$EMDetector_d2*$snb
-place plane2 parent=airvol x=0 y=$y2 z=$z2 rotation=x$magrot
-param z3=$EMDetector_d3*$csb
-param y3=-$EMDetector_d3*$snb
-place plane3 parent=airvol x=0 y=$y3 z=$z3 rotation=x$magrot
-param z4=$EMDetector_d4*$csb
-param y4=$EMDetector_d4*$snb
-place plane4 parent=airvol x=0 y=$y4 z=$z4 rotation=x-$magrot
-param z5=$EMDetector_d5*$csb
-param y5=$EMDetector_d5*$snb
-place plane5 parent=airvol x=0 y=$y5 z=$z5 rotation=x-$magrot
-param z6=$EMDetector_d6*$csb
-param y6=$EMDetector_d6*$snb
-place plane6 parent=airvol x=0 y=$y6 z=$z6 rotation=x-$magrot
-
-ntuple detector category=NTuples \
-	detectors=EMRoomairvolplane1,EMRoomairvolplane2,EMRoomairvolplane3,EMRoomairvolplane4,EMRoomairvolplane5,EMRoomairvolplane6
-
-#  Calculate location of detector centroid
-param cosa=cos($pBeamStop_yrot*degree)
-param sina=sin($pBeamStop_yrot*degree)
-param dz=2*$pBeamStop_conc+0.5*$pBeamStop_l
-param xo=$pBeamStop_x+$EMFilter_dx*$cosa+$dz*$sina
-param yo=$pBeamStop_y+$EMFilter_dy
-param zo=$pBeamStop_z-$EMFilter_dx*$sina+$dz*$cosa
-param bend=$EMFilter_B*$EMFilter_lmagnet*0.02998/(1000*$EMFilter_p)
-param pu=$EMFilter_pitch
-param pm=$EMFilter_pitch-$bend/2
-param pd=$EMFilter_pitch-$bend
-param dm=$EMFilter_lmagnet*cos($pm)
-param G=($EMFilter_lspace/cos($EMFilter_yaw)-$dm)/2
-param du=$EMFilter_lu/cos($EMFilter_yaw)+$G
-param dd=$EMFilter_ld/cos($EMFilter_yaw)+$G+$EMDetector_d
-param xe=$xo-($du+$dm+$dd)*sin($pBeamStop_yrot*degree-$EMFilter_yaw)
-param ye=$yo+$du*tan($pu)+$dm*tan($pm)+$dd*tan($pd)
-param ze=$zo-($du+$dm+$dd)*cos($pBeamStop_yrot*degree-$EMFilter_yaw)
-
-#Calculate location of room centroid
-param dzr=$EMDetector_lroom/2+$EMFilter_lu+$EMFilter_lspace+$EMFilter_ld-$dz
-param dxr=$EMDetector_wroom/2-$pBeamStop_conc-$pBeamStop_w/2
-param xr=$pBeamStop_x+$dxr*$cosa-$dzr*$sina
-param yr=$pBeamStop_y+$EMDetector_hroom/2+$pBeamStop_conc+$pBeamStop_h/2
-param zr=$pBeamStop_z-$dxr*$sina-$dzr*$cosa
-
-# place detector wrt room coordinates
-param xrot=($pd-$detBend)/degree
-param yrot=-$EMFilter_yaw/degree
-param xd=($xe-$xr)*$cosa-($ze-$zr)*$sina
-param yd=$ye-$yr
-param zd=($xe-$xr)*$sina+($ze-$zr)*$cosa
-place airvol parent=EMRoom x=$xd y=$yd z=$zd rotation=x$xrot,y$yrot
+param Lm=($EMDetector_planes-1)*$EMDetector_sd+$EMDetector_sm
+place detMag parent=EMRoom rotation=z-90,x($ad+$au)/(2*degree),y-$yaw/degree \
+	x=($ux-$Lm*cos($au)*sin($yaw)+$dx+$Lm*cos($ad)*sin($yaw))/2 \
+	y=($uy+$Lm*sin($au)+$dy-$Lm*sin($ad))/2 \
+	z=($uz-$Lm*cos($au)*cos($yaw)+$dz+$Lm*cos($ad)*cos($yaw))/2
 
 place EMRoom x=$xr y=$yr z=$zr rotation=y$pBeamStop_yrot

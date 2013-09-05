@@ -18,6 +18,15 @@ param -unset PSshield_Entrance=0
 
 # Set to 0 to remove the extinction monitor and filter
 param -unset IncludeFilter=1
+
+# *********************************************
+# virtual detector switches
+# *********************************************
+param -unset PBSdetector=0
+param -unset FilterDetector=0
+param -unset PixelDetector=0
+param -unset ScintDetector=0
+
 # *********************************************
 # Kill zone switches
 # *********************************************
@@ -191,8 +200,7 @@ param PSshield_material=Bronze
 
 # Beam entry pipe
 # radius
-param Rpipe=50
-param PSshield_startZ=$PScryostat_z+$PSshield_Offset+$PSshield_z5
+param Rpipe=2.5*25.4
 # beam coordinates wrt upstream end of HRS
 param ZbeamU=0
 param XbeamU=$OutHRSBeamX
@@ -241,14 +249,12 @@ param TargetHall_xside2=$Mu2E_x+7229
 param TargetHall_z=$Mu2E_z-15301
 # y-coordinate of hall center
 # Vladimir Khalatyan changes: Start
-#param TargetHall_y=$Mu2E_y+272
 param TargetHall_y=$Mu2E_y+339.6
 # hall height
-#param TargetHall_h=6402
 param TargetHall_h=4738.8
 # VK changes: Done
-# width of aisle beside beam stop
-param TargetHall_aisle=1072
+# width of beam stop enclosure
+param TargetHall_dump_width=13*12*25.4
 
 # ****************************
 # Proton beam stop parameters
@@ -267,22 +273,23 @@ param pBeamStop_w=1500.0
 param pBeamStop_l=2000.0
 param pBeamStop_mat=Al
 
-# Concrete Thickness (mm)
+# Concrete Shell Thickness (mm)
 param pBeamStop_conc=1000.0
+param pBeamStop_face=2*$pBeamStop_conc+$pBeamStop_l/2
 
 # *************************************
 # Extinction Monitor Filter parameters
 # *************************************
 # Nominal signal momentum (GeV)
-param EMFilter_p=4.2
+param -unset EMFilter_p=4.2
 
 # Entrance location wrt centre axis of beam stop
-param EMFilter_dx=325.0
-param EMFilter_dy=1250.0
+param -unset EMFilter_dx=325.0
+param -unset EMFilter_dy=1250.0
 
 # Entry collimator rotation angles (radians)
-param EMFilter_pitch=0.1653
-param EMFilter_yaw=0.0317
+param -unset EMFilter_pitch=0.1653
+param -unset EMFilter_yaw=0.0317
 
 if $PSshield_Grooves==1
   param EMFilter_p=3.0
@@ -294,53 +301,103 @@ endif
 
 # Upstream collimator dimensions (mm)
 param EMFilter_lu=4000
-param EMFilter_hu=50
-param EMFilter_wu=50
+param EMFilter_ru=25
 
 # Downstream collimator dimensions (mm)
 param EMFilter_ld=2000
-param EMFilter_hd=75
-param EMFilter_wd=75
-
-# Magnet field strength (kG)
-param EMFilter_B=2.22
+param EMFilter_rd=37.5
 
 # Magnet dimensions (mm)
-param EMFilter_lspace=4330.0
-param EMFilter_lmagnet=3556.0
-param EMFilter_hmagnet=300.0
-param EMFilter_wmagnet=190.0
-param EMFilter_hgap=100.0
-param EMFilter_wgap=50.0
+param EMFilter_lspace=4200.0
+param EMFilter_lreserve=13.5*25.4
+param EMFilter_lmagnet=145*25.4
+param EMFilter_hmagnet=11.64*25.4
+param EMFilter_wmagnet=9.5*25.4
+param EMFilter_lgap=140*25.4
+param EMFilter_hgap=3.935*25.4
+param EMFilter_wgap=2.03*25.4
+
+# Magnet field strength (kG)
+param EMFilter_Bdl=0.822
+param EMFilter_B=1000*$EMFilter_Bdl/$EMFilter_lgap
 
 # Alignment plug dimensions (mm)
-param EMFilter_r1d=177.8
-param EMFilter_r2d=190.5
-param EMFilter_r1u=100
-param EMFilter_r2u=112.7
+param EMFilter_r1d=14*25.4/2
+param EMFilter_r2d=15*25.4/2
+param EMFilter_r1u=8.625*25.4/2
+param EMFilter_r2u=9.75*25.4/2
 
-# Extinction Monitor detector room dimensions (mm)
-param EMDetector_lroom=3048
-param EMDetector_hroom=2743
-param EMDetector_wroom=4571
+# coordinates of filter break points (mm)
+param phi=$pBeamStop_yrot*degree
+param dz=$pBeamStop_face
+param EMFilter_xstart=$pBeamStop_x+$dz*sin($phi)+$EMFilter_dx*cos($phi)
+param EMFilter_ystart=$pBeamStop_y+$EMFilter_dy
+param EMFilter_zstart=$pBeamStop_z+$dz*cos($phi)-$EMFilter_dx*sin($phi)
+param bend=$EMFilter_Bdl*0.2998/$EMFilter_p
+param au=$EMFilter_pitch
+param am=$EMFilter_pitch-$bend/2
+param ad=$EMFilter_pitch-$bend
+param Lm=$EMFilter_lmagnet*cos($am)
+param Lu=($EMFilter_lu+$EMFilter_lreserve)/cos($EMFilter_yaw)
+param Ld=($EMFilter_ld+$EMFilter_lspace-$EMFilter_lreserve)/cos($EMFilter_yaw)-$Lm
+param EMFilter_xmstart=$EMFilter_xstart-$Lu*sin($phi-$EMFilter_yaw)
+param EMFilter_ymstart=$EMFilter_ystart+$Lu*tan($au)
+param EMFilter_zmstart=$EMFilter_zstart-$Lu*cos($phi-$EMFilter_yaw)
+param EMFilter_xmend=$EMFilter_xstart-($Lu+$Lm)*sin($phi-$EMFilter_yaw)
+param EMFilter_ymend=$EMFilter_ystart+$Lu*tan($au)+$Lm*tan($am)
+param EMFilter_zmend=$EMFilter_zstart-($Lu+$Lm)*cos($phi-$EMFilter_yaw)
+param EMFilter_xend=$EMFilter_xstart-($Lu+$Ld+$Lm)*sin($phi-$EMFilter_yaw)
+param EMFilter_yend=$EMFilter_ystart+$Lu*tan($au)+$Lm*tan($am)+$Ld*tan($ad)
+param EMFilter_zend=$EMFilter_zstart-($Lu+$Ld+$Lm)*cos($phi-$EMFilter_yaw)
 
 # *************************************
 # Extinction Monitor Detector parameters
 # *************************************
-param EMDetector_h=40
-param EMDetector_w=40
+
+# Extinction Monitor detector room dimensions (mm)
+param EMDetector_lroom=12*12*25.4
+param EMDetector_hroom=9*12*25.4
+param EMDetector_wroom=$TargetHall_dump_width
+param EMDetector_yfloor=$pBeamStop_y+1546.8
+
+param EMDetector_planes=4
+param EMDetector_uh=33.5
+param EMDetector_uw=40
+param EMDetector_dh=50.2
+param EMDetector_dw=40
 param EMDetector_l=0.3
-param EMDetector_d=750
-param EMDetector_d1=600
-param EMDetector_d2=590
-param EMDetector_d3=300
-param EMDetector_d4=-300
-param EMDetector_d5=-590
-param EMDetector_d6=-600
-param EMDetector_B=2.756
-param EMDetector_lmagnet=508
-param EMDetector_hmagnet=300.0
-param EMDetector_wmagnet=190.0
-param EMDetector_hgap=127.0
-param EMDetector_wgap=50.0
+param EMDetector_lc=0.5*25.4
+param EMDetector_sc=1.25*25.4
+param EMDetector_sd=100
+param EMDetector_sm=75
+param EMDetector_B=0.2579
+param EMDetector_Bdl=0.14
+param EMDetector_reserve=8.0*25.4
+param EMDetector_lmagnet=21.0*25.4
+param EMDetector_hmagnet=11.5*25.4
+param EMDetector_wmagnet=146.5
+param EMDetector_lgap=1000*$EMDetector_Bdl/$EMDetector_B
+param EMDetector_hgap=9*25.4
+param EMDetector_wgap=52.0
+
+param dbend=$EMDetector_Bdl*0.2998/$EMFilter_p
+param au=$EMFilter_pitch-$bend
+param ad=$EMFilter_pitch-$bend-$dbend
+param am=$EMFilter_pitch-$bend-$dbend/2
+param yaw=$phi-$EMFilter_yaw
+param Lu=$EMDetector_reserve/cos($EMFilter_yaw)
+param EMDetector_xstart=$EMFilter_xend-$Lu*sin($yaw)
+param EMDetector_ystart=$EMFilter_yend+$Lu*tan($au)
+param EMDetector_zstart=$EMFilter_zend-$Lu*cos($yaw)
+param Ld=($EMDetector_planes-1)*$EMDetector_sd+$EMDetector_sm+2*$EMDetector_sc
+param Lm=$EMDetector_lmagnet
+param EMDetector_xmstart=$EMDetector_xstart-$Ld*cos($au)*sin($yaw)
+param EMDetector_ymstart=$EMDetector_ystart+$Ld*sin($au)
+param EMDetector_zmstart=$EMDetector_zstart-$Ld*cos($au)*cos($yaw)
+param EMDetector_xmend=$EMDetector_xstart-($Ld*cos($au)+$Lm*cos($am))*sin($yaw)
+param EMDetector_ymend=$EMDetector_ystart+$Ld*sin($au)+$Lm*sin($am)
+param EMDetector_zmend=$EMDetector_zstart-($Ld*cos($au)+$Lm*cos($am))*cos($yaw)
+param EMDetector_xend=$EMDetector_xstart-($Ld*cos($au)+$Lm*cos($am)+$Ld*cos($ad))*sin($yaw)
+param EMDetector_yend=$EMDetector_ystart+$Ld*sin($au)+$Ld*sin($ad)+$Lm*sin($am)
+param EMDetector_zend=$EMDetector_zstart-($Ld*cos($au)+$Lm*cos($am)+$Ld*cos($ad))*cos($yaw)
 

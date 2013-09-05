@@ -1,18 +1,18 @@
 # ********************************************
-#   Air volume between solenoid and beam stop 
+#   Air volume and kill zones between solenoid and beam stop 
 # ********************************************
 param -unset TargetHall_color=invisible
 param mat=$TargetHall_material
 param high=$TargetHall_h
-param dx=0.5*$pBeamStop_w+$pBeamStop_conc
-param dz=0.5*$pBeamStop_l+2*$pBeamStop_conc+1.1
+param dx=0.5*$TargetHall_dump_width
+param dz=$pBeamStop_face+2.0
 param ang=$pBeamStop_yrot*acos(-1)/180
-param x0=$pBeamStop_x+($dx-1)*cos($ang)+$dz*sin($ang)
-param z0=$pBeamStop_z-($dx-1)*sin($ang)+$dz*cos($ang)
-param x1=$pBeamStop_x-$dx*cos($ang)+$dz*sin($ang)
-param z1=$pBeamStop_z+$dx*sin($ang)+$dz*cos($ang)
-param x2=$pBeamStop_x+($dx+$TargetHall_aisle)*cos($ang)+$dz*sin($ang)
-param z2=$pBeamStop_z-($dx+$TargetHall_aisle)*sin($ang)+$dz*cos($ang)
+param c=cos($ang)
+param s=sin($ang)
+param x1=$pBeamStop_x-$dx*$c+$dz*$s
+param z1=$pBeamStop_z+$dx*$s+$dz*$c
+param x2=$x1+$TargetHall_dump_width*$c
+param z2=$z1-$TargetHall_dump_width*$s
 param x3=$x2+($TargetHall_z-$z2)*tan($ang)
 param z3=$TargetHall_z
 param x4=$TargetHall_xside2
@@ -23,56 +23,26 @@ extrusion AirGap material=$mat color=$TargetHall_color length=$high \
        vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
 
 # top and bottom kill zones
-extrusion AirKilla material=$mat color=$Iair kill=1 length=1 \
+param -unset Wall_Kill=1
+extrusion AirKilla material=$mat color=$Iair kill=$Wall_Kill length=1 \
        vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
 place AirKilla parent=AirGap z=$high/2-0.5
 place AirKilla parent=AirGap z=-$high/2+0.5
 
 # side kill zones
-box AirKillb material=$mat color=$Iair height=1 width=$x4-$x3 length=$high-2
-place AirKillb parent=AirGap kill=1 x=($x4+$x3)/2-1 y=$z3+0.5 z=0
-box AirKillc material=$mat color=$Iair width=1 height=$z4-$z3 length=$high-2
-place AirKillc parent=AirGap kill=1 y=($z3+$z4)/2 x=$x4-0.5 z=0
-box AirKilld material=$mat color=$Iair width=1 height=$z4-$z5 length=$high-2
-place AirKilld parent=AirGap kill=1 y=($z5+$z4)/2 x=$x5+0.5 z=0
-param c=cos($ang)
-param s=sin($ang)
-param len=($z3-$z2)/$c-1.5
-box AirKille material=$mat color=$Iair width=0.9 height=$len length=$high-2
-place AirKille parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
-	x=($x2+$x3+$s-$c)/2 y=($z2+$z3+$c+$s)/2 z=0
-param len=($z5-$z1)/$c-1.1
-box AirKillf material=$mat color=$Iair width=0.9 height=$len length=$high-2
-place AirKillf parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
-	x=($x5+$x1+$s+$c)/2 y=($z5+$z1+$c-$s)/2 z=0
-
-# Beam stop kill zones
-param step=$pBeamStop_y-$pBeamStop_conc-$pBeamStop_h/2-$TargetHall_y+$high/2
-param len=($x2-$x0)/$c-0.1
-box AirKillg material=$mat color=$Iair width=$len height=0.9 length=$high-$step-1
-place AirKillg parent=AirGap kill=1 rotation=z-$pBeamStop_yrot \
-       x=($x0+$x2)/2+0.5*$s y=($z0+$z2)/2+0.5*$c z=-$step/2+0.5
-
-param len=($x2-$x1)/$c
-box AirKillh material=$mat color=$Iair width=0.9 height=$len-0.2 length=$step-1.2
-place AirKillh parent=AirGap kill=1 rotation=z90-$pBeamStop_yrot \
-	x=($x1+$x2)/2+0.5*$s y=($z1+$z2)/2+0.5*$c z=$high/2-$step/2-0.5
-
+param x1p=$x1+$c
+param z1p=$z1-$s+0.01
+param x2p=$x2-$c
+param z2p=$z2+$s
+param x3p=$x3-tan($ang/2)
+param z3p=$z3+1
+param x4p=$x4-1
+param x5p=$x5+1
+param z5p=$z5-tan($ang/2)
+extrusion AirKillb material=$mat color=$Iair kill=$Wall_Kill length=$high-2.0 \
+       vertices=$x1,$z1;$x1p,$z1p;$x5p,$z5p;$x5p,$z4;$x5,$z4;$x5,$z5
+place AirKillb parent=AirGap z=0.0
+extrusion AirKillc material=$mat color=$Iair kill=$Wall_Kill length=$high-2.0 \
+      vertices=$x2p,$z2p;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x4p,$z4;$x4p,$z3p;$x3p,$z3p
+place AirKillc parent=AirGap z=0.0
 place AirGap x=0 z=0 y=$TargetHall_y rotation=x90
-
-# There are overlaps between :
-# 1. PSEoutside and PS_Shield 
-# 2. AirKilli and PS_Shield and Floor
-# Temporary solution: 
-#   Reduce Outer Radiuses of PSEoutside and AirKilli
-param -unset R_cut=467
-polycone PSEoutside outerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
-	innerRadius=$PSendcap_OuterR,$PSendcap_OuterR \
-	z=-$PSendcap_length,0 \
-	material=$TargetHall_material color=$Invisible
-polycone AirKilli outerRadius=2*$PScryostat_R4+1-$R_cut,$PScryostat_R4+1 \
-	innerRadius=2*$PScryostat_R4-$R_cut,$PScryostat_R4 \
-	z=-$PSendcap_length,0 \
-	material=$TargetHall_material color=$Invisible
-place PSEoutside x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset
-place AirKilli kill=1 x=$PScryostat_x y=$PScryostat_y z=$PScryostat_z+$PScryostat_Offset
