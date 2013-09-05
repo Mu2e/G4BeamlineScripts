@@ -101,7 +101,7 @@ param PScoils_material=Al
 # **************************
 # PS Heat shield parameters
 # **************************
-material Bronze density=8.53 Cu,0.97 Si,0.03
+material Bronze density=8.53 Fake_Cu,0.82 Fe,0.04 Al,0.09 Ni,0.05
 
 param PSshield_z0=0.0
 param PSshield_z1=650.0

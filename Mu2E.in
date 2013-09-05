@@ -201,7 +201,8 @@ if $Pretty_Pictures==1
 
 else
    trackcuts kineticEnergyCut=0.0 \
-             keep=proton,mu+,mu-,pi+,pi-,neutron
+             keep=proton,mu+,mu-,pi+,pi-,neutron\
+	     maxTime=1000000000
 
 endif
 
