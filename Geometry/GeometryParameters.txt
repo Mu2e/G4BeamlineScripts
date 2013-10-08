@@ -361,8 +361,8 @@ param EMDetector_wroom=$TargetHall_dump_width
 param EMDetector_yfloor=$pBeamStop_y+1546.8
 
 param EMDetector_planes=4
-param EMDetector_uh=33.5
-param EMDetector_uw=40
+param EMDetector_uw=33.5
+param EMDetector_uh=40
 param EMDetector_dh=50.2
 param EMDetector_dw=40
 param EMDetector_l=0.3
@@ -371,12 +371,12 @@ param EMDetector_sc=1.25*25.4
 param EMDetector_sd=100
 param EMDetector_sm=75
 param EMDetector_B=0.2579
-param EMDetector_Bdl=0.14
+param -unset EMDetector_Bdl=0.14
 param EMDetector_reserve=8.0*25.4
 param EMDetector_lmagnet=21.0*25.4
 param EMDetector_hmagnet=11.5*25.4
 param EMDetector_wmagnet=146.5
-param EMDetector_lgap=1000*$EMDetector_Bdl/$EMDetector_B
+param EMDetector_lgap=abs(1000*$EMDetector_Bdl/$EMDetector_B)
 param EMDetector_hgap=9*25.4
 param EMDetector_wgap=52.0
 

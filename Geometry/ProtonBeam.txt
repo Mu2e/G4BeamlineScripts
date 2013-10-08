@@ -88,10 +88,10 @@ param zDQ2=$EndBeamZ+$ctheta*$cphi*($FFEND-$FFDQ21m)
 param zFQ3=$EndBeamZ+$ctheta*$cphi*($FFEND-$FFFQ31m)
 param zDQ4=$EndBeamZ+$ctheta*$cphi*($FFEND-$FFDQ41m)
 
-place FQ1 kill=1 gradient=$FQ1g z=$zFQ1 x=$xFQ1 y=$yFQ1 rotation=Z90.,$Rot
-place DQ2 kill=1 gradient=$DQ2g z=$zDQ2 x=$xDQ2 y=$yDQ2 rotation=$Rot
-place FQ3 kill=1 gradient=$FQ3g z=$zFQ3 x=$xFQ3 y=$yFQ3 rotation=Z90.,$Rot
-place DQ4 kill=1 gradient=$DQ4g z=$zDQ4 x=$xDQ4 y=$yDQ4 rotation=$Rot
+place FQ1 gradient=$FQ1g z=$zFQ1 x=$xFQ1 y=$yFQ1 rotation=Z90.,$Rot
+place DQ2 gradient=$DQ2g z=$zDQ2 x=$xDQ2 y=$yDQ2 rotation=$Rot
+place FQ3 gradient=$FQ3g z=$zFQ3 x=$xFQ3 y=$yFQ3 rotation=Z90.,$Rot
+place DQ4 gradient=$DQ4g z=$zDQ4 x=$xDQ4 y=$yDQ4 rotation=$Rot
 
 param xFQ1=$EndBeamX+$ctheta*$sphi*($FFEND-$FFFQ12m)
 param xDQ2=$EndBeamX+$ctheta*$sphi*($FFEND-$FFDQ22m)
@@ -145,16 +145,37 @@ place trim rename=V12 By=$V12b z=$zV12 x=$xV12 y=$yV12 rotation=Z90.,$Rot
 place trim rename=H12 By=$H12b z=$zH12 x=$xH12 y=$yH12 rotation=$Rot
 
 # ***********************
-#  Protection collimator
+#  Protection collimators
 # ***********************
 
-param BeamColl_l=1500
-param BeamColl_ir=40
+param BeamColl_l=1000
 param BeamColl_or=250
-tubs BeamColl material=Fe color=$Tungsten length=$BeamColl_l \
-	innerRadius=$BeamColl_ir outerRadius=$BeamColl_or
+param -unset BeamCollu_ir=40
+param -unset BeamColld_ir=40
+param -unset BeamCollu_d=7000
+param -unset BeamColld_d=500
+tubs BeamCollu material=Fe color=$Tungsten length=$BeamColl_l \
+	innerRadius=$BeamCollu_ir outerRadius=$BeamColl_or
+tubs BeamColld material=Fe color=$Tungsten length=$BeamColl_l \
+	innerRadius=$BeamColld_ir outerRadius=$BeamColl_or
 
-param BCx=$EndBeamX-$cEtheta*$sphi*$BeamColl_l/2
-param BCy=$EndBeamY+$sEtheta*$BeamColl_l/2
-param BCz=$EndBeamZ-$cEtheta*$cphi*$BeamColl_l/2
-place BeamColl x=$BCx y=$BCy z=$BCz rotation=x$EndBeamXrot,y$EndBeamYrot kill=1
+param L=$FFEND-$FFFQ11m+$lenFQ1/2+$BeamColl_l/2+$BeamCollu_d
+param BCx=$EndBeamX+$ctheta*$sphi*$L
+param BCy=$EndBeamY-$stheta*$L
+param BCz=$EndBeamZ+$ctheta*$cphi*$L
+place BeamCollu x=$BCx y=$BCy z=$BCz rotation=$Rot
+
+param L=$BeamColl_l/2+$BeamColld_d
+param BCx=$EndBeamX-$cEtheta*$sphi*$L
+param BCy=$EndBeamY+$sEtheta*$L
+param BCz=$EndBeamZ-$cEtheta*$cphi*$L
+place BeamColld x=$BCx y=$BCy z=$BCz rotation=x$EndBeamXrot,y$EndBeamYrot
+
+# Kill volume around beam line
+
+tubs BeamKill color=invisible length=$FFEND+$BeamCollu_d \
+	innerRadius=1500 outerRadius=1510 kill=1
+param BCx=$EndBeamX+$ctheta*$sphi*($FFEND+$BeamCollu_d)/2
+param BCy=$EndBeamY-$stheta*($FFEND+$BeamCollu_d)/2
+param BCz=$EndBeamZ+$ctheta*$cphi*($FFEND+$BeamCollu_d)/2
+place BeamKill x=$BCx y=$BCy z=$BCz rotation=$Rot
