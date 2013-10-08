@@ -6,7 +6,7 @@
 param bend=$EMFilter_Bdl*0.2998/$EMFilter_p
 param detBend=$EMDetector_Bdl*0.2998/$EMFilter_p
 param au=$EMFilter_pitch-$bend
-param ad=$EMFilter_pitch-$bend-$dbend
+param ad=$EMFilter_pitch-$bend-$detBend
 param phi=$pBeamStop_yrot*degree
 param yaw=$EMFilter_yaw
 
@@ -88,7 +88,11 @@ genericbend detMag ironColor=$Teal By=$EMDetector_B \
 	ironLength=$EMDetector_lmagnet fieldLength=$EMDetector_lgap
 
 param Lm=($EMDetector_planes-1)*$EMDetector_sd+$EMDetector_sm
-place detMag parent=EMRoom rotation=z-90,x($ad+$au)/(2*degree),y-$yaw/degree \
+param zrot=-90
+if $EMDetector_Bdl<0
+  param zrot=90
+endif
+place detMag parent=EMRoom rotation=z$zrot,x($ad+$au)/(2*degree),y-$yaw/degree \
 	x=($ux-$Lm*cos($au)*sin($yaw)+$dx+$Lm*cos($ad)*sin($yaw))/2 \
 	y=($uy+$Lm*sin($au)+$dy-$Lm*sin($ad))/2 \
 	z=($uz-$Lm*cos($au)*cos($yaw)+$dz+$Lm*cos($ad)*cos($yaw))/2
