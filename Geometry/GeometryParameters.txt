@@ -244,12 +244,15 @@ endif
 param TargetHall_material=Air
 # x-coordinates of side walls
 param TargetHall_xside1=$Mu2E_x+1005
-param TargetHall_xside2=$Mu2E_x+7229
+#RC- Oct 20, 2103 # param TargetHall_xside2=$Mu2E_x+7229
+param TargetHall_xside2=$Mu2E_x+7194
 # z-coordinate of back wall
-param TargetHall_z=$Mu2E_z-15301
+#RC- Oct 20, 2103 # param TargetHall_z=$Mu2E_z-15301
+param TargetHall_z=$Mu2E_z-15289
 # y-coordinate of hall center
 # Vladimir Khalatyan changes: Start
-param TargetHall_y=$Mu2E_y+339.6
+#RC- Oct 20, 2103 # param TargetHall_y=$Mu2E_y+339.6
+param TargetHall_y=$Mu2E_y+245.8
 # hall height
 param TargetHall_h=4738.8
 # VK changes: Done

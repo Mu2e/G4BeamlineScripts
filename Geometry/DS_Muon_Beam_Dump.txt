@@ -16,20 +16,22 @@
 # use stainless steel and HDPE for this version
 # high density poly
 # April 2013 version. has radius= 4 cm hole at end
+# October 2013 3 cm shorter
 
 material HDPE C,.86 H,.14 density=.96
 
-
-tubs MS1a innerRadius=470. outerRadius=480. length=4116. material=Stainless304 \
+# 4116 to 4016 to 4086
+tubs MS1a innerRadius=470. outerRadius=480. length=4086. material=Stainless304 \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
      color=$Red kill=$Muon_Dump_kill
 
-tubs MS1b innerRadius=470. outerRadius=480. length=4116. material=Stainless304 \
+tubs MS1b innerRadius=470. outerRadius=480. length=4086. material=Stainless304 \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
      color=$Invisible kill=$Muon_Dump_kill
 
-place MS1a x=-7808.0 z=23187.
-place MS1b x=-7808.0 z=23187.
+# 23187 to 23237 to 23202
+place MS1a x=-7808.0 z=23202.
+place MS1b x=-7808.0 z=23202.
 
 tubs MS2a innerRadius=480. outerRadius=700. length=40. material=Stainless304 \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
@@ -53,17 +55,18 @@ tubs MS4b innerRadius=480. outerRadius=700. length=40. material=Stainless304 \
 place MS4a x=-7808.0 z=23849.
 place MS4b x=-7808.0 z=23849.
 
-tubs MP1a innerRadius=390. outerRadius=470. length=1200. \
+# 1200 to 1100 to 1170 21729 to 21779 to 21744
+tubs MP1a innerRadius=390. outerRadius=470. length=1170. \
 material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
      color=$Yellow kill=$Muon_Dump_kill
 
-tubs MP1b innerRadius=390. outerRadius=470. length=1200. \ 
+tubs MP1b innerRadius=390. outerRadius=470. length=1170. \ 
   material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
      color=$Invisible kill=$Muon_Dump_kill
 
 
-place MP1a x=-7808.0 z=21729.
-place MP1b x=-7808.0 z=21729.
+place MP1a x=-7808.0 z=21744.
+place MP1b x=-7808.0 z=21744.
 
 
 tubs MP2a innerRadius=480. outerRadius=700. length=600. \

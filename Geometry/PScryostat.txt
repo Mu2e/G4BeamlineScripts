@@ -47,11 +47,17 @@ place PSCryoEndI x=$x y=$y z=$z-($PScryostat_length-$PScryostat_thick)/2 kill=$P
 # End Cap
 # **************************************************************
 param lair=$PSendcap_length+$PSendcap_winT
-param xair=($TargetHall_xside1+$TargetHall_xside2)/2.0
-param yair=$TargetHall_y
-box PSEair length=$lair height=$TargetHall_h  \
-	width=$TargetHall_xside2-$TargetHall_xside1 \
-	material=$TargetHall_material color=$TargetHall_color
+# RC Oct 30, 2013 # 
+#param xair=($TargetHall_xside1+$TargetHall_xside2)/2.0
+#param yair=$TargetHall_y
+#box PSEair length=$lair height=$TargetHall_h  \
+#	width=$TargetHall_xside2-$TargetHall_xside1 \
+#	material=$TargetHall_material color=$TargetHall_color
+param xair=0.0
+param yair=-622.
+box PSEair length=$lair height=3842.\
+      width=2998.\
+
 tubs PSEvac length=$lair radius=$PSendcap_OuterR \
 	material=Vacuum color=invisble
 
@@ -89,7 +95,7 @@ place PSEwin2m parent=PSEvac x=$PSendcap_winX2 y=$PSendcap_winY2 z=-$PSendcap_le
 place PSEfaceI parent=PSEvac x=0 y=0 z=$PSendcap_winT+$PSendcap_thick/2-$lair/2
 place PSEshellI parent=PSEvac x=0 y=0 z=$PSendcap_winT/2
 place PSEvac parent=PSEair x=$x-$xair y=$y-$yair z=0
-place PSEair x=$xair y=$yair z=$z-$lair/2 kill=0
+#place PSEair x=$xair y=$yair z=$z-$lair/2 kill=0
 
 # **************************************************************
 # coil support

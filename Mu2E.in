@@ -3,7 +3,7 @@
 # $Author$
 
 param -unset First_Event=1
-param -unset Num_Events=1000
+param -unset Num_Events=10
 
 #
 #    G4Beamline input file for running on local machines and GRID cluster.
@@ -38,12 +38,7 @@ param -unset Num_Events=1000
 #        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
 #
 #      Solenoidal coils 
-#      (Set of 94, with transport coils rotated an extra 1.6 degrees, 
-#      but not considering effects of iron shielding)
-#        "MECO Superconducting Solenoid System Conceptual Design Report",
-#        Prepared by the Massachusetts Institute of Technology
-#        Plasma Science and Fusion Center
-#        June 6, 2002
+#      Mau9
 #
 #      Collimators in the Transport Solenoid
 #        "Collimators Design" 
@@ -68,9 +63,6 @@ param -unset Num_Events=1000
 #        Muon Beam Dump
 #        See Mu2e Proposal
 #
-#        Iron Shield Detector Solenoid- No end caps yet just sides/top/bottom
-#        See Mu2e Proposal
-#        L = 13,164 mm, 0.5m thick, 3.1 m inside
 
 
 
@@ -134,13 +126,14 @@ material B_Polyethylene density=0.95 C,0.612 H,0.116 B,0.05 O,0.222
 material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04 
 material HighSilicon density=8.53 Cu,0.97 Si,0.03 
 material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
+material Lyco_01 density=7.4 Lu,0.708935 Si,0.069895 O,0.17973 Y,0.03994 Ce,0.0015
 
 material CONCRETE_MARS density=2.35 H,0.006 C,0.03 O,0.5 Na,0.01 Al,0.03 Si,0.2 K,0.01 Ca,0.2 Fe,.014
 material CONCRETE_HEAVY density=3.637 H,0.007 B,0.013 O,0.35 Na,0.013 Al,0.02 Si,0.02 Ca,0.027 Fe,0.55
 material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
 material Fake_Cu density=8.960 Fe,1.00
-material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.4431 
+material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.442 
 material Half_Poly density=0.465 POLYETHYLENE,1.00
 
 
@@ -244,13 +237,13 @@ include ./Geometry/PS_Proton_Beam_Stop.txt
 # The default walls, floor and ceiling are invisible.
 # If you would like to see everything, define Invisible_Walls parameter to 0
 param -unset Invisible_Walls=1
-include ./Geometry/Walls_Floor.txt
+include ./Geometry/Walls_Floors_9_16_13.txt
 
 
 # ****************************************************************************
 #                                Target hall air volume
 # ****************************************************************************
-include ./Geometry/TargetHall.txt
+#include ./Geometry/TargetHall.txt
 
 
 # ****************************************************************************
@@ -387,36 +380,18 @@ endif
 # ****************************************************************************
 #                         Production Solenoid Shielding
 # ****************************************************************************
-# Use the Bronze and Hevimet shielding design
-#        "Optimization of a Mu2e Production Solenoid Absorber Using MARS15"
-#        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
-# Modified: 11/15/10, V. Khalatian
+# Use the Bronze shielding design- P.Kasper
+#        
 
 include ./Geometry/PScryostat.txt
-#include ./Geometry/PS_Mu2e_Short_Shield.txt
 
 # ****************************************************************************
-#                       Transport Solenoid Shielding
-# **************************************************************************
-
-param -unset Use_TS_Shield=1
-
-if $Use_TS_Shield==1
-  include ./Geometry/TS_Shield.txt
-
-endif
-
-# ****************************************************************************
-#                   Detector Solenoid CRV Shield Wall
+#                    CRV Shielding 
 # ****************************************************************************
 #
-# DScryo_shield= 0, 1, 2 for none, 18", 36" thick walls
-#
 
-
-param -unset DScryo_shield=2
-
-include ./Geometry/DS_CRV_ShieldWalls.txt
+include ./Geometry/CRV_Shielding.txt
+include ./Geometry/PS-TS_Shield.txt
 
 # ****************************************************************************
 #                         Detector Solenoid Neutron Shield
@@ -443,20 +418,19 @@ include ./Geometry/DS_STM_Shield.txt
 # ****************************************************************************
 #                                 Cosmic Ray Veto
 # ****************************************************************************
-# Cosmic Ray Veto 
-# From document MECO-CRS-05-001V1.01
-
-param -unset Cosmic_Ray_Veto=1
-
+# Cosmic Ray Veto - TDR Layout
+# From Mu2E document 3433- C. Dukes
+#
 ##********************
 ## If you want to include scintillator detectors to "g4beamline.root" output file
 ## Use_Scin_Det parameter should be 1
 
 param -unset Use_Scin_Det=1
 
-if $Cosmic_Ray_Veto==1
-   include ./Geometry/Cosmic_Ray_Veto_Reduced_2x.txt
-
+if $Use_Scin_Det==1
+    include ./Geometry/CRV_10_8_13.txt
+else
+    include ./Geometry/CRV_10_8_13_noVD.txt
 endif
 
 
@@ -491,19 +465,6 @@ include ./Geometry/Stopping_Target.txt
 
 
 # ****************************************************************************
-#                                Calorimeter
-# ****************************************************************************
-# Electron Calorimeter Reference Design
-# MECO-CAL-05-001, 2/11/2005, R. Djilkibaev, A. Mincer, P. Nemethy
-# Tracking Detector Reference Design
-# MECO-TRK-05-001
-#
-# Note: These are for show only. Postions and size are only approximate.
-
-include ./Geometry/Calorimeter.txt 
-
-
-# ****************************************************************************
 #                                Tracker
 # ****************************************************************************
 # 3 types of tracker:
@@ -523,6 +484,14 @@ elseif $tracker==3
 #       include ./Geometry/T_Tracker_Planes.txt 
 
 endif
+
+# ****************************************************************************
+#                                Calorimeter
+# ****************************************************************************
+# V. Khalaytan Oct 2013
+#
+
+include ./Geometry/Calorimeter_Discs.txt 
 
 
 # ****************************************************************************
