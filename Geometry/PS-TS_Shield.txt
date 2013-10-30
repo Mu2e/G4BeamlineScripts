@@ -1,0 +1,71 @@
+# $Id$ 
+# $Date$ 
+# $Author$ 
+
+# TS shielding from Geometry 13
+# created by: Rick Coleman
+# implemented by: Vladimir Khalatyan
+
+#PS Shielding
+
+param PS_Shield_Con_m=CONCRETE_MARS
+param PS_Shield_Con_c=$Gray
+
+# top,sides, bottom
+
+#extrusion PS_Shield_1 length=5250 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1750,-2300.;1750,1750;-1750,1750;-1750,-2300;-2300.,-2300;-2300,2300;2300,2300;2300,-2300
+extrusion PS_Shield_1 length=5250 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1558,-2544.;1558,1570;-1558,1570;-1558,-2544;-2108.,-2544;-2108,2120;2108,2120;2108,-2544.
+place PS_Shield_1 x=0 y=0 z=639+5250/2-1139
+
+# endcaps - remove for now
+
+#extrusion PS_Shield_2 length=200 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=850,-849.9999;850,850;-850,850;-850,-850;849.9999,-850;1749.9999,-1750;-1750,-1750;-1750,1750;1750,1750;1750,-1749.9999
+#place PS_Shield_2 x=0 y=0 z=5689+200/2-1139
+
+#extrusion PS_Shield_3 length=200 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1135,470.2;470.2,1135;-470.2,1135;-1135,470.2;-1135,-470.2;-470.2,-1135;470.2,-1135;1135,-470.2;1135,470.1999;1750,470.1999;1750,-1750;-1750,-1750;-1750,1750;1750,1750;1750,472.2
+#place PS_Shield_3 x=0 y=0 z=639+200/2-1139
+
+#TS Shielding
+# From the Walls_Floor_9_16_13 floor level is on Y=-2565.4
+
+param TS_Shield_c1=$Blue
+param TS_Shield_c2=$Gray
+param TS_Shield_m1=BARITE
+param TS_Shield_m2=CONCRETE_MARS
+
+param TS_shield_barite_h1=2565.4+2124
+param TS_shield_barite_y1=-2565.4+0.5*$TS_shield_barite_h1
+param TS_shield_barite_h2=2124-1360
+param TS_shield_barite_y2=1360+0.5*$TS_shield_barite_h2
+param TS_shield_conc_h=5791.2-$TS_shield_barite_h1
+param TS_shield_conc_y=$TS_shield_barite_y1+0.5*($TS_shield_barite_h1+$TS_shield_conc_h)
+
+#TS right part
+#Barite part
+extrusion TS_Shield_1_barite length=$TS_shield_barite_h1 vertices=-2956.60,4347.60;-2956.60,3984.60;-2317.60,3984.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$TS_Shield_c1 material=$TS_Shield_m1
+place TS_Shield_1_barite x=0 y=$TS_shield_barite_y1 z=0 rotation=X90
+
+#TS left part
+#Barite part
+extrusion TS_Shield_2_barite length=$TS_shield_barite_h1 vertices=-2317.60,9289.40;-1110.00,11053.20;-3359.00,11053.20;-3359.00,9289.40 color=$TS_Shield_c1 material=$TS_Shield_m1
+place TS_Shield_2_barite x=0 y=$TS_shield_barite_y1 z=0 rotation=X90
+
+#TS above part
+#The height was calculated from DocDB-2404 drawings of TS cryostat.
+#Barite part
+extrusion TS_Shield_3_barite length=$TS_shield_barite_h2 vertices=-3359.00,9289.40;-3359.00,6779.40;-2317.60,6779.40;-2317.60,9289.40 color=$TS_Shield_c1 material=$TS_Shield_m1
+place TS_Shield_3_barite x=0 y=$TS_shield_barite_y2 z=0 rotation=X90
+
+#TS below part- half-density suggested by George Ginther
+extrusion crv_shield_4 length=952. vertices=-3359.,6781.;-2446,6781.;-2446.0,9287.;-3359,9287.0 material=Half_Poly color=$LightBlue
+place crv_shield_4 x=0 y=-2080. z=0 rotation=X90
+
+#Above Concrete part
+extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$Red material=$TS_Shield_m2
+place TS_Shield_4 x=0 y=$TS_shield_conc_y z=0 rotation=X90
+
+extrusion TS_Shield_6 length=$TS_shield_conc_h vertices=-9998.,4347.6;-9998.,5330;-3360,5330.;-3360.,4347.6 color=$Green material=$TS_Shield_m2
+place TS_Shield_6 x=0 y=$TS_shield_conc_y z=0 rotation=X90
+
+
+

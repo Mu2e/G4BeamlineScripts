@@ -1,0 +1,264 @@
+# $Id$ 
+# $Date$ 
+# $Author$ 
+# implemented by: Vladimir Khalatyan
+#
+#TS Shielding 
+
+param Cave_mat=CONCRETE_MARS
+param Cave_mat_barite=BARITE
+param Cave_col=$Gray
+param Cave_col_barite=$Blue
+
+#box 1
+#DS upstream part
+box Cave_Box_1 \
+    length=914.4 \
+    height=2312.47+1548.33 \
+    width=4449.0+2463.80-914.4 \
+    material=$Cave_mat_barite \
+    color=$Cave_col_barite
+
+place Cave_Box_1 \
+    x=-7808.0+4449.0-0.5*(4449.0+2463.80-914.4) \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0-1320-0.5*914.4
+
+#box 2
+#DS right part
+box Cave_Box_2_barite \
+    length=1778+914.4+2235.2 \
+    height=2312.47+1548.33 \
+    width=914.40 \
+    material=$Cave_mat_barite \
+    color=$Cave_col_barite
+
+place Cave_Box_2_barite \
+    x=-7808.0-2463.80+0.5*914.4 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0-2235.20+0.5*(1778+914.4+2235.2)
+     
+box Cave_Box_2 \
+    length=11684.0+2235.20-(1778+914.4+2235.2) \
+    height=2312.47+1548.33 \
+    width=914.40 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_2 \
+    x=-7808.0-2463.80+0.5*914.4 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0-2235.20+(1778+914.4+2235.2)+0.5*(11684.0+2235.20-(1778+914.4+2235.2))
+
+#box 3
+box Cave_Box_3 \
+    length=1219.20+304.80 \
+    height=3352.80 \
+    width=914.40 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_3 \
+    x=-7808.0-2463.80+0.5*914.4 \
+    y=-2312.47+0.5*3352.80 \
+    z=7929.0+11684.0+0.5*(1219.20+304.80)
+
+#box 4
+box Cave_Box_4 \
+    length=1219.20 \
+    height=508.0 \
+    width=304.80 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_4 \
+    x=-7808.0-2463.80+0.5*304.8 \
+    y=1548.33-0.5*508.0 \
+    z=7929.0+11684.0+0.5*1219.2
+
+#box 5
+box Cave_Box_5 \
+    length=1219.20 \
+    height=508.0 \
+    width=304.80 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_5 \
+    x=-7808.0-1549.4-0.5*304.8 \
+    y=1548.33-0.5*508.0 \
+    z=7929.0+11684.0+304.8+0.5*1219.2
+
+#box 6
+box Cave_Box_6 \
+    length=15748.0-11684.0-1219.20-304.8 \
+    height=2312.47+1548.33 \
+    width=914.40 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_6 \
+    x=-7808.0-2463.80+0.5*914.4 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929+15748.0-0.5*(15748.0-11684.0-1219.20-304.8)
+
+#box 7
+#DS right/downstream part
+box Cave_Box_7 \
+    length=2794.0 \
+    height=2312.47+1548.33-330.2 \
+    width=914.40 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_7 \
+    x=-7808.0-2463.80+0.5*914.4 \
+    y=1548.33-0.5*(2312.47+1548.33-330.2) \
+    z=7929+15748.0+0.5*2794.0
+
+#box 8
+#TS left part
+box Cave_Box_8 \
+    length=914.4 \
+    height=2312.47+1548.33 \
+    width=1985.20 \
+    material=$Cave_mat_barite \
+    color=$Cave_col_barite
+
+place Cave_Box_8 \
+    x=-7808.0+4449.0-0.5*1985.20 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0+1778.0+0.5*914.4
+
+#box 9
+#DS left part (small piece)
+box Cave_Box_9 \
+    length=0.5*914.4 \
+    height=2312.47+1548.33 \
+    width=0.5*914.4 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_9 \
+    x=-7808.0+1549.4+0.75*914.4 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0+1778.0+0.25*914.4
+
+#box 10
+#DS left part
+box Cave_Box_10 \
+    length=15748.0-1778.0-0.5*914.4 \
+    height=2312.47+1548.33 \
+    width=914.4 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_10 \
+    x=-7808.0+1549.4+0.5*914.40 \
+    y=0.5*(1548.33-2312.47) \
+    z=7929.0+1778.0+0.5*(15748.0-1778.0+0.5*914.4)
+
+#box 11
+#DS left/downstream part
+box Cave_Box_11 \
+    length=2794.0 \
+    height=2312.47+1548.33-330.2 \
+    width=914.40 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_11 \
+    x=-7808.0+2463.80-0.5*914.4 \
+    y=1548.33-0.5*(2312.47+1548.33-330.2) \
+    z=7929+15748.0+0.5*2794.0
+
+#box bottom 1
+#DS downstream/bottom part
+box Cave_Box_Bottom_1 \
+    length=2794.0 \
+    height=457.2 \
+    width=1549.4-0.5*571.5 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_Bottom_1 \
+    x=-7808.0-0.5*571.5-0.5*(1549.4-0.5*571.5) \
+    y=-2312.47+330.20+0.5*(457.2) \
+    z=7929+15748.0+0.5*2794.0
+
+#box bottom 2
+#DS downstream/bottom part
+box Cave_Box_Bottom_2 \
+    length=2794.0 \
+    height=457.2 \
+    width=1549.4-0.5*571.5 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_Bottom_2 \
+    x=-7808.0+0.5*571.5+0.5*(1549.4-0.5*571.5) \
+    y=-2312.47+330.20+0.5*(457.2) \
+    z=7929+15748.0+0.5*2794.0
+
+#box bottom 3
+#DS downstream/bottom part
+box Cave_Box_Bottom_3 \
+    length=2794.0-850.90 \
+    height=457.2 \
+    width=571.5 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_Bottom_3 \
+    x=-7808.0 \
+    y=-2312.47+330.20+0.5*(457.2) \
+    z=7929+15748.0+850.90+0.5*(2794.0-850.90)
+
+#box back
+box Cave_Box_Back\
+    length=914.40 \
+    height=1548.33+1525.07 \
+    width=3098.8 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+tubs DS_Cend_hole outerRadius=76.2 length=914.4 material=AIR color=$Green
+
+place DS_Cend_hole parent=Cave_Box_Back y=-11.63
+
+place Cave_Box_Back \
+    x=-7808.0 \
+    y=1548.33-0.5*(1548.33+1525.07) \
+    z=7929.0+15748.0+2794.0-0.5*914.4
+
+
+#box top 1
+box Cave_Box_Top_1 \
+    length=914.4+3098.8+914.4 \
+    height=914.4 \
+    width=4449.0+2463.8 \
+    material=$Cave_mat_barite \
+    color=$Cave_col_barite
+
+place Cave_Box_Top_1 \
+    x=-7808.0+4449.0-0.5*(4449.0+2463.8) \
+    y=1548.33+0.5*914.4 \
+    z=7929.0-2235.2+0.5*(914.4+3098.8+914.4)
+
+#box top 2
+box Cave_Box_Top_2 \
+    length=15748.00+2794.0-1778.0-914.4 \
+    height=914.4 \
+    width=4927.6 \
+    material=$Cave_mat \
+    color=$Cave_col
+
+place Cave_Box_Top_2 \
+    x=-7808.0 \
+    y=1548.33+0.5*914.4 \
+    z=7929.0+1778.0+914.4+0.5*(15748.00+2794.0-1778.0-914.4)
+
+
+
+
+
