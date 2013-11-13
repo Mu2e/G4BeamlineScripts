@@ -69,6 +69,14 @@ length=30.0 \
 material=Stainless316 \
 color=$TScryo_color
 
+param dz=$InHRSBeamZ-$OutHRSBeamZ
+param dx=$InHRSBeamX-$OutHRSBeamX
+param dy=$InHRSBeamY-$OutHRSBeamY
+tube TSu_5hole radius=$Rpipe length=30.0 material=Vacuum color=$Red,0.5
+place TSu_5hole parent=TSu_5 z=0.0 \
+x=$OutHRSBeamX+$dx*(3910.0-$OutHRSBeamZ)/$dz \
+y=$OutHRSBeamY+$dy*(3910.0-$OutHRSBeamZ)/$dz
+
 place TSu_5 x=0.0 y=0.0 z=3910.0
 
 torus TSu_6 \
@@ -97,6 +105,16 @@ outerRadius=725.0 \
 length=1045.0 \
 material=Stainless316 \
 color=$TScryo_color
+
+param zhrs=4477.5
+param zmaxhrs=$zhrs+522.5
+param ro=725.0
+param ri=705.0
+param nr=2
+param hrs=TSu_8
+if $PSshield_Entrance==1
+   include ./Geometry/HRSBeamEntry.txt
+endif
 
 place TSu_8 x=0.0 y=0.0 z=4477.5
 

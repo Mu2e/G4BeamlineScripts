@@ -229,6 +229,11 @@ param MECO_G4_zTrans=(5.00+2.929)*1000
 
 include ./Geometry/GeometryParameters.txt
 include ./Geometry/PS_Proton_Beam_Stop.txt
+param -unset UsePrimaryBeam=0
+if $UsePrimaryBeam==1
+  param PSshield_Entrance=1
+  include ./Geometry/ProtonBeam.txt
+endif
 
 
 # ****************************************************************************
@@ -566,6 +571,18 @@ param BXangle=-1.0*($TXangle)
 param BsigmaX=1.0
 param BsigmaY=1.0
 param BsigmaT=0.0001
+
+param -unset StartBeamX=$EndBeamX
+param -unset StartBeamY=$EndBeamY
+param -unset StartBeamZ=$EndBeamZ
+
+if $UsePrimaryBeam==1
+  param xBeam=$StartBeamX
+  param yBeam=$StartBeamY
+  param zBeam=$StartBeamZ
+  param BXangle=180+$EndBeamXrot
+  param BYangle=$EndBeamYrot
+endif
 
 ##********************
 ## This is for chosing either QGSP_BERT production from the proton beam OR
