@@ -403,7 +403,7 @@ include ./Geometry/PS-TS_Shield.txt
 # ****************************************************************************
 # From Dave Hedin 5-23-2013 
 
-include ./Geometry/DS_Neutron_Shield.txt
+#include ./Geometry/DS_Neutron_Shield.txt
 
 # ****************************************************************************
 #                         Detector Solenoid Proton Absorber

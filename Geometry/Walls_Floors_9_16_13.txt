@@ -6,7 +6,7 @@
 # Construction of the Building (Walls, DS Floor and DS Ceiling)
 #
 
-param -unset Use_Walls_Notch=0
+param -unset Use_Walls_Notch=1
 
 param -unset Walls_c=$Gray
 param -unset Floor_c=$Gray
