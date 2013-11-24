@@ -24,7 +24,8 @@ param Walls_m=CONCRETE_MARS
 param Walls_h1=5181.6
 param Walls_h2=5943.6-$Walls_h1
 param Walls_h3=5486.4-$Walls_h1
-param Walls_y1=0.5*50.8
+#### My adjustment to bring the top of floor to y= -2312.47 mm Nov 2, 21013  R.C. ######
+param Walls_y1=0.5*50.8+252.93
 param Walls_y2=$Walls_y1+0.5*($Walls_h1+$Walls_h2)
 param Walls_y3=$Walls_y1+0.5*($Walls_h1+$Walls_h3)
 
