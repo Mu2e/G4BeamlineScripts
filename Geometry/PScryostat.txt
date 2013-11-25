@@ -50,15 +50,14 @@ param lair=$PSendcap_length+$PSendcap_winT
 # RC Oct 30, 2013 # 
 #param xair=($TargetHall_xside1+$TargetHall_xside2)/2.0
 #param yair=$TargetHall_y
-box PSEair length=$lair height=$TargetHall_h  \
-	width=$TargetHall_xside2-$TargetHall_xside1 \
+#box PSEair length=$lair height=$TargetHall_h  \
+#	width=$TargetHall_xside2-$TargetHall_xside1 \
+#	material=$TargetHall_material color=$TargetHall_color
+param xair=(1499.-1499.)/2.0
+param yair=231.53+(1299.-2543.0)/2.0
+box PSEair length=$lair height=1299.0+2543.0\
+	width=1499.0+1499.0 \
 	material=$TargetHall_material color=$TargetHall_color
-param xair=(1558.0-1558.0)/2.0
-param yair=(1570.0-2544.0)/2.0
-box PSEair length=$lair height=1570.0+2544.0\
-	width=1558.0+1558.0 \
-	material=$TargetHall_material color=$TargetHall_color
-
 tubs PSEvac length=$lair radius=$PSendcap_OuterR \
 	material=Vacuum color=invisble
 
