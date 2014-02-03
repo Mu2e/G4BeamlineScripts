@@ -69,15 +69,16 @@ length=30.0 \
 material=Stainless316 \
 color=$TScryo_color
 
-param dz=$InHRSBeamZ-$OutHRSBeamZ
-param dx=$InHRSBeamX-$OutHRSBeamX
-param dy=$InHRSBeamY-$OutHRSBeamY
-tube TSu_5hole radius=$Rpipe length=30.0 material=Vacuum color=$Red,0.5
-place TSu_5hole parent=TSu_5 z=0.0 \
-x=$OutHRSBeamX+$dx*(3910.0-$OutHRSBeamZ)/$dz \
-y=$OutHRSBeamY+$dy*(3910.0-$OutHRSBeamZ)/$dz
-
-place TSu_5 x=0.0 y=0.0 z=3910.0
+tubs TSbeampipe radius=$OrPSentrypipe length=$LPSentrypipe
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_5_pipe TSu_5 TSbeampipe \
+	material=Stainless316 color=$TScryo_color \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-3910.0 \
+	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
+  place TSu_5_pipe x=0.0 y=0.0 z=3910.0
+else
+  place TSu_5 x=0.0 y=0.0 z=3910.0
+endif
 
 torus TSu_6 \
 innerRadius=812.5 \
@@ -88,7 +89,15 @@ finalPhi=90.0 \
 material=Stainless316 \
 color=$TScryo_color
 
-place TSu_6 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_6_pipe TSu_6 TSbeampipe \
+	material=Stainless316 color=$TScryo_color \
+	x=$XPSentrypipe+2929.0 z=-$YPSentrypipe y=$ZPSentrypipe-5000.0 \
+	rotation=X-90,x$XrotPSentrypipe,y-$YrotPSentrypipe
+  place TSu_6_pipe x=-2929.0 y=0.0 z=5000.0 rotation=X90
+else
+  place TSu_6 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+endif
 
 tube TSu_7 \
 innerRadius=812.5 \
@@ -106,17 +115,15 @@ length=1045.0 \
 material=Stainless316 \
 color=$TScryo_color
 
-param zhrs=4477.5
-param zmaxhrs=$zhrs+522.5
-param ro=725.0
-param ri=705.0
-param nr=2
-param hrs=TSu_8
 if $PSshield_Entrance==1
-   include ./Geometry/HRSBeamEntry.txt
+  boolean op=subtraction TSu_8_pipe TSu_8 TSbeampipe \
+	material=Stainless316 color=$TScryo_color \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4477.5 \
+	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
+  place TSu_8_pipe x=0.0 y=0.0 z=4477.5
+else
+  place TSu_8 x=0.0 y=0.0 z=4477.5
 endif
-
-place TSu_8 x=0.0 y=0.0 z=4477.5
 
 # TSd Cryostat
 # !!! only inner part of cryostat

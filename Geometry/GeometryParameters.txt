@@ -14,7 +14,7 @@ param -unset PSshield_reduced=0
 param -unset PSshield_new=1
 
 # Set to 0 to remove the beam entrance hole in HRS
-param -unset PSshield_Entrance=0
+param -unset PSshield_Entrance=1
 
 # Set to 0 to remove the extinction monitor and filter
 param -unset IncludeFilter=1
@@ -67,14 +67,14 @@ param EndBeamYrot=13.6211
 param EndBeamX=$Mu2E_x+5675.9
 param EndBeamY=$Mu2E_y+321.3
 param EndBeamZ=$Mu2E_z+1110.0
-# Outside of HRS
-param OutHRSBeamX=517.6
-param OutHRSBeamY=61.5
-param OutHRSBeamZ=3861.0
+# Outside of PS and TS Cryostats
+param OutHRSBeamX=825.9
+param OutHRSBeamY=129.6
+param OutHRSBeamZ=5135.0
 # Inside of HRS
-param InHRSBeamX=299.2
-param InHRSBeamY=21.2
-param InHRSBeamZ=2969.0
+param InHRSBeamX=201.4
+param InHRSBeamY=9.3
+param InHRSBeamZ=2573.5
 
 # *******************************
 # Production Solenoid parameters
@@ -198,19 +198,25 @@ param PSshield_sGroovePosAng=145
 
 param PSshield_material=Bronze
 
-# Beam entry pipe
-# radius
-param Rpipe=2.5*25.4
-# beam coordinates wrt upstream end of HRS
-param ZbeamU=0
-param XbeamU=$OutHRSBeamX
-param YbeamU=$OutHRSBeamY
+# ***********************
+# PS beam entrance parameters
+# ***********************
+
+# inner and outer radius
+param IrPSentrypipe=2.5*25.4
+param OrPSentrypipe=$IrPSentrypipe+1
 param RbeamU=sqrt($OutHRSBeamX*$OutHRSBeamX+$OutHRSBeamY*$OutHRSBeamY)
-# beam coordinates where it exits the pipe
-param ZbeamD=$InHRSBeamZ-$OutHRSBeamZ
-param XbeamD=$InHRSBeamX
-param YbeamD=$InHRSBeamY
 param RbeamD=sqrt($InHRSBeamX*$InHRSBeamX+$InHRSBeamY*$InHRSBeamY)
+param XPSentrypipe=($OutHRSBeamX+$InHRSBeamX)/2.0
+param YPSentrypipe=($OutHRSBeamY+$InHRSBeamY)/2.0
+param ZPSentrypipe=($OutHRSBeamZ+$InHRSBeamZ)/2.0
+param dx2=($OutHRSBeamX-$InHRSBeamX)*($OutHRSBeamX-$InHRSBeamX)
+param dy2=($OutHRSBeamY-$InHRSBeamY)*($OutHRSBeamY-$InHRSBeamY)
+param dz2=($OutHRSBeamZ-$InHRSBeamZ)*($OutHRSBeamZ-$InHRSBeamZ)
+param L=sqrt($dx2+$dy2+$dz2)
+param XrotPSentrypipe=asin(($OutHRSBeamY-$InHRSBeamY)/$L)/degree
+param YrotPSentrypipe=-atan(($OutHRSBeamX-$InHRSBeamX)/($OutHRSBeamZ-$InHRSBeamZ))/degree
+param LPSentrypipe=$L+1.2*$L*$OrPSentrypipe/($RbeamU-$RbeamD)
 
 # ***********************
 # PS Endcap parameters
@@ -263,18 +269,18 @@ param TargetHall_dump_width=13*12*25.4
 # Proton beam stop parameters
 # ****************************
 # Core center coordinates 
-param pBeamStop_x=$Mu2E_x+651.3
-param pBeamStop_y=$Mu2E_y+529.0
+param pBeamStop_x=$Mu2E_x+661.9
+param pBeamStop_y=$Mu2E_y+527.4
 param pBeamStop_z=$Mu2E_z-19428.2
 
 # Core orientation (degrees)
-param pBeamStop_yrot=13.78
+param pBeamStop_yrot=13.72
 
 # Core dimensions (mm) and material
 param pBeamStop_h=1500.0
 param pBeamStop_w=1500.0
 param pBeamStop_l=2000.0
-param pBeamStop_mat=Al
+param pBeamStop_mat=Fe
 
 # Concrete Shell Thickness (mm)
 param pBeamStop_conc=1000.0
@@ -287,12 +293,12 @@ param pBeamStop_face=2*$pBeamStop_conc+$pBeamStop_l/2
 param -unset EMFilter_p=4.2
 
 # Entrance location wrt centre axis of beam stop
-param -unset EMFilter_dx=325.0
+param -unset EMFilter_dx=315.0
 param -unset EMFilter_dy=1250.0
 
 # Entry collimator rotation angles (radians)
 param -unset EMFilter_pitch=0.1653
-param -unset EMFilter_yaw=0.0317
+param -unset EMFilter_yaw=0.0303
 
 if $PSshield_Grooves==1
   param EMFilter_p=3.0
