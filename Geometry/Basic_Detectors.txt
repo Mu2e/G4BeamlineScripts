@@ -97,7 +97,7 @@ virtualdetector Tracker_Det \
     file=mu2eout \
     length=0.3\
     radius=680-0.5 \
-    color=$Red
+    color=invisible
 		
 place Tracker_Det \
     x=-2*3904 \
@@ -113,7 +113,7 @@ virtualdetector Calorimeter_Det \
     file=mu2eout \
     length=0.3\
     radius=690-0.5 \
-    color=$Red
+    color=invisible
 		
 place Calorimeter_Det \
     x=-2*3904 \
