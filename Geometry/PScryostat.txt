@@ -1,11 +1,6 @@
 # **************************************************************
 #   PS crystat, coil support, enclosure and heat shield 
 # **************************************************************
-param CL1_inner_r=$PSshield_r2
-param pi=acos(-1.0)
-param x=$PScryostat_x
-param y=$PScryostat_y
-param z=$PScryostat_z+$PScryostat_Offset+$PScryostat_length/2
 
 param -unset PSCinvisPhi=-30
 param -unset PSEinvisPhi=-90
@@ -16,6 +11,10 @@ param -unset Titanium="0.55,0.57,0.60"
 # **************************************************************
 # cryostat
 # **************************************************************
+param CL1_inner_r=$PSshield_r2
+param x=$PScryostat_x
+param y=$PScryostat_y
+param z=$PScryostat_z+$PScryostat_Offset+$PScryostat_length/2
 tubs PSCryoOuterV outerRadius=$PScryostat_R4 innerRadius=$PScryostat_R3 \
 	initialPhi=$PSCinvisPhi+180 finalPhi=$PSCinvisPhi+360 \
 	length=$PScryostat_length material=$PScryostat_material color=$Aluminum
@@ -47,19 +46,13 @@ place PSCryoEndI x=$x y=$y z=$z-($PScryostat_length-$PScryostat_thick)/2 kill=$P
 # End Cap
 # **************************************************************
 param lair=$PSendcap_length+$PSendcap_winT
-# RC Oct 30, 2013 # 
-#param xair=($TargetHall_xside1+$TargetHall_xside2)/2.0
-#param yair=$TargetHall_y
-#box PSEair length=$lair height=$TargetHall_h  \
-#	width=$TargetHall_xside2-$TargetHall_xside1 \
-#	material=$TargetHall_material color=$TargetHall_color
-param xair=(1499.-1499.)/2.0
-param yair=231.53+(1299.-2543.0)/2.0
-box PSEair length=$lair height=1299.0+2543.0\
-	width=1499.0+1499.0 \
-	material=$TargetHall_material color=$TargetHall_color
+param xair=0.0
+param yair=0.0
+box PSEair length=$lair height=2600  \
+       width=2600 \
+       material=$TargetHall_material color=invisible
 tubs PSEvac length=$lair radius=$PSendcap_OuterR \
-	material=Vacuum color=invisble
+	material=Vacuum color=invisible
 
 param ir=$PSendcap_OuterR-$PSendcap_wall
 
@@ -170,32 +163,10 @@ endif
 
 param SteelColor="0.5,0.5,0.5"
 if $PSshield_reduced==1&&$PSshield_Grooves==0
-
-  polycone PSshieldV1 material=$m color=$Copper \
-	initialPhi=$HRSinvisPhi+180 finalPhi=$HRSinvisPhi+360 \
-	innerRadius=$R0,$Rx1,$ra,$ra,$Rx2,$Rx3 \
- 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout \
-	z=$Z0,$Zx1,$za,$za,$Zx2,$Zx3
-
-  polycone PSshieldI material=$m color=$HRSinvisCol \
-	initialPhi=$HRSinvisPhi finalPhi=$HRSinvisPhi+180 \
-	innerRadius=$R0,$Rx1,$ra,$ra,$Rx2,$Rx3 \
- 	outerRadius=$radd,$radd,$radd,$rout,$rout,$rout \
-	z=$Z0,$Zx1,$za,$za,$Zx2,$Zx3
-	
-  polycone PSshieldV2 material=$m color=$Copper \
-	initialPhi=0 finalPhi=360 \
-	innerRadius=$Rx4,$Rx5 \
- 	outerRadius=$Rx6,$Rx7 \
-	z=$Zx4,$Zx5
-    
-    place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-    place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-    place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-
+  include ./Geometry/HRSreduced.txt
 elseif $PSshield_new==1&&$PSshield_Grooves==0 
 
-  tubs beampipe radius=$OrPSentrypipe length=$LPSentrypipe
+  tubs beampipe radius=$OrPSentrypipe length=$LPSentrypipe+1
     
   polycone HRS_St_S \
     z=$PSshield_z0,$PSshield_z1,$PSshield_z2,$PSshield_z3,$PSshield_z4 \
@@ -224,7 +195,7 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     boolean op=subtraction HRS_St_S_pipe HRS_St_S_invis beampipe \
 	material=Stainless316 color=invisible \
 	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-$G4bl_Mars_z \
-  	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
+  	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
     place HRS_St_S_pipe kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   else
     place HRS_St_S_invis kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
@@ -248,7 +219,7 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     material=WATER \
     color=invisible
 
-  place HRS_Water_in \
+  place HRS_Water_in kill=$PSshieldKill \
     x=0.0 \
     y=0.0 \
     z=$G4bl_Mars_z
@@ -257,10 +228,10 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     boolean op=subtraction HRS_Water_in_pipe HRS_Water_in_invis beampipe \
 	material=WATER color=invisible \
 	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-$G4bl_Mars_z \
-  	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
-    place HRS_Water_in_pipe x=0.0 y=0.0 z=$G4bl_Mars_z
+  	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+    place HRS_Water_in_pipe kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   else
-    place HRS_Water_in_invis x=0.0 y=0.0 z=$G4bl_Mars_z
+    place HRS_Water_in_invis kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   endif
 
   polycone HRS_Bronze \
@@ -281,7 +252,7 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     material=Bronze \
     color=invisible
 
-  place HRS_Bronze \
+  place HRS_Bronze kill=$PSshieldKill \
     x=0.0 \
     y=0.0 \
     z=$G4bl_Mars_z
@@ -290,10 +261,10 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     boolean op=subtraction HRS_Bronze_pipe HRS_Bronze_invis beampipe \
 	material=Bronze color=invisible \
 	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-$G4bl_Mars_z \
-  	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
-    place HRS_Bronze_pipe x=0.0 y=0.0 z=$G4bl_Mars_z
+  	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+    place HRS_Bronze_pipe kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   else
-    place HRS_Bronze_invis x=0.0 y=0.0 z=$G4bl_Mars_z
+    place HRS_Bronze_invis kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   endif
 
   polycone HRS_Water_out \
@@ -314,7 +285,7 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     material=WATER \
     color=invisible
 
-  place HRS_Water_out \
+  place HRS_Water_out kill=$PSshieldKill \
     x=0.0 \
     y=0.0 \
     z=$G4bl_Mars_z
@@ -323,43 +294,25 @@ elseif $PSshield_new==1&&$PSshield_Grooves==0
     boolean op=subtraction HRS_Water_out_pipe HRS_Water_out_invis beampipe \
 	material=WATER color=invisible \
 	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-$G4bl_Mars_z \
-  	rotation=x$XrotPSentrypipe,y$YrotPSentrypipe
-    place HRS_Water_out_pipe x=0.0 y=0.0 z=$G4bl_Mars_z
+  	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+    place HRS_Water_out_pipe kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   else
-    place HRS_Water_out_invis x=0.0 y=0.0 z=$G4bl_Mars_z
+    place HRS_Water_out_invis kill=$PSshieldKill x=0.0 y=0.0 z=$G4bl_Mars_z
   endif
 
-  if $PSshield_Entrance==1
+  param -unset PSentry_Pipe=0
+  if $PSshield_Entrance==1&&$PSentry_Pipe==1
     tubs beamtube outerRadius=$OrPSentrypipe innerRadius=$IrPSentrypipe \
 	length=$LPSentrypipe
-    tubs innerHRS radius=$PSshield_r1 length=2*$LPSentrypipe
+    tubs innerHRS radius=$PSshield_r1 length=$LPSentrypipe+500
     boolean op=subtraction EntryPipe beamtube innerHRS \
 	material=Stainless316  color=$SteelColor \
 	x=-$XPSentrypipe y=-$YPSentrypipe z=0 \
   	rotation=x-$XrotPSentrypipe,y-$YrotPSentrypipe
     place EntryPipe x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe \
-  	rotation=x-$XrotPSentrypipe,y-$YrotPSentrypipe
+  	rotation=x-$XrotPSentrypipe,y-$YrotPSentrypipe kill=$PSshieldKill
   endif
 
 else
-
-  polycone PSshieldV1 material=$m color=$Copper \
-	initialPhi=$HRSinvisPhi+180 finalPhi=$amin \
-	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
- 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
-	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
-  polycone PSshieldV2 material=$m color=$Copper \
-	initialPhi=$amax finalPhi=$HRSinvisPhi+360 \
-	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
- 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
-	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
-  polycone PSshieldI material=$m color=$HRSinvisCol \
-	initialPhi=$HRSinvisPhi finalPhi=$HRSinvisPhi+180 \
-	innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
- 	outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
-	z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
-
-    place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-    place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
-    place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+  include ./Geometry/HRSnogroove.txt
 endif

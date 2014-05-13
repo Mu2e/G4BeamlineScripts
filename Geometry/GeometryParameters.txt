@@ -22,7 +22,7 @@ param -unset IncludeFilter=1
 # *********************************************
 # virtual detector switches
 # *********************************************
-param -unset PBSdetector=0
+param -unset IncludeDumpDetector=0
 param -unset FilterDetector=0
 param -unset PixelDetector=0
 param -unset ScintDetector=0
@@ -47,7 +47,7 @@ param -unset HRSinvisCol=$Copper,0.0
 param -unset Iair=invisible
 param -unset Igap=invisible
 param -unset Iconc="0.5,0.5,0.4,0.9"
-param -unset TargetHall_color=$Blue,0.2
+param -unset TargetHall_color=invisible
 # *********************************************
 # Mu2E to G4Beamline Coordinate Transformation
 # *********************************************
@@ -61,12 +61,18 @@ param Mu2E_z=7929
 # *********************************************
 param Tposition=1764.5
 
-# End of primary beam line
-param EndBeamXrot=-2.7247
-param EndBeamYrot=13.6211
-param EndBeamX=$Mu2E_x+5675.9
-param EndBeamY=$Mu2E_y+321.3
-param EndBeamZ=$Mu2E_z+1110.0
+# *********************************************
+# Primary Beam Trajectory
+# *********************************************
+param BoosterKE=8000.0
+param ProtonMass=938.27231
+param -unset ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
+# End of primary beam line (center of last magnet)
+param EndBeamXrot=-2.7250
+param EndBeamYrot=13.62253
+param EndBeamX=$Mu2E_x+5585.9
+param EndBeamY=$Mu2E_y+303.0
+param EndBeamZ=$Mu2E_z+737.0
 # Outside of PS and TS Cryostats
 param OutHRSBeamX=825.9
 param OutHRSBeamY=129.6
@@ -175,7 +181,7 @@ if $PSshield_Grooves==0
   endif
 endif
 
-# Controls how well the grooves are modelled
+# Controls how well the grooves are modeled
 param GrooveLengthSteps=6
 param GrooveAngleSteps=40
 if $PSshield_Grooves==0
@@ -202,21 +208,36 @@ param PSshield_material=Bronze
 # PS beam entrance parameters
 # ***********************
 
-# inner and outer radius
+# inner and outer radius of pipe
 param IrPSentrypipe=2.5*25.4
 param OrPSentrypipe=$IrPSentrypipe+1
+
 param RbeamU=sqrt($OutHRSBeamX*$OutHRSBeamX+$OutHRSBeamY*$OutHRSBeamY)
 param RbeamD=sqrt($InHRSBeamX*$InHRSBeamX+$InHRSBeamY*$InHRSBeamY)
-param XPSentrypipe=($OutHRSBeamX+$InHRSBeamX)/2.0
-param YPSentrypipe=($OutHRSBeamY+$InHRSBeamY)/2.0
-param ZPSentrypipe=($OutHRSBeamZ+$InHRSBeamZ)/2.0
-param dx2=($OutHRSBeamX-$InHRSBeamX)*($OutHRSBeamX-$InHRSBeamX)
-param dy2=($OutHRSBeamY-$InHRSBeamY)*($OutHRSBeamY-$InHRSBeamY)
-param dz2=($OutHRSBeamZ-$InHRSBeamZ)*($OutHRSBeamZ-$InHRSBeamZ)
-param L=sqrt($dx2+$dy2+$dz2)
-param XrotPSentrypipe=asin(($OutHRSBeamY-$InHRSBeamY)/$L)/degree
-param YrotPSentrypipe=-atan(($OutHRSBeamX-$InHRSBeamX)/($OutHRSBeamZ-$InHRSBeamZ))/degree
-param LPSentrypipe=$L+1.2*$L*$OrPSentrypipe/($RbeamU-$RbeamD)
+param dRdZ=($RbeamU-$RbeamD)/($OutHRSBeamZ-$InHRSBeamZ)
+param dXdZ=($OutHRSBeamX-$InHRSBeamX)/($OutHRSBeamZ-$InHRSBeamZ)
+param dYdZ=($OutHRSBeamY-$InHRSBeamY)/($OutHRSBeamZ-$InHRSBeamZ)
+param zend=$InHRSBeamZ+($PScryostat_R4+$OrPSentrypipe-$RbeamD)/$dRdZ
+param zstart=$InHRSBeamZ+($PSshield_r1-$OrPSentrypipe-$RbeamD)/$dRdZ
+param xend=$InHRSBeamX+($zend-$InHRSBeamZ)*$dXdZ
+param xstart=$InHRSBeamX+($zstart-$InHRSBeamZ)*$dXdZ
+param yend=$InHRSBeamY+($zend-$InHRSBeamZ)*$dYdZ
+param ystart=$InHRSBeamY+($zstart-$InHRSBeamZ)*$dYdZ
+param dx2=($xend-$xstart)*($xend-$xstart)
+param dy2=($yend-$ystart)*($yend-$ystart)
+param dz2=($zend-$zstart)*($zend-$zstart)
+
+# Pipe length
+param LPSentrypipe=sqrt($dx2+$dy2+$dz2)
+
+# Pipe coordinates
+param XPSentrypipe=($xend+$xstart)/2.0
+param YPSentrypipe=($yend+$ystart)/2.0
+param ZPSentrypipe=($zend+$zstart)/2.0
+
+# Pipe orientation
+param XrotPSentrypipe=asin(($yend-$ystart)/$LPSentrypipe)/degree
+param YrotPSentrypipe=-atan(($xend-$xstart)/($zend-$zstart))/degree
 
 # ***********************
 # PS Endcap parameters
@@ -244,30 +265,10 @@ if $PSshield_Grooves==1
   param PSendcap_winY2=445.0
 endif
 
-# ***********************
-# Target Hall parameters
-# ***********************
-param TargetHall_material=Air
-# x-coordinates of side walls
-param TargetHall_xside1=$Mu2E_x+1005
-#RC- Oct 20, 2103 # param TargetHall_xside2=$Mu2E_x+7229
-param TargetHall_xside2=$Mu2E_x+7194
-# z-coordinate of back wall
-#RC- Oct 20, 2103 # param TargetHall_z=$Mu2E_z-15301
-param TargetHall_z=$Mu2E_z-15289
-# y-coordinate of hall center
-# Vladimir Khalatyan changes: Start
-#RC- Oct 20, 2103 # param TargetHall_y=$Mu2E_y+339.6
-param TargetHall_y=$Mu2E_y+245.8
-# hall height
-param TargetHall_h=4738.8
-# VK changes: Done
-# width of beam stop enclosure
-param TargetHall_dump_width=13*12*25.4
-
 # ****************************
 # Proton beam stop parameters
 # ****************************
+
 # Core center coordinates 
 param pBeamStop_x=$Mu2E_x+661.9
 param pBeamStop_y=$Mu2E_y+527.4
@@ -282,9 +283,77 @@ param pBeamStop_w=1500.0
 param pBeamStop_l=2000.0
 param pBeamStop_mat=Fe
 
-# Concrete Shell Thickness (mm)
-param pBeamStop_conc=1000.0
-param pBeamStop_face=2*$pBeamStop_conc+$pBeamStop_l/2
+# Albedo trap length and depth
+param pBeamStop_ltrap=1000.0
+param pBeamStop_dtrap=500.0
+
+# Concrete shield thickness
+param pBeamStop_tconc=1000.0
+
+# Distance between albedo trap entrance and core center
+param pBeamStop_face=$pBeamStop_tconc+$pBeamStop_ltrap+0.5*$pBeamStop_l
+
+# Albedo trap entrance 
+param pBeamStop_xo=$pBeamStop_x+$pBeamStop_face*sin($pBeamStop_yrot*degree)
+param pBeamStop_zo=$pBeamStop_z+$pBeamStop_face*cos($pBeamStop_yrot*degree)
+
+# ***********************
+# Target Hall and Beam Stop Enclosure
+# ***********************
+param TargetHall_material=Air
+
+# Enclosure width
+param PBSenclosure_width=(13*12)*25.4
+
+# Enclosure angle taken from civil drawings
+#param PBSenclosure_yrot=13.7169
+param PBSenclosure_yrot=13.72
+param cs=cos($PBSenclosure_yrot*degree)
+param sn=sin($PBSenclosure_yrot*degree)
+
+# coordinates of downstream corners of target hall
+param TargetHall_x1=$Mu2E_x+7195.80
+param TargetHall_z1=$Mu2E_z-15290.80
+param TargetHall_x2=$Mu2E_x+3701.74
+param TargetHall_z2=$Mu2E_z-15290.80
+param TargetHall_x3=$Mu2E_x+947.40
+param TargetHall_z3=$Mu2E_z-9833.10
+
+# floor elevation and ceiling height
+param TargetHall_h=(17*12)*25.4
+param TargetHall_yfloor=$Mu2E_y-2312.47
+param PBSenclosure_yfloor=$TargetHall_yfloor+(2*12+9.75)*25.4
+
+# Distance between dump face and target
+param dx=$pBeamStop_xo
+param dz=$pBeamStop_zo-$Tposition
+param PBSenclosure_dist=sqrt($dx*$dx+$dz*$dz)
+
+# Enclosure recess depth
+param l=($Tposition-$TargetHall_z2)*$cs-$TargetHall_x2*$sn
+param PBSenclosure_recess=$PBSenclosure_dist-$l-100
+
+# Enclosure length and height including extinction monitor rooms
+param PBSenclosure_length=$PBSenclosure_recess+(45*12+6)*25.4
+param PBSenclosure_height=(23*12+5)*25.4
+
+# coordinates of enclosure center
+param l=$PBSenclosure_dist-$PBSenclosure_recess+0.5*$PBSenclosure_length
+param PBSenclosure_x=-$l*$sn
+param PBSenclosure_y=$TargetHall_yfloor+0.5*$PBSenclosure_height
+param PBSenclosure_z=$Tposition-$l*$cs
+
+# *************************************
+# Extinction Monitor enclosure parameters
+# *************************************
+# Extinction Monitor detector room dimensions (mm)
+param EMDetector_lroom=12*12*25.4
+param EMDetector_hroom=9*12*25.4
+param EMDetector_wroom=$PBSenclosure_width
+param EMDetector_yfloor=$TargetHall_yfloor+(14*12+5)*25.4
+param EMDetector_lshield=(6*12+6.75)*25.4
+param EMMagnet_lroom=(13*12+11)*25.4
+param EMMagnet_lshield=(13*12+0.125)*25.4
 
 # *************************************
 # Extinction Monitor Filter parameters
@@ -293,12 +362,12 @@ param pBeamStop_face=2*$pBeamStop_conc+$pBeamStop_l/2
 param -unset EMFilter_p=4.2
 
 # Entrance location wrt centre axis of beam stop
-param -unset EMFilter_dx=315.0
+param -unset EMFilter_dx=325.0
 param -unset EMFilter_dy=1250.0
 
-# Entry collimator rotation angles (radians)
+# Entry collimator rotation angles wrt centre axis of beam stop (radians)
 param -unset EMFilter_pitch=0.1653
-param -unset EMFilter_yaw=0.0303
+param -unset EMFilter_yaw=0.0312
 
 if $PSshield_Grooves==1
   param EMFilter_p=3.0
@@ -309,15 +378,15 @@ if $PSshield_Grooves==1
 endif
 
 # Upstream collimator dimensions (mm)
-param EMFilter_lu=4000
+param EMFilter_lu=$pBeamStop_face+$pBeamStop_l/2
 param EMFilter_ru=25
 
 # Downstream collimator dimensions (mm)
-param EMFilter_ld=2000
+param EMFilter_ld=$EMDetector_lshield
 param EMFilter_rd=37.5
 
 # Magnet dimensions (mm)
-param EMFilter_lspace=4200.0
+param EMFilter_lspace=$EMMagnet_lroom+$EMMagnet_lshield-$EMFilter_lu
 param EMFilter_lreserve=13.5*25.4
 param EMFilter_lmagnet=145*25.4
 param EMFilter_hmagnet=11.64*25.4
@@ -344,30 +413,32 @@ param EMFilter_ystart=$pBeamStop_y+$EMFilter_dy
 param EMFilter_zstart=$pBeamStop_z+$dz*cos($phi)-$EMFilter_dx*sin($phi)
 param bend=$EMFilter_Bdl*0.2998/$EMFilter_p
 param au=$EMFilter_pitch
+param Lu=$EMFilter_lu/cos($EMFilter_yaw)
+param EMFilter_xuend=$EMFilter_xstart-$Lu*sin($phi-$EMFilter_yaw)
+param EMFilter_yuend=$EMFilter_ystart+$Lu*tan($au)
+param EMFilter_zuend=$EMFilter_zstart-$Lu*cos($phi-$EMFilter_yaw)
 param am=$EMFilter_pitch-$bend/2
-param ad=$EMFilter_pitch-$bend
-param Lm=$EMFilter_lmagnet*cos($am)
 param Lu=($EMFilter_lu+$EMFilter_lreserve)/cos($EMFilter_yaw)
-param Ld=($EMFilter_ld+$EMFilter_lspace-$EMFilter_lreserve)/cos($EMFilter_yaw)-$Lm
 param EMFilter_xmstart=$EMFilter_xstart-$Lu*sin($phi-$EMFilter_yaw)
 param EMFilter_ymstart=$EMFilter_ystart+$Lu*tan($au)
 param EMFilter_zmstart=$EMFilter_zstart-$Lu*cos($phi-$EMFilter_yaw)
+param Lm=$EMFilter_lmagnet*cos($am)
 param EMFilter_xmend=$EMFilter_xstart-($Lu+$Lm)*sin($phi-$EMFilter_yaw)
 param EMFilter_ymend=$EMFilter_ystart+$Lu*tan($au)+$Lm*tan($am)
 param EMFilter_zmend=$EMFilter_zstart-($Lu+$Lm)*cos($phi-$EMFilter_yaw)
+param ad=$EMFilter_pitch-$bend
+param Ld=($EMFilter_ld+$EMFilter_lspace-$EMFilter_lreserve)/cos($EMFilter_yaw)-$Lm
 param EMFilter_xend=$EMFilter_xstart-($Lu+$Ld+$Lm)*sin($phi-$EMFilter_yaw)
 param EMFilter_yend=$EMFilter_ystart+$Lu*tan($au)+$Lm*tan($am)+$Ld*tan($ad)
 param EMFilter_zend=$EMFilter_zstart-($Lu+$Ld+$Lm)*cos($phi-$EMFilter_yaw)
+param Ld=$EMFilter_ld/cos($EMFilter_yaw)
+param EMFilter_xdstart=$EMFilter_xend+$Ld*sin($phi-$EMFilter_yaw)
+param EMFilter_ydstart=$EMFilter_yend-$Ld*tan($ad)
+param EMFilter_zdstart=$EMFilter_zend+$Ld*cos($phi-$EMFilter_yaw)
 
 # *************************************
 # Extinction Monitor Detector parameters
 # *************************************
-
-# Extinction Monitor detector room dimensions (mm)
-param EMDetector_lroom=12*12*25.4
-param EMDetector_hroom=9*12*25.4
-param EMDetector_wroom=$TargetHall_dump_width
-param EMDetector_yfloor=$pBeamStop_y+1546.8
 
 param EMDetector_planes=4
 param EMDetector_uw=33.5

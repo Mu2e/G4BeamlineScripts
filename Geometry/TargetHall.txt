@@ -2,47 +2,41 @@
 #   Air volume and kill zones between solenoid and beam stop 
 # ********************************************
 param -unset TargetHall_color=invisible
-param mat=$TargetHall_material
-param high=$TargetHall_h
-param dx=0.5*$TargetHall_dump_width
-param dz=$pBeamStop_face+2.0
-param ang=$pBeamStop_yrot*acos(-1)/180
-param c=cos($ang)
-param s=sin($ang)
-param x1=$pBeamStop_x-$dx*$c+$dz*$s
-param z1=$pBeamStop_z+$dx*$s+$dz*$c
-param x2=$x1+$TargetHall_dump_width*$c
-param z2=$z1-$TargetHall_dump_width*$s
-param x3=$x2+($TargetHall_z-$z2)*tan($ang)
-param z3=$TargetHall_z
-param x4=$TargetHall_xside2
-param z4=$PScryostat_z+$PScryostat_Offset-$PSendcap_length-$PSendcap_winT
-param x5=$TargetHall_xside1
-param z5=$z1-($x1-$x5)/tan($ang)
-extrusion AirGap material=$mat color=$TargetHall_color length=$high \
-       vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
+param x1=$TargetHall_x1
+param z1=$TargetHall_z1
+param x2=$TargetHall_x2
+param z2=$TargetHall_z2
+param x3=$TargetHall_x3
+param z3=$TargetHall_z3
+param cs=cos($PBSenclosure_yrot*degree)
+param sn=sin($PBSenclosure_yrot*degree)
+param dx=$PBSenclosure_width/2
+param dz=$PBSenclosure_length/2+1
+param xa=$PBSenclosure_x+$dx*$cs+$dz*$sn
+param za=$PBSenclosure_z-$dx*$sn+$dz*$cs
+param xb=$PBSenclosure_x-$dx*$cs+$dz*$sn
+param zb=$PBSenclosure_z+$dx*$sn+$dz*$cs
+param z5=$PScryostat_z+$PScryostat_Offset-$PSendcap_length-$PSendcap_winT
+extrusion AirGap material=$TargetHall_material color=$TargetHall_color \
+	length=$TargetHall_h \
+	vertices=$x1,$z1;$x2,$z2;$xa,$za;$xb,$zb;$x3,$z3;$x3,$z5;$x1,$z5
 
 # top and bottom kill zones
 param -unset Wall_Kill=1
-extrusion AirKilla material=$mat color=$Iair kill=$Wall_Kill length=1 \
-       vertices=$x1,$z1;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x5,$z4;$x5,$z5
-place AirKilla parent=AirGap z=$high/2-0.5
-place AirKilla parent=AirGap z=-$high/2+0.5
+extrusion AirKilla material=$TargetHall_material color=invisible \
+	kill=$Wall_Kill length=1 \
+	vertices=$x1,$z1;$x2,$z2;$xa,$za;$xb,$zb;$x3,$z3;$x3,$z5;$x1,$z5
+place AirKilla parent=AirGap x=0 y=0 z=$TargetHall_h/2-0.5
+place AirKilla parent=AirGap x=0 y=0 z=-$TargetHall_h/2+0.5
 
 # side kill zones
-param x1p=$x1+$c
-param z1p=$z1-$s+0.01
-param x2p=$x2-$c
-param z2p=$z2+$s
-param x3p=$x3-tan($ang/2)
-param z3p=$z3+1
-param x4p=$x4-1
-param x5p=$x5+1
-param z5p=$z5-tan($ang/2)
-extrusion AirKillb material=$mat color=$Iair kill=$Wall_Kill length=$high-2.0 \
-       vertices=$x1,$z1;$x1p,$z1p;$x5p,$z5p;$x5p,$z4;$x5,$z4;$x5,$z5
-place AirKillb parent=AirGap z=0.0
-extrusion AirKillc material=$mat color=$Iair kill=$Wall_Kill length=$high-2.0 \
-      vertices=$x2p,$z2p;$x2,$z2;$x3,$z3;$x4,$z3;$x4,$z4;$x4p,$z4;$x4p,$z3p;$x3p,$z3p
-place AirKillc parent=AirGap z=0.0
-place AirGap x=0 z=0 y=$TargetHall_y rotation=x90
+extrusion AirKillb material=$TargetHall_material color=invisible \
+	kill=$Wall_Kill length=$TargetHall_h-2.0 \
+	vertices=$x1,$z1;$x2,$z2;$x2,$z2+1;$x1-1,$z2+1;$x1-1,$z5;$x1,$z5
+place AirKillb parent=AirGap x=0 y=0 z=0.0
+extrusion AirKillc material=$TargetHall_material color=invisible \
+	kill=$Wall_Kill length=$TargetHall_h-2.0 \
+	vertices=$xb,$zb;$x3,$z3;$x3,$z5;$x3+1,$z5;$x3+1,$z3;$xb+1,$zb
+place AirKillc parent=AirGap x=0 y=0 z=0.0
+
+place AirGap x=0 z=0 y=$TargetHall_yfloor+$TargetHall_h/2 rotation=x90

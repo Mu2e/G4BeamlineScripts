@@ -1,4 +1,7 @@
-param filtUS=$EMFilter_lu
+#
+# OBSOLETE
+#
+#param filtUS=$EMFilter_lu
 param filtMS=$EMFilter_lspace
 param filtDS=$EMFilter_ld
 param filtMagL=$EMFilter_lmagnet

@@ -1,248 +1,353 @@
 # **********************************************
 # Proton Beam Stop and Extinction Monitor Filter
 # **********************************************
-param pi=acos(-1.0)
-param Concrete="0.5,0.5,0.4"
-param IVconc=$Iconc
+param -unset PBS_Kill=1
+param -unset IncludeFilter=1
+param ConcCol="0.5,0.55,0.5"
+param ConcInv="0.5,0.55,0.5,0"
+param CollCol="0.6,0.55,0.5"
 
-param -unset FilterInDetector=0
+# create the enclosure volume
+# It encompasses the shelf on whichh the beam dump sits plus the 
+# extinction monitor's magnet and detector rooms
 
-# **********************************
-# Proton beam stop parameters
-# **********************************
+box PBSenc material=Air color=invisible \
+	length=$PBSenclosure_length \
+	width=$PBSenclosure_width \
+	height=$PBSenclosure_height
 
-param air=$TargetHall_material
-param PBS_t=$pBeamStop_conc
-param PBS_h=$pBeamStop_h
-param PBS_w=$pBeamStop_w
-param PBS_l=$pBeamStop_l
-param PBS_HB=$pBeamStop_y-$TargetHall_y+($TargetHall_h+$pBeamStop_h)/2.0
-param PBS_W=$TargetHall_dump_width
-param PBS_L=$PBS_l+3*$PBS_t
+# Target Hall Ceiling concrete/dirt 
 
-param PBS_x=$pBeamStop_x
-param PBS_y=$pBeamStop_y	
-param PBS_z=$pBeamStop_z
-param PBS_rot=$pBeamStop_yrot
-param PBS_ang=$PBS_rot*$pi/180.0
+param z1=0
+param y1=$PBSenclosure_height/2
+param z2=$z1
+param y2=$TargetHall_yfloor-$PBSenclosure_y+$TargetHall_h
+param z3=$PBSenclosure_recess+(13*12+0.125)*25.4
+param y3=$y2
+param z4=$z3
+param y4=$PBSenclosure_height/2
+extrusion PBSCeil material=CONCRETE_MARS color=$Gray kill=1 length=$PBSenclosure_width\
+	vertices=$z1,$y1;$z2,$y2;$z3,$y3;$z4,$y4
+place PBSCeil parent=PBSenc x=0 y=0 z=0.5*$PBSenclosure_length rotation=y90 \
+	kill=$PBS_Kill
 
+# Floor concrete
+
+param z1=$PBSenclosure_recess
+param y1=$PBSenclosure_yfloor-$PBSenclosure_y
+param z2=$z1+(17*12+4)*25.4
+param y2=$y1
+param z3=$z2
+param y3=$EMDetector_yfloor-$PBSenclosure_y
+param z4=$PBSenclosure_length
+param y4=$y3
+param z5=$z4
+param y5=$y3-1000
+param z6=$z4-$EMDetector_lroom
+param y6=$y5
+param z7=$z2+1000
+param y7=-0.5*$PBSenclosure_height
+param z8=$z1
+param y8=$y7
+extrusion PBSfloor material=CONCRETE_MARS color=$Gray kill=1 length=$PBSenclosure_width\
+	vertices=$z1,$y1;$z2,$y2;$z3,$y3;$z4,$y4;$z5,$y5;$z6,$y6;$z7,$y7;$z8,$y8
+place PBSfloor parent=PBSenc x=0 y=0 z=0.5*$PBSenclosure_length rotation=y90 \
+	kill=$PBS_Kill
+
+# set up some parameters for coordinate transformations
+param cs=cos($PBSenclosure_yrot*degree)
+param sn=sin($PBSenclosure_yrot*degree)
+param Cs=cos($pBeamStop_yrot*degree)
+param Sn=sin($pBeamStop_yrot*degree)
+
+# Beam stop core
+
+param x=0.5*$pBeamStop_w
+param y=0.5*$pBeamStop_h
+extrusion PBScoreV length=$pBeamStop_l vertices=-$x,-$y;-$x,$y;0,$y;0,-$y \
+	material=$pBeamStop_mat color="0.66,0.67,0.71"
+extrusion PBScoreI length=$pBeamStop_l vertices=$x,-$y;$x,$y;0,$y;0,-$y \
+	material=$pBeamStop_mat color=$ConcInv
+param dx=$pBeamStop_x-$PBSenclosure_x
+param dz=$pBeamStop_z-$PBSenclosure_z
+place PBScoreV parent=PBSenc kill=$PBS_Kill \
+	rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y
+place PBScoreI parent=PBSenc kill=$PBS_Kill \
+	rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y
+
+# upstream filter alignment pipe
+param L=$EMFilter_lu/(cos($EMFilter_pitch)*cos($EMFilter_yaw))
+polycone EMFup z=-$L-100,5-$L/2,5-$L/2,100 \
+	outerRadius=$EMFilter_r2d,$EMFilter_r2d,$EMFilter_r2u,$EMFilter_r2u
+param xf=$EMFilter_dx
+param yf=$EMFilter_dy
+param zf=$pBeamStop_face
+
+# Beam stop shielding
+param xt=$x+$pBeamStop_dtrap
+param yt=$y+$pBeamStop_dtrap
+param Y=$TargetHall_yfloor-$pBeamStop_y+$TargetHall_h
+param t=$pBeamStop_tconc
+
+if $IncludeDumpDetector==1
+  param dx=$pBeamStop_x+(0.5*$pBeamStop_l+$pBeamStop_ltrap+$t+1)*$Sn-$PBSenclosure_x
+  param dz=$pBeamStop_z+(0.5*$pBeamStop_l+$pBeamStop_ltrap+$t+1)*$Cs-$PBSenclosure_z
+  virtualdetector dump length=1 width=2*($x+$t) height=2*($y+$t) \
+  	color=$Red kill=1
+  place dump parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+endif
+
+# front section
+param dx=$pBeamStop_x+0.5*($pBeamStop_l+2*$pBeamStop_ltrap+$t)*$Sn-$PBSenclosure_x
+param dz=$pBeamStop_z+0.5*($pBeamStop_l+2*$pBeamStop_ltrap+$t)*$Cs-$PBSenclosure_z
+extrusion PBSfrontV length=$t \
+    vertices=-$x-$t,-$y-$t;-$x-$t,$Y;0,$Y;0,$y;-$x,$y;-$x,-$y;0,-$y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcCol
+place PBSfrontV parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+extrusion PBSfrontI length=$t \
+    vertices=$x+$t,-$y-$t;$x+$t,$Y;0,$Y;0,$y;$x,$y;$x,-$y;0,-$y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcInv
+boolean PBSfrontIb PBSfrontI EMFup op=subtraction \
+    x=$xf y=$yf z=$zf+$t/2-$pBeamStop_face \
+    rotation=x-$EMFilter_pitch/degree,y$EMFilter_yaw/degree \
+    material=CONCRETE_MARS color=$ConcInv
 if $IncludeFilter==1
-  param psTotL=$EMFilter_lu+$EMFilter_ld+$EMFilter_lspace
-  param psTU_L=$EMFilter_lu
-  param PBS_HT=$EMDetector_yfloor-$pBeamStop_y-$pBeamStop_h/2+$EMDetector_hroom
-  param PBS_Chan_X=$EMFilter_dx
-  param PBS_Chan_W=2.0*$EMFilter_r2d
-  param PBS_EMfloor_H=$PBS_HT-$EMDetector_hroom
+  place PBSfrontIb parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
 else
-  param psTotL=$PBS_L
-  param psTU_L=$PBS_L-$PBS_t
-  param PBS_HT=$TargetHall_h-$PBS_HB
-  param PBS_Chan_X=0
-  param PBS_Chan_W=0
-  param PBS_EMfloor_H=$PBS_HT-1.0
-endif
-param psTotH=$PBS_HB+$PBS_HT
-
-# **********************************
-#   Construct beam stop 
-# **********************************
-# Volume hierarchy:
-#  pStop
-#   |_ psT(pStopT) : Top section above top of core
-#   |	|_ psTU(pStopTU) : Upstream section
-#   |	|   |_ psTUV(pStopTUV) : Visible concrete
-#   |	|   |	|_ psTUVF(pStopTUVF) : Front section
-#   |	|   |	|_ psTUVN(pStopTUVN) : Neuton trap section
-#   |	|   |	|_ psTUVC(pStopTUVC) : Core section
-#   |	|   |_ psTUI(pStopTUI) : Invisible concrete with filter entry channel
-#   |	|	|_ psTUIA(pStopTUIA) : Neuton trap section air
-#   |	|_ psTD(pStopTD) : Section downstream of filter entry channel
-#   |	    |_ psTDBase(pStopTDBase) : Concrete floor
-#   |_ psB(pStop) : Bottom section below top of core
-#	|_ psBF(pStopBF) : Front section
-#	|   |_ psBFMid(pStopBFM) : Middle
-#	|   |	|_ psBFAir(pStopBFMAir) : Air opening
-#	|   |	|_ psBFBot(pStopBFMBot) : Concrete bottom
-#	|   |_ psBFSide(pStopBFS1,pStopBFS2) : x2 Concrete Sides
-#	|_ psBN(pStopBN) : Neutron trap section
-#	|   |_ psBNMid(pStopBNM) : Middle
-#	|   |	|_ psBNAir(pStopBNMAir) : Air opening
-#	|   |	|_ psBNBot(pStopBNMBot) : Concrete bottom
-#	|   |_ psBNSide(pStopBNS1,pStopBNS2) : x2 Concrete Sides
-#	|_ psBC(pStopBC) : Core section
-#	|   |_ psBCMid(pStopBCM) : Middle
-#	|   |	|_ psBCAl(pStopBCMAl) : Al core
-#	|   |	|_ psBCBot(pStopBCMBot) : Concrete bottom
-#	|   |_ psBCSide(pStopBCS1,pStopBCS2) : x2 Concrete Sides
-#	|_ psBBack(pStopBBack) : Concrete behind core
-#	|_ psBDirt(pStopBDirt) : *Dirt below filter
-
-# Bottom front section
-param cw=($PBS_W-$PBS_w)/2
-param aw=$PBS_w
-param ch=$PBS_HB-$PBS_h
-param ah=$PBS_h
-box psBFAir material=$air color=$Iair  kill=$PBS_Kill\
-	length=$PBS_t height=$ah width=$aw
-box psBFBot  material=CONCRETE color=$Concrete  kill=$PBS_Kill\
-	length=$PBS_t height=$ch width=$aw
-box psBFSide material=CONCRETE color=$Concrete  kill=$PBS_Kill\
-	length=$PBS_t height=$PBS_HB width=$cw
-
-group psBFMid length=$PBS_t height=$PBS_HB width=$aw
-place psBFBot rename=+Bot x=0 y=-$ah/2 z=0
-place psBFAir rename=+Air x=0 y=$ch/2 z=0
-endgroup
-
-group psBF length=$PBS_t height=$PBS_HB width=$PBS_W
-place psBFMid  rename=+M  x=0 y=0 z=0
-place psBFSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
-place psBFSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
-endgroup
-
-# Bottom neutron trap section
-param cw=($PBS_W-$PBS_w-$PBS_t)/2
-param aw=$PBS_w+$PBS_t
-param ch=$PBS_HB-$PBS_h-$PBS_t/2
-param ah=$PBS_h+$PBS_t/2
-box psBNAir material=$air color=$Iair kill=$PBS_Kill \
-	length=$PBS_t height=$ah width=$aw
-box psBNBot  material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_t height=$ch width=$aw
-box psBNSide material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_t height=$PBS_HB width=$cw
-
-group psBNMid length=$PBS_t height=$PBS_HB width=$aw
-place psBNBot rename=+Bot x=0 y=-$ah/2 z=0
-place psBNAir rename=+Air x=0 y=$ch/2 z=0
-endgroup
-
-group psBN length=$PBS_t height=$PBS_HB width=$PBS_W
-place psBNMid  rename=+M  x=0 y=0 z=0
-place psBNSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
-place psBNSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
-endgroup
-
-# Bottom core section
-param cw=($PBS_W-$PBS_w)/2
-param aw=$PBS_w
-param ch=$PBS_HB-$PBS_h
-param ah=$PBS_h
-box psBCAl material=$pBeamStop_mat color=$Aluminum kill=$PBS_Kill \
-	length=$PBS_l height=$ah width=$aw
-box psBCBot  material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_l height=$ch width=$aw
-box psBCSide material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_l height=$PBS_HB width=$cw
-if $PBSdetector==1
-  virtualdetector PBScore height=$ah width=$aw length=1 kill=1
-  place PBScore parent=psBCAl color=invisible x=0 y=0 z=($PBS_l-1)/2.
+  place PBSfrontI parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
 endif
 
-group psBCMid length=$PBS_l height=$PBS_HB width=$aw
-place psBCBot parent=psBCMid rename=+Bot x=0 y=-$ah/2 z=0
-place psBCAl  parent=psBCMid rename=+Al  x=0 y=$ch/2 z=0
-endgroup
-
-group psBC length=$PBS_l height=$PBS_HB width=$PBS_W
-place psBCMid  rename=+M  x=0 y=0 z=0
-place psBCSide rename=+S1 x=$PBS_W/2-$cw/2 y=0 z=0
-place psBCSide rename=+S2 x=-$PBS_W/2+$cw/2 y=0 z=0
-endgroup
-
-# Bottom back section
-box psBBack material=CONCRETE color=$Concrete kill=$PBS_Kill \
-	length=$PBS_t height=$PBS_HB width=$PBS_W
+# albedo trap section
+param dx=$pBeamStop_x+0.5*($pBeamStop_l+$pBeamStop_ltrap)*$Sn-$PBSenclosure_x
+param dz=$pBeamStop_z+0.5*($pBeamStop_l+$pBeamStop_ltrap)*$Cs-$PBSenclosure_z
+extrusion PBStrapV length=$pBeamStop_ltrap \
+    vertices=-$x-$t,-$y-$t;-$x-$t,$Y;0,$Y;0,$yt;-$xt,$yt;-$xt,-$yt;0,-$yt;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcCol
+place PBStrapV parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+extrusion PBStrapI length=$pBeamStop_ltrap \
+    vertices=$x+$t,-$y-$t;$x+$t,$Y;0,$Y;0,$yt;$xt,$yt;$xt,-$yt;0,-$yt;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcInv
+boolean PBStrapIb PBStrapI EMFup op=subtraction \
+    x=$xf y=$yf z=$zf+$t+$pBeamStop_ltrap/2-$pBeamStop_face \
+    rotation=x-$EMFilter_pitch/degree,y$EMFilter_yaw/degree \
+    material=CONCRETE_MARS color=$ConcInv
 if $IncludeFilter==1
-  box psBDirt material=CONCRETE color="0.3,0.1,0.1" kill=$PBS_Kill \
-	length=$psTotL-$PBS_L height=$PBS_HB width=$PBS_W
+  place PBStrapIb parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+else
+  place PBStrapI parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
 endif
 
-# Upstream top section
+# core section
+param dx=$pBeamStop_x-$PBSenclosure_x
+param dz=$pBeamStop_z-$PBSenclosure_z
+extrusion PBSbodyV length=$pBeamStop_l \
+    vertices=-$x-$t,-$y-$t;-$x-$t,$Y;0,$Y;0,$y;-$x,$y;-$x,-$y;0,-$y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcCol
+place PBSbodyV parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+extrusion PBSbodyI length=$pBeamStop_l \
+    vertices=$x+$t,-$y-$t;$x+$t,$Y;0,$Y;0,$y;$x,$y;$x,-$y;0,-$y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcInv
+boolean PBSbodyIb PBSbodyI EMFup op=subtraction \
+    x=$xf y=$yf z=$zf \
+    rotation=x-$EMFilter_pitch/degree,y$EMFilter_yaw/degree \
+    material=CONCRETE_MARS color=$ConcInv
+if $IncludeFilter==1
+  place PBSbodyIb parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+else
+  place PBSbodyI parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+endif
 
-param wv=$PBS_W/2.+$PBS_Chan_X-$PBS_Chan_W/2.
-param wi=$PBS_W-$wv
+# back section
+param Y=$EMDetector_yfloor-$pBeamStop_y
+param dx=$pBeamStop_x-0.5*($pBeamStop_l+$t)*$Sn-$PBSenclosure_x
+param dz=$pBeamStop_z-0.5*($pBeamStop_l+$t)*$Cs-$PBSenclosure_z
+extrusion PBSbackV length=$t vertices=-$x-$t,-$y-$t;-$x-$t,$Y;0,$Y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcCol
+place PBSbackV parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
+extrusion PBSbackI length=$t vertices=$x+$t,-$y-$t;$x+$t,$Y;0,$Y;0,-$y-$t \
+    material=CONCRETE_MARS color=$ConcInv
+place PBSbackI parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+	x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y \
+	kill=$PBS_Kill
 
-# Top upstream visible section
+# downstream filter alignment pipe
 
-box psTUVF material=CONCRETE color=$Concrete \
-	length=$PBS_t height=$PBS_HT width=$wv
-box psTUVN material=$air color=invisible \
-	length=$PBS_t height=$PBS_HT width=$wv
-param y=$PBS_HT/2.0
-param x=$wv/2.0
-param yc=-$y+$PBS_t/2
-param xc=-$x+$PBS_W/2-$PBS_w/2-$PBS_t/2
-extrusion psTUVNConc material=CONCRETE color=$Concrete length=$PBS_t \
-	vertices=-$x,-$y;-$x,$y;$x,$y;$x,$yc;$xc,$yc;$xc,-$y
-place psTUVNConc parent=psTUVN x=0 y=0 z=0
-box psTUVC material=CONCRETE color=$Concrete \
-	length=$psTU_L-2*$PBS_t height=$PBS_HT width=$wv
+param pitch=$EMFilter_pitch-$EMFilter_Bdl*0.2998/$EMFilter_p
+param L=$EMFilter_ld/(cos($pitch)*cos($EMFilter_yaw))
+polycone EMFdown z=-100,5+$L/2,5+$L+5,$L+100 \
+	outerRadius=$EMFilter_r2d,$EMFilter_r2d,$EMFilter_r2u,$EMFilter_r2u
+param dx=$EMFilter_xend-$PBSenclosure_x
+param dy=$EMFilter_yend-$PBSenclosure_y
+param dz=$EMFilter_zend-$PBSenclosure_z
 
-group psTUV length=$psTU_L height=$PBS_HT width=$wv
-place psTUVF rename=+F x=0 y=0 z=($psTU_L-$PBS_t)/2.
-place psTUVN rename=+N x=0 y=0 z=($psTU_L-$PBS_t)/2.-$PBS_t
-place psTUVC rename=+C x=0 y=0 z=-$PBS_t
-endgroup
+# EM detector room shield wall
 
-# Top upstream invisible section
+box EMDshieldV material=CONCRETE_MARS color=$ConcCol \
+	length=$EMDetector_lshield height=$EMDetector_hroom \
+	width=$EMDetector_wroom/2.0
+boolean EMDshieldI EMDshieldV EMFdown op=subtraction \
+	x=$dx*$cs-$dz*$sn-$EMDetector_wroom/4.0 \
+	y=$dy-($PBSenclosure_height-$EMDetector_hroom)/2.0 \
+	z=-$EMDetector_lshield/2.0 \
+	rotation=x-$pitch/degree,y$EMFilter_yaw/degree \
+	material=CONCRETE_MARS color=$ConcCol
 
-param w=$wi-$PBS_W/2+$PBS_w/2+$PBS_t/2
-box psTUIA material=$air color=$Iair length=$PBS_t height=$PBS_t/2 width=$w
-
-box psTUI material=CONCRETE color=$Iconc \
-	length=$psTU_L height=$PBS_HT width=$wi
-place psTUIA parent=psTUI rename=+A \
-	x=($w-$wi)/2 y=-($PBS_HT-$PBS_t/2)/2 z=($psTU_L-3*$PBS_t)/2.
-
-# upstream filter channel
+place EMDshieldV parent=PBSenc x=-$EMDetector_wroom/4.0 \
+	z=$EMDetector_lroom-($PBSenclosure_length-$EMDetector_lshield)/2 \
+	y=($PBSenclosure_height-$EMDetector_hroom)/2.0 \
+	kill=$PBS_Kill
 
 if $IncludeFilter==1
-  include ./Geometry/ExtinctionMonitor.txt
+ place EMDshieldI parent=PBSenc x=$EMDetector_wroom/4.0 \
+	z=$EMDetector_lroom-($PBSenclosure_length-$EMDetector_lshield)/2 \
+	y=($PBSenclosure_height-$EMDetector_hroom)/2.0 \
+	kill=$PBS_Kill
+else
+ place EMDshieldV parent=PBSenc x=$EMDetector_wroom/4.0 \
+	z=$EMDetector_lroom-($PBSenclosure_length-$EMDetector_lshield)/2 \
+	y=($PBSenclosure_height-$EMDetector_hroom)/2.0 \
+	kill=$PBS_Kill
 endif
 
-# Downstream part of top section
-box psTDfloor material=CONCRETE color=$Concrete \
-	length=$psTotL-$psTU_L height=$PBS_EMfloor_H width=$PBS_W
+# Filter magnet
 
-# Put bottom section together
-
-group psB length=$psTotL height=$PBS_HB width=$PBS_W
-place psBF rename=+F x=0 y=0 z=($psTotL-$PBS_t)/2.
-place psBN rename=+N x=0 y=0 z=($psTotL-$PBS_t)/2.-$PBS_t
-place psBC rename=+C x=0 y=0 z=($psTotL-$PBS_l)/2.-2*$PBS_t
-place psBBack rename=+Back x=0 y=0 z=($psTotL-$PBS_t)/2.-2*$PBS_t-$PBS_l
+param bnd=0.5*$EMFilter_Bdl*0.2998/$EMFilter_p
+param pitch=$EMFilter_pitch-$bnd
+param yaw=$pBeamStop_yrot*degree-$EMFilter_yaw
+#param d=$EMFilter_hgap/2-$EMFilter_ru/cos($bnd)
+param d=0.5*$EMFilter_lgap*(1-cos($bnd))/sin($bnd)
+if $d<0 'param d=0'
+param ddx=$d*sin($pitch)*sin($yaw)
+param ddy=$d*cos($pitch)
+param ddz=$d*sin($pitch)*cos($yaw)
+param dx=0.5*($EMFilter_xmstart+$EMFilter_xmend)-$PBSenclosure_x+$ddx
+param dy=0.5*($EMFilter_ymstart+$EMFilter_ymend)-$PBSenclosure_y+$ddy
+param dz=0.5*($EMFilter_zmstart+$EMFilter_zmend)-$PBSenclosure_z+$ddz
+param yrot=$pBeamStop_yrot-$PBSenclosure_yrot-$EMFilter_yaw/degree
+genericbend FiltMagnet ironMaterial=Fe fieldMaterial=$TargetHall_material \
+	ironWidth=$EMFilter_hmagnet   fieldWidth=$EMFilter_hgap \
+	ironHeight=$EMFilter_wmagnet  fieldHeight=$EMFilter_wgap \
+	ironLength=$EMFilter_lmagnet  fieldLength=$EMFilter_lgap \
+	By=$EMFilter_B ironColor=$Teal
 if $IncludeFilter==1
-  place psBDirt rename=+Dirt x=0 y=0 z=-$PBS_L/2.
+  place FiltMagnet parent=PBSenc rotation=z-90,x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy \
+	kill=$PBS_Kill
 endif
-endgroup
 
-# Put Top section together
+# upstream collimator
 
-group psTU color=invisible height=$PBS_HT width=$PBS_W length=$psTU_L
-place psTUV rename=+V x=-$wi/2. y=0 z=0
-place psTUI rename=+I x=$wv/2. y=0 z=0
-endgroup
-
-group psTD height=$PBS_HT width=$PBS_W length=$psTotL-$psTU_L
-place psTDfloor rename=+floor x=0 y=($PBS_EMfloor_H-$PBS_HT)/2. z=0
+param pitch=$EMFilter_pitch
+param dx=$EMFilter_xstart-$PBSenclosure_x
+param dy=$EMFilter_ystart-$PBSenclosure_y
+param dz=$EMFilter_zstart-$PBSenclosure_z
+param L=$EMFilter_lu/(cos($EMFilter_pitch)*cos($EMFilter_yaw))
+polycone EMFcollup z=-$L,-$L/2,-$L/2,0 \
+	outerRadius=$EMFilter_r1d,$EMFilter_r1d,$EMFilter_r1u,$EMFilter_r1u \
+	innerRadius=$EMFilter_ru,$EMFilter_ru,$EMFilter_ru,$EMFilter_ru \
+	material=CONCRETE_MARS color=$CollCol
 if $IncludeFilter==1
-  place psTDT rename=+T x=0 y=$PBS_EMfloor_H/2. z=0
+  place EMFcollup parent=PBSenc rotation=x$EMFilter_pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$pBeamStop_y+$yf-$PBSenclosure_y \
+	kill=$PBS_Kill
 endif
-endgroup
 
-group psT length=$psTotL height=$PBS_HT width=$PBS_W
-place psTU rename=+U x=0 y=0 z=($psTotL-$psTU_L)/2.
-place psTD rename=+D x=0 y=0 z=-$psTU_L/2.
-endgroup
+# downstream collimator
 
-group pStop height=$psTotH width=$PBS_W length=$psTotL
-place psB rename=+B x=0 y=-$PBS_HT/2. z=0
-place psT rename=+T x=0 y=$PBS_HB/2. z=0
-endgroup
+param pitch=$EMFilter_pitch-2*$bnd
+param dx=$EMFilter_xend-$PBSenclosure_x
+param dy=$EMFilter_yend-$PBSenclosure_y
+param dz=$EMFilter_zend-$PBSenclosure_z
+param L=$EMFilter_ld/(cos($EMFilter_pitch)*cos($EMFilter_yaw))
+polycone EMFcolldown z=0,$L/2,$L/2,$L \
+	outerRadius=$EMFilter_r1d,$EMFilter_r1d,$EMFilter_r1u,$EMFilter_r1u \
+	innerRadius=$EMFilter_rd,$EMFilter_rd,$EMFilter_ru,$EMFilter_ru \
+	material=CONCRETE_MARS color=$CollCol
+if $IncludeFilter==1
+  place EMFcolldown parent=PBSenc rotation=x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy \
+	kill=$PBS_Kill
+endif
 
-param dz=($psTotL-$PBS_l)/2.0-2.0*$PBS_t
-param psTotx=$PBS_x-sin($PBS_ang)*$dz
-param psToty=$PBS_y+$PBS_h/2-$PBS_HB+$psTotH/2.
-param psTotz=$PBS_z-cos($PBS_ang)*$dz
-place pStop x=$psTotx y=$psToty z=$psTotz rotation=y$PBS_rot
+# Filter detectors
+
+virtualdetector DetU length=1.0 radius=$EMFilter_ru-0.1  \
+      material=$TargetHall_material color=$Red
+virtualdetector DetD length=1.0 radius=$EMFilter_rd  \
+      material=$TargetHall_material color=$Red
+if $FilterDetector==1&&$IncludeFilter==1
+ param pitch=$EMFilter_pitch
+ param dx=$EMFilter_xstart-20*cos($pitch)*sin($yaw)-$PBSenclosure_x
+ param dy=$EMFilter_ystart+20*sin($pitch)-$PBSenclosure_y
+ param dz=$EMFilter_zstart-20*cos($pitch)*cos($yaw)-$PBSenclosure_z
+ place DetU parent=PBSenc rename=+DetUu rotation=x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy
+ param dx=$EMFilter_xuend-$PBSenclosure_x
+ param dy=$EMFilter_yuend-$PBSenclosure_y
+ param dz=$EMFilter_zuend-$PBSenclosure_z
+ place DetU parent=PBSenc rename=+DetUd rotation=x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy
+ param dx=$EMFilter_xdstart-$PBSenclosure_x
+ param dy=$EMFilter_ydstart-$PBSenclosure_y
+ param dz=$EMFilter_zdstart-$PBSenclosure_z
+ param pitch=$EMFilter_pitch-$EMFilter_Bdl*0.2998/$EMFilter_p
+ place DetU parent=PBSenc rename=+DetDu rotation=x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy
+ param dx=$EMFilter_xend-$PBSenclosure_x
+ param dy=$EMFilter_yend-$PBSenclosure_y
+ param dz=$EMFilter_zend-$PBSenclosure_z
+ place DetD parent=PBSenc rename=+DetDd rotation=x$pitch/degree,y$yrot \
+	x=$dx*$cs-$dz*$sn z=$dx*$sn+$dz*$cs y=$dy
+endif
+if $IncludeFilter==1
+  include Geometry/ExtinctionDetector.txt
+endif
+
+place PBSenc x=$PBSenclosure_x y=$PBSenclosure_y z=$PBSenclosure_z \
+	rotation=y$PBSenclosure_yrot
+
+box PBSkilltop material=Air color=invisible kill=1 \
+	length=$PBSenclosure_length \
+	width=$PBSenclosure_width height=1
+place PBSkilltop x=$PBSenclosure_x z=$PBSenclosure_z \
+	y=$PBSenclosure_y+0.5*($PBSenclosure_height+1) \
+	rotation=y$PBSenclosure_yrot
+place PBSkilltop x=$PBSenclosure_x z=$PBSenclosure_z \
+	y=$PBSenclosure_y-0.5*($PBSenclosure_height+1) \
+	rotation=y$PBSenclosure_yrot
+
+box PBSkillside material=Air color=invisible kill=1 \
+	length=$PBSenclosure_length \
+	height=$PBSenclosure_height width=1
+place PBSkillside y=$PBSenclosure_y \
+	x=$PBSenclosure_x-0.5*($PBSenclosure_width+1.1)*$cs \
+	z=$PBSenclosure_z+0.5*($PBSenclosure_width+1.1)*$sn \
+	rotation=y$PBSenclosure_yrot
+place PBSkillside y=$PBSenclosure_y \
+	x=$PBSenclosure_x+0.5*($PBSenclosure_width+1.1)*$cs \
+	z=$PBSenclosure_z-0.5*($PBSenclosure_width+1.1)*$sn \
+	rotation=y$PBSenclosure_yrot
