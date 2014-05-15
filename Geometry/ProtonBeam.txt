@@ -209,11 +209,12 @@ place FCOL2 rotation=y$EndBeamYrot kill=$ProtonBeamLineKill \
 # ***********************
 #  Beam Counter
 # ***********************
+param -unset BeamCounter=0
 if $BeamCounter==1
 
 virtualdetector BeamCounter material=Vacuum length=1 radius=$PCOLir+$dr
 
-param L=$Lend-$PCOLu+2.
+param L=$Lend-$PCOLu+0.002
 place BeamCounter rotation=x$EndBeamXrot,y$EndBeamYrot \
   x=$EndBeamX+$fxend*$L y=$EndBeamY+$fyend*$L z=$EndBeamZ+$fzend*$L
 
