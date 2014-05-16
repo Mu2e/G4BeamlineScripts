@@ -155,8 +155,7 @@ material Half_Poly density=0.465 POLYETHYLENE,1.00
 #physics QGSP_BERT
 
 physics QGSP_BERT_HP
-muminuscapturefix 2.5
-
+muminuscapturefix neutronMeanNumber=0.277 neutronMeanEnergy=20.07
 # ****************************************************************************
 #                                Set the kill parameter on various shielding
 # ****************************************************************************
