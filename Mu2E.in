@@ -178,6 +178,7 @@ param -unset steppingVerbose=0
 ## This is for making pretty pictures
 param -unset Pretty_Pictures=0
 
+   param maxStep=10
 if $Pretty_Pictures==1
    param maxStep=10
    trackcuts kineticEnergyCut=1.0 \
@@ -580,8 +581,8 @@ if $UsePrimaryBeam==1
   param xBeam=$StartBeamX
   param yBeam=$StartBeamY
   param zBeam=$StartBeamZ
-  param BXangle=180+$EndBeamXrot
-  param BYangle=$EndBeamYrot
+  param BXangle=180+$StartBeamXrot
+  param BYangle=$StartBeamYrot
 endif
 
 ##********************
