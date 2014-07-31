@@ -10,9 +10,37 @@
 #        "Collimators Design" 
 #        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
 #
+##********************
+## New PBAR WINDOW/Absorber upstream of Coll_01
+## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+##*********************
+
+param Coll_pbarU_Rout=230.0
+param Coll_pbarU_length=350.e-3
+param Coll_pbarU_Rin=0.0
+param Coll_pbarU_x=0.0
+param Coll_pbarU_z=3883.0
+
+tubs Coll_pbarU \
+     outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
+     length=$Coll_pbarU_length \
+     maxStep=50.e-3\
+     initialPhi=0.0 finalPhi=360.0 \
+     material=KAPTON \
+     color=$Yellow \
+     kill=0
+
+place Coll_pbarU \
+      x=$Coll_pbarU_x \
+      z=$Coll_pbarU_z \
+      rename=Coll_pbarU_a
+#      
 #
-# Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 
-# 
+# Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 Coll_01_a,b_in
+#
+# Add pbar additional inner material carbon 200mm long, 6/14/2014 Coll_01_a,b_pbar
+#z=-3254mm to z=-3054  R=150 mm r=120 mm phi=200-340 degrees
+# Designed by Zhengyun You and Bill Molzon, see doc db #4139 
 
 
 param Coll_01_Rout=240.0
@@ -22,6 +50,15 @@ param Coll_01_length=1000.0
 param Coll_01_x=0.0
 param Coll_01_z=4385.0-$Coll_01_length/2.0
 param -unset TS_Collimator_Color=$Copper
+
+tube Coll_01_a_pbar \
+    innerRadius=120. \
+    outerRadius=$Coll_01_Rin_1 \
+    length=200. \
+    initialPhi=200. finalPhi=340.0 \
+    material=C \
+    color=$Red \
+    kill=$TS_Collimator_kill
 
 tube Coll_01_a_in \
     innerRadius=$Coll_01_Rin_1 \
@@ -40,6 +77,10 @@ tube Coll_01_a_out \
     material=Fake_Cu \
     color=$TS_Collimator_Color \
     kill=$TS_Collimator_kill
+    
+place Coll_01_a_pbar \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0+400.    
         
 place Coll_01_a_in \
       x=$Coll_01_x \
@@ -48,6 +89,15 @@ place Coll_01_a_in \
 place Coll_01_a_out \
       x=$Coll_01_x \
       z=$Coll_01_z+$Coll_01_length/2.0
+      
+tube Coll_01_b_pbar \
+    innerRadius=120. \
+    outerRadius=$Coll_01_Rin_1 \
+    length=200. \
+    initialPhi=200. finalPhi=340.0 \
+    material=Vacuum \
+    color=$Red \
+    kill=$TS_Collimator_kill      
 
 tube Coll_01_b_in \
     innerRadius=$Coll_01_Rin_1 \
@@ -66,6 +116,10 @@ tube Coll_01_b_out \
     material=Fake_Cu \
     color=invisible\
     kill=$TS_Collimator_kill
+    
+place Coll_01_b_pbar \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0+400.      
 
 place Coll_01_b_in \
       x=$Coll_01_x \
@@ -74,11 +128,44 @@ place Coll_01_b_in \
 place Coll_01_b_out \
       x=$Coll_01_x \
       z=$Coll_01_z+$Coll_01_length/2.0
+      
+
 ##********************
-## PBAR WINDOW/Absorber 
+## Old PBAR WINDOW/Absorber 
+## This Code is for the pbar window used in the May 2012 CDR 
+##*********************
+
+#param Coll_pbar_Rout=230.0
+#param Coll_pbar_length=672.e-3
+#param Coll_pbar_Rin=0.0
+#param Coll_pbar_x=$MECO_G4_xTrans
+#param Coll_pbar_z=$MECO_G4_zTrans
+
+#tubs Coll_pbar \
+#     outerRadius=$Coll_pbar_Rout innerRadius=$Coll_pbar_Rin \
+#     length=$Coll_pbar_length \
+#     maxStep=50.e-3\
+#     initialPhi=0.0 finalPhi=360.0 \
+#     material=KAPTON \
+#     color=$Yellow \
+#     kill=0
+
+#place Coll_pbar \
+#      x=$Coll_pbar_x \
+#      z=$Coll_pbar_z \
+#      rotation=Y90 \
+#      rename=Coll_pbar_a
+      
+##********************
+## TDR May 2014 PBAR WINDOW/Absorber 
+## This Code is for the pbar windows & additional TS1 collimator material
+## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+##*********************
+
+## TS3 pbar window = disk plus wedge
 
 param Coll_pbar_Rout=230.0
-param Coll_pbar_length=672.e-3
+param Coll_pbar_length=200.e-3
 param Coll_pbar_Rin=0.0
 param Coll_pbar_x=$MECO_G4_xTrans
 param Coll_pbar_z=$MECO_G4_zTrans
@@ -97,6 +184,40 @@ place Coll_pbar \
       z=$Coll_pbar_z \
       rotation=Y90 \
       rename=Coll_pbar_a
+
+## TS3 window followed by a trapezoid immediately downstream
+## with 1.1 mm top thickness, to 0.001 mm bottom thickness 
+## located in ~top half of collimator aperture
+
+param Wedge_pbar_height=190.0
+param Wedge_pbar_upperWidth=1.1
+param Wedge_pbar_lowerWidth=0.0001
+param Wedge_pbar_length=350.
+param Wedge_pbar_Rin=0.0
+param Wedge_pbar_x=$MECO_G4_xTrans-1
+param Wedge_pbar_y=95.0
+param Wedge_pbar_z=$MECO_G4_zTrans
+
+trap Wedge_pbar \
+     height=$Wedge_pbar_height \
+     upperWidth=$Wedge_pbar_upperWidth \
+     lowerWidth=$Wedge_pbar_lowerWidth \
+     Xul=-175. \
+     Xur=175. \
+     Xll=-175. \
+     Xlr=175. \
+     length=$Wedge_pbar_length \
+     maxStep=50.e-3\
+     material=KAPTON \
+     color=$Red \
+     kill=0
+
+place Wedge_pbar \
+      x=$Wedge_pbar_x \
+      y=$Wedge_pbar_y \
+      z=$Wedge_pbar_z
+      
+#      rotation=Y90 
 
 ##********************
 ## COLL_03 
