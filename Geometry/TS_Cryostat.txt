@@ -7,15 +7,15 @@
 #                        Transport Solenoid Cyrostat
 #
 # ****************************************************************************
-# From Mu2e CDR of March 2012
+# From Mu2e TDR of 2014, table 6.17 of solenoid chapter
 # Used simple version of the cryostat - toroid shapes.
 #
 
 
 # Some parameters from the previous cryostat
-param TScryo_innerR=240.0
-param TScryo_outerR=260.0
-param TScryo_Radius=2929
+param TScryo_innerR=250.0
+param TScryo_outerR=262.7
+param TScryo_Radius=2929.
 
 param TScryo_color_a=$TScryo_color
 param TScryo_color_b=$Invisible
@@ -26,8 +26,8 @@ param TScryo_color_b=$Invisible
 # !!! only inner part of cryostat
 torus TSu_1 \
 innerRadius=250.0 \
-outerRadius=270.0 \
-majorRadius=2929.0 \
+outerRadius=262.7 \
+majorRadius=$TScryo_Radius\
 initialPhi=0.0 \
 finalPhi=90.0 \
 material=Stainless316 \
@@ -37,7 +37,7 @@ place TSu_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
 
 tube TSu_2 \
 innerRadius=250.0 \
-outerRadius=270.0 \
+outerRadius=262.7 \
 length=920.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -45,8 +45,8 @@ color=$TScryo_color
 place TSu_2 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
 
 tube TSu_3 \
-innerRadius=250.0 \
-outerRadius=270.0 \
+innerRadius=250. \
+outerRadius=262.7 \
 length=1045.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -55,7 +55,7 @@ place TSu_3 x=0.0 y=0.0 z=4477.5
 
 tube TSu_4 \
 innerRadius=250.0 \
-outerRadius=832.5 \
+outerRadius=700.0 \
 length=30.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -63,7 +63,7 @@ color=$TScryo_color
 place TSu_4 x=-3864.0 y=0.0 z=7929.0 rotation=Y90
 
 tube TSu_5 \
-innerRadius=250.0 \
+innerRadius=250. \
 outerRadius=725.0 \
 length=30.0 \
 material=Stainless316 \
@@ -81,9 +81,9 @@ else
 endif
 
 torus TSu_6 \
-innerRadius=812.5 \
-outerRadius=832.5 \
-majorRadius=2929.0 \
+innerRadius=675.0 \
+outerRadius=700.0 \
+majorRadius=$TScryo_Radius \
 initialPhi=0.0 \
 finalPhi=90.0 \
 material=Stainless316 \
@@ -100,8 +100,8 @@ else
 endif
 
 tube TSu_7 \
-innerRadius=812.5 \
-outerRadius=832.5 \
+innerRadius=675.0 \
+outerRadius=700.0 \
 length=920.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -129,8 +129,8 @@ endif
 # !!! only inner part of cryostat
 torus TSd_1 \
 innerRadius=250.0 \
-outerRadius=270.0 \
-majorRadius=2929.0 \
+outerRadius=262.7 \
+majorRadius=$TScryo_Radius \
 initialPhi=180.0 \
 finalPhi=270.0 \
 material=Stainless316 \
@@ -140,7 +140,7 @@ place TSd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
 
 tube TSd_2 \
 innerRadius=250.0 \
-outerRadius=270.0 \
+outerRadius=262.7 \
 length=920.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -149,7 +149,7 @@ place TSd_2 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
 
 tube TSd_3 \
 innerRadius=250.0 \
-outerRadius=270.0 \
+outerRadius=262.7 \
 length=1220.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -158,7 +158,7 @@ place TSd_3 x=-7808.0 y=0.0 z=11468.0
 
 tube TSd_4 \
 innerRadius=250.0 \
-outerRadius=832.5 \
+outerRadius=700.0 \
 length=30.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -167,7 +167,7 @@ place TSd_4 x=-3944.0 y=0.0 z=7929.0 rotation=Y90
 
 tube TSd_5 \
 innerRadius=250.0 \
-outerRadius=832.5 \
+outerRadius=700.0 \
 length=30.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -175,8 +175,8 @@ color=$TScryo_color
 place TSd_5 x=-7808.0 y=0.0 z=12093.0 
 
 torus TSd_6 \
-innerRadius=812.5 \
-outerRadius=832.5 \
+innerRadius=675.0 \
+outerRadius=700.0 \
 majorRadius=2929.0 \
 initialPhi=180.0 \
 finalPhi=270.0 \
@@ -186,8 +186,8 @@ color=$TScryo_color
 place TSd_6 x=-4879.0 y=0.0 z=10858.0 rotation=X90
 
 tube TSd_7 \
-innerRadius=812.5 \
-outerRadius=832.5 \
+innerRadius=675.0 \
+outerRadius=700.0 \
 length=920.0 \
 material=Stainless316 \
 color=$TScryo_color
@@ -195,8 +195,8 @@ color=$TScryo_color
 place TSd_7 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
 
 tube TSd_8 \
-innerRadius=812.5 \
-outerRadius=832.5 \
+innerRadius=675.0 \
+outerRadius=700.0 \
 length=1220.0 \
 material=Stainless316 \
 color=$TScryo_color
