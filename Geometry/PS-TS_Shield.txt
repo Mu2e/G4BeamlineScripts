@@ -7,16 +7,18 @@
 # implemented by: Vladimir Khalatyan
 
 # Nov 2, 2013 my adjustement to bring shielding to correct floor elevation -2312.47 mm
+#  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
 param yoff=252.93
 
 #PS Shielding
 
 param PS_Shield_Con_m=CONCRETE_MARS
-param PS_Shield_Con_c=$Gray
+param PS_Shield_Con_c=$Red
 
 # top,sides, bottom
 
 #extrusion PS_Shield_1 length=5250 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1750,-2300.;1750,1750;-1750,1750;-1750,-2300;-2300.,-2300;-2300,2300;2300,2300;2300,-2300
+
 extrusion PS_Shield_1a length=5250-1037.4 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1500,-2544.;1500,1300;-1500,1300;-1500,-2544;-2050.,-2544;-2050,1850;2050,1850;2050,-2544.
 place PS_Shield_1a x=0 y=$yoff z=639+5250/2-1139-1037.4/2
 
@@ -35,11 +37,11 @@ place PS_Shield_1c x=0 y=$yoff z=639+5250-1139-1037.4/2
 #extrusion PS_Shield_3 length=200 color=$PS_Shield_Con_c material=$PS_Shield_Con_m vertices=1135,470.2;470.2,1135;-470.2,1135;-1135,470.2;-1135,-470.2;-470.2,-1135;470.2,-1135;1135,-470.2;1135,470.1999;1750,470.1999;1750,-1750;-1750,-1750;-1750,1750;1750,1750;1750,472.2
 #place PS_Shield_3 x=0 y=$yoff z=639+200/2-1139
 
-#TS Shielding
+#TS Shielding parametrs below are for the old shielding
 # From the Walls_Floor_9_16_13 floor level is on Y=-2565.4- Corrected to -2312.47 on Nov 2, 2013 using y offset (yoff)
 
 param TS_Shield_c1=$Blue
-param TS_Shield_c2=$Gray
+param TS_Shield_c2=$White
 param TS_Shield_m1=BARITE
 param TS_Shield_m2=CONCRETE_MARS
 
@@ -55,40 +57,122 @@ param TS_shield_conc_y=$TS_shield_barite_y1+0.5*($TS_shield_barite_h1+$TS_shield
 #extrusion TS_Shield_1_barite length=$TS_shield_barite_h1 vertices=-2956.60,4347.60;-2956.60,3984.60;-2317.60,3984.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$TS_Shield_c1 material=$TS_Shield_m1
 #place TS_Shield_1_barite x=0 y=$TS_shield_barite_y1+$yoff z=0 rotation=X90
 
-#---WITH HOLE ---
+#---WITH HOLE --- more like a ledge
 param TS_Shield_1a_l=2565.4+1300-635
 param TS_Shield_1b_l=$TS_shield_barite_h1-(2565.4+1300-635)
 param TS_Shield_1a_y=-2565.4+0.5*(2565.4+1300-635)
 param TS_Shield_1b_y=1300-635+0.5*($TS_shield_barite_h1-(2565.4+1300-635))
 
-extrusion TS_Shield_1a_barite length=$TS_Shield_1a_l vertices=-2956.60,4347.60;-2956.60,3984.60;-2317.60,3984.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$TS_Shield_c1 material=$TS_Shield_m1
-place TS_Shield_1a_barite x=0 y=$TS_Shield_1a_y+$yoff z=0 rotation=X90
+extrusion TS_Shield_1a_barite length=$TS_Shield_1a_l vertices=-2956.60,4347.60;-2956.60,3984.60;-2317.60,3984.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$Red material=$TS_Shield_m1
+#place TS_Shield_1a_barite x=0 y=$TS_Shield_1a_y+$yoff z=0 rotation=X90
 
-extrusion TS_Shield_1b_barite length=$TS_Shield_1b_l vertices=-2956.60,4347.60;-2317.60,4347.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$TS_Shield_c1 material=$TS_Shield_m1
-place TS_Shield_1b_barite x=0 y=$TS_Shield_1b_y+$yoff z=0 rotation=X90
+extrusion TS_Shield_1b_barite length=$TS_Shield_1b_l vertices=-2956.60,4347.60;-2317.60,4347.60;-2317.60,4750.00;-1110.00,4750.00;-2317.60,6779.40;-3359.00,6779.40;-3359.00,5325.50;-10608.00,5325.50;-10608.00,4347.60 color=$Yellow material=$TS_Shield_m1
+#place TS_Shield_1b_barite x=0 y=$TS_Shield_1b_y+$yoff z=0 rotation=X90
 
+###   December 2014  blocks from Jeff's drawing and table sent by George
+###  21" x 46" x 152"  10 blocks barite  "block_1,1a,1X"
+##  in mm 533 x 1168 x 3861  implemeted as 533 x 1168 x 3926
+#    21"   23"   152"   3        barite   block_2    TS east side
+#   in mm 533 x 584 x 3861
+#    15"   24"   152"   1        barite   block_3
+#   in mm 381 x 609 x 3861
+#    15"   24"   132"   1        barite   block_3a   TS NW corner column
+#   in mm 381 x 609 x 3353
+#    39.5" 264"   23"   1        barite   block_4    TS north top beam
+# in mm 1003 x 6706 x 584   6706 -> 6679 to fit
+#    33"   38.5  175"   8        barite   block_0    west wall shielding
+#   in mm  838.2 x 977.9 x 4445 
+#    39.5" 262"   28"   2        concrete block_4c,4cc   cap north side
+# in mm 1003 x 6655 x 711   1003->963 as hitting part of ceiling
+#    38.5" 262"   28"   2        concrete block_0c   cap west side
+#   in mm  6655 x 977.9 x 711 
+# new TS right/west barite  "wall" about 5 mm from actual wall
+# use 8 blocks per Jeff's figure  
+#box ts_block_0 height=4690. width=7290. length=977.9 material=$TS_Shield_m1 color=$Blue
+#place ts_block_0 x=-6973 y=32.53 z=4842.
+box ts_block_0 height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$Blue
+box ts_block_0b height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$SkyBlue
+place ts_block_0 x=-3752 y=-57.47 z=4842.
+place ts_block_0b x=-4600 y=-57.47 z=4842.
+place ts_block_0 x=-5448 y=-57.47 z=4842.
+place ts_block_0b x=-6296 y=-57.47 z=4842.
+place ts_block_0 x=-7144 y=-57.47 z=4842.
+place ts_block_0b x=-7992 y=-57.47 z=4842.
+place ts_block_0 x=-8840 y=-57.47 z=4842.
+place ts_block_0b x=-9688 y=-57.47 z=4842.
 
-#TS left part
-#Barite part
-extrusion TS_Shield_2_barite length=$TS_shield_barite_h1 vertices=-2317.60,9289.40;-1110.00,11053.20;-3359.00,11053.20;-3359.00,9289.40 color=$TS_Shield_c1 material=$TS_Shield_m1
-place TS_Shield_2_barite x=0 y=$TS_shield_barite_y1+$yoff z=0 rotation=X90
+# new TS right/west concrete top 
+box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m2 color=$TS_Shield_c2 
+place ts_block_0c x=-6656 y=2521 z=4842.
+place ts_block_0c x=-6656 y=3232 z=4842.
+
+#TS front part
+#Barite part  old version
+#extrusion TS_Shield_2_barite length=$TS_shield_barite_h1 vertices=-2317.60,9289.40;-1110.00,11053.20;-3359.00,11053.20;-3359.00,9289.40 color=$Green material=$TS_Shield_m1
+#place TS_Shield_2_barite x=0 y=$TS_shield_barite_y1+$yoff z=0 rotation=X90
+# new version from Jeff's drawing with various size blocks
+box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$Green
+box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
+box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m1 color=$Green
+box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m1 color=$Yellow
+box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
+# block at end of notch, not quite as tall = top of wall with notch
+box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
+# have about 10 mm spacing between blocks
+#  wall at 11037.5 plus epsilon, toward TS edge at 9274.5
+# edge of lower z barite wall at 4347.60
+# most south blocks x on south edge = about -3318 g4bl or 589 mu2e 
+place ts_block_2 x=-3052.5 y=-349.47 z=9566.5
+place ts_block_1 x=-3052.5 y=-349.47 z=10453.5
+place ts_block_1 x=-3052.5 y=-349.47 z=6120.
+place ts_block_1X x=-3052.5 y=-349.47 z=4942.
+
+place ts_block_1 x=-2508.5 y=-349.47 z=9858.5
+place ts_block_2 x=-2508.5 y=-349.47 z=10745.5
+place ts_block_1 x=-2508.5 y=-349.47 z=6120.
+place ts_block_1 x=-2508.5 y=-349.47 z=4942.
+
+# top of block = top of notch in wall
+place ts_block_3a x=-2620. y=-630.57 z=4157.5
+
+place ts_block_2 x=-1965.5 y=-349.47 z=9656.5
+place ts_block_1a x=-1648. y=-349.47 z=10225.
+place ts_block_1a x=-1648. y=-349.47 z=10768.
+place ts_block_1 x=-1965.5 y=-349.47 z=5362.
+place ts_block_3 x=-2041.5 y=-349.47 z=6260.5
+
+# DH 11-29-14 check floor height = -4275.5
+place ts_block_1 x=-1422.5 y=-349.47 z=5362.
 
 #TS above part
-#The height was calculated from DocDB-2404 drawings of TS cryostat.
-#Barite part
-extrusion TS_Shield_3_barite length=$TS_shield_barite_h2 vertices=-3359.00,9289.40;-3359.00,6779.40;-2317.60,6779.40;-2317.60,9289.40 color=$TS_Shield_c1 material=$TS_Shield_m1
-place TS_Shield_3_barite x=0 y=$TS_shield_barite_y2+$yoff z=0 rotation=X90
+#The height was calculated from DocDB-2404 drawings of TS cryostat. need to redo
+#Barite part   comment out for now, replace with boxes
+#extrusion TS_Shield_3_barite length=$TS_shield_barite_h2 vertices=-3359.00,9289.40;-3359.00,6779.40;-2317.60,6779.40;-2317.60,9289.40 color=$Red material=$TS_Shield_m1
+#place TS_Shield_3_barite x=0 y=$TS_shield_barite_y2+$yoff+50. z=0 rotation=X90
+
+# new TS above barite   
+box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$Blue
+place ts_block_4 x=-2824. y=1874. z=7698.
+# new TS above concrete. 
+box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
+box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
+place ts_block_4c x=-2844. y=2521.5 z=7698.
+place ts_block_4cc x=-2844. y=3232.5 z=7698.
+
 
 #TS below part- half-density suggested by George Ginther
-extrusion crv_shield_4 length=952. vertices=-3359.,6781.;-2446,6781.;-2446.0,9287.;-3359,9287.0 material=Half_Poly color=$LightBlue
-place crv_shield_4 x=0 y=-2080.+$yoff z=0 rotation=X90
+#extrusion crv_shield_4 length=952. vertices=-3359.,6781.;-2446,6781.;-2446.0,9287.;-3359,9287.0 material=Half_Poly color=$LightBlue
+#place crv_shield_4 x=0 y=-2080.+$yoff z=0 rotation=X90
+# replace above identically with box
+# follow Jeff's  drawing. floor at -1855.97-913/2 = -2312.47
+box crv_shield_4 height=913. width=952. length=2565. material=Half_Poly color=$LightBlue
+place crv_shield_4 x=-2852. y=-1855.97 z=7988.
 
-#Above Concrete part
+#old Above Concrete part
 extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m2
-place TS_Shield_4 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
-
+#place TS_Shield_4 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
 extrusion TS_Shield_6 length=$TS_shield_conc_h vertices=-9998.,4347.6;-9998.,5330;-3360,5330.;-3360.,4347.6 color=$TS_Shield_c2 material=$TS_Shield_m2
-place TS_Shield_6 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
+#place TS_Shield_6 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
 
 
 
