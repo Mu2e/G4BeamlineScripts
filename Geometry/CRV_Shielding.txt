@@ -2,333 +2,280 @@
 # $Date$ 
 # $Author$ 
 # implemented by: Vladimir Khalatyan
-#
-#TS Shielding 
+#  DH: updated 1/2015 from docdb 1371 with T-blocks, etc
+#DS Shielding 
 
 param Cave_mat=CONCRETE_MARS
 param Cave_mat_barite=BARITE
 param Cave_col=$Gray
 param Cave_col_barite=$Blue
 
-#box 1
+#west upstream DS wall
+#extrusion DS_side_e length=3860.8 vertices=0.0,0.0;-1066.8,0.0;-1066.8,457.2;-609.6,457.2;-609.6,914.4;0.,914.4 material=$Cave_mat_barite color=$Blue 
+extrusion DS_side_e length=3860.8 vertices=0.0,0.0;-965.2,0.0;-965.2,457.2;-508.,457.2;-508.,914.4;0.,914.4 material=$Cave_mat_barite color=$Blue 
+place DS_side_e x=-3360. y=-382.07 z=5694.6 rotation=X90
+extrusion DS_side_a length=3860.8 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.3,457.2;0.,457.3 material=$Cave_mat_barite color=$LightBlue 
+place DS_side_a x=-4325.3 y=-382.07 z=5694.6 rotation=X90
+place DS_side_a x=-6155.1 y=-382.07 z=5694.6 rotation=X90
+place DS_side_a x=-7985. y=-382.07 z=5694.6 rotation=X90
+extrusion DS_side_b length=3860.8 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat_barite color=$Blue 
+place DS_side_b x=-4783.2 y=-382.07 z=5694.6 rotation=X90
+place DS_side_b x=-6613.1 y=-382.07 z=5694.6 rotation=X90
+place DS_side_b x=-8442.8 y=-382.07 z=5694.6 rotation=X90
+
+#east upstream DS wall   George's second figure
+extrusion DS_side_e1 length=3860.8 vertices=0.0,0.0;-1066.8,0.0;-1066.8,457.2;-1524.,457.2;-1524,914.4;0.,914.4 material=$Cave_mat_barite color=$LightBlue 
+place DS_side_e1 x=-3360. y=-382.07 z=9707. rotation=X90
+place DS_side_b x=-4427. y=-382.07 z=9707. rotation=X90
+
+#extrusion DS_side_e2 length=3860.8 vertices=0.0,0.0;-1371.6,0.0;-1371.6,914.4;-457.3,914.4;-457.3,457.2;0.,457.2 material=$Cave_mat_barite color=$LightBlue 
+#place DS_side_e2 x=-4427. y=-382.07 z=9707. rotation=X90
+
+# south DS wall
+place DS_side_a x=-9357.4 y=-382.07 z=6609. rotation=X90,Y270
+place DS_side_a x=-9357.4 y=-382.07 z=8439. rotation=X90,Y270
+place DS_side_a x=-9357.4 y=-382.07 z=10269. rotation=X90,Y270
+place DS_side_b x=-9357.4 y=-382.07 z=7981. rotation=X90,Y270
+place DS_side_b x=-9357.4 y=-382.07 z=9811. rotation=X90,Y270
+place DS_side_b x=-9357.4 y=-382.07 z=11641. rotation=X90,Y270
+
+# Z block normal concrete
+extrusion DS_side_i length=3860.8 vertices=457.2,0.0;-711.2,0.;-711.2,457.2;-1168.4,457.2;-1168.4,914.4;0.,914.4;0.,457.2;457.2,457.2 material=$Cave_mat color=$White 
+place DS_side_i x=-9357.4 y=-382.07 z=12353. rotation=X90,Y270
+place DS_side_a x=-9357.4 y=-382.07 z=13268. rotation=X90,Y270
+place DS_side_b x=-9357.4 y=-382.07 z=14640. rotation=X90,Y270
+extrusion DS_side_c length=3860.8 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.3,457.2;0.,457.3 material=$Cave_mat color=$White 
+extrusion DS_side_d length=3860.8 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat color=$Yellow 
+place DS_side_c x=-9357.4 y=-382.07 z=15098. rotation=X90,Y270
+place DS_side_c x=-9357.4 y=-382.07 z=16928. rotation=X90,Y270
+place DS_side_c x=-9357.4 y=-382.07 z=18758. rotation=X90,Y270
+place DS_side_d x=-9357.4 y=-382.07 z=16470. rotation=X90,Y270
+place DS_side_d x=-9357.4 y=-382.07 z=18300. rotation=X90,Y270
+# need three short blocks to get hole in wall
+extrusion DS_side_c1 length=3352.8 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.3,457.2;0.,457.3 material=$Cave_mat color=$White
+extrusion DS_side_d1 length=3352.8 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat color=$Green 
+place DS_side_d1 x=-9357.4 y=-636.07 z=20130. rotation=X90,Y270
+place DS_side_d1 x=-9357.4 y=-636.07 z=21960. rotation=X90,Y270
+place DS_side_c1 x=-9357.4 y=-636.07 z=20588. rotation=X90,Y270
+place DS_side_c x=-9357.4 y=-382.07 z=22418. rotation=X90,Y270
+place DS_side_d x=-9357.4 y=-382.07 z=23790. rotation=X90,Y270
+
+# DS north DS wall and corner   
+# DS north DS wall and corner   George's second figure. side_a1 is odd blcok 
+#whose length gives placement of barite blocks around stopping target
+# v1 has barite shifted west by 457  v2 has barite N/S walls aligned
+#v1
+extrusion DS_side_a1 length=3860.8 vertices=0.0,0.0;-816,0.0;-816.,457.3;-1273.,457.3;-816.,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat_barite color=$LightBlue 
+#v2extrusion DS_side_a1 length=3860.8 vertices=457.2,0.0;-816,0.0;-816.,457.3;-1273.,457.3;-816.,914.4;914.4,914.4;914.4,457.3;457.2,457.3 material=$Cave_mat_barite color=$LightBlue 
+
+#V2place DS_side_a1 x=-5348. y=-382.07 z=11438. rotation=X90,Y270
+#V1
+place DS_side_a1 x=-5348. y=-382.07 z=10981. rotation=X90,Y270
+#v1   shifted 457 in z from v2
+place DS_side_d x=-5348. y=-382.07 z=12353. rotation=X90,Y270
+place DS_side_a x=-5348. y=-382.07 z=12811. rotation=X90,Y270
+place DS_side_b x=-5348. y=-382.07 z=14183. rotation=X90,Y270
+place DS_side_c x=-5348. y=-382.07 z=14641. rotation=X90,Y270
+place DS_side_c x=-5348. y=-382.07 z=16471. rotation=X90,Y270
+place DS_side_c x=-5348. y=-382.07 z=18301. rotation=X90,Y270
+place DS_side_d x=-5348. y=-382.07 z=16013. rotation=X90,Y270
+place DS_side_d x=-5348. y=-382.07 z=17843. rotation=X90,Y270
+place DS_side_d x=-5348. y=-382.07 z=19673. rotation=X90,Y270
+place DS_side_d x=-5348. y=-382.07 z=21503. rotation=X90,Y270
+place DS_side_c x=-5348. y=-382.07 z=20131. rotation=X90,Y270
+#v2
+#place DS_side_d x=-5348. y=-382.07 z=12810. rotation=X90,Y270
+#place DS_side_a x=-5348. y=-382.07 z=13268. rotation=X90,Y270
+#place DS_side_b x=-5348. y=-382.07 z=14640. rotation=X90,Y270
+#place DS_side_c x=-5348. y=-382.07 z=15098. rotation=X90,Y270
+#place DS_side_c x=-5348. y=-382.07 z=16928. rotation=X90,Y270
+#place DS_side_c x=-5348. y=-382.07 z=18758. rotation=X90,Y270
+#place DS_side_d x=-5348. y=-382.07 z=16470. rotation=X90,Y270
+#place DS_side_d x=-5348. y=-382.07 z=18300. rotation=X90,Y270
+#place DS_side_d x=-5348. y=-382.07 z=20130. rotation=X90,Y270
+#place DS_side_d x=-5348. y=-382.07 z=21960. rotation=X90,Y270
+#place DS_side_c x=-5348. y=-382.07 z=20588. rotation=X90,Y270
+
+# Z block normal concrete v1
+extrusion DS_side_ii length=3860.8 vertices=457.2,0.0;-914.4,0.;-914.4,457.2;-1371.5,457.2;-1371.5,914.4;0.,914.4;0.,457.2;457.2,457.2 material=$Cave_mat color=$Green
+place DS_side_ii x=-5348 y=-382.07 z=22418. rotation=X90,Y270
+# Z block normal concrete v2
+#extrusion DS_side_ii length=3860.8 vertices=457.2,0.0;-457.2,0.;-457.2,457.2;-914.4,457.2;-914.4,914.4;0.,914.4;0.,457.2;457.2,457.2 material=$Cave_mat color=$Green
+#place DS_side_ii x=-5348 y=-382.07 z=22418. rotation=X90,Y270
+
+place DS_side_c x=-5348. y=-382.07 z=23333. rotation=X90,Y270
+
+# end sides and wall 13" spacing to floor = 330 mm
+extrusion DS_side_ce length=3530.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.3,457.2;0.,457.3 material=$Cave_mat color=$White 
+extrusion DS_side_de length=3530.6 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat color=$Yellow 
+place DS_side_ce x=-9357.4 y=-216.97 z=24248. rotation=X90,Y270
+place DS_side_ce x=-9357.4 y=-216.97 z=26078. rotation=X90,Y270
+place DS_side_de x=-9357.4 y=-216.97 z=25620. rotation=X90,Y270
+place DS_side_de x=-5348. y=-216.97 z=24705. rotation=X90,Y270
+place DS_side_de x=-5348. y=-216.97 z=26535. rotation=X90,Y270
+place DS_side_ce x=-5348. y=-216.97 z=25163. rotation=X90,Y270
+
+# end wall    old end z = 26471   have smaller T-block in middle
+#center is -7808  new end z = 26535.4  64.4 mm difference
+extrusion DS_side_cc length=3530.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.3,457.2;0.,457.3 material=$Cave_mat color=$Green 
+place DS_side_cc x=-8899. y=-216.97 z=25621 rotation=X90
+place DS_side_cc x=-6271. y=-216.97 z=25621 rotation=X90
+
+box Cave_Box_Back length=914.4 height=3530.6 width=457.2 material=$Cave_mat color=$White
+tubs DS_Cend_hole outerRadius=76.2 length=914.4 material=AIR color=$Red
+place DS_Cend_hole parent=Cave_Box_Back y=216.97
+place Cave_Box_Back x=-7808.0 y=-216.97 z=26078.2
+box Cave_Box_Back2 length=457.2 height=3530.6 width=400. material=$Cave_mat color=$White
+box Cave_Box_Back3 length=457.2 height=3530.6 width=390. material=$Cave_mat color=$White
+box Cave_Box_Back4 length=457.2 height=3530.6 width=840. material=$Cave_mat color=$Yellow
+place Cave_Box_Back2 x=-8236.6 y=-216.97 z=26306.8
+place Cave_Box_Back3 x=-7384.4 y=-216.97 z=26306.8
+place Cave_Box_Back4 x=-7150.5 y=-216.97 z=25849.5
+place Cave_Box_Back4 x=-8470.1 y=-216.97 z=25849.5
+
+#old box back  for now width 3098.8 --> 2000.  z end=26471
+#box Cave_Box_Back length=914.40 height=1548.33+1525.07 width=2000. material=$Cave_mat color=$Green
+#tubs DS_Cend_hole outerRadius=76.2 length=914.4 material=AIR color=$Green
+#place DS_Cend_hole parent=Cave_Box_Back y=-11.63
+#place Cave_Box_Back x=-7808.0 y=1548.33-0.5*(1548.33+1525.07) z=7929.0+15748.0+2794.0-0.5*914.4
+
 #DS upstream part ####################################################################
-box Cave_Box_1 \
-    length=914.4 \
-    height=2312.47+1548.33 \
-    width=4449.0+2463.80-914.4 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
+#box Cave_Box_1 length=914.4 height=2312.47+1548.33 width=4449.0+2463.80-914.4 material=$Cave_mat_barite color=$Cave_col_barite
+#place Cave_Box_1 x=-7808.0+4449.0-0.5*(4449.0+2463.80-914.4) y=0.5*(1548.33-2312.47) z=7929.0-1320-0.5*914.4
 
-place Cave_Box_1 \
-    x=-7808.0+4449.0-0.5*(4449.0+2463.80-914.4) \
-    y=0.5*(1548.33-2312.47) \
-    z=7929.0-1320-0.5*914.4
+#box 2 #DS right part 
+#box Cave_Box_2_barite length=1778+914.4+2235.2 height=2312.47+1548.33 width=914.40 material=$Cave_mat_barite color=$Red
+#place Cave_Box_2_barite x=-7808.0-2463.80+0.5*914.4 y=0.5*(1548.33-2312.47) z=7929.0-2235.20+0.5*(1778+914.4+2235.2)    
+#box Cave_Box_2a length=2178.3 height=2312.47+1548.33 width=914.40 material=$Cave_mat color=$Yellow
+#place Cave_Box_2a x=-7808.0-2463.80+0.5*914.4 y=0.5*(1548.33-2312.47) z=11710.6
+#box Cave_Box_2b length=2000 height=2312.47+1548.33 width=914.40 material=$Cave_mat_barite color=$White
+#place Cave_Box_2b x=-7808.0-2463.80+0.5*914.4 y=0.5*(1548.33-2312.47) z=13800.
+#box Cave_Box_2c length=4812.7 height=2312.47+1548.33 width=914.40 material=$Cave_mat color=$LightBlue
+#place Cave_Box_2c x=-7808.0-2463.80+0.5*914.4 y=0.5*(1548.33-2312.47) z=17206.6
+#box Cave_Box_3 length=1219.20+304.80 height=3352.80 width=914.40 material=$Cave_mat color=$Green
+#place Cave_Box_3 x=-7808.0-2463.80+0.5*914.4 y=-2312.47+0.5*3352.80 z=7929.0+11684.0+0.5*(1219.20+304.80)
 
-#box 2
-#DS right part ########################################################################
-box Cave_Box_2_barite \
-    length=1778+914.4+2235.2 \
-    height=2312.47+1548.33 \
-    width=914.40 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
+#DH 1/2015   hole through south wall
+box Cave_Box_4 length=1219.20 height=508.0 width=304.80 material=$Cave_mat color=$Green
+place Cave_Box_4 x=-10119.4 y=1548.33-0.5*508.0 z=7929.0+11684.0+0.5*1219.2
+box Cave_Box_4a length=397 height=508.0 width=914.4 material=$Cave_mat color=$Yellow
+place Cave_Box_4a x=-9814.6 y=1548.33-0.5*508.0 z=19414.5
+box Cave_Box_4c length=365 height=508.0 width=914.4 material=$Cave_mat color=$Yellow
+place Cave_Box_4c x=-9814.6 y=1548.33-0.5*508.0 z=21319.5
+box Cave_Box_4b length=457.2 height=508.0 width=457.2 material=$Cave_mat color=$Green
+place Cave_Box_4b x=-9586. y=1548.33-0.5*508.0 z=18986.6
+place Cave_Box_4b x=-9586. y=1548.33-0.5*508.0 z=21730.6
 
-place Cave_Box_2_barite \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=7929.0-2235.20+0.5*(1778+914.4+2235.2)
-     
-box Cave_Box_2a \
-    length=2178.3 \
-    height=2312.47+1548.33 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
+box Cave_Box_5 length=1219.20 height=508.0 width=304.80 material=$Cave_mat color=$Yellow
+place Cave_Box_5 x=-9509.8 y=1548.33-0.5*508.0 z=7929.0+11684.0+304.8+0.5*1219.2
 
-place Cave_Box_2a \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=11710.6
-
-box Cave_Box_2b \
-    length=2000 \
-    height=2312.47+1548.33 \
-    width=914.40 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
-
-place Cave_Box_2b \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=13800.
-
-box Cave_Box_2c \
-    length=4812.7 \
-    height=2312.47+1548.33 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_2c \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=17206.6
-
-#box 3
-box Cave_Box_3 \
-    length=1219.20+304.80 \
-    height=3352.80 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_3 \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=-2312.47+0.5*3352.80 \
-    z=7929.0+11684.0+0.5*(1219.20+304.80)
-
-#box 4
-box Cave_Box_4 \
-    length=1219.20 \
-    height=508.0 \
-    width=304.80 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_4 \
-    x=-7808.0-2463.80+0.5*304.8 \
-    y=1548.33-0.5*508.0 \
-    z=7929.0+11684.0+0.5*1219.2
-
-#box 5
-box Cave_Box_5 \
-    length=1219.20 \
-    height=508.0 \
-    width=304.80 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_5 \
-    x=-7808.0-1549.4-0.5*304.8 \
-    y=1548.33-0.5*508.0 \
-    z=7929.0+11684.0+304.8+0.5*1219.2
-
-#box 6
-box Cave_Box_6 \
-    length=15748.0-11684.0-1219.20-304.8 \
-    height=2312.47+1548.33 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_6 \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=7929+15748.0-0.5*(15748.0-11684.0-1219.20-304.8)
+#box Cave_Box_6 length=15748.0-11684.0-1219.20-304.8 height=2312.47+1548.33 width=914.40 material=$Cave_mat color=$White
+#place Cave_Box_6 x=-7808.0-2463.80+0.5*914.4 y=0.5*(1548.33-2312.47) z=7929+15748.0-0.5*(15748.0-11684.0-1219.20-304.8)
 
 #box 7
 #DS right/downstream part #####################################################
-box Cave_Box_7 \
-    length=2794.0 \
-    height=2312.47+1548.33-330.2 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_7 \
-    x=-7808.0-2463.80+0.5*914.4 \
-    y=1548.33-0.5*(2312.47+1548.33-330.2) \
-    z=7929+15748.0+0.5*2794.0
+#box Cave_Box_7 length=2794.0 height=2312.47+1548.33-330.2 width=914.40 material=$Cave_mat color=$Green
+#place Cave_Box_7 x=-7808.0-2463.80+0.5*914.4 y=1548.33-0.5*(2312.47+1548.33-330.2) z=7929+15748.0+0.5*2794.0
 
 #box 8
 #TS left part
-box Cave_Box_8 \
-    length=914.4 \
-    height=2312.47+1548.33 \
-    width=1985.20 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
-
-place Cave_Box_8 \
-    x=-7808.0+4449.0-0.5*1985.20 \
-    y=0.5*(1548.33-2312.47) \
-    z=7929.0+1778.0+0.5*914.4
+#box Cave_Box_8 length=914.4 height=2312.47+1548.33 width=1985.20 material=$Cave_mat_barite color=$Green
+#place Cave_Box_8 x=-7808.0+4449.0-0.5*1985.20 y=0.5*(1548.33-2312.47) z=7929.0+1778.0+0.5*914.4
 
 #box 9
 #DS left part (small piece)
-box Cave_Box_9 \
-    length=0.5*914.4 \
-    height=2312.47+1548.33 \
-    width=0.5*914.4 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_9 \
-    x=-7808.0+1549.4+0.75*914.4 \
-    y=0.5*(1548.33-2312.47) \
-    z=7929.0+1778.0+0.25*914.4
+#box Cave_Box_9 length=0.5*914.4 height=2312.47+1548.33 width=0.5*914.4 material=$Cave_mat color=$White
+#place Cave_Box_9 x=-7808.0+1549.4+0.75*914.4 y=0.5*(1548.33-2312.47) z=7929.0+1778.0+0.25*914.4
 
 #box 10
-#DS left part
-box Cave_Box_10a \
-    length=2634.4 \
-    height=2312.47+1548.33 \
-    width=914.4 \
-    material=$Cave_mat \
-    color=$Cave_col
+#box Cave_Box_10a length=2634.4 height=2312.47+1548.33 width=914.4 material=$Cave_mat color=$Yellow
+#place Cave_Box_10a x=-7808.0+1549.4+0.5*914.40 y=0.5*(1548.33-2312.47) z=11482.8
+#box Cave_Box_10b length=2000. height=2312.47+1548.33 width=914.4 material=$Cave_mat_barite color=$Blue
+#place Cave_Box_10b x=-7808.0+1549.4+0.5*914.40 y=0.5*(1548.33-2312.47) z=13800.
+#box Cave_Box_10c length=8875.6 height=2312.47+1548.33 width=914.4 material=$Cave_mat color=$Cave_col
+#place Cave_Box_10c x=-7808.0+1549.4+0.5*914.40 y=0.5*(1548.33-2312.47) z=19237.8    
+#box Cave_Box_11 length=2794.0 height=2312.47+1548.33-330.2 width=914.40 material=$Cave_mat color=$Cave_col
+#place Cave_Box_11 x=-7808.0+2463.80-0.5*914.4 y=1548.33-0.5*(2312.47+1548.33-330.2) z=7929+15748.0+0.5*2794.0
 
-place Cave_Box_10a \
-    x=-7808.0+1549.4+0.5*914.40 \
-    y=0.5*(1548.33-2312.47) \
-    z=11482.8
-
-box Cave_Box_10b \
-    length=2000. \
-    height=2312.47+1548.33 \
-    width=914.4 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
-
-place Cave_Box_10b \
-    x=-7808.0+1549.4+0.5*914.40 \
-    y=0.5*(1548.33-2312.47) \
-    z=13800.
-
-box Cave_Box_10c \
-    length=8875.6 \
-    height=2312.47+1548.33 \
-    width=914.4 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_10c \
-    x=-7808.0+1549.4+0.5*914.40 \
-    y=0.5*(1548.33-2312.47) \
-    z=19237.8    
-
-#box 11
-#DS left/downstream part
-box Cave_Box_11 \
-    length=2794.0 \
-    height=2312.47+1548.33-330.2 \
-    width=914.40 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_11 \
-    x=-7808.0+2463.80-0.5*914.4 \
-    y=1548.33-0.5*(2312.47+1548.33-330.2) \
-    z=7929+15748.0+0.5*2794.0
-
-#box bottom 1
-#DS downstream/bottom part
-box Cave_Box_Bottom_1 \
-    length=2794.0 \
-    height=457.2 \
-    width=1549.4-0.5*571.5 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_Bottom_1 \
-    x=-7808.0-0.5*571.5-0.5*(1549.4-0.5*571.5) \
-    y=-2312.47+330.20+0.5*(457.2) \
-    z=7929+15748.0+0.5*2794.0
-
-#box bottom 2
-#DS downstream/bottom part
-box Cave_Box_Bottom_2 \
-    length=2794.0 \
-    height=457.2 \
-    width=1549.4-0.5*571.5 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_Bottom_2 \
-    x=-7808.0+0.5*571.5+0.5*(1549.4-0.5*571.5) \
-    y=-2312.47+330.20+0.5*(457.2) \
-    z=7929+15748.0+0.5*2794.0
-
-#box bottom 3
-#DS downstream/bottom part
-box Cave_Box_Bottom_3 \
-    length=2794.0-850.90 \
-    height=457.2 \
-    width=571.5 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-place Cave_Box_Bottom_3 \
-    x=-7808.0 \
-    y=-2312.47+330.20+0.5*(457.2) \
-    z=7929+15748.0+850.90+0.5*(2794.0-850.90)
-
-#box back
-box Cave_Box_Back\
-    length=914.40 \
-    height=1548.33+1525.07 \
-    width=3098.8 \
-    material=$Cave_mat \
-    color=$Cave_col
-
-tubs DS_Cend_hole outerRadius=76.2 length=914.4 material=AIR color=$Green
-
-place DS_Cend_hole parent=Cave_Box_Back y=-11.63
-
-place Cave_Box_Back \
-    x=-7808.0 \
-    y=1548.33-0.5*(1548.33+1525.07) \
-    z=7929.0+15748.0+2794.0-0.5*914.4
+#box Cave_Box_Bottom_1 length=2794.0 height=457.2 width=1549.4-0.5*571.5 material=$Cave_mat color=$Cave_col
+#place Cave_Box_Bottom_1 x=-7808.0-0.5*571.5-0.5*(1549.4-0.5*571.5) y=-2312.47+330.20+0.5*(457.2) z=7929+15748.0+0.5*2794.0
+#box Cave_Box_Bottom_2 length=2794.0 height=457.2 width=1549.4-0.5*571.5 material=$Cave_mat color=$Cave_col
+#place Cave_Box_Bottom_2 x=-7808.0+0.5*571.5+0.5*(1549.4-0.5*571.5) y=-2312.47+330.20+0.5*(457.2) z=7929+15748.0+0.5*2794.0
+#box Cave_Box_Bottom_3 length=2794.0-850.90 height=457.2 width=571.5 material=$Cave_mat color=$Cave_col
+#place Cave_Box_Bottom_3 x=-7808.0 y=-2312.47+330.20+0.5*(457.2) z=7929+15748.0+850.90+0.5*(2794.0-850.90)
 
 
-#box top 1
-box Cave_Box_Top_1 \
-    length=914.4+3098.8+914.4 \
-    height=914.4 \
-    width=4449.0+2463.8 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
 
-place Cave_Box_Top_1 \
-    x=-7808.0+4449.0-0.5*(4449.0+2463.8) \
-    y=1548.33+0.5*914.4 \
-    z=7929.0-2235.2+0.5*(914.4+3098.8+914.4)
+# new T-blocks etc. barite color is blue, light blue or red
+# upstream end ceiling. have vertices at y=0
+extrusion DS_up_top_e length=4927.6 vertices=0.0,0.0;-609.6,0.0;-609.6,457.3;-1066.6,457.3;-1066.6,914.4;0.,914.4 material=$Cave_mat_barite color=$Red 
+place DS_up_top_e x=-3359. y=1548.33 z=8157.6
 
-#box top 2
-box Cave_Box_Top_2a \
-    length=2178.3 \
-    height=914.4 \
-    width=4927.6 \
-    material=$Cave_mat \
-    color=$Cave_col
+extrusion DS_up_top_a length=4927.6 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat_barite color=$LightBlue 
+place DS_up_top_a x=-3969. y=1548.33 z=8157.6
 
-place Cave_Box_Top_2a \
-    x=-7808.0 \
-    y=1548.33+0.5*914.4 \
-    z=11710.6
-    
-box Cave_Box_Top_2b \
-    length=2000. \
-    height=914.4 \
-    width=4927.6 \
-    material=$Cave_mat_barite \
-    color=$Cave_col_barite
+# shorter as add on "lip" as seprate box below
+extrusion DS_up_top_c length=4013. vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat_barite color=$LightBlue 
+place DS_up_top_c x=-5798. y=1548.33 z=7700.3
+place DS_up_top_c x=-7627. y=1548.33 z=7700.3
+box DS_up_top_c1 length=914.4 height=457.2 width=457.2 material=$Cave_mat_barite color=$LightBlue
+place DS_up_top_c1 x=-6483.8 y=2234.14 z=10164.2
+place DS_up_top_c1 x=-8312.8 y=2234.14 z=10164.2
 
-place Cave_Box_Top_2b \
-    x=-7808.0 \
-    y=1548.33+0.5*914.4 \
-    z=13800.
-    
-box Cave_Box_Top_2c \
-    length=11671.2 \
-    height=914.4 \
-    width=4927.6 \
-    material=$Cave_mat \
-    color=$Cave_col
+extrusion DS_up_top_b length=4013. vertices=0.0,0.0;-457.2,0.0;-457.2,457.2;-914.4,457.2;-914.4,914.4;457.2,914.4;457.2,457.2;0.,457.2 material=$Cave_mat_barite color=$Red 
+place DS_up_top_b x=-5340.8 y=1548.33 z=7700.3
+place DS_up_top_b x=-7169.8 y=1548.33 z=7700.3
+place DS_up_top_b x=-8998.8 y=1548.33 z=7700.3
+box DS_up_top_b1 length=914.4 height=457.2 width=1371.6 material=$Cave_mat_barite color=$Red
+place DS_up_top_b1 x=-5569.4 y=2234.14 z=10164.2
+place DS_up_top_b1 x=-7398.4 y=2234.14 z=10164.2
+place DS_up_top_b1 x=-9227.4 y=2234.14 z=10164.2
 
-place Cave_Box_Top_2c \
-    x=-7808.0 \
-    y=1548.33+0.5*914.4 \
-    z=20635.6    
+box DS_up_top_d length=4013 height=457.2 width=812.8 material=$Cave_mat_barite color=$SkyBlue
+box DS_up_top_d1 length=4927.6 height=457.2 width=355.6 material=$Cave_mat_barite color=$SkyBlue
+place DS_up_top_d x=-9862.6 y=1776.93 z=7700.3
+place DS_up_top_d1 x=-10091.2 y=2234.13 z=8157.6
+
+# cross support piece make from regular concrete
+box DS_up_top_f length=914.4 height=457.2 width=4927.6 material=$Cave_mat color=$Yellow
+place DS_up_top_f x=-7808. y=1776.93 z=10164.2
+
+# downstream end ceiling. rotate in Y. reg conc is yellow or white or grey
+extrusion DS_up_top_i length=4927.6 vertices=0.0,0.0;711.2,0.0;711.2,457.3;1168.4,457.3;1168.4,914.4;0.,914.4 material=$Cave_mat color=$White 
+place DS_up_top_i x=-7808. y=1548.33 z=10621.5 rotation=Y270
+place DS_up_top_a x=-7808. y=1548.33 z=11333. rotation=Y90
+extrusion DS_up_top_a1 length=4927.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat_barite color=$Red 
+place DS_up_top_a1 x=-7808. y=1548.33 z=12705. rotation=Y90
+extrusion DS_up_top_g length=4927.6 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat color=$Yellow 
+extrusion DS_up_top_g1 length=4927.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat color=$White 
+place DS_up_top_g x=-7808. y=1548.33 z=13163. rotation=Y90
+place DS_up_top_g x=-7808. y=1548.33 z=14993. rotation=Y90
+place DS_up_top_g x=-7808. y=1548.33 z=16823. rotation=Y90
+place DS_up_top_g x=-7808. y=1548.33 z=18653. rotation=Y90
+place DS_up_top_g x=-7808. y=1548.33 z=20483. rotation=Y90
+place DS_up_top_g1 x=-7808. y=1548.33 z=14535. rotation=Y90
+place DS_up_top_g1 x=-7808. y=1548.33 z=16365. rotation=Y90
+place DS_up_top_g1 x=-7808. y=1548.33 z=18195. rotation=Y90
+place DS_up_top_g1 x=-7808. y=1548.33 z=20025. rotation=Y90
+place DS_up_top_g1 x=-7808. y=1548.33 z=21855. rotation=Y90
+extrusion DS_up_top_h length=4927.6 vertices=0.0,0.0;914.4,0.0;914.4,914.4;457.2,914.4;457.2,457.2;0.,457.2 material=$Cave_mat color=$Yellow
+place DS_up_top_h x=-7808. y=1548.33 z=22313 rotation=Y270
+box DS_up_top_hh length=457. height=457.2 width=4927.6 material=$Cave_mat color=$Green
+place DS_up_top_hh x=-7808. y=1776.93 z=23456.
+place DS_up_top_g1 x=-7808. y=1548.33 z=23685. rotation=Y90
+place DS_up_top_g x=-7808. y=1548.33 z=24143. rotation=Y90
+extrusion DS_up_top_f length=4927.6 vertices=0.0,0.0;914.4,0.0;914.4,914.4;-457.2,914.4;-457.2,457.3;0.,457.3 material=$Cave_mat color=$White
+place DS_up_top_f x=-7808. y=1548.33 z=25515. rotation=Y270
+
+#OLD TOP
+#box Cave_Box_Top_1 length=914.4+3098.8+914.4 height=914.4 width=4449.0+2463.8 material=$Cave_mat_barite color=$Yellow
+#place Cave_Box_Top_1 x=-7808.0+4449.0-0.5*(4449.0+2463.8) y=1548.33+0.5*914.4 z=7929.0-2235.2+0.5*(914.4+3098.8+914.4)
+#box Cave_Box_Top_2a length=2178.3 height=914.4 width=4927.6 material=$Cave_mat color=$Yellow
+#place Cave_Box_Top_2a x=-7808.0 y=1548.33+0.5*914.4 z=11710.6
+#box Cave_Box_Top_2b length=2000. height=914.4 width=4927.6 material=$Cave_mat_barite color=$Blue
+#place Cave_Box_Top_2b x=-7808.0 y=1548.33+0.5*914.4 z=13800.
+#box Cave_Box_Top_2c length=11671.2 height=914.4 width=4927.6 material=$Cave_mat color=$White
+#place Cave_Box_Top_2c x=-7808.0 y=1548.33+0.5*914.4 z=20635.6    
 
 
 

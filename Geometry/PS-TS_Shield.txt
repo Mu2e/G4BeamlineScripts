@@ -8,12 +8,27 @@
 
 # Nov 2, 2013 my adjustement to bring shielding to correct floor elevation -2312.47 mm
 #  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
+#  DH 2-2015 add study volumes and cryopipe. comment out for now
 param yoff=252.93
+
+#tubs Cryo_pipe1 innerRadius=124.2 outerRadius=127. length=13400. material=Stainless304 color=$Copper 
+#place Cryo_pipe1 x=-7390. y=1294. z=3910. rotation=Y90
+# study blocks, default air
+#box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
+#place Study1 x=-1775. y=1235.43 z=4475.
+#box Study2 length=220. height=800. width=500. color=$PaleVioletRed material=Air
+#place Study2 x=-2620. y=1445.93 z=4247.
+#box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Air
+#place Study3 x=-2480. y=-230.57 z=3200.
+#extrusion Study4 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
+#place Study4 x=-4000. y=278.93 z=4340. rotation=Y90
+#extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
+#place Study5 x=-9000. y=278.93 z=4340. rotation=Y90
 
 #PS Shielding
 
 param PS_Shield_Con_m=CONCRETE_MARS
-param PS_Shield_Con_c=$Red
+param PS_Shield_Con_c=$Green
 
 # top,sides, bottom
 
@@ -91,7 +106,7 @@ extrusion TS_Shield_1b_barite length=$TS_Shield_1b_l vertices=-2956.60,4347.60;-
 #box ts_block_0 height=4690. width=7290. length=977.9 material=$TS_Shield_m1 color=$Blue
 #place ts_block_0 x=-6973 y=32.53 z=4842.
 box ts_block_0 height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$Blue
-box ts_block_0b height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$SkyBlue
+box ts_block_0b height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$LightBlue
 place ts_block_0 x=-3752 y=-57.47 z=4842.
 place ts_block_0b x=-4600 y=-57.47 z=4842.
 place ts_block_0 x=-5448 y=-57.47 z=4842.
@@ -111,10 +126,10 @@ place ts_block_0c x=-6656 y=3232 z=4842.
 #extrusion TS_Shield_2_barite length=$TS_shield_barite_h1 vertices=-2317.60,9289.40;-1110.00,11053.20;-3359.00,11053.20;-3359.00,9289.40 color=$Green material=$TS_Shield_m1
 #place TS_Shield_2_barite x=0 y=$TS_shield_barite_y1+$yoff z=0 rotation=X90
 # new version from Jeff's drawing with various size blocks
-box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$Green
+box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$Red
 box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
-box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m1 color=$Green
-box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m1 color=$Yellow
+box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m1 color=$Red
+box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m1 color=$Blue
 box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
 # block at end of notch, not quite as tall = top of wall with notch
 box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
@@ -151,7 +166,7 @@ place ts_block_1 x=-1422.5 y=-349.47 z=5362.
 #place TS_Shield_3_barite x=0 y=$TS_shield_barite_y2+$yoff+50. z=0 rotation=X90
 
 # new TS above barite   
-box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$Blue
+box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$LightBlue
 place ts_block_4 x=-2824. y=1874. z=7698.
 # new TS above concrete. 
 box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
