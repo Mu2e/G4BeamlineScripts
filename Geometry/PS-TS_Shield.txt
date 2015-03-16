@@ -8,21 +8,51 @@
 
 # Nov 2, 2013 my adjustement to bring shielding to correct floor elevation -2312.47 mm
 #  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
-#  DH 2-2015 add study volumes and cryopipe. comment out for now
+#  DH 3-2015 move in x (south) by 3 cm to fit for TS supports
 param yoff=252.93
 
-#tubs Cryo_pipe1 innerRadius=124.2 outerRadius=127. length=13400. material=Stainless304 color=$Copper 
-#place Cryo_pipe1 x=-7390. y=1294. z=3910. rotation=Y90
+# starts at -970 on PS cryostat
+tubs Cryo_pipe1 innerRadius=124.2 outerRadius=127. length=12580. material=Stainless304 color=$Copper 
+tubs Cryo_pipe1a innerRadius=100.4 outerRadius=102. length=12570. material=Cu color=$Copper 
+tubs Cryo_pipe1b innerRadius=15.3 outerRadius=17. length=12570. material=Stainless304 color=$Copper 
+tubs Cryo_pipe1c innerRadius=17.3 outerRadius=19. length=12570. material=Stainless304 color=$Copper 
+place Cryo_pipe1 x=-7260. y=1294. z=3910. rotation=Y90
+place Cryo_pipe1a x=-7260. y=1294. z=3910. rotation=Y90
+place Cryo_pipe1b x=-7260. y=1294.+80. z=3910. rotation=Y90
+place Cryo_pipe1b x=-7260. y=1294.-80. z=3910. rotation=Y90
+place Cryo_pipe1c x=-7260.+19. y=1294. z=3910. rotation=Y90
+# starts at 0 over PS
+tubs Cryo_pipe2 innerRadius=124.2 outerRadius=127. length=13550. material=Stainless304 color=$Copper 
+tubs Cryo_pipe2a innerRadius=100.4 outerRadius=102. length=13540. material=Cu color=$Copper 
+tubs Cryo_pipe2b innerRadius=15.3 outerRadius=17. length=13540. material=Stainless304 color=$Copper 
+tubs Cryo_pipe2c innerRadius=17.3 outerRadius=19. length=13540. material=Stainless304 color=$Copper 
+place Cryo_pipe2 x=-6775. y=2488. z=3910. rotation=Y90
+place Cryo_pipe2a x=-6775. y=2488. z=3910. rotation=Y90
+place Cryo_pipe2b x=-6775. y=2488.+80. z=3910. rotation=Y90
+place Cryo_pipe2b x=-6775. y=2488.-80. z=3910. rotation=Y90
+place Cryo_pipe2c x=-6775.+19. y=2488. z=3910. rotation=Y90
+tubs Cryo_pipe3 innerRadius=124.2 outerRadius=127. length=2237. material=Stainless304 color=$Copper 
+tubs Cryo_pipe3a innerRadius=100.4 outerRadius=102. length=2236. material=Cu color=$Copper 
+tubs Cryo_pipe3b innerRadius=15.3 outerRadius=17. length=2236. material=Stainless304 color=$Copper 
+tubs Cryo_pipe3c innerRadius=17.3 outerRadius=19. length=2236. material=Stainless304 color=$Copper 
+place Cryo_pipe3 x=0. y=2488. z=5160. 
+place Cryo_pipe3a x=0. y=2488. z=5160. 
+place Cryo_pipe3b x=0. y=2488.+80. z=5160. 
+place Cryo_pipe3b x=0. y=2488.-80. z=5160. 
+place Cryo_pipe3c x=-19. y=2488. z=5160. 
+
+
 # study blocks, default air
-#box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
+box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
 #place Study1 x=-1775. y=1235.43 z=4475.
-#box Study2 length=220. height=800. width=500. color=$PaleVioletRed material=Air
+box Study2 length=220. height=800. width=500. color=$PaleVioletRed material=Air
 #place Study2 x=-2620. y=1445.93 z=4247.
-#box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Air
+box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Air
 #place Study3 x=-2480. y=-230.57 z=3200.
-#extrusion Study4 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
+extrusion Study4 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;220.,1200.;220.,780.;600.,780.;600.,0.
 #place Study4 x=-4000. y=278.93 z=4340. rotation=Y90
 #extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
+extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;220.,1200.;220.,780.;600.,780.;600.,0.
 #place Study5 x=-9000. y=278.93 z=4340. rotation=Y90
 
 #PS Shielding
@@ -107,19 +137,19 @@ extrusion TS_Shield_1b_barite length=$TS_Shield_1b_l vertices=-2956.60,4347.60;-
 #place ts_block_0 x=-6973 y=32.53 z=4842.
 box ts_block_0 height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$Blue
 box ts_block_0b height=4445. width=838.2 length=977.9 material=$TS_Shield_m1 color=$LightBlue
-place ts_block_0 x=-3752 y=-57.47 z=4842.
-place ts_block_0b x=-4600 y=-57.47 z=4842.
-place ts_block_0 x=-5448 y=-57.47 z=4842.
-place ts_block_0b x=-6296 y=-57.47 z=4842.
-place ts_block_0 x=-7144 y=-57.47 z=4842.
-place ts_block_0b x=-7992 y=-57.47 z=4842.
-place ts_block_0 x=-8840 y=-57.47 z=4842.
-place ts_block_0b x=-9688 y=-57.47 z=4842.
+place ts_block_0 x=-3782 y=-57.47 z=4842.
+place ts_block_0b x=-4630 y=-57.47 z=4842.
+place ts_block_0 x=-5478 y=-57.47 z=4842.
+place ts_block_0b x=-6326 y=-57.47 z=4842.
+place ts_block_0 x=-7174 y=-57.47 z=4842.
+place ts_block_0b x=-8022 y=-57.47 z=4842.
+place ts_block_0 x=-8870 y=-57.47 z=4842.
+place ts_block_0b x=-9718 y=-57.47 z=4842.
 
 # new TS right/west concrete top 
 box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m2 color=$TS_Shield_c2 
-place ts_block_0c x=-6656 y=2521 z=4842.
-place ts_block_0c x=-6656 y=3232 z=4842.
+place ts_block_0c x=-6686 y=2521 z=4842.
+place ts_block_0c x=-6696 y=3232 z=4842.
 
 #TS front part
 #Barite part  old version
@@ -135,29 +165,31 @@ box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=
 box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
 # have about 10 mm spacing between blocks
 #  wall at 11037.5 plus epsilon, toward TS edge at 9274.5
+#  wall really at 11053.
 # edge of lower z barite wall at 4347.60
 # most south blocks x on south edge = about -3318 g4bl or 589 mu2e 
-place ts_block_2 x=-3052.5 y=-349.47 z=9566.5
-place ts_block_1 x=-3052.5 y=-349.47 z=10453.5
-place ts_block_1 x=-3052.5 y=-349.47 z=6120.
-place ts_block_1X x=-3052.5 y=-349.47 z=4942.
+place ts_block_2 x=-3082.5 y=-349.47 z=9566.5
+place ts_block_1 x=-3082.5 y=-349.47 z=10453.5
+place ts_block_1 x=-3082.5 y=-349.47 z=6120.
+place ts_block_1X x=-3082.5 y=-349.47 z=4942.
 
-place ts_block_1 x=-2508.5 y=-349.47 z=9858.5
-place ts_block_2 x=-2508.5 y=-349.47 z=10745.5
-place ts_block_1 x=-2508.5 y=-349.47 z=6120.
-place ts_block_1 x=-2508.5 y=-349.47 z=4942.
+place ts_block_1 x=-2549. y=-349.47 z=9858.5
+place ts_block_2 x=-2549. y=-349.47 z=10745.5
+place ts_block_1 x=-2549. y=-349.47 z=6120.
+place ts_block_1 x=-2549. y=-349.47 z=4942.
 
 # top of block = top of notch in wall
 place ts_block_3a x=-2620. y=-630.57 z=4157.5
 
-place ts_block_2 x=-1965.5 y=-349.47 z=9656.5
-place ts_block_1a x=-1648. y=-349.47 z=10225.
-place ts_block_1a x=-1648. y=-349.47 z=10768.
-place ts_block_1 x=-1965.5 y=-349.47 z=5362.
-place ts_block_3 x=-2041.5 y=-349.47 z=6260.5
+place ts_block_2 x=-1995.5 y=-349.47 z=9656.5
+place ts_block_1a x=-1678. y=-349.47 z=10225.
+#place ts_block_1a x=-1678. y=-349.47 z=10768.
+place ts_block_1a x=-1678. y=-349.47 z=10786.5
+place ts_block_1 x=-2015.5 y=-349.47 z=5362.
+place ts_block_3 x=-2091.5 y=-349.47 z=6260.5
 
 # DH 11-29-14 check floor height = -4275.5
-place ts_block_1 x=-1422.5 y=-349.47 z=5362.
+place ts_block_1 x=-1482. y=-349.47 z=5362.
 
 #TS above part
 #The height was calculated from DocDB-2404 drawings of TS cryostat. need to redo
@@ -167,12 +199,12 @@ place ts_block_1 x=-1422.5 y=-349.47 z=5362.
 
 # new TS above barite   
 box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$LightBlue
-place ts_block_4 x=-2824. y=1874. z=7698.
+place ts_block_4 x=-2854. y=1874. z=7698.
 # new TS above concrete. 
 box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
 box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
-place ts_block_4c x=-2844. y=2521.5 z=7698.
-place ts_block_4cc x=-2844. y=3232.5 z=7698.
+place ts_block_4c x=-2874. y=2521.5 z=7698.
+place ts_block_4cc x=-2874. y=3232.5 z=7698.
 
 
 #TS below part- half-density suggested by George Ginther
@@ -180,8 +212,11 @@ place ts_block_4cc x=-2844. y=3232.5 z=7698.
 #place crv_shield_4 x=0 y=-2080.+$yoff z=0 rotation=X90
 # replace above identically with box
 # follow Jeff's  drawing. floor at -1855.97-913/2 = -2312.47
-box crv_shield_4 height=913. width=952. length=2565. material=Half_Poly color=$LightBlue
-place crv_shield_4 x=-2852. y=-1855.97 z=7988.
+# now overlaps TS supports. Don't place for now
+
+#box crv_shield_4 height=913. width=952. length=2565. material=Half_Poly color=$LightBlue
+#box crv_shield_4 height=913. width=800. length=2565. material=Half_Poly color=$LightBlue
+#place crv_shield_4 x=-2852. y=-1855.97 z=7988.
 
 #old Above Concrete part
 extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m2
