@@ -40,7 +40,15 @@ place Cryo_pipe3a x=0. y=2488. z=5160.
 place Cryo_pipe3b x=0. y=2488.+80. z=5160. 
 place Cryo_pipe3b x=0. y=2488.-80. z=5160. 
 place Cryo_pipe3c x=-19. y=2488. z=5160. 
-
+tubs Cryo_pipe4 innerRadius=124.2 outerRadius=127. length=1540. material=Stainless304 color=$Copper
+tubs Cryo_pipe4a innerRadius=100.4 outerRadius=102. length=1540. material=Cu color=$Copper
+tubs Cryo_pipe4b innerRadius=15.3 outerRadius=17. length=1540. material=Stainless304 color=$Copper
+tubs Cryo_pipe4c innerRadius=17.3 outerRadius=19. length=1540. material=Stainless304 color=$Copper
+place Cryo_pipe4 x=0. y=1584. z=6279. rotation=X90
+place Cryo_pipe4a x=0. y=1584. z=6279.  rotation=X90
+place Cryo_pipe4b x=0. y=1584.+80. z=6279.+80.  rotation=X90
+place Cryo_pipe4b x=0. y=1584.-80. z=6279.-80.  rotation=X90
+place Cryo_pipe4c x=-19. y=1584. z=6279.  rotation=X90
 
 # study blocks, default air
 box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
