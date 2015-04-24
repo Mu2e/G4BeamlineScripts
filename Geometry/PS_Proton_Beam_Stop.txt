@@ -8,7 +8,7 @@ param ConcInv="0.5,0.55,0.5,0"
 param CollCol="0.6,0.55,0.5"
 
 # create the enclosure volume
-# It encompasses the shelf on whichh the beam dump sits plus the 
+# It encompasses the shelf on which the beam dump sits plus the 
 # extinction monitor's magnet and detector rooms
 
 box PBSenc material=Air color=invisible \

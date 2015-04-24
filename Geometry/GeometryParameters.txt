@@ -67,12 +67,12 @@ param Tposition=1764.5
 param BoosterKE=8000.0
 param ProtonMass=938.27231
 param -unset ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
-# End of primary beam line (center of last magnet)
-param EndBeamXrot=-2.7250
-param EndBeamYrot=13.62253
-param EndBeamX=$Mu2E_x+5585.9
-param EndBeamY=$Mu2E_y+303.0
-param EndBeamZ=$Mu2E_z+737.0
+# Beamline tie-in point
+param EndBeamXrot=2.725351
+param EndBeamYrot=13.620883
+param EndBeamX=$Mu2E_x+5794.738
+param EndBeamY=$Mu2E_y+345.131
+param EndBeamZ=$Mu2E_z+1600.553
 # Outside of PS and TS Cryostats
 param OutHRSBeamX=825.9
 param OutHRSBeamY=129.6
@@ -362,12 +362,12 @@ param EMMagnet_lshield=(13*12+0.125)*25.4
 param -unset EMFilter_p=4.2
 
 # Entrance location wrt centre axis of beam stop
-param -unset EMFilter_dx=325.0
+param -unset EMFilter_dx=315.0
 param -unset EMFilter_dy=1250.0
 
 # Entry collimator rotation angles wrt centre axis of beam stop (radians)
 param -unset EMFilter_pitch=0.1653
-param -unset EMFilter_yaw=0.0312
+param -unset EMFilter_yaw=0.0302
 
 if $PSshield_Grooves==1
   param EMFilter_p=3.0
@@ -441,8 +441,8 @@ param EMFilter_zdstart=$EMFilter_zend+$Ld*cos($phi-$EMFilter_yaw)
 # *************************************
 
 param EMDetector_planes=4
-param EMDetector_uw=33.5
-param EMDetector_uh=40
+param EMDetector_uh=33.5
+param EMDetector_uw=40
 param EMDetector_dh=50.2
 param EMDetector_dw=40
 param EMDetector_l=0.3

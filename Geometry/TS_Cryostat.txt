@@ -14,6 +14,8 @@
 # cryostat OD 525 mm 12.7 mm thick and OD 1625 mm 19.05 mm thick, ends 15mm
 # and heat shields and bobbins
 
+tubs TSbeampipe radius=$OrPSentrypipe length=$LPSentrypipe color=$White
+
 # Some parameters from the previous cryostat, not used below
 param TScryo_innerR=249.8
 param TScryo_outerR=262.5
@@ -80,12 +82,29 @@ tube TBu_2a innerRadius=665. outerRadius=750. length=600.0 material=Al color=$TS
 place TBu_2a x=-3189.0 y=0.0 z=7929.0 rotation=Y90
 #tube TBu_3 innerRadius=620. outerRadius=645. length=1045.0 material=Al color=$TScryo_color_b
 tube TBu_3 innerRadius=610. outerRadius=635. length=1045.0 material=Al color=$TScryo_color_b
-place TBu_3 x=0.0 y=0.0 z=4477.5
 # have trouble getting this bobbin in as region with cone and torous; so split
 tube TBu_3a innerRadius=635. outerRadius=730. length=300.0 material=Al color=$TScryo_color_b
 tube TBu_3aa innerRadius=650. outerRadius=745. length=300.0 material=Al color=$TScryo_color_b
-place TBu_3a x=0.0 y=0.0 z=4820.
+
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TBu_3_pipe TBu_3 TSbeampipe \
+	material=Al color=$TScryo_color_b \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4477.5 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  boolean op=subtraction TBu_3a_pipe TBu_3a TSbeampipe \
+	material=Al color=$TScryo_color_b \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4820. \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TBu_3_pipe x=0.0 y=0.0 z=4477.5
+  place TBu_3a_pipe x=0.0 y=0.0 z=4820.
+else
+  place TBu_3 x=0.0 y=0.0 z=4477.5
+  place TBu_3a x=0.0 y=0.0 z=4820.
+endif
+
 place TBu_3aa x=0.0 y=0.0 z=5120.
+
 torus TBd_1 innerRadius=590. outerRadius=625. majorRadius=2929.0 initialPhi=180.0 finalPhi=270.0 material=Al color=$TScryo_color_b
 place TBd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
 torus TBd_1a innerRadius=625. outerRadius=710. majorRadius=2929.0 initialPhi=220.0 finalPhi=232.0 material=Al color=$TScryo_color_b
@@ -160,7 +179,6 @@ length=15.0 \
 material=Stainless316 \
 color=$TScryo_color_a
 
-tubs TSbeampipe radius=$OrPSentrypipe length=$LPSentrypipe color=$White
 if $PSshield_Entrance==1
   boolean op=subtraction TSu_5_pipe TSu_5 TSbeampipe \
 	material=Stainless316 color=$TScryo_color_a \
@@ -180,8 +198,6 @@ finalPhi=90.0 \
 material=Stainless316 \
 color=$TScryo_color_a
 
-#	material=Stainless316 color=$Red \
-
 if $PSshield_Entrance==1
   boolean op=subtraction TSu_6_pipe TSu_6 TSbeampipe \
 	material=Stainless316 color=$TScryo_color_a \
@@ -200,7 +216,6 @@ material=Stainless316 \
 color=$TScryo_color_a
 
 place TSu_7 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
-place TSu_7 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
 
 # use Tom Nichol picture
 #tube TSu_8 \
@@ -211,20 +226,28 @@ place TSu_7 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
 #color=$TScryo_color_a
 tube TSu_8 innerRadius=718.45 outerRadius=737.5 length=587.0 material=Stainless316 color=$TScryo_color_a
 
+
 if $PSshield_Entrance==1
   boolean op=subtraction TSu_8_pipe TSu_8 TSbeampipe \
 	material=Stainless316 color=$TScryo_color_a \
-	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4477.5 \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4248.5 \
 	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
-#  place TSu_8_pipe x=0.0 y=0.0 z=4477.5
   place TSu_8_pipe x=0.0 y=0.0 z=4248.5
 else
-#  place TSu_8 x=0.0 y=0.0 z=4477.5
   place TSu_8 x=0.0 y=0.0 z=4248.5
 endif
 
- polycone TSu_9  innerRadius=718.45,793.45 outerRadius=737.5,812.5 z=0.,458. material=Stainless316 color=$TScryo_color_a
-place TSu_9 x=.0 y=0. z=4542.
+polycone TSu_9  innerRadius=718.45,793.45 outerRadius=737.5,812.5 z=0.,458. material=Stainless316 color=$TScryo_color_a
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_9_pipe TSu_9 TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4542. \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TSu_9_pipe x=0.0 y=0.0 z=4542
+else
+  place TSu_9 x=.0 y=0. z=4542.
+endif
 
 # TSd Cryostat
 # !!! only inner part of cryostat
@@ -312,12 +335,35 @@ tube TSringa innerRadius=830. outerRadius=1050. length=500.0 material=Stainless3
 tube TSringaira innerRadius=830. outerRadius=1011.9 length=423.8 material=Air color=$Invisible
 place TSringaira parent=TSringa
 
-place TSring x=-3200.+3200. y=0. z=7929.-2920 
 place TSring x=-3200.+2302. y=0. z=7929.-819. rotation=Y135
 place TSring x=-3200. y=0. z=7929. rotation=Y90
 place TSring x=-4608. y=0. z=7929. rotation=Y90
 place TSringa x=-4608.-2297. y=0. z=7929.+824. rotation=Y135
 place TSringa x=-7808. y=0. z=7929.+2920. 
+
+tube TSringO innerRadius=1011.9 outerRadius=1050. length=423.8 material=Stainless316 color=$TScryo_color_a
+tube TSringE innerRadius=826 outerRadius=1050. length=38.1 material=Stainless316 color=$TScryo_color_a
+ boolean op=subtraction TSringair_pipe TSringair TSbeampipe \
+	material=Air color=$Blue \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-7929.+2920 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+ boolean op=subtraction TSringE1_pipe TSringE TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-(7929.-2920+250-19.05) \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+ boolean op=subtraction TSringE2_pipe TSringE TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-(7929.-2920-250+19.05) \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+
+if $PSshield_Entrance==1
+  place TSringO x=-3200.+3200. y=0. z=7929.-2920 
+  place TSringE1_pipe x=-3200.+3200. y=0. z=7929.-2920+250-19.05
+  place TSringE2_pipe x=-3200.+3200. y=0. z=7929.-2920-250+19.05
+  place TSringair_pipe x=-3200.+3200. y=0. z=7929.-2920 
+else
+  place TSring x=-3200.+3200. y=0. z=7929.-2920 
+endif
 
 #### Add Poly liner to TS
 
