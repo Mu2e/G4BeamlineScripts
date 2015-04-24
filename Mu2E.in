@@ -234,6 +234,7 @@ include ./Geometry/PS_Proton_Beam_Stop.txt
 param -unset UsePrimaryBeam=0
 if $UsePrimaryBeam==1
   param PSshield_Entrance=1
+  param Use_External_Field=1
   include ./Geometry/ProtonBeam.txt
 endif
 
@@ -307,16 +308,16 @@ if $Use_Field==1
             z=7929.0
    
       if $Use_External_Field==1
-            fieldmap ExtMonUCIAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
+#            fieldmap ExtMonUCIAreaMagneticField \
+#                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
             
-            place ExtMonUCIAreaMagneticField \
-                x=-3904.0 \
-                y=0 \
-                z=7929.0
+#            place ExtMonUCIAreaMagneticField \
+#                x=-3904.0 \
+#                y=0 \
+#                z=7929.0
             
             fieldmap ProtonDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ProtonDumpAreaMap.txt
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/ProtonDumpAreaMap.txt
             
             place ProtonDumpAreaMagneticField \
                 x=-3904.0 \
@@ -324,7 +325,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap PStoDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/PStoDumpAreaMap.txt
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/PStoDumpAreaMap.txt
             
             place PStoDumpAreaMagneticField \
                 x=-3904.0 \
@@ -382,7 +383,7 @@ if $Use_Cryostat==1
   include ./Geometry/DS_Cryostat.txt
 
 endif
-
+param -unset TScryo_innerR=249.8
 
 # ****************************************************************************
 #                         Production Solenoid Shielding
@@ -582,8 +583,10 @@ if $UsePrimaryBeam==1
   param xBeam=$StartBeamX
   param yBeam=$StartBeamY
   param zBeam=$StartBeamZ
-  param BXangle=180+$StartBeamXrot
+  param BXangle=180-$StartBeamXrot
   param BYangle=$StartBeamYrot
+  param BsigmaX=0.0
+  param BsigmaY=0.0
 endif
 
 ##********************
