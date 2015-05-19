@@ -3,6 +3,7 @@
 # $Author$ 
 # implemented by: Vladimir Khalatyan
 #  DH: updated 1/2015 from docdb 1371 with T-blocks, etc
+#   DH 5/2015 shift barite top/north around stopping target
 #DS Shielding 
 
 param Cave_mat=CONCRETE_MARS
@@ -64,6 +65,7 @@ place DS_side_d x=-9357.4 y=-382.07 z=23790. rotation=X90,Y270
 # DS north DS wall and corner   George's second figure. side_a1 is odd blcok 
 #whose length gives placement of barite blocks around stopping target
 # v1 has barite shifted west by 457  v2 has barite N/S walls aligned
+# 5/15 shift V1 by 1 block barote vs concrete. Now almost v2
 #v1
 extrusion DS_side_a1 length=3860.8 vertices=0.0,0.0;-816,0.0;-816.,457.3;-1273.,457.3;-816.,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat_barite color=$LightBlue 
 #v2extrusion DS_side_a1 length=3860.8 vertices=457.2,0.0;-816,0.0;-816.,457.3;-1273.,457.3;-816.,914.4;914.4,914.4;914.4,457.3;457.2,457.3 material=$Cave_mat_barite color=$LightBlue 
@@ -73,9 +75,9 @@ extrusion DS_side_a1 length=3860.8 vertices=0.0,0.0;-816,0.0;-816.,457.3;-1273.,
 place DS_side_a1 x=-5348. y=-382.07 z=10981. rotation=X90,Y270
 #v1   shifted 457 in z from v2
 place DS_side_d x=-5348. y=-382.07 z=12353. rotation=X90,Y270
-place DS_side_a x=-5348. y=-382.07 z=12811. rotation=X90,Y270
+place DS_side_c x=-5348. y=-382.07 z=12811. rotation=X90,Y270
 place DS_side_b x=-5348. y=-382.07 z=14183. rotation=X90,Y270
-place DS_side_c x=-5348. y=-382.07 z=14641. rotation=X90,Y270
+place DS_side_a x=-5348. y=-382.07 z=14641. rotation=X90,Y270
 place DS_side_c x=-5348. y=-382.07 z=16471. rotation=X90,Y270
 place DS_side_c x=-5348. y=-382.07 z=18301. rotation=X90,Y270
 place DS_side_d x=-5348. y=-382.07 z=16013. rotation=X90,Y270
@@ -204,8 +206,6 @@ place Cave_Box_5 x=-9509.8 y=1548.33-0.5*508.0 z=7929.0+11684.0+304.8+0.5*1219.2
 #box Cave_Box_Bottom_3 length=2794.0-850.90 height=457.2 width=571.5 material=$Cave_mat color=$Cave_col
 #place Cave_Box_Bottom_3 x=-7808.0 y=-2312.47+330.20+0.5*(457.2) z=7929+15748.0+850.90+0.5*(2794.0-850.90)
 
-
-
 # new T-blocks etc. barite color is blue, light blue or red
 # upstream end ceiling. have vertices at y=0
 extrusion DS_up_top_e length=4927.6 vertices=0.0,0.0;-609.6,0.0;-609.6,457.3;-1066.6,457.3;-1066.6,914.4;0.,914.4 material=$Cave_mat_barite color=$Red 
@@ -242,13 +242,13 @@ place DS_up_top_f x=-7808. y=1776.93 z=10164.2
 
 # downstream end ceiling. rotate in Y. reg conc is yellow or white or grey
 extrusion DS_up_top_i length=4927.6 vertices=0.0,0.0;711.2,0.0;711.2,457.3;1168.4,457.3;1168.4,914.4;0.,914.4 material=$Cave_mat color=$White 
-place DS_up_top_i x=-7808. y=1548.33 z=10621.5 rotation=Y270
-place DS_up_top_a x=-7808. y=1548.33 z=11333. rotation=Y90
-extrusion DS_up_top_a1 length=4927.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat_barite color=$Red 
-place DS_up_top_a1 x=-7808. y=1548.33 z=12705. rotation=Y90
 extrusion DS_up_top_g length=4927.6 vertices=0.0,0.0;-1371.6,0.0;-1371.6,457.2;-914.4,457.2;-914.4,914.4;-457.2,914.4;-457.2,457.2;0.,457.2 material=$Cave_mat color=$Yellow 
 extrusion DS_up_top_g1 length=4927.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat color=$White 
-place DS_up_top_g x=-7808. y=1548.33 z=13163. rotation=Y90
+place DS_up_top_i x=-7808. y=1548.33 z=10621.5 rotation=Y270
+place DS_up_top_g x=-7808. y=1548.33 z=11333. rotation=Y90
+extrusion DS_up_top_a1 length=4927.6 vertices=0.0,0.0;-457.2,0.0;-457.2,457.3;-914.4,457.3;-914.4,914.4;457.2,914.4;457.2,457.3;0.,457.3 material=$Cave_mat_barite color=$Red 
+place DS_up_top_a1 x=-7808. y=1548.33 z=12705. rotation=Y90
+place DS_up_top_a x=-7808. y=1548.33 z=13163. rotation=Y90
 place DS_up_top_g x=-7808. y=1548.33 z=14993. rotation=Y90
 place DS_up_top_g x=-7808. y=1548.33 z=16823. rotation=Y90
 place DS_up_top_g x=-7808. y=1548.33 z=18653. rotation=Y90
