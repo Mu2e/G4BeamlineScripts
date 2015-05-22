@@ -234,7 +234,6 @@ include ./Geometry/PS_Proton_Beam_Stop.txt
 param -unset UsePrimaryBeam=0
 if $UsePrimaryBeam==1
   param PSshield_Entrance=1
-  param Use_External_Field=1
   include ./Geometry/ProtonBeam.txt
 endif
 
@@ -308,16 +307,16 @@ if $Use_Field==1
             z=7929.0
    
       if $Use_External_Field==1
-#            fieldmap ExtMonUCIAreaMagneticField \
-#                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
+            fieldmap ExtMonUCIAreaMagneticField \
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
             
-#            place ExtMonUCIAreaMagneticField \
-#                x=-3904.0 \
-#                y=0 \
-#                z=7929.0
+            place ExtMonUCIAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
             
             fieldmap ProtonDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/ProtonDumpAreaMap.txt
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ProtonDumpAreaMap.txt
             
             place ProtonDumpAreaMagneticField \
                 x=-3904.0 \
@@ -325,7 +324,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap PStoDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/PStoDumpAreaMap.txt
+                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/PStoDumpAreaMap.txt
             
             place PStoDumpAreaMagneticField \
                 x=-3904.0 \
@@ -383,7 +382,7 @@ if $Use_Cryostat==1
   include ./Geometry/DS_Cryostat.txt
 
 endif
-param -unset TScryo_innerR=249.8
+
 
 # ****************************************************************************
 #                         Production Solenoid Shielding
@@ -505,9 +504,10 @@ include ./Geometry/Calorimeter_Discs.txt
 # ****************************************************************************
 #                                Muon Beam Dump
 # ****************************************************************************
-# From Dave Hedin 5-23-2013
+# From Dave Hedin 5-2015  default is almost final version
 
-include ./Geometry/DS_Muon_Beam_Dump.txt
+include ./Geometry/DS_Muon_Beam_Dump_n14.txt
+#include ./Geometry/DS_Muon_Beam_Dump.txt
 
 
 
@@ -540,7 +540,6 @@ include ./Geometry/DS_Muon_Beam_Dump.txt
 # 3 -"Bicycle wheel" model of Proton Target
 # 4 - Only Tangsten Target
 # 5 -"Bicycle wheel" model of Tangsten Target
-# 6 - Detailed RAL radiation cooled Tungsten Target Model
 
 param -unset Use_Proton_Target=5
 
@@ -552,9 +551,6 @@ elseif $Use_Proton_Target==4
 
 elseif $Use_Proton_Target==5
     include ./Geometry/Proton_Target_W.txt
-
-elseif $Use_Proton_Target==6
-    include ./Geometry/Proton_Target_RAL.txt
 
 else
     include ./Geometry/Proton_Target.txt
@@ -587,10 +583,8 @@ if $UsePrimaryBeam==1
   param xBeam=$StartBeamX
   param yBeam=$StartBeamY
   param zBeam=$StartBeamZ
-  param BXangle=180-$StartBeamXrot
+  param BXangle=180+$StartBeamXrot
   param BYangle=$StartBeamYrot
-  param BsigmaX=0.0
-  param BsigmaY=0.0
 endif
 
 ##********************
