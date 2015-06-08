@@ -9,46 +9,8 @@
 # Nov 2, 2013 my adjustement to bring shielding to correct floor elevation -2312.47 mm
 #  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
 #  DH 3-2015 move in x (south) by 3 cm to fit for TS supports
+#  DH/MACC 6-2015. cryo pipes. chop south vertical due to volume overlaps
 param yoff=252.93
-
-# starts at -970 on PS cryostat
-tubs Cryo_pipe1 innerRadius=124.2 outerRadius=127. length=12580. material=Stainless304 color=$Copper 
-tubs Cryo_pipe1a innerRadius=100.4 outerRadius=102. length=12570. material=Cu color=$Copper 
-tubs Cryo_pipe1b innerRadius=15.3 outerRadius=17. length=12570. material=Stainless304 color=$Copper 
-tubs Cryo_pipe1c innerRadius=17.3 outerRadius=19. length=12570. material=Stainless304 color=$Copper 
-place Cryo_pipe1 x=-7260. y=1294. z=3910. rotation=Y90
-place Cryo_pipe1a x=-7260. y=1294. z=3910. rotation=Y90
-place Cryo_pipe1b x=-7260. y=1294.+80. z=3910. rotation=Y90
-place Cryo_pipe1b x=-7260. y=1294.-80. z=3910. rotation=Y90
-place Cryo_pipe1c x=-7260.+19. y=1294. z=3910. rotation=Y90
-# starts at 0 over PS
-tubs Cryo_pipe2 innerRadius=124.2 outerRadius=127. length=13550. material=Stainless304 color=$Copper 
-tubs Cryo_pipe2a innerRadius=100.4 outerRadius=102. length=13540. material=Cu color=$Copper 
-tubs Cryo_pipe2b innerRadius=15.3 outerRadius=17. length=13540. material=Stainless304 color=$Copper 
-tubs Cryo_pipe2c innerRadius=17.3 outerRadius=19. length=13540. material=Stainless304 color=$Copper 
-place Cryo_pipe2 x=-6775. y=2488. z=3910. rotation=Y90
-place Cryo_pipe2a x=-6775. y=2488. z=3910. rotation=Y90
-place Cryo_pipe2b x=-6775. y=2488.+80. z=3910. rotation=Y90
-place Cryo_pipe2b x=-6775. y=2488.-80. z=3910. rotation=Y90
-place Cryo_pipe2c x=-6775.+19. y=2488. z=3910. rotation=Y90
-tubs Cryo_pipe3 innerRadius=124.2 outerRadius=127. length=2237. material=Stainless304 color=$Copper 
-tubs Cryo_pipe3a innerRadius=100.4 outerRadius=102. length=2236. material=Cu color=$Copper 
-tubs Cryo_pipe3b innerRadius=15.3 outerRadius=17. length=2236. material=Stainless304 color=$Copper 
-tubs Cryo_pipe3c innerRadius=17.3 outerRadius=19. length=2236. material=Stainless304 color=$Copper 
-place Cryo_pipe3 x=0. y=2488. z=5160. 
-place Cryo_pipe3a x=0. y=2488. z=5160. 
-place Cryo_pipe3b x=0. y=2488.+80. z=5160. 
-place Cryo_pipe3b x=0. y=2488.-80. z=5160. 
-place Cryo_pipe3c x=-19. y=2488. z=5160. 
-tubs Cryo_pipe4 innerRadius=124.2 outerRadius=127. length=1540. material=Stainless304 color=$Copper
-tubs Cryo_pipe4a innerRadius=100.4 outerRadius=102. length=1540. material=Cu color=$Copper
-tubs Cryo_pipe4b innerRadius=15.3 outerRadius=17. length=1540. material=Stainless304 color=$Copper
-tubs Cryo_pipe4c innerRadius=17.3 outerRadius=19. length=1540. material=Stainless304 color=$Copper
-place Cryo_pipe4 x=0. y=1584. z=6279. rotation=X90
-place Cryo_pipe4a x=0. y=1584. z=6279.  rotation=X90
-place Cryo_pipe4b x=0. y=1584.+80. z=6279.+80.  rotation=X90
-place Cryo_pipe4b x=0. y=1584.-80. z=6279.-80.  rotation=X90
-place Cryo_pipe4c x=-19. y=1584. z=6279.  rotation=X90
 
 # study blocks, default air
 box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
@@ -191,7 +153,6 @@ place ts_block_3a x=-2620. y=-630.57 z=4157.5
 
 place ts_block_2 x=-1995.5 y=-349.47 z=9656.5
 place ts_block_1a x=-1678. y=-349.47 z=10225.
-#place ts_block_1a x=-1678. y=-349.47 z=10768.
 place ts_block_1a x=-1678. y=-349.47 z=10786.5
 place ts_block_1 x=-2015.5 y=-349.47 z=5362.
 place ts_block_3 x=-2091.5 y=-349.47 z=6260.5
@@ -227,10 +188,558 @@ place ts_block_4cc x=-2874. y=3232.5 z=7698.
 #place crv_shield_4 x=-2852. y=-1855.97 z=7988.
 
 #old Above Concrete part
-extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m2
+#extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m2
 #place TS_Shield_4 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
-extrusion TS_Shield_6 length=$TS_shield_conc_h vertices=-9998.,4347.6;-9998.,5330;-3360,5330.;-3360.,4347.6 color=$TS_Shield_c2 material=$TS_Shield_m2
+#extrusion TS_Shield_6 length=$TS_shield_conc_h vertices=-9998.,4347.6;-9998.,5330;-3360,5330.;-3360.,4347.6 color=$TS_Shield_c2 material=$TS_Shield_m2
 #place TS_Shield_6 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
+#-----------------------------------------------------------------
+#   cryo pipes. Mary Anne Cummings
+#----------------------------------------------------------------
+#=====================================================================================================================
+# define a complex torii, outer radius 10???, for corners, with layers of stainless steel, aluminum, helium and nitrogen
+#=====================================================================================================================
+param initPhi=0
+param finPhi=90
+
+do i 1 4
+
+torus Cryo_Corner$i:a outerRadius=127 innerRadius=124.23 majorRadius=127.01 initialPhi=$initPhi finalPhi=$finPhi material=Stainless304 color=$Copper
+torus Cryo_Corner$i:b outerRadius=103.19 innerRadius=99.83 majorRadius=127.01 initialPhi=$initPhi finalPhi=$finPhi material=Al color=0,1,0
+torus Cryo_Corner$i:c outerRadius=99.00 innerRadius=95.48 majorRadius=127.01 initialPhi=$initPhi finalPhi=$finPhi material=lHe color=0,1,0
+torus Cryo_Corner$i:d outerRadius=95.00 innerRadius=92.4 majorRadius=127.01 initialPhi=$initPhi finalPhi=$finPhi material=lN2 color=0,1,0
 
 
+param initPhi=$initPhi+90
+param finPhi=$finPhi+90
+
+enddo
+
+# First Run: PS Production Solenoids lengths: 4254.48 12721.18 745.98
+#===============================================================================================
+#define pipes   - compound cryolines with outer pipe 10??? diameter
+
+param j=0
+#for i 4254.48 12721.18 745.98
+for i 1254.48 12721.18 745.98
+param j=$j+1
+
+# define a pipe with 0.109??? wall, 10??? radius
+tubs Cryo_pipe$i outerRadius=127 innerRadius=124.23 length=$i \  
+material=Stainless304 color=$Copper
+
+# define a thermal pipe with .125??? wall, 8.125???
+tubs Thermal_pipe$i innerRadius=100.015 outerRadius=103.19 length=$i\
+material=Al color=1,0,0 
+
+# define a pipe for 80K Nitrogen supply and return lines
+tubs LN2_pipe$i innerRadius=11.05 outerRadius=12.7 length=$i \
+material=Al color=0,1,0 
+
+# define a Nitrogen fill for 80K Nitrogen supply and return lines
+tubs LN2_fill$i outerRadius=11.05 length=$i \
+material=lN2 color=0,1,1
+
+#define a pipe for 4K He return 
+tubs He_pipe_1$i innerRadius=17.4 outerRadius=19.05 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_1$i outerRadius=17.4 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_2$i innerRadius=14.224 outerRadius=15.875 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_2$i outerRadius=14.224 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_3$i innerRadius=9.464 outerRadius=11.115 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_3$i outerRadius=9.464 length=$i material=lHe color=1,1,0 
+
+group Cryo_line1$j length=$i
+  place Cryo_pipe$i  z=0.0
+  place Thermal_pipe$i z=0.0
+  place He_pipe_1$i z=0.0 y=55.56
+  place He_fill_1$i z=0.0 y=55.56
+  place He_pipe_2$i z=0.0 y=-58.74
+  place He_fill_2$i z=0.0 y=-58.74
+  place He_pipe_3$i z=0.0 x=0.0
+  place He_fill_3$i z=0.0 x=0.0
+  place He_pipe_3$i z=0.0 x=63.5
+  place He_fill_3$i z=0.0 x=63.5
+  place LN2_pipe$i z=0.0 y=-58.74 x=60.
+  place LN2_pipe$i z=0.0 y=-58.74 x=-60.
+  place LN2_pipe$i z=0.0 y=58.74 x=60.
+  place LN2_pipe$i z=0.0 y=58.74 x=-60.
+  place LN2_fill$i z=0.0 y=-58.74 x=60.
+  place LN2_fill$i z=0.0 y=-58.74 x=-60.
+  place LN2_fill$i z=0.0 y=58.74 x=60.
+  place LN2_fill$i z=0.0 y=58.74 x=-60.
+endgroup
+
+endfor
+
+
+# define offsets for PS Production Solenoid cryolines
+param PS_offsetx=-3904-10076.2   # -10076 - 3904 #
+param PS_offsetz=7929-3911.6          # -3911.6 + 7929 #
+param PS_offsety=0
+
+param PS_x_11=$PS_offsetx
+param PS_y_11=$PS_offsety+3548.68    # 4508.5/2 + 1294.43 #
+param PS_z_11=$PS_offsetz
+
+param PS_x_12=$PS_offsetx+12975.2/2
+param PS_y_12=$PS_offsety+1294.43
+param PS_z_12=$PS_offsetz
+
+param PS_x_13=$PS_offsetx+12975.2
+param PS_y_13=$PS_offsety+1294.43
+param PS_z_13=$PS_offsetz-1000.0/2
+
+
+# define offsets for PS Production Solenoid corners
+param CC_x1=$PS_offsetx+127.01
+param CC_y1=$PS_offsety+1294.43+127.01
+param CC_z1=$PS_offsetz
+
+param CC_x2=$PS_offsetx+12975.2-127.01
+param CC_y2=$PS_offsety+1294.43
+param CC_z2=$PS_offsetz-127.01
+
+
+#place Cryo_line11 x=$PS_x_11 y=$PS_y_11 z=$PS_z_11 rotation=X90
+place Cryo_line11 x=$PS_x_11 y=$PS_y_11-1500. z=$PS_z_11 rotation=X90
+place Cryo_line12 x=$PS_x_12 y=$PS_y_12 z=$PS_z_12 rotation=Y90
+place Cryo_line13 x=$PS_x_13 y=$PS_y_13 z=$PS_z_13 rotation=X0
+
+for i a b c d
+place Cryo_Corner3:$i x=$CC_x1 y=$CC_y1 z=$CC_z1 rotation=X0
+place Cryo_Corner1:$i x=$CC_x2 y=$CC_y2 z=$CC_z2 rotation=X90
+endfor
+
+
+
+# Second Run: TS Transport Solenoid (upper) lengths: 3060.68 2387.58 965.18 10861.58 1849.48 939.78
+#==================================================================================================
+#define pipes
+tubs Cryo_pipe21 innerRadius=124.2 outerRadius=127. length=3060.68 material=Stainless304 color=0,1,0 
+tubs Cryo_pipe22 innerRadius=124.2 outerRadius=127. length=2387.58 material=Stainless304 color=0,1,0 
+tubs Cryo_pipe23 innerRadius=124.2 outerRadius=127. length=965.18 material=Stainless304 color=0,1,0 
+tubs Cryo_pipe24 innerRadius=124.2 outerRadius=127. length=10861.58 material=Stainless304 color=0,1,0 
+tubs Cryo_pipe25 innerRadius=124.2 outerRadius=127. length=1849.48 material=Stainless304 color=0,1,0 
+tubs Cryo_pipe26 innerRadius=124.2 outerRadius=127. length=939.78 material=Stainless304 color=0,1,0 
+
+
+param j=0
+#for i 3060.68 2387.58 965.18 10861.58 1849.48 939.78
+for i 60.68 2387.58 965.18 10861.58 1849.48 939.78
+param j=$j+1
+
+# define a pipe with 0.109??? wall, 10??? radius
+tubs Cryo_pipe$i outerRadius=127 innerRadius=124.23 length=$i \  
+material=Stainless304 color=$Copper
+
+# define a thermal pipe with .125??? wall, 8.125???
+tubs Thermal_pipe$i innerRadius=100.015 outerRadius=103.19 length=$i\
+material=Al color=1,0,0 
+
+# define a pipe for 80K Nitrogen supply and return lines
+tubs LN2_pipe$i innerRadius=11.05 outerRadius=12.7 length=$i \
+material=Al color=0,1,0 
+
+# define a Nitrogen fill for 80K Nitrogen supply and return lines
+tubs LN2_fill$i outerRadius=11.05 length=$i \
+material=lN2 color=0,1,1
+
+#define a pipe for 4K He return 
+tubs He_pipe_1$i innerRadius=17.4 outerRadius=19.05 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_1$i outerRadius=17.4 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_2$i innerRadius=14.224 outerRadius=15.875 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_2$i outerRadius=14.224 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_3$i innerRadius=9.464 outerRadius=11.115 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_3$i outerRadius=9.464 length=$i material=lHe color=1,1,0 
+
+group Cryo_line2$j length=$i
+  place Cryo_pipe$i  z=0.0
+  place Thermal_pipe$i z=0.0
+  place He_pipe_1$i z=0.0 y=55.56
+  place He_fill_1$i z=0.0 y=55.56
+  place He_pipe_2$i z=0.0 y=-58.74
+  place He_fill_2$i z=0.0 y=-58.74
+  place He_pipe_3$i z=0.0 x=0.0
+  place He_fill_3$i z=0.0 x=0.0
+  place He_pipe_3$i z=0.0 x=63.5
+  place He_fill_3$i z=0.0 x=63.5
+  place LN2_pipe$i z=0.0 y=-58.74 x=60.
+  place LN2_pipe$i z=0.0 y=-58.74 x=-60.
+  place LN2_pipe$i z=0.0 y=58.74 x=60.
+  place LN2_pipe$i z=0.0 y=58.74 x=-60.
+  place LN2_fill$i z=0.0 y=-58.74 x=60.
+  place LN2_fill$i z=0.0 y=-58.74 x=-60.
+  place LN2_fill$i z=0.0 y=58.74 x=60.
+  place LN2_fill$i z=0.0 y=58.74 x=-60.
+endgroup
+
+endfor
+
+
+# define offsets for TS Transport Solenoid (upper) lines
+param PS_offsetx=-3904-10076.2   # -10076 - 3904 #
+param PS_offsetz=7929-2692.4     # -2692.4 + 7929 #
+param PS_offsety=0
+
+param PS_x_21=$PS_offsetx
+param PS_y_21=$PS_offsety+4145.48    # 3314.7/2 + 2488.13 #
+param PS_z_21=$PS_offsetz
+
+param PS_x_22=$PS_offsetx+2641.6/2 
+param PS_y_22=$PS_offsety+2488.13    
+param PS_z_22=$PS_offsetz
+
+param PS_x_23=$PS_offsetx+2641.6      # pipe22 = 2641.6 - 254.02, to end #
+param PS_y_23=$PS_offsety+2488.13
+param PS_z_23=$PS_offsetz-1219.2/2        # 965.18 + 254.02 = 1219.2 #
+
+param PS_x_24=$PS_offsetx+2641.6+11115.6/2      # pipe22 = 2641.6 - 254.02, to end #
+param PS_y_24=$PS_offsety+2488.13
+param PS_z_24=$PS_offsetz-1219.2        # 965.18 + 254.02 = 1219.2 #
+
+param PS_x_25=$PS_offsetx+2641.6+11115.6      # pipe22 = 2641.6 - 254.02, to end #
+param PS_y_25=$PS_offsety+2488.13
+param PS_z_25=$PS_offsetz-1219.2+2103.5/2        # 1849.48 + 254.02 = 2103.5 #
+
+param PS_x_26=$PS_offsetx+2641.6+11115.6      # pipe22 = 2641.6 - 254.02, to end #
+param PS_y_26=$PS_offsety+2488.13-1193.8/2            # 939.78 + 254.02 = 1193.8 #
+param PS_z_26=$PS_offsetz-1219.2+2103.5        # 1849.48 + 254.02 = 2103.5, # 
+
+#
+#  here 4800-1193.80=3606.2  y=1294+1193.8=2487.8
+#
+
+# define offsets for TS Transport Solenoid (upper) corners
+param CC_x1=$PS_offsetx+127.01
+param CC_y1=$PS_offsety+2488.13+127.01
+param CC_z1=$PS_offsetz
+
+param CC_x2=$PS_offsetx+2641.6-127.01
+param CC_y2=$PS_offsety+2488.13
+param CC_z2=$PS_offsetz-127.01
+
+param CC_x3=$PS_offsetx+2641.6+127.01
+param CC_y3=$PS_offsety+2488.13
+param CC_z3=$PS_offsetz-1219.2+127.01
+
+param CC_x4=$PS_offsetx+2641.6+11115.6-127.01
+param CC_y4=$PS_offsety+2488.13
+param CC_z4=$PS_offsetz-1219.2+127.01
+
+param CC_x5=$PS_offsetx+2641.6+11115.6
+param CC_y5=$PS_offsety+2488.13-127.01
+param CC_z5=$PS_offsetz-1219.2+2103.5-127.01             # 2103.5 = 254.02 + 1849.48 #
+
+#place Cryo_line21 x=$PS_x_21 y=$PS_y_21 z=$PS_z_21 rotation=X90
+place Cryo_line21 x=$PS_x_21 y=$PS_y_21-1500. z=$PS_z_21 rotation=X90
+place Cryo_line22 x=$PS_x_22 y=$PS_y_22 z=$PS_z_22 rotation=Y90
+place Cryo_line23 x=$PS_x_23 y=$PS_y_23 z=$PS_z_23 rotation=X0
+place Cryo_line24 x=$PS_x_24 y=$PS_y_24 z=$PS_z_24 rotation=Y90
+place Cryo_line25 x=$PS_x_25 y=$PS_y_25 z=$PS_z_25 rotation=X0
+place Cryo_line26 x=$PS_x_26 y=$PS_y_26 z=$PS_z_26 rotation=X90
+
+
+for i a b c d     # place nested tori as corners
+place Cryo_Corner3:$i x=$CC_x1 y=$CC_y1 z=$CC_z1 rotation=X0
+place Cryo_Corner1:$i x=$CC_x2 y=$CC_y2 z=$CC_z2 rotation=X90
+place Cryo_Corner3:$i x=$CC_x3 y=$CC_y3 z=$CC_z3 rotation=X90
+place Cryo_Corner4:$i x=$CC_x4 y=$CC_y4 z=$CC_z4 rotation=X90
+place Cryo_Corner2:$i x=$CC_x5 y=$CC_y5 z=$CC_z5 rotation=Y90
+endfor
+
+#
+# Third Run DS Detector Solenoid lengths: 4254.48 2387.58 14274.78 1269.98 965.18 812.78 2893.38
+#=======================================================================================================
+
+#define pipes
+
+# 1066.8 - 254.02 = 812.78
+# 3147.4-254.02 = 2893.38
+
+param j=0
+#for i 4254.48 2387.58 14274.78 1269.98 965.18 812.78 2893.38
+for i 1254.48 2387.58 14274.78 1269.98 965.18 812.78 2893.38
+param j=$j+1
+
+# define a pipe with 0.109??? wall, 10??? radius
+tubs Cryo_pipe$i outerRadius=127 innerRadius=124.23 length=$i \  
+material=Stainless304 color=$Copper 
+
+# define a thermal pipe with .125??? wall, 8.125???
+tubs Thermal_pipe$i innerRadius=100.015 outerRadius=103.19 length=$i\
+material=Al color=1,0,0 
+
+# define a pipe for 80K Nitrogen supply and return lines
+tubs LN2_pipe$i innerRadius=11.05 outerRadius=12.7 length=$i \
+material=Al color=0,1,0 
+
+# define a Nitrogen fill for 80K Nitrogen supply and return lines
+tubs LN2_fill$i outerRadius=11.05 length=$i \
+material=lN2 color=0,1,1
+
+#define a pipe for 4K He return 
+tubs He_pipe_1$i innerRadius=17.4 outerRadius=19.05 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_1$i outerRadius=17.4 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_2$i innerRadius=14.224 outerRadius=15.875 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_2$i outerRadius=14.224 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_3$i innerRadius=9.464 outerRadius=11.115 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_3$i outerRadius=9.464 length=$i material=lHe color=1,1,0 
+
+group Cryo_line3$j length=$i
+  place Cryo_pipe$i  z=0.0
+  place Thermal_pipe$i z=0.0
+  place He_pipe_1$i z=0.0 y=55.56
+  place He_fill_1$i z=0.0 y=55.56
+  place He_pipe_2$i z=0.0 y=-58.74
+  place He_fill_2$i z=0.0 y=-58.74
+  place He_pipe_3$i z=0.0 x=0.0
+  place He_fill_3$i z=0.0 x=0.0
+  place He_pipe_3$i z=0.0 x=63.5
+  place He_fill_3$i z=0.0 x=63.5
+  place LN2_pipe$i z=0.0 y=-58.74 x=60.
+  place LN2_pipe$i z=0.0 y=-58.74 x=-60.
+  place LN2_pipe$i z=0.0 y=58.74 x=60.
+  place LN2_pipe$i z=0.0 y=58.74 x=-60.
+  place LN2_fill$i z=0.0 y=-58.74 x=60.
+  place LN2_fill$i z=0.0 y=-58.74 x=-60.
+  place LN2_fill$i z=0.0 y=58.74 x=60.
+  place LN2_fill$i z=0.0 y=58.74 x=-60.
+endgroup
+
+endfor
+
+#define offsets for Detector Solenoid cryo lines
+
+param PS_offsetx=-3904-10076.2   # -10076 - 3904 #
+param PS_offsetz=7929-1473.2     # -1473.2 + 7929 #
+param PS_offsety=0               #8648.7 = 254.02 + 8394.68 #
+
+param PS_x_31=$PS_offsetx
+param PS_y_31=$PS_offsety+3548.68         # 4508.5/2 + 1294.43 #
+param PS_z_31=$PS_offsetz
+
+param PS_x_32=$PS_offsetx+2641.6/2          # 2641.6 = 254.02 + 2387.58 (
+param PS_y_32=$PS_offsety+1294.43 
+param PS_z_32=$PS_offsetz
+
+param PS_x_33=$PS_offsetx+2641.6 
+param PS_y_33=$PS_offsety+1294.43    
+param PS_z_33=$PS_offsetz+14528.8/2          #  14528.8 = 254.02 + 14274.78 #
+
+
+param PS_x_34=$PS_offsetx+2641.6+1524.0/2    #   1524.0 = 254.02 + 1269.98 # 
+param PS_y_34=$PS_offsety+1294.43   
+param PS_z_34=$PS_offsetz+14528.8            #  14528.8 = 254.02 + 14274.78 #
+
+param PS_x_35=$PS_offsetx+2641.6+1524.0      #   1524.0 = 254.02 + 1269.98 # 
+param PS_y_35=$PS_offsety+1294.43               
+param PS_z_35=$PS_offsetz+14528.8-1219.2/2     #  1219.2 = 254.02 + 14274.78 #
+
+param PS_x_36=$PS_offsetx+2641.6+1524.0+1066.8/2 # 1066.8 = 812.78 + 254.02     
+param PS_y_36=$PS_offsety+1294.43            
+param PS_z_36=$PS_offsetz+14528.8-1219.2      #  14528.8 = 254.02 + 14274.78 #
+
+param PS_x_37=$PS_offsetx+2641.6+1524.0+1066. # 1066.8 = 812.78 + 254.02 #    
+param PS_y_37=$PS_offsety+1294.43            
+param PS_z_37=$PS_offsetz+14528.8-1219.2-3147.4/2      #  3147.4 = 254.02 + 2893.38 #
+
+
+#define offsets for Detector Solenoid cryo corners
+
+param CC_x1=$PS_offsetx+127.01
+param CC_y1=$PS_offsety+1294.43+127.01
+param CC_z1=$PS_offsetz
+
+param CC_x2=$PS_offsetx+2641.6-127.01
+param CC_y2=$PS_offsety+1294.43
+param CC_z2=$PS_offsetz+127.01
+
+param CC_x3=$PS_offsetx+2641.6+127.01
+param CC_y3=$PS_offsety+1294.43
+param CC_z3=$PS_offsetz+14528.8-127.01        #  14528.8 = 254.02 + 14274.78 #   
+
+param CC_x4=$PS_offsetx+2641.6+1524.-127.01
+param CC_y4=$PS_offsety+1294.43
+param CC_z4=$PS_offsetz+14528.8-127.01          #  14528.8 = 254.02 + 14274.78 #   
+
+param CC_x5=$PS_offsetx+2641.6+1524.+127.01
+param CC_y5=$PS_offsety+1294.43
+param CC_z5=$PS_offsetz+14528.8-1219.2+127.01      #  1219.2 = 254.02 + 965.18 #      
+
+param CC_x6=$PS_offsetx+2641.6+1524.+1066.8-127.01    # 1066.8 - 254.02 = 812.78 #
+param CC_y6=$PS_offsety+1294.43
+param CC_z6=$PS_offsetz+14528.8-1219.2-127.01         #  1219.2 = 254.02 + 965.18 #  
+
+
+#place Cryo_line31 x=$PS_x_31 y=$PS_y_31 z=$PS_z_31 rotation=X90
+place Cryo_line31 x=$PS_x_31 y=$PS_y_31-1500. z=$PS_z_31 rotation=X90
+place Cryo_line32 x=$PS_x_32 y=$PS_y_32 z=$PS_z_32 rotation=Y90
+place Cryo_line33 x=$PS_x_33 y=$PS_y_33 z=$PS_z_33 rotation=X0
+place Cryo_line34 x=$PS_x_34 y=$PS_y_34 z=$PS_z_34 rotation=Y90
+place Cryo_line35 x=$PS_x_35 y=$PS_y_35 z=$PS_z_35 rotation=Y0
+place Cryo_line36 x=$PS_x_36 y=$PS_y_36 z=$PS_z_36 rotation=Y90
+place Cryo_line37 x=$PS_x_37 y=$PS_y_37 z=$PS_z_37 rotation=Y0
+
+
+for i a b c d     # place nested tori as corners
+place Cryo_Corner3:$i x=$CC_x1 y=$CC_y1 z=$CC_z1 rotation=X0
+place Cryo_Corner4:$i x=$CC_x2 y=$CC_y2 z=$CC_z2 rotation=X90
+place Cryo_Corner2:$i x=$CC_x3 y=$CC_y3 z=$CC_z3 rotation=X90
+place Cryo_Corner1:$i x=$CC_x4 y=$CC_y4 z=$CC_z4 rotation=X90
+place Cryo_Corner3:$i x=$CC_x5 y=$CC_y5 z=$CC_z5 rotation=X90
+place Cryo_Corner1:$i x=$CC_x6 y=$CC_y6 z=$CC_z6 rotation=X90
+endfor
+
+# 
+# Fourth Run TS Transport Solenoid (lower) lengths: 8394.68 4851.38 1491.88 2178.18
+#=======================================================================================================
+
+#define pipes
+
+# 8648.7 = 254.02 + 8394.68 #
+# 2432.2 = 254.02 + 2178.18 #
+# 1745.9 = 254.02 + 1491.88 #
+# 5105.4 = 254.02 + 4851.38 #
+
+param j=0
+#for i 8394.68 4851.38 1491.88 2178.18
+for i 94.68 4851.38 1491.88 2178.18
+param j=$j+1
+
+# define a pipe with 0.109??? wall, 10??? radius
+tubs Cryo_pipe$i outerRadius=127 innerRadius=124.23 length=$i \  
+material=Stainless304 color=$Copper
+
+# define a thermal pipe with .125??? wall, 8.125???
+tubs Thermal_pipe$i innerRadius=100.015 outerRadius=103.19 length=$i\
+material=Al color=1,0,0 
+
+# define a pipe for 80K Nitrogen supply and return lines
+tubs LN2_pipe$i innerRadius=11.05 outerRadius=12.7 length=$i \
+material=Al color=0,1,0 
+
+# define a Nitrogen fill for 80K Nitrogen supply and return lines
+tubs LN2_fill$i outerRadius=11.05 length=$i \
+material=lN2 color=0,1,1
+
+#define a pipe for 4K He return 
+tubs He_pipe_1$i innerRadius=17.4 outerRadius=19.05 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_1$i outerRadius=17.4 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_2$i innerRadius=14.224 outerRadius=15.875 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_2$i outerRadius=14.224 length=$i material=lHe color=1,1,0 
+
+#define a pipe for 4K He return 
+tubs He_pipe_3$i innerRadius=9.464 outerRadius=11.115 length=$i material=Al color=0,1,0 
+
+#define a pipe for 4K He return 
+tubs He_fill_3$i outerRadius=9.464 length=$i material=lHe color=1,1,0 
+
+group Cryo_line4$j length=$i
+  place Cryo_pipe$i  z=0.0
+  place Thermal_pipe$i z=0.0
+  place He_pipe_1$i z=0.0 y=55.56
+  place He_fill_1$i z=0.0 y=55.56
+  place He_pipe_2$i z=0.0 y=-58.74
+  place He_fill_2$i z=0.0 y=-58.74
+  place He_pipe_3$i z=0.0 x=0.0
+  place He_fill_3$i z=0.0 x=0.0
+  place He_pipe_3$i z=0.0 x=63.5
+  place He_fill_3$i z=0.0 x=63.5
+  place LN2_pipe$i z=0.0 y=-58.74 x=60.
+  place LN2_pipe$i z=0.0 y=-58.74 x=-60.
+  place LN2_pipe$i z=0.0 y=58.74 x=60.
+  place LN2_pipe$i z=0.0 y=58.74 x=-60.
+  place LN2_fill$i z=0.0 y=-58.74 x=60.
+  place LN2_fill$i z=0.0 y=-58.74 x=-60.
+  place LN2_fill$i z=0.0 y=58.74 x=60.
+  place LN2_fill$i z=0.0 y=58.74 x=-60.
+endgroup
+
+endfor
+
+
+#define offsets Transport Solenoid (lower) cryolines
+
+param PS_offsetx=-3904-10076.2   # -10076 - 3904 #
+param PS_offsetz=7929-254.0      
+param PS_offsety=0            
+
+param PS_x_41=$PS_offsetx
+param PS_y_41=$PS_offsety+1294.43+4508.5-8648.7/2         # 4508.5 + 1294.43 #
+param PS_z_41=$PS_offsetz
+
+param PS_x_42=$PS_offsetx+5105.4/2          # 5105.4 = 254.02 + 4851.38 #
+param PS_y_42=$PS_offsety+1294.43+4508.5-8648.7  
+param PS_z_42=$PS_offsetz
+
+param PS_x_43=$PS_offsetx+5105.4            # 5105.4 = 254.02 + 4851.38 #
+param PS_y_43=$PS_offsety+1294.43+4508.5-8648.7+1745.9/2               # 1745.9 = 254.02 + 1491.88 #
+param PS_z_43=$PS_offsetz
+
+param PS_x_44=$PS_offsetx+5105.4+2432.2*0.5302/2            # 0.8479 = cos (32.02 deg) #
+param PS_y_44=$PS_offsety+1294.43+4508.5-8648.7+1745.9    # 1745.9 = 254.02 + 1491.88 #
+param PS_z_44=$PS_offsetz+2432.2*0.8479/2		    # 0.5302 = sin (32.02 deg) #
+
+
+#define offsets for Transport Solenoid (lower) cryo corners
+
+param CC_x1=$PS_offsetx+127.01
+param CC_y1=$PS_offsety+1294.43+4508.5-8648.7+127.01
+param CC_z1=$PS_offsetz
+
+param CC_x2=$PS_offsetx+5105.4-127.01
+param CC_y2=$PS_offsety+1294.43+4508.5-8648.7+127.01
+param CC_z2=$PS_offsetz
+
+param CC_x3=$PS_offsetx+5105.4+127.01*0.5302
+param CC_y3=$PS_offsety+1294.43+4508.5-8648.7+1745.9-127.01
+param CC_z3=$PS_offsetz+127.01*0.8479
+
+
+#place Cryo_line41 x=$PS_x_41 y=$PS_y_41 z=$PS_z_41 rotation=X90
+place Cryo_line41 x=$PS_x_41 y=$PS_y_41-4150. z=$PS_z_41 rotation=X90
+place Cryo_line42 x=$PS_x_42 y=$PS_y_42 z=$PS_z_42 rotation=Y90
+place Cryo_line43 x=$PS_x_43 y=$PS_y_43 z=$PS_z_43 rotation=X90
+place Cryo_line44 x=$PS_x_44 y=$PS_y_44 z=$PS_z_44 rotation=Y32
+
+for i a b c d     # place nested tori as corners
+place Cryo_Corner3:$i x=$CC_x1 y=$CC_y1 z=$CC_z1 rotation=X0
+place Cryo_Corner4:$i x=$CC_x2 y=$CC_y2 z=$CC_z2 rotation=X0
+place Cryo_Corner2:$i x=$CC_x3 y=$CC_y3 z=$CC_z3 rotation=Y302
+endfor
 
