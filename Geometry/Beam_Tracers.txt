@@ -1,0 +1,166 @@
+# $Id$
+# $Date$
+# $Author$
+
+## Constructs non-intrusive detectors.  There are intrusive detectors defined
+## in PS_Proton_Beam_Stop.txt
+
+param -unset Use_Beam_Tracers=0
+param -unset Visible_Beam_Tracers=$Invisible
+
+#######################################
+# PS entrance tracer 
+#######################################
+
+# this tracer is in the vacuum inside the TS support ring nearest
+# the PS (TSring0)
+
+if $PSshield_Entrance==1
+   if $Use_Beam_Tracers==1
+      virtualdetector ps_entrance_tracer length=1e-3 radius=$OrPSentrypipe \
+         color=$Tracer_Color
+
+# the angles appear to be correct now, but I don't really understand
+# the minus signs
+      place ps_entrance_tracer x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe \
+         rotation=y-$YrotPSentrypipe,x-$XrotPSentrypipe
+   endif
+endif
+
+#######################################
+# beam tracers around target; these don't follow the target around
+#######################################
+
+if $Use_Beam_Tracers==1
+   if $Use_Proton_Target==6
+      param r=$Tradius+$THubLength*sin($THubAngle)+$THubThick
+      virtualdetector hub_tracer \
+         length=1e-3 \
+	 radius=2*$r \
+	 color=$Tracer_Color
+
+      virtualdetector target_tracer \
+      	 length=1e-3 \
+	 radius=$Tradius \
+	 color=$Tracer_Color
+
+      param alongz=$Tlength/2+$THubPost+$THubLength*cos($THubAngle)+2e-3
+
+      place hub_tracer \
+         x=$alongz*sin($TYangle*degree)\
+      	 y=0\
+	 z=$Tposition+$alongz*cos($TYangle*degree)\
+	 rotation=Y$TYangle\
+	 rename=upstream_hub_tracer
+
+      place target_tracer \
+         x=$Tlength/2*sin($TYangle*degree)\
+      	 y=0\
+      	 z=$Tposition+$Tlength/2*cos($TYangle*degree)\
+      	 rotation=Y$TYangle\
+      	 rename=upstream_target_tracer
+
+      place target_tracer \
+      	 x=-$Tlength/2*sin($TYangle*degree)\
+      	 y=0\
+      	 z=$Tposition-$Tlength/2*cos($TYangle*degree)\
+      	 rotation=Y$TYangle\
+      	 rename=downstream_target_tracer
+
+      place hub_tracer \
+         x=-$alongz*sin($TYangle*degree)\
+      	 y=0\
+      	 z=$Tposition-$alongz*cos($TYangle*degree)\
+      	 rotation=Y$TYangle\
+      	 rename=downstream_hub_tracer
+
+   endif
+endif
+
+#######################################
+# beam tracer at PS endcap window
+#######################################
+
+# This one is not exactly in the right place, but it's off in z by less
+# than 9mm
+
+if $Use_Beam_Tracers==1
+   virtualdetector psendcap_win_tracer \
+      length=1e-3 \
+      radius=$PSendcap_winR1 \
+      color=$Tracer_Color
+
+   param lair=$PSendcap_length+$PSendcap_winT
+   param z=$PScryostat_z+$PScryostat_Offset-$lair/2-$PSendcap_length/2+$lair/2-10
+
+   place psendcap_win_tracer \
+      x=$PSendcap_winX1 y=$PSendcap_winY1 \
+      z=$z-$lair/2 
+
+   virtualdetector psendcap_tracer \
+      length=1e-3 \
+      radius=4*$PSendcap_winR1 \
+
+   place psendcap_tracer \
+      x=$PSendcap_winX1 y=$PSendcap_winY1 \
+      z=$z-$lair/2-1.0
+
+endif
+
+#######################################
+# downstream wire chamber planes
+#######################################
+
+# no idea where to put this one for now....
+#zntuple rails_position z=
+#zntuple near_position z=(3*$Tposition+$pBeamStop_z)/4
+#zntuple mid_position z=($Tposition+$pBeamStop_z)/2
+#zntuple far_position z=($Tposition+3*$pBeamStop_z)/4
+
+if $Use_Beam_Tracers==1
+
+   virtualdetector downstream_tracer length=1e-3 \
+        height=$pBeamStop_h width=$pBeamStop_w color=$Tracer_Color
+
+# Positions chosen to center virtual detector on nominal beam trajectory
+# calculated by making everything vacuum, driving beam through the above 
+# planes, and recording the positions of the hits
+
+# near tracer: 1/4 distance from target to beam stop
+   param px=-2108.751
+   param py=344.87002
+   param pz=-8628.243
+   param yrot=atan($px/$pz)/degree
+   param xrot=atan(-$py/$pz)/degree
+   place downstream_tracer x=-813.8517 y=122.44112 \
+         z=(3*$Tposition+$pBeamStop_z)/4 \
+	 rotation=y$yrot,x$xrot \
+         rename=downstream_near_tracer
+
+# mid tracer: 1/2 distance from target to beam stop
+   param px=-2110.392
+   param py=333.62213
+   param pz=-8628.285
+   param yrot=atan($px/$pz)/degree
+   param xrot=atan(-$py/$pz)/degree
+   place downstream_tracer x=-1624.700 y=251.92703 \
+         z=($Tposition+$pBeamStop_z)/2 \
+	 rotation=y$yrot,x$xrot \
+         rename=downstream_mid_tracer
+
+# can't place this one here, as the coordinates put it inside PBSenc
+# after the placement of PBSenc
+#place downstream_tracer x=-2435.798 y=379.82012 \
+#      z=($Tposition+3*$pBeamStop_z)/4 \
+#      rename=downstream_far_tracer
+
+endif
+
+
+#######################################
+# proton beam stop entrance tracer
+#######################################
+
+# This tracer sits right in front of the PBS core, but is defined inside the 
+# file Geometry/PS_Proton_Beam_Stop.txt because it needs to be buried
+# inside a series of nested volumes after the parent is instantiated.

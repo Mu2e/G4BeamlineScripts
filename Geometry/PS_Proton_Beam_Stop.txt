@@ -153,6 +153,29 @@ else
 	kill=$PBS_Kill
 endif
 
+# Kevin Lynch 2015-06-05
+# Place a beam tracer just in front of the core
+# See Geometry/Beam_Tracers.txt for discussion of why this must be here
+param -unset Use_Beam_Tracers=0
+param -unset Visible_Beam_Tracers=$Invisible
+
+if $Use_Beam_Tracers==1
+   param dx=$pBeamStop_x+0.5*($pBeamStop_l+2.0)*$Sn-$PBSenclosure_x   
+   param dz=$pBeamStop_z+0.5*($pBeamStop_l+2.0)*$Cs-$PBSenclosure_z
+
+   virtualdetector pbs_entrance_tracer \
+      height=$pBeamStop_h \
+      width=$pBeamStop_w \
+      length=1e-3 \
+      color=$Tracer_Color
+      
+   place pbs_entrance_tracer \
+      parent=PBSenc rotation=y$pBeamStop_yrot-$PBSenclosure_yrot \
+      x=$dx*$cs-$dz*$sn  z=$dx*$sn+$dz*$cs  y=$pBeamStop_y-$PBSenclosure_y 
+
+endif
+# end Kevin Lynch 2015-06-05
+
 # core section
 param dx=$pBeamStop_x-$PBSenclosure_x
 param dz=$pBeamStop_z-$PBSenclosure_z

@@ -203,6 +203,21 @@ endif
 
 
 # ****************************************************************************
+#                           Beam Tracing Configuration
+# ****************************************************************************
+# From Kevin Lynch, 2015-06-10
+
+param -unset Use_Beam_Tracers=0
+param -unset Visible_Beam_Tracers=0
+
+if $Visible_Beam_Tracers==1
+   param Tracer_Color="0,0.5,0.5"
+else
+   param Tracer_Color=$Invisible
+endif
+
+
+# ****************************************************************************
 #                           Random Number Generator
 # ****************************************************************************
 # A default Random Seed is an Event Number. It makes possible to rerun 
@@ -267,12 +282,13 @@ param -unset Use_Field=1
 param -unset Generate_Fieldmap=0
 param -unset Use_External_Field=0
 
+include ./Geometry/Mu2e_Mau9_Coils.txt
+
 if $Use_Field==1
    if $Generate_Fieldmap==1
       include ./Geometry/Generated_Field.txt
    
    else
-      include ./Geometry/Mu2e_Mau9_Coils.txt
 
       fieldmap PSMagneticField  \
                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_PSMap.txt
@@ -539,7 +555,9 @@ include ./Geometry/DS_Muon_Beam_Dump_n14.txt
 #     water pipes made of titanium too 
 # 3 -"Bicycle wheel" model of Proton Target
 # 4 - Only Tangsten Target
-# 5 -"Bicycle wheel" model of Tangsten Target
+# 5 -"Bicycle wheel" model of Tungsten Target
+# 6 -"Bicycle wheel" model of the Tungsten Target, including supports, hubs
+#     and mounting ring
 
 param -unset Use_Proton_Target=5
 
@@ -551,6 +569,9 @@ elseif $Use_Proton_Target==4
 
 elseif $Use_Proton_Target==5
     include ./Geometry/Proton_Target_W.txt
+
+elseif $Use_Proton_Target==6
+    include ./Geometry/Proton_Target_RAL.txt
 
 else
     include ./Geometry/Proton_Target.txt
@@ -623,6 +644,9 @@ endif
 param -unset Use_Basic_Det=1
 
 include ./Geometry/Basic_Detectors.txt
+
+# Include the non-intrusive beam tracers here
+include ./Geometry/Beam_Tracers.txt
 
 # ****************************************************************************
 #                                  THE END

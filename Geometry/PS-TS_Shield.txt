@@ -28,7 +28,14 @@ extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0
 #PS Shielding
 
 param PS_Shield_Con_m=CONCRETE_MARS
-param PS_Shield_Con_c=$Green
+
+param -unset Use_Transparent_PS_Shield=0
+if $Use_Transparent_PS_Shield==0
+   param PS_Shield_Con_c=$Green
+else
+   param PS_Shield_Con_c=$Green,0.3
+endif
+
 
 # top,sides, bottom
 

@@ -70,14 +70,14 @@ param -unset Tradius=6.3*.5
 ##********************
 
 param TYangle=14.00
-param theTYangle=$TYangle+$TargetYrot*180/3.14159/1000
-param theTYanglerad=$theTYangle*3.14159/180
+param theTYangle=$TYangle+$TargetYrot/degree/1000
+param theTYanglerad=$theTYangle*degree
 param TXangle=0.0
-param theTXangle=$TXangle+$TargetXrot*180/3.14159/1000
-param theTXanglerad=$theTXangle*3.14159/180
+param theTXangle=$TXangle+$TargetXrot/degree/1000
+param theTXanglerad=$theTXangle*degree
 param TZangle=0.0
-param theTZangle=$TZangle+$TargetZrot*180/3.14159/1000
-param theTZanglerad=$theTZangle*3.14159/180
+param theTZangle=$TZangle+$TargetZrot/degree/1000
+param theTZanglerad=$theTZangle*degree
 param -unset Tmaterial=W
 
 
@@ -111,11 +111,11 @@ param -unset THubPre=8.0
 param -unset THubPost=4.0
 param -unset THubLength=16.0
 param -unset THubAttach=9.0
-param -unset THubAngle=45.0*3.14159/180
+param -unset THubAngle=45.0*degree
 param -unset THubBallRadius=4.5/2
-param -unset THubUAttachAngle=(120-15)*3.14159/180
-param -unset THubDAttachAngle=15*3.14159/180
-param -unset THubAttachAngleInc=120*3.14159/180
+param -unset THubUAttachAngle=(120-15)*degree
+param -unset THubDAttachAngle=15*degree
+param -unset THubAttachAngleInc=120*degree
 
 if $EnableTargetSupportHubs==1
 
@@ -219,13 +219,13 @@ if $EnableTargetSupportRing==1
     	y=$TSupportRin z=0 color=$TSupportRingColor
 
     boolean op=union TSupportRing_2 TSupportRing_1 TLockingHub \
-        x=cos(-30*3.14159/180)*$TSupportRin \
-        y=sin(-30*3.14159/180)*$TSupportRin \
+        x=cos(-30*degree)*$TSupportRin \
+        y=sin(-30*degree)*$TSupportRin \
 	z=0 color=$TSupportRingColor
 
     boolean op=union TSupportRing_final TSupportRing_2 TLockingHub \
-        x=cos(-150*3.14159/180)*$TSupportRin \
-        y=sin(-150*3.14159/180)*$TSupportRin \
+        x=cos(-150*degree)*$TSupportRin \
+        y=sin(-150*degree)*$TSupportRin \
 	z=0 color=$TSupportRingColor
 
     if $EnableTargetSupportRingLatches==1
@@ -253,13 +253,13 @@ if $EnableTargetSupportRingLatches==1
         x=0 y=$TSupportRin z=$TSupportLatchZ
 
     place TSupportLatch rename=TSupportLatch# \
-        x=cos(-30*3.14159/180)*$TSupportRin \
-        y=sin(-30*3.14159/180)*$TSupportRin \
+        x=cos(-30*degree)*$TSupportRin \
+        y=sin(-30*degree)*$TSupportRin \
 	z=$TSupportLatchZ
 
     place TSupportLatch rename=TSupportLatch# \
-        x=cos(-150*3.14159/180)*$TSupportRin \
-        y=sin(-150*3.14159/180)*$TSupportRin \
+        x=cos(-150*degree)*$TSupportRin \
+        y=sin(-150*degree)*$TSupportRin \
 	z=$TSupportLatchZ
 endif
 
@@ -289,20 +289,20 @@ if $EnableTargetSupportRingPins==1
 
     param TSupportPinCenter=$TSupportRin+$TSupportPinsTopRout
     place TSupportPins rename=TSupportPin# \
-        x=cos(40*3.14159/180)*$TSupportPinCenter \
-	y=sin(40*3.14159/180)*$TSupportPinCenter \
+        x=cos(40*degree)*$TSupportPinCenter \
+	y=sin(40*degree)*$TSupportPinCenter \
 	z=$Tposition-$TSupportPinsBottomLen
     place TSupportPins rename=TSupportPin# \
-        x=cos(140*3.14159/180)*$TSupportPinCenter \
-	y=sin(140*3.14159/180)*$TSupportPinCenter \
+        x=cos(140*degree)*$TSupportPinCenter \
+	y=sin(140*degree)*$TSupportPinCenter \
 	z=$Tposition-$TSupportPinsBottomLen
     place TSupportPins rename=TSupportPin# \
-        x=cos(-65*3.14159/180)*$TSupportPinCenter \
-	y=sin(-65*3.14159/180)*$TSupportPinCenter \
+        x=cos(-65*degree)*$TSupportPinCenter \
+	y=sin(-65*degree)*$TSupportPinCenter \
 	z=$Tposition-$TSupportPinsBottomLen
     place TSupportPins rename=TSupportPin# \
-        x=cos(-115*3.14159/180)*$TSupportPinCenter \
-	y=sin(-115*3.14159/180)*$TSupportPinCenter \
+        x=cos(-115*degree)*$TSupportPinCenter \
+	y=sin(-115*degree)*$TSupportPinCenter \
 	z=$Tposition-$TSupportPinsBottomLen
 
 endif
@@ -370,16 +370,16 @@ if $EnableHRSLinerSupport==1
 
     boolean op=union HRSLinerSupportRing_b2 HRSLinerSupportRing_b1 HRSLinerSupportLockBumpBlock \
         rotation=Z-60 \
-	x=cos(-30*3.14159/180)*$HRSLinerSupportLockBumpRadius \
-	y=sin(-30*3.14159/180)*$HRSLinerSupportLockBumpRadius \
+	x=cos(-30*degree)*$HRSLinerSupportLockBumpRadius \
+	y=sin(-30*degree)*$HRSLinerSupportLockBumpRadius \
 	z=0 \
 	material=$HRSLinerSupportMat \
 	color=$HRSLinerSupportColor 
 
     boolean op=union HRSLinerSupportRing_final HRSLinerSupportRing_b2 HRSLinerSupportLockBumpBlock \
         rotation=Z60 \
-	x=cos(-150*3.14159/180)*$HRSLinerSupportLockBumpRadius \
-	y=sin(-150*3.14159/180)*$HRSLinerSupportLockBumpRadius \
+	x=cos(-150*degree)*$HRSLinerSupportLockBumpRadius \
+	y=sin(-150*degree)*$HRSLinerSupportLockBumpRadius \
 	z=0 \
 	material=$HRSLinerSupportMat \
 	color=$HRSLinerSupportColor 
@@ -396,7 +396,7 @@ endif
 # The support rods are solid cylinders 
 
 param -unset THubGap=0.1
-param -unset THubAnchorAngle=65*3.14159/180
+param -unset THubAnchorAngle=65*degree
 param -unset THubAnchorLength=35
 param -unset TSupportRodUp=0.5
 param -unset TSupportRodDown=0.5
@@ -473,8 +473,8 @@ if $EnableTargetSupportRods==1
 #        z=-$rodlength/2
 #    place fullrodup$i x=$rodcenterx y=$rodcentery z=$rodcenterz
 
-    param fangle1=asin(($yr-$yhub)/$rodspace)*180/3.14159
-    param fangle2=asin(($xr-$xhub)/$rodspace_xz)*180/3.14159
+    param fangle1=asin(($yr-$yhub)/$rodspace)/degree
+    param fangle2=asin(($xr-$xhub)/$rodspace_xz)/degree
 
     place rodup$i x=$rodcenterx y=$rodcentery z=$rodcenterz \
         rotation=X$fangle1,Y-$fangle2
@@ -525,8 +525,8 @@ if $EnableTargetSupportRods==1
     tubs roddown$i innerRadius=0 outerRadius=$TSupportRodDown \
 	 length=$rodlength material=$Tmaterial color=$Tungsten
 
-    param bangle1=asin(($yhub-$yr)/$rodspace)*180/3.14159
-    param bangle2=asin(($xhub-$xr)/$rodspace_xz)*180/3.14159
+    param bangle1=asin(($yhub-$yr)/$rodspace)/degree
+    param bangle2=asin(($xhub-$xr)/$rodspace_xz)/degree
 
     place roddown$i x=$rodcenterx y=$rodcentery z=$rodcenterz \
         rotation=X$bangle1,Y-$bangle2
