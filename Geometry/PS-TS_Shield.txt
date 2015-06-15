@@ -9,7 +9,7 @@
 # Nov 2, 2013 my adjustement to bring shielding to correct floor elevation -2312.47 mm
 #  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
 #  DH 3-2015 move in x (south) by 3 cm to fit for TS supports
-#  DH/MACC 6-2015. cryo pipes. chop south vertical due to volume overlaps
+#  DH/MACC 6-2015. cryo pipes. chop south vertical and through CRV overlaps
 param yoff=252.93
 
 # study blocks, default air
@@ -611,7 +611,8 @@ param CC_z6=$PS_offsetz+14528.8-1219.2-127.01         #  1219.2 = 254.02 + 965.1
 place Cryo_line31 x=$PS_x_31 y=$PS_y_31-1500. z=$PS_z_31 rotation=X90
 place Cryo_line32 x=$PS_x_32 y=$PS_y_32 z=$PS_z_32 rotation=Y90
 place Cryo_line33 x=$PS_x_33 y=$PS_y_33 z=$PS_z_33 rotation=X0
-place Cryo_line34 x=$PS_x_34 y=$PS_y_34 z=$PS_z_34 rotation=Y90
+# turn off as going through CRV
+#place Cryo_line34 x=$PS_x_34 y=$PS_y_34 z=$PS_z_34 rotation=Y90
 place Cryo_line35 x=$PS_x_35 y=$PS_y_35 z=$PS_z_35 rotation=Y0
 place Cryo_line36 x=$PS_x_36 y=$PS_y_36 z=$PS_z_36 rotation=Y90
 place Cryo_line37 x=$PS_x_37 y=$PS_y_37 z=$PS_z_37 rotation=Y0
