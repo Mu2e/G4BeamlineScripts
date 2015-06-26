@@ -44,33 +44,34 @@ if $Use_Beam_Tracers==1
 	 radius=$Tradius \
 	 color=$Tracer_Color
 
-      param alongz=$Tlength/2+$THubPost+$THubLength*cos($THubAngle)+2e-3
+      param alongz_hub=$Tlength/2+$THubPost+$THubLength*cos($THubAngle)+1.
+      param alongz_target=$Tlength/2+1.
 
       place hub_tracer \
-         x=$alongz*sin($TYangle*degree)\
+         x=$alongz_hub*sin($TYangle*degree)\
       	 y=0\
-	 z=$Tposition+$alongz*cos($TYangle*degree)\
+	 z=$Tposition+$alongz_hub*cos($TYangle*degree)\
 	 rotation=Y$TYangle\
 	 rename=upstream_hub_tracer
 
       place target_tracer \
-         x=$Tlength/2*sin($TYangle*degree)\
+         x=$alongz_target*sin($TYangle*degree)\
       	 y=0\
-      	 z=$Tposition+$Tlength/2*cos($TYangle*degree)\
+      	 z=$Tposition+$alongz_target*cos($TYangle*degree)\
       	 rotation=Y$TYangle\
       	 rename=upstream_target_tracer
 
       place target_tracer \
-      	 x=-$Tlength/2*sin($TYangle*degree)\
+      	 x=-$alongz_target*sin($TYangle*degree)\
       	 y=0\
-      	 z=$Tposition-$Tlength/2*cos($TYangle*degree)\
+      	 z=$Tposition-$alongz_target*cos($TYangle*degree)\
       	 rotation=Y$TYangle\
       	 rename=downstream_target_tracer
 
       place hub_tracer \
-         x=-$alongz*sin($TYangle*degree)\
+         x=-$alongz_hub*sin($TYangle*degree)\
       	 y=0\
-      	 z=$Tposition-$alongz*cos($TYangle*degree)\
+      	 z=$Tposition-$alongz_hub*cos($TYangle*degree)\
       	 rotation=Y$TYangle\
       	 rename=downstream_hub_tracer
 
@@ -78,11 +79,33 @@ if $Use_Beam_Tracers==1
 endif
 
 #######################################
-# beam tracer at PS endcap window
+# beam tracers at PS endcap window
 #######################################
 
-# This one is not exactly in the right place, but it's off in z by less
-# than 9mm
+param lair=$PSendcap_length+$PSendcap_winT
+param ztemp=$PScryostat_z+$PScryostat_Offset-$lair/2-$PSendcap_length/2+$lair/2
+
+# Whole endcap tracer
+# Moved 5mm downstream of endcap position
+
+if $Use_Beam_Tracers==1
+
+   virtualdetector psendcap_tracer \
+      length=1e-3 \
+      radius=$PSendcap_OuterR \
+      color=$Tracer_Color
+
+   param z=$ztemp-5
+   
+   place psendcap_tracer \
+      x=0 y=0 \
+      z=$z-$lair/2
+
+endif
+
+
+# Window tracer
+# Moved 10 mm downstream of window position
 
 if $Use_Beam_Tracers==1
    virtualdetector psendcap_win_tracer \
@@ -90,18 +113,17 @@ if $Use_Beam_Tracers==1
       radius=$PSendcap_winR1 \
       color=$Tracer_Color
 
-   param lair=$PSendcap_length+$PSendcap_winT
-   param z=$PScryostat_z+$PScryostat_Offset-$lair/2-$PSendcap_length/2+$lair/2-10
+   param z=$ztemp-10
 
    place psendcap_win_tracer \
       x=$PSendcap_winX1 y=$PSendcap_winY1 \
       z=$z-$lair/2 
 
-   virtualdetector psendcap_tracer \
+   virtualdetector psendcap_win_veto_tracer \
       length=1e-3 \
       radius=4*$PSendcap_winR1 \
 
-   place psendcap_tracer \
+   place psendcap_win_veto_tracer \
       x=$PSendcap_winX1 y=$PSendcap_winY1 \
       z=$z-$lair/2-1.0
 
@@ -163,4 +185,22 @@ endif
 
 # This tracer sits right in front of the PBS core, but is defined inside the 
 # file Geometry/PS_Proton_Beam_Stop.txt because it needs to be buried
-# inside a series of nested volumes after the parent is instantiated.
+# inside a series of nested volumes _before_ the parent is instantiated.
+
+#######################################
+# Final Focus Beamline tracers
+#######################################
+
+# These tracers follow each magnet in the final focus section of
+# the proton beamline, which is automatically converted by Peter
+# Kasper from the MAD design files, and stored in 
+# Geometry/ProtonBeam.txt.  Because it is automagially generated, we 
+# _copy_ that file to Geometry/Proton_Beam_Tracers.txt and manually
+# it to add what we need in terms of beamline tracers.  We also add 
+# beamline instrumentation and vacuum windows there.
+
+if $Use_Beam_Tracers==1
+   if $UsePrimaryBeam==1
+      include Geometry/Proton_Beam_Tracers.txt
+   endif
+endif
