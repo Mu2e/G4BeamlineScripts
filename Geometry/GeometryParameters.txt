@@ -209,8 +209,8 @@ param PSshield_material=Bronze
 # ***********************
 
 # inner and outer radius of pipe
-param IrPSentrypipe=2.5*25.4
-param OrPSentrypipe=$IrPSentrypipe+1
+param IrPSentrypipe=4.75/2*25.4
+param OrPSentrypipe=5.0/2*25.4
 
 param RbeamU=sqrt($OutHRSBeamX*$OutHRSBeamX+$OutHRSBeamY*$OutHRSBeamY)
 param RbeamD=sqrt($InHRSBeamX*$InHRSBeamX+$InHRSBeamY*$InHRSBeamY)

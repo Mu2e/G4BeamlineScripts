@@ -3,7 +3,7 @@
 # $Author$
 
 ## Constructs non-intrusive detectors.  There are intrusive detectors defined
-## in PS_Proton_Beam_Stop.txt
+## in PS_Proton_Beam_Stop.txt and Modified-ProtonBeam.txt
 
 param -unset Use_Beam_Tracers=0
 param -unset Visible_Beam_Tracers=$Invisible
@@ -187,20 +187,12 @@ endif
 # file Geometry/PS_Proton_Beam_Stop.txt because it needs to be buried
 # inside a series of nested volumes _before_ the parent is instantiated.
 
+
 #######################################
 # Final Focus Beamline tracers
 #######################################
 
-# These tracers follow each magnet in the final focus section of
-# the proton beamline, which is automatically converted by Peter
-# Kasper from the MAD design files, and stored in 
-# Geometry/ProtonBeam.txt.  Because it is automagially generated, we 
-# _copy_ that file to Geometry/Proton_Beam_Tracers.txt and manually
-# it to add what we need in terms of beamline tracers.  We also add 
-# beamline instrumentation and vacuum windows there.
-
-if $Use_Beam_Tracers==1
-   if $UsePrimaryBeam==1
-      include Geometry/Proton_Beam_Tracers.txt
-   endif
-endif
+# There are a series of tracers both up and downstream of all elements
+# in the final focus section of the M4 line, as well as a number of
+# apertures with additional tracers at the PS end of the line, defined
+# in Modified-ProtonBeam.txt
