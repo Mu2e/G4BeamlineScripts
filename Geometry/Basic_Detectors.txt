@@ -18,7 +18,7 @@ if $Use_Basic_Det==1
 ##
 
 zntuple BeamFile \
-    z=$Coll_01_z-19.3 
+    z=$Coll_01_z-173 
       
 
 ##********************
