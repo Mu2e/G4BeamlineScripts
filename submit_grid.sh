@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [ $# -eq 0 ]
   then
     echo "No arguments supplied. Use the following options:"
@@ -11,8 +10,8 @@ fi
 
 cp Mu2E.in Geometry
 tar cf Geometry.tar Geometry
-command="./mu2egrid/v2_00_27/bin/mu2eg4bl --in=Mu2E.in --tar=Geometry.tar --njobs=2 --events-per-job=25 --g4bl-version=v2_16 --g4bl-add-args='READ_Beam_File=$1'"
+command="mu2eg4bl --in=Mu2E.in --tar=Geometry.tar --njobs=2 --events-per-job=25 --g4bl-version=v2_16 --g4bl-add-args='READ_Beam_File=$1'"
 echo "Executing:" $command
-#echo `$command`
+echo `$command`
 now=$(date +"%m_%d_%Y")
 cp Geometry.tar Geometry_${PWD##*/}_${now}_${1}.tar
