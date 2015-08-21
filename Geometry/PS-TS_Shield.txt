@@ -24,6 +24,8 @@ extrusion Study4 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0
 #extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
 extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;220.,1200.;220.,780.;600.,780.;600.,0.
 #place Study5 x=-9000. y=278.93 z=4340. rotation=Y90
+#box Study6 length=600. height=4445. width=940. color=$PaleVioletRed material=Air
+#place Study6 x=-2430. y=-57.47 z=-810.
 
 #PS Shielding
 
