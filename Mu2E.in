@@ -616,10 +616,14 @@ endif
 param -unset READ_Beam_File=0
 
 if $READ_Beam_File==1
-   beam ascii nEvents=1000\
-        filename=/grid/data/mu2e/personal/coleman/neutrons/PSOnly2.txt
+   beam ascii nEvents=$Num_Events\
+        filename=/grid/data/mu2e/users/oksuzian/PSSource3292329_0801015_killneutrino_updatedZplanePos.txt
 
-else
+elseif $READ_Beam_File==2
+   beam ascii nEvents=$Num_Events\
+        filename=/grid/data/mu2e/users/oksuzian/BeamSource3292329_0801015_killneutrino_updatedZplanePos_OnlyMu.txt
+
+elseif
    beam gaussian \
         particle=proton \
         nEvents=$Num_Events firstEvent=$First_Event \
