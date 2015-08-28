@@ -623,7 +623,7 @@ elseif $READ_Beam_File==2
    beam ascii nEvents=$Num_Events\
         filename=/grid/data/mu2e/users/oksuzian/BeamSource3292329_0801015_killneutrino_updatedZplanePos_OnlyMu.txt
 
-elseif
+else
    beam gaussian \
         particle=proton \
         nEvents=$Num_Events firstEvent=$First_Event \
