@@ -5,7 +5,7 @@
 # 0 - PS Only. Neutrons only
 # 1 - Beam source. All particles, excluding neutrons, soft gammas and electrons
 
-from ROOT import TFile, TTree
+from ROOT import TFile, TTree, TH2F, TCanvas
 from ROOT import gROOT
 from math import sqrt
 from math import fabs
@@ -26,14 +26,16 @@ else:
 
 f = file(file_out, 'w')
 _file = TFile(file_name)
-#_tree = _file.Get("/NTuple/Z3712")
-_tree = _file.Get("/NTuple/Z3883")
+_tree = _file.Get("/NTuple/Z3712")
+#_tree = _file.Get("/NTuple/Z3883")
 oldID = -999
 oldEV = -999
 
+histo = TH2F("histo","histo",int(1000),float(-10000),float(10000),int(10000),float(-10000),float(10000))
+
 print '-----Start producing the output-----'
-print 'The intput source file:'+file_name
-print 'The output source file:'+file_out
+print 'The intput source file: '+file_name
+print 'The output source file: '+file_out
 
 f.write('#BLTrackFile: Source file\n')
 f.write('#{:<12} {:<12} {:<12} {:<10} {:<10} {:<10} {:<12} {:<7} {:<10} {:<10} {:<9} {:<7}\n'.format("x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "TrackID", "ParentID", "PDGid"))
@@ -75,7 +77,11 @@ for i in _tree:
         f.write('{:<13.3f} {:<12.3f} {:<12.3f} {:<10.3f} {:<10.3f} {:<10.3f} {:<12.3f} {:<7} {:<10} {:<10} {:<7} {:<7}\n'.format(i.x, i.y, i.z, i.Px, i.Py, i.Pz, i.t, int(i.PDGid), int(i.EventID), 1, int(i.ParentID), int(i.PDGid)))
         oldID = int(i.TrackID)
         oldEV = int(i.EventID)
+        histo.Fill(i.x,i.y) 
 
+can = TCanvas("can","can",int(800),int(600))
+histo.Draw("colz")
+can.SaveAs("SourceXY.png")
 
 _file.Close()
 f.close()
