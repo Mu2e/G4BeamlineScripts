@@ -30,19 +30,16 @@ extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0
 
 # Borated poly or steel shielding for CRV-U
 
-#param CRVU_Shield_Thick=50.8
-#param CRV_thickness=20
-#param CRV_Al_thickness=6.4
+param CRVU_Shield_Thick=50.8
+param CRV_thickness=20
+param CRV_Al_thickness=6.4
 
 # Place CRV-U shield upstream to CRV-U
-#box CRVU_Shield height=5000 width=7000 length=$CRVU_Shield_Thick \
-#    color=$Red material=B_Polyethylene    
-#place CRVU_Shield x=-7708 y=200 z=7929-2286-4*$CRV_thickness-3*$CRV_Al_thickness-0.5*$CRVU_Shield_Thick \
-#rename=CRV_DS_Upstream_Up
+box CRVU_Shield height=5000 width=5000 length=$CRVU_Shield_Thick color=$Yellow material=B_Polyethylene30
+#place CRVU_Shield x=-5859 y=200 z=7929-2286-4*$CRV_thickness-3*$CRV_Al_thickness-0.5*$CRVU_Shield_Thick rename=CRV_DS_Upstream_Up
 
-# DON'T YET PLACE CRV-U shield downstream to CRV-U
-#place CRVU_Shield x=-7708 y=0 z=7929-2286+3.5*$CRV_thickness+0.5*$CRVU_Shield_Thick \
-#rename=CRV_DS_Upstream_Dn
+# Place CRV-U shield downstream (up to 2" thick) to CRV-U
+#place CRVU_Shield x=-5859 y=200 z=7929-2286+0.5*$CRVU_Shield_Thick rename=CRV_DS_Upstream_Dn
 
 
 #PS Shielding
