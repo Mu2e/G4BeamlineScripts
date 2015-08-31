@@ -123,6 +123,7 @@ param -unset Soil_c="0.2,0.2,0,0.5"
 # ****************************************************************************
 
 material B_Polyethylene density=0.95 C,0.612 H,0.116 B,0.05 O,0.222
+material B_Polyethylene30 density=1.19 G4_POLYETHYLENE,0.70 G4_B,0.30
 material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04 
 material HighSilicon density=8.53 Cu,0.97 Si,0.03 
 material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
