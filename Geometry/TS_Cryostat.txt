@@ -409,7 +409,7 @@ place TSbox x=-4608.-3200. y=-2312.4 z=7929.+2920. rotation=Y90
 # "saddles" between boxes and cryostat
 cylinder TSsupportDisc radius=1100.0 length=26.
 box TSstrut length=12.7 width=2200.0 height=1400.0
-box TSstrut_2 length=12.7 width=580.  height=1000.0 material=Stainless316 color=$TScryo_color_d
+box TSstrut_2 length=12.7 width=547.  height=1000.0 material=Stainless316 color=$TScryo_color_d
 #bottom and not really needed 
 #box TSstrut_3 length=1860. width=600.0 height=25.0 material=Stainless316 color=$White
 #boolean op=subtraction TSstrut_1 TSstrut TSsupportDisc y=675.0 material=Stainless316 color=$Yellow
