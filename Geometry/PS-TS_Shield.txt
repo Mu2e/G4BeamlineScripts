@@ -10,23 +10,24 @@
 #  DH 12-2014 replace with George/Jeff shielding blocks from docdb 1506
 #  DH 3-2015 move in x (south) by 3 cm to fit for TS supports
 #  DH/MACC 6-2015. cryo pipes. chop south vertical and through CRV overlaps
+#  DH 9/2015 fix volume overlap with Study4/5 and new cryo pipes.  
+#  Move Study 4,5 to different x positions. Modify Study 2
+# make study blocks default material stainless. Still are not placed
 param yoff=252.93
 
-# study blocks, default air
-box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Air
+# study blocks, default Stainless
+box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Stainless304
 #place Study1 x=-1775. y=1235.43 z=4475.
-box Study2 length=220. height=800. width=500. color=$PaleVioletRed material=Air
-#place Study2 x=-2620. y=1445.93 z=4247.
-box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Air
+#box Study2 length=180. height=1220. width=600. color=$PaleVioletRed material=Stainless304
+#place Study2 x=-2620 y=1655.93 z=4258.
+box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Stainless304
 #place Study3 x=-2480. y=-230.57 z=3200.
-extrusion Study4 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;220.,1200.;220.,780.;600.,780.;600.,0.
-#place Study4 x=-4000. y=278.93 z=4340. rotation=Y90
-#extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;250.,2000.;250.,730.;600.,730.;600.,0.
-extrusion Study5 length=914.4 color=$PaleVioletRed material=Air vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;220.,1200.;220.,780.;600.,780.;600.,0.
-#place Study5 x=-9000. y=278.93 z=4340. rotation=Y90
-#box Study6 length=600. height=4445. width=940. color=$PaleVioletRed material=Air
+extrusion Study4 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
+#place Study4 x=-3460. y=278.93 z=4340. rotation=Y90
+extrusion Study5 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
+#place Study5 x=-4500. y=278.93 z=4340. rotation=Y90
+#box Study6 length=600. height=4445. width=940. color=$PaleVioletRed material=Stainless304
 #place Study6 x=-2430. y=-57.47 z=-810.
-
 
 # Borated poly or steel shielding for CRV-U
 
