@@ -38,7 +38,7 @@ print 'The intput source file: '+file_name
 print 'The output source file: '+file_out
 
 f.write('#BLTrackFile: Source file\n')
-f.write('#{:<12} {:<12} {:<12} {:<10} {:<10} {:<10} {:<12} {:<7} {:<10} {:<10} {:<9} {:<7}\n'.format("x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "TrackID", "ParentID", "PDGid"))
+f.write('#{:<12} {:<12} {:<12} {:<10} {:<10} {:<10} {:<12} {:<7} {:<10} {:<10} {:<9} {:<7}\n'.format("x", "y", "z", "Px", "Py", "Pz", "t", "PDGid", "EventID", "TrackID", "ParentID", "TrackID"))
 f.write('#{:<12} {:<12} {:<12} {:<10} {:<10} {:<10} {:<12} {:<7} {:<10} {:<10} {:<9} {:<7}\n'.format("mm", "mm", "mm", "MeV/c", "MeV/c", "MeV/c", "ns", "ID", "ID", "ID", "ID", "ID"))
 
 for i in _tree:
@@ -67,14 +67,18 @@ for i in _tree:
         continue
 
    # Drop soft electrons in beam source
-    if fabs(int(i.PDGid)) == 11 and sqrt(i.Px*i.Px+i.Py*i.Py+i.Pz*i.Pz)<1.0 and int(source) == 1:
+    if fabs(int(i.PDGid)) == 11 and sqrt(i.Px*i.Px+i.Py*i.Py+i.Pz*i.Pz)<10.0 and int(source) == 1:
         continue
+
+# Drop thermal neutrons
+#    if fabs(int(i.PDGid)) == 2112 and (sqrt(i.Px*i.Px+i.Py*i.Py+i.Pz*i.Pz + 939.565*939.565) - 939.565)<1.0 and int(source) == 0:
+#        continue
 
     # Select upstream particles. TrackID is forced to be "1" to avoid g4bl warning about large TrackID 
     if i.Pz < 0:
         continue
     else:
-        f.write('{:<13.3f} {:<12.3f} {:<12.3f} {:<10.3f} {:<10.3f} {:<10.3f} {:<12.3f} {:<7} {:<10} {:<10} {:<7} {:<7}\n'.format(i.x, i.y, i.z, i.Px, i.Py, i.Pz, i.t, int(i.PDGid), int(i.EventID), 1, int(i.ParentID), int(i.PDGid)))
+        f.write('{:<13.3f} {:<12.3f} {:<12.3f} {:<10.3f} {:<10.3f} {:<10.3f} {:<12.3f} {:<7} {:<10} {:<10} {:<7} {:<7}\n'.format(i.x, i.y, i.z, i.Px, i.Py, i.Pz, i.t, int(i.PDGid), int(i.EventID), 1, int(i.ParentID), int(i.TrackID)))
         oldID = int(i.TrackID)
         oldEV = int(i.EventID)
         histo.Fill(i.x,i.y) 
