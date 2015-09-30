@@ -128,9 +128,9 @@ material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04
 material HighSilicon density=8.53 Cu,0.97 Si,0.03 
 material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
 material Lyco_01 density=7.4 Lu,0.708935 Si,0.069895 O,0.17973 Y,0.03994 Ce,0.0015
-
 material CONCRETE_MARS density=2.35 H,0.006 C,0.03 O,0.5 Na,0.01 Al,0.03 Si,0.2 K,0.01 Ca,0.2 Fe,.014
 material CONCRETE_HEAVY density=3.637 H,0.007 B,0.013 O,0.35 Na,0.013 Al,0.02 Si,0.02 Ca,0.027 Fe,0.55
+material CONCRETE_BORON density=2.35 G4_BORON_CARBIDE,0.01 G4_CONCRETE,0.99
 material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
 material Fake_Cu density=8.960 Fe,1.00
@@ -293,7 +293,7 @@ if $Use_Field==1
    else
 
       fieldmap PSMagneticField  \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_PSMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_PSMap.txt
  
       place PSMagneticField \
             x=-3904.0 \
@@ -301,7 +301,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap DSMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_DSMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_DSMap.txt
  
       place DSMagneticField \
             x=-3904.0 \
@@ -309,7 +309,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TSuMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_TSuMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_TSuMap.txt
  
       place TSuMagneticField \
             x=-3904.0 \
@@ -317,7 +317,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TsdMagneticField \
-               file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau9/Mu2e_TSdMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_TSdMap.txt
  
       place TsdMagneticField \
             x=-3904.0 \
@@ -326,7 +326,7 @@ if $Use_Field==1
    
       if $Use_External_Field==1
             fieldmap ExtMonUCIAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ExtMonUCIAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/ExtMonUCIAreaMap.txt
             
             place ExtMonUCIAreaMagneticField \
                 x=-3904.0 \
@@ -334,7 +334,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap ProtonDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/ProtonDumpAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/ProtonDumpAreaMap.txt
             
             place ProtonDumpAreaMagneticField \
                 x=-3904.0 \
@@ -342,7 +342,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap PStoDumpAreaMagneticField \
-                file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/PStoDumpAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/PStoDumpAreaMap.txt
             
             place PStoDumpAreaMagneticField \
                 x=-3904.0 \
@@ -614,15 +614,19 @@ endif
 ## This is for chosing either QGSP_BERT production from the proton beam OR
 ## the weighted HARP pion file for production
 
+
+
 param -unset READ_Beam_File=0
+
+#filename=/mu2e/data/users/oksuzian/Source_V01_ps.txt
 
 if $READ_Beam_File==1
    beam ascii nEvents=$Num_Events\
-        filename=/grid/data/mu2e/users/oksuzian/PSSource3292329_0801015_killneutrino_updatedZplanePos.txt
+	filename=/mu2e/data/users/coleman/neutrons/Source_V01_ps.txt
 
 elseif $READ_Beam_File==2
    beam ascii nEvents=$Num_Events\
-        filename=/grid/data/mu2e/users/oksuzian/BeamSource3292329_0801015_killneutrino_updatedZplanePos_OnlyMu.txt
+        filename=/mu2e/data/users/coleman/neutrons/Source_V01_bm.txt
 
 else
    beam gaussian \
