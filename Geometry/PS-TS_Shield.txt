@@ -82,7 +82,7 @@ place PS_Shield_1c x=0 y=$yoff z=639+5250-1139-1037.4/2
 
 param TS_Shield_c1=$Blue
 param TS_Shield_c2=$White
-param TS_Shield_m1=BARITE
+param TS_Shield_m1=CONCRETE_BORON
 param TS_Shield_m2=CONCRETE_MARS
 
 param TS_shield_barite_h1=2565.4+2124
@@ -142,7 +142,7 @@ place ts_block_0 x=-8870 y=-57.47 z=4842.
 place ts_block_0b x=-9718 y=-57.47 z=4842.
 
 # new TS right/west concrete top 
-box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m2 color=$TS_Shield_c2 
+box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m1 color=$TS_Shield_c2 
 place ts_block_0c x=-6686 y=2521 z=4842.
 place ts_block_0c x=-6696 y=3232 z=4842.
 
@@ -153,8 +153,8 @@ place ts_block_0c x=-6696 y=3232 z=4842.
 # new version from Jeff's drawing with various size blocks
 box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$Red
 box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
-box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m1 color=$Red
-box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m1 color=$Blue
+box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m2 color=$Red
+box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m2 color=$Blue
 box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
 # block at end of notch, not quite as tall = top of wall with notch
 box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
@@ -164,11 +164,11 @@ box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color
 # edge of lower z barite wall at 4347.60
 # most south blocks x on south edge = about -3318 g4bl or 589 mu2e 
 place ts_block_2 x=-3082.5 y=-349.47 z=9566.5
-place ts_block_1 x=-3082.5 y=-349.47 z=10453.5
+place ts_block_1 x=-3082.5 y=-349.47 z=10453.5 material=$TS_Shield_m2
 place ts_block_1 x=-3082.5 y=-349.47 z=6120.
 place ts_block_1X x=-3082.5 y=-349.47 z=4942.
 
-place ts_block_1 x=-2549. y=-349.47 z=9858.5
+place ts_block_1 x=-2549. y=-349.47 z=9858.5 material=$TS_Shield_m2
 place ts_block_2 x=-2549. y=-349.47 z=10745.5
 place ts_block_1 x=-2549. y=-349.47 z=6120.
 place ts_block_1 x=-2549. y=-349.47 z=4942.
@@ -179,11 +179,11 @@ place ts_block_3a x=-2620. y=-630.57 z=4157.5
 place ts_block_2 x=-1995.5 y=-349.47 z=9656.5
 place ts_block_1a x=-1678. y=-349.47 z=10225.
 place ts_block_1a x=-1678. y=-349.47 z=10786.5
-place ts_block_1 x=-2015.5 y=-349.47 z=5362.
-place ts_block_3 x=-2091.5 y=-349.47 z=6260.5
+#place ts_block_1 x=-2015.5 y=-349.47 z=5362.
+place ts_block_3 x=-2091.5 y=-349.47 z=6260.5-1168
 
 # DH 11-29-14 check floor height = -4275.5
-place ts_block_1 x=-1482. y=-349.47 z=5362.
+#place ts_block_1 x=-1482. y=-349.47 z=5362.
 
 #TS above part
 #The height was calculated from DocDB-2404 drawings of TS cryostat. need to redo
@@ -195,8 +195,8 @@ place ts_block_1 x=-1482. y=-349.47 z=5362.
 box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$LightBlue
 place ts_block_4 x=-2854. y=1874. z=7698.
 # new TS above concrete. 
-box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
-box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m2 color=$TS_Shield_c2
+box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c2
+box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c2
 place ts_block_4c x=-2874. y=2521.5 z=7698.
 place ts_block_4cc x=-2874. y=3232.5 z=7698.
 
@@ -213,7 +213,7 @@ place ts_block_4cc x=-2874. y=3232.5 z=7698.
 #place crv_shield_4 x=-2852. y=-1855.97 z=7988.
 
 #old Above Concrete part
-#extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m2
+#extrusion TS_Shield_4 length=$TS_shield_conc_h vertices=-2347.00,4347.60;-2347.00,11053.20;-3359.00,11053.20;-3359.00,4347.60 color=$TS_Shield_c2 material=$TS_Shield_m1
 #place TS_Shield_4 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
 #extrusion TS_Shield_6 length=$TS_shield_conc_h vertices=-9998.,4347.6;-9998.,5330;-3360,5330.;-3360.,4347.6 color=$TS_Shield_c2 material=$TS_Shield_m2
 #place TS_Shield_6 x=0 y=$TS_shield_conc_y+$yoff z=0 rotation=X90
