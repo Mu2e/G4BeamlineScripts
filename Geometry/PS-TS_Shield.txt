@@ -13,19 +13,25 @@
 #  DH 9/2015 fix volume overlap with Study4/5 and new cryo pipes.  
 #  Move Study 4,5 to different x positions. Modify Study 2
 # make study blocks default material stainless. Still are not placed
+# Yuri modifies to borron concrete and remove some TS NW corner blocks
+# Dave modifies Study 4,5 per George and places. Modify S2 still not placed
 param yoff=252.93
 
 # study blocks, default Stainless
 box Study1 length=600. height=635. width=550. color=$PaleVioletRed material=Stainless304
 #place Study1 x=-1775. y=1235.43 z=4475.
-#box Study2 length=180. height=1220. width=600. color=$PaleVioletRed material=Stainless304
-#place Study2 x=-2620 y=1655.93 z=4258.
+box Study2 length=120. height=1620. width=600. color=$PaleVioletRed material=Stainless304
+#place Study2 x=-2620 y=1855.93 z=4292.
+#place Study2 x=-2620 y=1855.93 z=3600.
 box Study3 length=600. height=4153. width=840. color=$PaleVioletRed material=Stainless304
 #place Study3 x=-2480. y=-230.57 z=3200.
-extrusion Study4 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
-#place Study4 x=-3460. y=278.93 z=4340. rotation=Y90
-extrusion Study5 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
-#place Study5 x=-4500. y=278.93 z=4340. rotation=Y90
+#extrusion Study4 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
+extrusion Study4 length=914.4 color=$White material=CONCRETE_MARS vertices=0.,0.;0.,2590.;139.,2590.;139.,1981.;368.,1981.;368.,1270.;139.,1270.;139.,813.;584.,813.;584.,0.
+place Study4 x=-3460. y=278.93 z=4340. rotation=Y90
+#extrusion Study5 length=914.4 color=$PaleVioletRed material=Stainless304 vertices=0.,0.;0.,2000.;600.,2000.;600.,1200.;190.,1200.;190.,780.;600.,780.;600.,0.
+extrusion Study5 length=914.4 color=$White material=CONCRETE_MARS vertices=0.,0.;0.,2590.;139.,2590.;139.,1981.;368.,1981.;368.,1270.;139.,1270.;139.,813.;584.,813.;584.,0.
+place Study5 x=-4500. y=278.93 z=4340. rotation=Y90
+
 #box Study6 length=600. height=4445. width=940. color=$PaleVioletRed material=Stainless304
 #place Study6 x=-2430. y=-57.47 z=-810.
 
@@ -142,7 +148,7 @@ place ts_block_0 x=-8870 y=-57.47 z=4842.
 place ts_block_0b x=-9718 y=-57.47 z=4842.
 
 # new TS right/west concrete top 
-box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m1 color=$TS_Shield_c2 
+box ts_block_0c height=711. width=6655. length=977.9 material=$TS_Shield_m1 color=$TS_Shield_c1 
 place ts_block_0c x=-6686 y=2521 z=4842.
 place ts_block_0c x=-6696 y=3232 z=4842.
 
@@ -153,8 +159,8 @@ place ts_block_0c x=-6696 y=3232 z=4842.
 # new version from Jeff's drawing with various size blocks
 box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$Red
 box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
-box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m2 color=$Red
-box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m2 color=$Blue
+box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m2 color=$Yellow
+box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m2 color=$White
 box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
 # block at end of notch, not quite as tall = top of wall with notch
 box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
@@ -164,11 +170,11 @@ box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color
 # edge of lower z barite wall at 4347.60
 # most south blocks x on south edge = about -3318 g4bl or 589 mu2e 
 place ts_block_2 x=-3082.5 y=-349.47 z=9566.5
-place ts_block_1 x=-3082.5 y=-349.47 z=10453.5 material=$TS_Shield_m2
+place ts_block_1 x=-3082.5 y=-349.47 z=10453.5 material=$TS_Shield_m2 color=$White
 place ts_block_1 x=-3082.5 y=-349.47 z=6120.
 place ts_block_1X x=-3082.5 y=-349.47 z=4942.
 
-place ts_block_1 x=-2549. y=-349.47 z=9858.5 material=$TS_Shield_m2
+place ts_block_1 x=-2549. y=-349.47 z=9858.5 material=$TS_Shield_m2 color=$White
 place ts_block_2 x=-2549. y=-349.47 z=10745.5
 place ts_block_1 x=-2549. y=-349.47 z=6120.
 place ts_block_1 x=-2549. y=-349.47 z=4942.
@@ -180,6 +186,7 @@ place ts_block_2 x=-1995.5 y=-349.47 z=9656.5
 place ts_block_1a x=-1678. y=-349.47 z=10225.
 place ts_block_1a x=-1678. y=-349.47 z=10786.5
 #place ts_block_1 x=-2015.5 y=-349.47 z=5362.
+# Yuri 10-15 move block in z
 place ts_block_3 x=-2091.5 y=-349.47 z=6260.5-1168
 
 # DH 11-29-14 check floor height = -4275.5
@@ -195,8 +202,8 @@ place ts_block_3 x=-2091.5 y=-349.47 z=6260.5-1168
 box ts_block_4 height=584. width=1003. length=6679. material=$TS_Shield_m1 color=$LightBlue
 place ts_block_4 x=-2854. y=1874. z=7698.
 # new TS above concrete. 
-box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c2
-box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c2
+box ts_block_4c height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c1
+box ts_block_4cc height=711. width=963. length=6655. material=$TS_Shield_m1 color=$TS_Shield_c1
 place ts_block_4c x=-2874. y=2521.5 z=7698.
 place ts_block_4cc x=-2874. y=3232.5 z=7698.
 
