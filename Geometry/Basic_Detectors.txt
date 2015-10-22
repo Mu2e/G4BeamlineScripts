@@ -17,9 +17,9 @@ if $Use_Basic_Det==1
 ## Code to write our beam source file for neutron studies
 ##
 
-zntuple BeamFile \
-    z=$Coll_01_z-173 
-      
+if $READ_Beam_File==0
+   zntuple BeamFile z=$Coll_01_z-173 
+endif      
 
 ##********************
 ## Virtual detectors at the entrance and exit of the collimators

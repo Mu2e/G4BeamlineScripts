@@ -616,9 +616,7 @@ endif
 
 
 
-param -unset READ_Beam_File=0
-
-#filename=/mu2e/data/users/oksuzian/Source_V01_ps.txt
+param -unset READ_Beam_File=1
 
 if $READ_Beam_File==1
    beam ascii nEvents=$Num_Events\
@@ -652,10 +650,7 @@ endif
 # All data from those detectors would be in "g4beamline.root" output file
 
 param -unset Use_Basic_Det=1
-
-if $READ_Beam_File==0
-   include ./Geometry/Basic_Detectors.txt
-endif
+include ./Geometry/Basic_Detectors.txt
 
 # Include the non-intrusive beam tracers here
 include ./Geometry/Beam_Tracers.txt
