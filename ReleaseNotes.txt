@@ -1,5 +1,14 @@
 Shielding_OptimizationV02:
 Dave Hedin adjusted the study block volume dimensions to remove overlaps.
 
+Shielding_OptimizationV10:
+Major update
+1) Changed NE blocks to regular concrete.
+2) Switched all Barite blocks to 0.7 boron concrete.
+3) Removed 2 NW blocks. Moved smaller block to PS cave
+4) Defined new boron concrete material as the mixture of CONCRETE_MARS and BORON_CARBIDE
+5) George adjusted design of the shielding in the penetratiom: blocks 4 and 5 
 
-
+Shielding_OptimizationV10:
+1) Updated the source location in Mu2e.in
+2) Removed basic detectors from the stage 2
