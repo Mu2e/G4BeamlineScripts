@@ -7,8 +7,14 @@ Major update
 2) Switched all Barite blocks to 0.7 boron concrete.
 3) Removed 2 NW blocks. Moved smaller block to PS cave
 4) Defined new boron concrete material as the mixture of CONCRETE_MARS and BORON_CARBIDE
-5) George adjusted design of the shielding in the penetratiom: blocks 4 and 5 
+5) Changed cieling blocks to boron concrete
+6) George adjusted design of the shielding in the penetration: blocks 4 and 5 
 
-Shielding_OptimizationV10:
+Shielding_OptimizationV11:
 1) Updated the source location in Mu2e.in
 2) Removed basic detectors from the stage 2
+
+Shielding_OptimizationV12:
+1) Moved source files to /grid/data/ area. 
+Fraction of sections fail when accessing source files from /mu2e/data/
+Ideally, we need to pre-stage source files.

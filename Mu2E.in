@@ -622,12 +622,12 @@ param -unset Use_Basic_Det=1
 
 if $READ_Beam_File==1
    beam ascii nEvents=$Num_Events\
-	filename=/mu2e/data/crv/mu2eG4blIn/Source_V10_ps.txt
+	filename=/grid/data/mu2e/users/oksuzian/Source_V10_ps.txt
    param Use_Basic_Det=0
 
 elseif $READ_Beam_File==2
    beam ascii nEvents=$Num_Events\
-        filename=/mu2e/data/crv/mu2eG4blIn/Source_V10_bm.txt
+        filename=/grid/data/mu2e/users/oksuzian/Source_V10_bm.txt
    param Use_Basic_Det=0
 
 else
