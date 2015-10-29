@@ -183,8 +183,8 @@ tubs MP3b innerRadius=40. outerRadius=323.4 length=152.4 \
  material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
-place MP3a x=-7808.0 z=25168.8
-place MP3b x=-7808.0 z=25168.8
+place MP3a x=-7808.0 z=25161.2
+place MP3b x=-7808.0 z=25161.2
 
 ####plastic outside of steel#   
 
