@@ -161,16 +161,16 @@ box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color
 box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
 box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m2 color=$Yellow
 box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m2 color=$White
-box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
+box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m2 color=$Orange
 # block at end of notch, not quite as tall = top of wall with notch
-box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m1 color=$Orange
+box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m2 color=$Orange
 # have about 10 mm spacing between blocks
 #  wall at 11037.5 plus epsilon, toward TS edge at 9274.5
 #  wall really at 11053.
 # edge of lower z barite wall at 4347.60
 # most south blocks x on south edge = about -3318 g4bl or 589 mu2e 
 place ts_block_2 x=-3082.5 y=-349.47 z=9566.5
-place ts_block_1 x=-3082.5 y=-349.47 z=10453.5 material=$TS_Shield_m2 color=$White
+place ts_block_1 x=-3082.5 y=-349.47 z=10453.5 color=$White
 place ts_block_1 x=-3082.5 y=-349.47 z=6120.
 place ts_block_1X x=-3082.5 y=-349.47 z=4942.
 
