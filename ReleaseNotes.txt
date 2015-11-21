@@ -20,4 +20,5 @@ Fraction of sections fail when accessing source files from /mu2e/data/
 Ideally, we need to pre-stage source files.
 
 Shielding_OptimizationV13:
-Minor changes: NE block to boron, 2 NW blocks to regular concrete. Swicthed to 2M source files
+1) Minor changes: NE block to boron, 2 NW blocks to regular concrete
+2) Swicthed to 2M source files
