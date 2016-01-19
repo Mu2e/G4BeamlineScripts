@@ -11,6 +11,12 @@
 # one detector containing particle tracks when lost in stopping targets (1)
 # All data from those detectors would be in "g4beamline.root" output file
 
+
+virtualdetector  prestop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
+place prestop x=-7808.0 z=13300
+virtualdetector poststop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
+place poststop x=-7808.0 z=14300
+
 if $Use_Basic_Det==1 
 
 ##*******************

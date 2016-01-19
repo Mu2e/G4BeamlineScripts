@@ -22,3 +22,7 @@ Ideally, we need to pre-stage source files.
 Shielding_OptimizationV13:
 1) Minor changes: NE block to boron, 2 NW blocks to regular concrete
 2) Swicthed to 2M source files
+
+Shielding_OptimizationV14:
+1) 34 Stopping Target 
+2) Additon of virtual detector before and after the stopping target
