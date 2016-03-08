@@ -161,7 +161,7 @@ box ts_block_1 height=3861. width=533. length=1168. material=$TS_Shield_m1 color
 box ts_block_1X height=3861. width=533. length=1168. material=$TS_Shield_m1 color=$LightBlue
 box ts_block_1a height=3861. width=1168. length=533. material=$TS_Shield_m2 color=$Yellow
 box ts_block_2 height=3861. width=533. length=584. material=$TS_Shield_m2 color=$White
-box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m2 color=$Orange
+box ts_block_3 height=3861. width=381. length=609. material=$TS_Shield_m1 color=$Orange
 # block at end of notch, not quite as tall = top of wall with notch
 box ts_block_3a height=3353. width=609. length=381. material=$TS_Shield_m2 color=$Orange
 # have about 10 mm spacing between blocks
@@ -185,12 +185,12 @@ place ts_block_3a x=-2620. y=-630.57 z=4157.5
 place ts_block_2 x=-1995.5 y=-349.47 z=9656.5
 place ts_block_1a x=-1678. y=-349.47 z=10225.
 place ts_block_1a x=-1678. y=-349.47 z=10786.5
-#place ts_block_1 x=-2015.5 y=-349.47 z=5362.
+place ts_block_1 x=-2015.5 y=-349.47 z=5362.
 # Yuri 10-15 move block in z
-place ts_block_3 x=-2091.5 y=-349.47 z=6260.5-1168
+place ts_block_3 x=-2091.5 y=-349.47 z=6260.5
 
 # DH 11-29-14 check floor height = -4275.5
-#place ts_block_1 x=-1482. y=-349.47 z=5362.
+place ts_block_1 x=-1482. y=-349.47 z=5362.
 
 #TS above part
 #The height was calculated from DocDB-2404 drawings of TS cryostat. need to redo

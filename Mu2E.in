@@ -135,6 +135,7 @@ material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
 material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
 material Fake_Cu density=8.960 Fe,1.00
 material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.442 
+material BARITE_BORON density=3.5 G4_BORON_CARBIDE,0.005 BARITE,0.995
 material Half_Poly density=0.465 POLYETHYLENE,1.00
 material G10 density=1.7 H,0.0660 C,0.2680 O,0.4170 Si,0.2200 Cl,0.0290
 material TS_Coil density=2.74  Al,0.680 G10,0.188 Fake_Cu,0.066 Nb,0.03531 Ti,0.03069 

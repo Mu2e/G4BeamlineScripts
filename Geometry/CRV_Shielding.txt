@@ -9,7 +9,8 @@
 
 param Cave_mat1=CONCRETE_MARS
 param Cave_mat2=CONCRETE_BORON
-param Cave_mat3=BARITE 
+param Cave_mat3=BARITE
+param Cave_mat4=BARITE_BORON 
 param Cave_col=$Gray
 param Cave_col_barite=$Blue
 param Cave_col_mat3=$Red
@@ -28,9 +29,9 @@ place DS_side_b x=-6613.1 y=-382.07 z=5694.6 rotation=X90
 place DS_side_b x=-8442.8 y=-382.07 z=5694.6 rotation=X90
 
 #east upstream DS wall   George's second figure
-extrusion DS_side_e1 length=3860.8 vertices=0.0,0.0;-1066.8,0.0;-1066.8,457.2;-1524.,457.2;-1524,914.4;0.,914.4 material=$Cave_mat2 color=$LightBlue 
+extrusion DS_side_e1 length=3860.8 vertices=0.0,0.0;-1066.8,0.0;-1066.8,457.2;-1524.,457.2;-1524,914.4;0.,914.4 material=$Cave_mat4 color=$LightBlue 
 place DS_side_e1 x=-3360. y=-382.07 z=9707. rotation=X90
-place DS_side_b x=-4427. y=-382.07 z=9707. rotation=X90
+place DS_side_b x=-4427. y=-382.07 z=9707. rotation=X90 material=$Cave_mat4
 
 #extrusion DS_side_e2 length=3860.8 vertices=0.0,0.0;-1371.6,0.0;-1371.6,914.4;-457.3,914.4;-457.3,457.2;0.,457.2 material=$Cave_mat2 color=$LightBlue 
 #place DS_side_e2 x=-4427. y=-382.07 z=9707. rotation=X90
