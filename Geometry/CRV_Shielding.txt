@@ -10,7 +10,8 @@
 param Cave_mat1=CONCRETE_MARS
 param Cave_mat2=CONCRETE_BORON
 param Cave_mat3=BARITE
-param Cave_mat4=BARITE_BORON 
+# Yuri: keep mat4 in case we decide to use BARITE_BORON in NE corner
+param Cave_mat4=BARITE
 param Cave_col=$Gray
 param Cave_col_barite=$Blue
 param Cave_col_mat3=$Red
