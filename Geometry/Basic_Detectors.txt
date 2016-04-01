@@ -12,11 +12,6 @@
 # All data from those detectors would be in "g4beamline.root" output file
 
 
-virtualdetector  prestop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
-place prestop x=-7808.0 z=13300
-virtualdetector poststop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
-place poststop x=-7808.0 z=14300
-
 if $Use_Basic_Det==1 
 
 ##*******************
@@ -96,6 +91,13 @@ place Coll_05_Det \
 
 beamlossntuple LostInTarget_Ntuple \
                require="z>13000&&z<14600&&x>-7908&&x<-7708&&y<100&&y>-100"
+
+# Virtual detectors before and after the stopping target
+
+virtualdetector  prestop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
+place prestop x=-7808.0 z=13300
+virtualdetector poststop radius=90 innerRadius=0 length=.1 color=$Invisible format=rootExtended
+place poststop x=-7808.0 z=14300
 	       
 
 virtualdetector Tracker_Det \
