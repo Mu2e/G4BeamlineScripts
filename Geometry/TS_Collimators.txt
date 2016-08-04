@@ -55,7 +55,7 @@ tube Coll_01_a_pbar \
     innerRadius=120. \
     outerRadius=$Coll_01_Rin_1 \
     length=200. \
-    initialPhi=200. finalPhi=340.0 \
+    initialPhi=210. finalPhi=330.0 \
     material=C \
     color=$Red \
     kill=$TS_Collimator_kill
