@@ -26,3 +26,7 @@ Shielding_OptimizationV13:
 Shielding_OptimizationV14:
 1) 34 Stopping Target 
 2) Additon of virtual detector before and after the stopping target
+
+Shielding_OptimizationV23:
+Updated STM shielding.
+Geometry is identical to Offline v578
