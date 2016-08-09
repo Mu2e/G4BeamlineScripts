@@ -5,6 +5,7 @@
 #  DH: updated 1/2015 from docdb 1371 with T-blocks, etc
 #   DH 5/2015 shift barite top/north around stopping target
 #  10/2015 YO change TS cave to boron-concrete, DH change barite color
+# DH August 2016 back hole 102 cm
 #DS Shielding 
 
 param Cave_mat1=CONCRETE_MARS
@@ -129,7 +130,8 @@ place DS_side_cc x=-8899. y=-216.97 z=25621 rotation=X90
 place DS_side_cc x=-6271. y=-216.97 z=25621 rotation=X90
 
 box Cave_Box_Back length=914.4 height=3530.6 width=457.2 material=$Cave_mat1 color=$White
-tubs DS_Cend_hole outerRadius=76.2 length=914.4 material=AIR color=$Red
+# hole 76.2 --> 102
+tubs DS_Cend_hole outerRadius=102. length=914.4 material=AIR color=$Red
 place DS_Cend_hole parent=Cave_Box_Back y=216.97
 place Cave_Box_Back x=-7808.0 y=-216.97 z=26078.2
 box Cave_Box_Back2 length=457.2 height=3530.6 width=400. material=$Cave_mat1 color=$White

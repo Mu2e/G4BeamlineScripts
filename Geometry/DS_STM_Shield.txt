@@ -3,13 +3,14 @@
 # Hedin May 2013   for now put at closer z and set kill=1
 # Hedin June 2016 docdb 6453 design but skip the actual STM detector 
 # itself and the small collimator in front of it
+# Aug 2016
 ##########################################################################
 # cylindrical shield. starts at end of concrete wall 
-tubs ST1a innerRadius=102. outerRadius=128. length=419. material=Stainless304 \
+tubs ST1a innerRadius=110. outerRadius=160. length=419. material=Stainless304 \
     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Blue 
 
-tubs ST1b innerRadius=102. outerRadius=128. length=419. material=Stainless304 \
+tubs ST1b innerRadius=110. outerRadius=160. length=419. material=Stainless304 \
     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible 
 
@@ -36,8 +37,8 @@ place DS_ST3 x=-7808. y=0. z=27555.4 rotation=Z270
 box DS_ST4 width=411.8 height=437.2 length=450. material=Pb color=$Purple
 box DS_ST4_hole1 width=200. height=200. length=150. material=AIR color=$Red 
 box DS_ST4_hole2 width=200. height=200. length=150. material=POLYETHYLENE color=$Yellow 
-tubs DS_ST4_hole2a outerRadius=68. length=130. material=Air color=$Red
-tubs DS_ST4_hole3 outerRadius=68. length=150. material=AIR color=$Red 
+tubs DS_ST4_hole2a outerRadius=71. length=130. material=Air color=$Red
+tubs DS_ST4_hole3 outerRadius=71. length=150. material=AIR color=$Red 
 
 place DS_ST4_hole1 parent=DS_ST4 z=-150.
 place DS_ST4_hole2a parent=DS_ST4_hole2 z=-10.

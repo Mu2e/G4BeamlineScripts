@@ -184,11 +184,11 @@ tubs IFB_2_b \
  place IFB_2_b x=-7808.0 z=25195.
 
 # end window   50-->97 mylar
-tubs IFB_3_a outerRadius=97. length=0.212 \
+tubs IFB_3_a outerRadius=97. length=0.25 \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
      material=G4_MYLAR  color=$Green kill=$TScryo_kill
 
-tubs IFB_3_b outerRadius=97. length=0.212 \
+tubs IFB_3_b outerRadius=97. length=0.25 \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
      material=G4_MYLAR color=$Invisible kill=$TScryo_kill
 
