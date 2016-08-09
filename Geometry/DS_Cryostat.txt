@@ -8,6 +8,7 @@
 #  from Tom Page 8/2012, the start z of cryostat will change by 50-100 mm 
 #  when a bellows is added in the future
 # July 2013. DH Mau9 DS cryostat 150 mm longer but VSP is 245 mm shorter
+# August 2016 increase windor to 97 mm make mylar
 # ****************************************************************************
 #                       Detector Solenoid Cyrostat
 # ****************************************************************************
@@ -182,27 +183,27 @@ tubs IFB_2_b \
  place IFB_2_a x=-7808.0 z=25195.
  place IFB_2_b x=-7808.0 z=25195.
 
-# end window
-tubs IFB_3_a outerRadius=50. length=1.1 \
+# end window   50-->97 mylar
+tubs IFB_3_a outerRadius=97. length=0.212 \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
-     material=Fe  color=$Green kill=$TScryo_kill
+     material=G4_MYLAR  color=$Green kill=$TScryo_kill
 
-tubs IFB_3_b outerRadius=50. length=1.1 \
+tubs IFB_3_b outerRadius=97. length=0.212 \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
-     material=Fe color=$Invisible kill=$TScryo_kill
+     material=G4_MYLAR color=$Invisible kill=$TScryo_kill
 
 # place IFB_3_a x=-7808.0 z=25345.
 # place IFB_3_b x=-7808.0 z=25345.
  place IFB_3_a x=-7808.0 z=25250.
  place IFB_3_b x=-7808.0 z=25250.
 
-# end plate; thinkness may be wrong 
-tubs IFB_4_a innerRadius=50. outerRadius=550. length=100. \
+# end plate; thinkness may be wrong  50-->97
+tubs IFB_4_a innerRadius=97. outerRadius=550. length=100. \
      initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
      material=Fe color=$Green kill=$TScryo_kill
 
 tubs IFB_4_b \
-     innerRadius=50. outerRadius=550. length=100. \
+     innerRadius=97. outerRadius=550. length=100. \
      initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
      material=Fe  color=$Invisible kill=$TScryo_kill
 
