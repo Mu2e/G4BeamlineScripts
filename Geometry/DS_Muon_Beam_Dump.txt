@@ -31,6 +31,7 @@
 #  April 2015. new mass vs com
 #  April 2016. WBS 5.08 v7 with holes in bottom for pumping
 # August 2016 increase hole to 92 mm
+# April 2017. modify radii engineering specs V12 3/12/17. 1 cm HDPE in hole
 ##########
 # Gimbal #
 ##########
@@ -99,11 +100,11 @@ place MS1b x=-7808.0 z=21659.
 
 ##back section ends at 25245
 
-tubs MS2a innerRadius=425. outerRadius=450.4 length=816. material=Stainless304 \
+tubs MS2a innerRadius=437.5 outerRadius=462.9 length=816. material=Stainless304 \
     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Blue kill=$Muon_Dump_kill
 
-tubs MS2b innerRadius=425. outerRadius=450.4 length=816. material=Stainless304 \
+tubs MS2b innerRadius=437.5 outerRadius=462.9 length=816. material=Stainless304 \
     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
@@ -169,11 +170,11 @@ place MS4b x=-7808.0 z=23739.
 # front section start at 21159
 
 # 1200 to 1100 to 1170 21729 to 21779 to 21744
-tubs MP1a innerRadius=386.7 outerRadius=435.5 length=1000. \
+tubs MP1a innerRadius=386.7 outerRadius=437.5 length=1000. \
 material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Yellow kill=$Muon_Dump_kill
 
-tubs MP1b innerRadius=386.7 outerRadius=435.5 length=1000. \ 
+tubs MP1b innerRadius=386.7 outerRadius=437.5 length=1000. \ 
  material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
@@ -181,11 +182,12 @@ place MP1a x=-7808.0 z=21659.
 place MP1b x=-7808.0 z=21659.
 
 # rear include "outer plug" length: 706+102.4. ends at 25237.4
-tubs MP2a innerRadius=323.4 outerRadius=425. length=808.4 \
+# does not get the distance between the outer plug and steel quite right
+tubs MP2a innerRadius=323.2 outerRadius=437.5 length=808.4 \
 material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Yellow kill=$Muon_Dump_kill
 
-tubs MP2b innerRadius=323.4 outerRadius=425. length=808.4 \ 
+tubs MP2b innerRadius=323.2 outerRadius=437.5 length=808.4 \ 
  material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
@@ -193,17 +195,22 @@ place MP2a x=-7808.0 z=24833.2
 place MP2b x=-7808.0 z=24833.2
 
 #-#Rear Plastic Cap# ends at 25239.4   40-->92
+# end plug is really staggerred. have 2.4 mm gap for now
 
-tubs MP3a innerRadius=92. outerRadius=323.4 length=152.4 \
+tubs MP3a innerRadius=92. outerRadius=321.0 length=152.4 \
 material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Yellow kill=$Muon_Dump_kill
 
-tubs MP3b innerRadius=92. outerRadius=323.4 length=152.4 \ 
+tubs MP3b innerRadius=92. outerRadius=321.0 length=152.4 \ 
  material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
 place MP3a x=-7808.0 z=25163.2
 place MP3b x=-7808.0 z=25163.2
+# add in 1 cm to fill in hole
+tubs MP3c innerRadius=0. outerRadius=92. length=10. \
+material=HDPE color=$Yellow kill=$Muon_Dump_kill
+place MP3c x=-7808.0 z=25234.
 
 # Mid internal 1: first central parts no holes
 tubs MP4a innerRadius=323.2 outerRadius=437.5 length=190. \

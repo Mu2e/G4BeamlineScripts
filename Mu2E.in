@@ -294,7 +294,7 @@ if $Use_Field==1
    else
 
       fieldmap PSMagneticField  \
-               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_PSMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/PSMap.txt
  
       place PSMagneticField \
             x=-3904.0 \
@@ -302,7 +302,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap DSMagneticField \
-               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_DSMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/DSMap.txt
  
       place DSMagneticField \
             x=-3904.0 \
@@ -310,7 +310,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TSuMagneticField \
-               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_TSuMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/TSuMap.txt
  
       place TSuMagneticField \
             x=-3904.0 \
@@ -318,7 +318,7 @@ if $Use_Field==1
             z=7929.0
  
       fieldmap TsdMagneticField \
-               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/Mu2e_TSdMap.txt
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/TSdMap.txt
  
       place TsdMagneticField \
             x=-3904.0 \
@@ -327,7 +327,7 @@ if $Use_Field==1
    
       if $Use_External_Field==1
             fieldmap ExtMonUCIAreaMagneticField \
-                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/ExtMonUCIAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/ExtMonUCIAreaMap.txt
             
             place ExtMonUCIAreaMagneticField \
                 x=-3904.0 \
@@ -335,7 +335,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap ProtonDumpAreaMagneticField \
-                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/ProtonDumpAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/ProtonDumpAreaMap.txt
             
             place ProtonDumpAreaMagneticField \
                 x=-3904.0 \
@@ -343,7 +343,7 @@ if $Use_Field==1
                 z=7929.0
             
             fieldmap PStoDumpAreaMagneticField \
-                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/Mau9/PStoDumpAreaMap.txt
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/PStoDumpAreaMap.txt
             
             place PStoDumpAreaMagneticField \
                 x=-3904.0 \
@@ -523,10 +523,10 @@ include ./Geometry/Calorimeter_Discs.txt
 # ****************************************************************************
 #                                Muon Beam Dump
 # ****************************************************************************
-# From Dave Hedin 5-2015  default is almost final version
+# From Dave Hedin 3-2017  default is maybe final version
 
-include ./Geometry/DS_Muon_Beam_Dump_n14.txt
-#include ./Geometry/DS_Muon_Beam_Dump.txt
+#include ./Geometry/DS_Muon_Beam_Dump_n14.txt
+include ./Geometry/DS_Muon_Beam_Dump.txt
 
 
 
