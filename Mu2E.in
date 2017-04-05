@@ -615,7 +615,7 @@ endif
 ## This is for chosing either QGSP_BERT production from the proton beam OR
 ## the weighted HARP pion file for production
 
-param -unset READ_Beam_File=1
+param -unset READ_Beam_File=2
 param -unset Use_Basic_Det=1
 
 # Disable basic detectors for stage 2 to reduce the file size. 
@@ -623,12 +623,12 @@ param -unset Use_Basic_Det=1
 
 if $READ_Beam_File==1
    beam ascii nEvents=$Num_Events\
-	filename=/grid/data/mu2e/users/oksuzian/Source_V11_ps.txt
+	filename=/mu2e/data/users/oksuzian/Source_V21_ps.txt
    param Use_Basic_Det=0
 
 elseif $READ_Beam_File==2
    beam ascii nEvents=$Num_Events\
-        filename=/grid/data/mu2e/users/oksuzian/Source_V11_bm.txt
+        filename=/mu2e/data/users/oksuzian/Source_V21_bm.txt
    param Use_Basic_Det=0
 
 else

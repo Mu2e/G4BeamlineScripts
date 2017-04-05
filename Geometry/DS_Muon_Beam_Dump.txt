@@ -128,11 +128,11 @@ tubs MS3d innerRadius=437.5 outerRadius=475.6 length=320. \
  material=Stainless304 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
-tubs MS3e innerRadius=437.5 outerRadius=475.6 length=490. \
+tubs MS3e innerRadius=437.5 outerRadius=475.6 length=540. \
 material=Stainless304 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
     color=$Blue kill=$Muon_Dump_kill
 
-tubs MS3f innerRadius=437.5 outerRadius=475.6 length=490. \ 
+tubs MS3f innerRadius=437.5 outerRadius=475.6 length=540. \ 
  material=Stainless304 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
     color=$Invisible kill=$Muon_Dump_kill
 
@@ -142,8 +142,8 @@ place MS3c x=-7808.0 z=22809.
 place MS3d x=-7808.0 z=22809.
 place MS3c x=-7808.0 z=23429.
 place MS3d x=-7808.0 z=23429.
-place MS3e x=-7808.0 z=24134.
-place MS3f x=-7808.0 z=24134.
+place MS3e x=-7808.0 z=24159.
+place MS3f x=-7808.0 z=24159.
 
 # finalPhia=225  initialPhib=-45 for holes
 tubs MS4a innerRadius=437.5 outerRadius=475.6 length=300. \
