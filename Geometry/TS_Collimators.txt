@@ -13,20 +13,26 @@
 ##********************
 ## New PBAR WINDOW/Absorber upstream of Coll_01
 ## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+## DH 6/2017 modify pbar upstream and in Coll_3 to correspond to Offline 
 ##*********************
 
-param Coll_pbarU_Rout=230.0
-param Coll_pbarU_length=350.e-3
+#param Coll_pbarU_Rout=230.0
+#param Coll_pbarU_length=350.e-3   KAPTON
+#param Coll_pbarU_Rin=0.0
+#param Coll_pbarU_x=0.0
+#param Coll_pbarU_z=3883.0
+param Coll_pbarU_Rout=158.75
+param Coll_pbarU_length=.25
 param Coll_pbarU_Rin=0.0
 param Coll_pbarU_x=0.0
-param Coll_pbarU_z=3883.0
+param Coll_pbarU_z=-4144.02 + $MECO_G4_zTrans
 
 tubs Coll_pbarU \
      outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
      length=$Coll_pbarU_length \
      maxStep=50.e-3\
      initialPhi=0.0 finalPhi=360.0 \
-     material=KAPTON \
+     material=Al \
      color=$Yellow \
      kill=0
 
@@ -34,6 +40,13 @@ place Coll_pbarU \
       x=$Coll_pbarU_x \
       z=$Coll_pbarU_z \
       rename=Coll_pbarU_a
+#add in SS rings
+tubs Coll_pbarU_SS innerRadius=158.75 outerRadius=174.625 length=6.35 \
+material=Stainless304 initialPhi=0. finalPhi=360. color=$Blue kill=0
+
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z-3.3 rename=Coll_pbarU_SSa
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+3.3 rename=Coll_pbarU_SSb
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+9.65 rename=Coll_pbarU_SSc
 #      
 #
 # Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 Coll_01_a,b_in
@@ -117,9 +130,7 @@ tube Coll_01_b_out \
     color=invisible\
     kill=$TS_Collimator_kill
     
-place Coll_01_b_pbar \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0+400.      
+#place Coll_01_b_pbar x=$Coll_01_x z=$Coll_01_z+$Coll_01_length/2.0+400.      
 
 place Coll_01_b_in \
       x=$Coll_01_x \
@@ -161,11 +172,12 @@ place Coll_01_b_out \
 ## This Code is for the pbar windows & additional TS1 collimator material
 ## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
 ##*********************
-
+## DH 6/17 modify so same as Offline
 ## TS3 pbar window = disk plus wedge
 
 param Coll_pbar_Rout=230.0
-param Coll_pbar_length=200.e-3
+#param Coll_pbar_length=200.e-3   KAPTON
+param Coll_pbar_length=.164
 param Coll_pbar_Rin=0.0
 param Coll_pbar_x=$MECO_G4_xTrans
 param Coll_pbar_z=$MECO_G4_zTrans
@@ -175,7 +187,7 @@ tubs Coll_pbar \
      length=$Coll_pbar_length \
      maxStep=50.e-3\
      initialPhi=0.0 finalPhi=360.0 \
-     material=KAPTON \
+     material=Be \
      color=$Yellow \
      kill=0
 
@@ -190,13 +202,20 @@ place Coll_pbar \
 ## located in ~top half of collimator aperture
 
 param Wedge_pbar_height=190.0
-param Wedge_pbar_upperWidth=1.1
-param Wedge_pbar_lowerWidth=0.0001
+#param Wedge_pbar_upperWidth=1.1   old KAPTON
+param Wedge_pbar_upperWidth=.724
+#param Wedge_pbar_upperWidth=.001
+param Wedge_pbar_lowerWidth=0.001
+#param Wedge_pbar_lowerWidth=0.0001
 param Wedge_pbar_length=350.
 param Wedge_pbar_Rin=0.0
 param Wedge_pbar_x=$MECO_G4_xTrans-1
 param Wedge_pbar_y=95.0
 param Wedge_pbar_z=$MECO_G4_zTrans
+
+#     material=KAPTON \
+#     material=Be \
+
 
 trap Wedge_pbar \
      height=$Wedge_pbar_height \
@@ -208,7 +227,7 @@ trap Wedge_pbar \
      Xlr=175. \
      length=$Wedge_pbar_length \
      maxStep=50.e-3\
-     material=KAPTON \
+     material=Be \
      color=$Red \
      kill=0
 
@@ -217,8 +236,6 @@ place Wedge_pbar \
       y=$Wedge_pbar_y \
       z=$Wedge_pbar_z
       
-#      rotation=Y90 
-
 ##********************
 ## COLL_03 
 ## Collimators in Central TSu Straight Section (COL3u)
