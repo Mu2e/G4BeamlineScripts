@@ -25,7 +25,7 @@ param Coll_pbarU_Rout=158.75
 param Coll_pbarU_length=.25
 param Coll_pbarU_Rin=0.0
 param Coll_pbarU_x=0.0
-param Coll_pbarU_z=-4144.02 + $MECO_G4_zTrans
+param Coll_pbarU_z=-4144.02+$MECO_G4_zTrans
 
 tubs Coll_pbarU \
      outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
