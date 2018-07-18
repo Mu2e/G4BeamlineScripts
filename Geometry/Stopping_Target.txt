@@ -5,91 +5,117 @@
 # ****************************************************************************
 #                                Stopping Target
 # ****************************************************************************
-# From 
-# "DRAFT MECO Technical Proposal"
-# Version: August 1, 2001
-#
-# The baseline target, with mass 159 g, has seventeen 0.02 cm aluminum disks; 
-# they are arranged parallel to each other, centered on the Solenoid Magnet 
-# axis and with each face perpendicular to it. 
-# The target is tapered in the downstream direction, with 5.0 cm disk spacing 
-# and radii from 8.30 cm to 6.53 cm. 
-# The target is placed in the graded portion of the DS magnetic field, 
-# with the first disk at 1.57 T and the last at 1.30 T.
-# The Density of Aluminum = 2.64 g/cm^3
-# D.Hedin Jan 2016. Update to new geometry. 34 layers. all r=75 mm, l=0.1 
-# 800 mm long starting at z=5471 (+7929 = 13400 for g4bl) 
-# ignore tengsten supports
 param -unset Aluminum="0.66,0.67,0.71"
 param -unset Stop_Target_Color=$Aluminum
 
-tubs Stop_Tgt_01 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_02 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_03 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_04 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_05 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_06 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_07 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_08 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_09 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_10 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_11 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_12 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_13 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_14 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_15 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_16 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_17 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_18 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_19 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_20 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_21 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_22 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_23 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_24 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_25 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_26 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_27 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_28 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_29 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_30 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_31 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_32 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_33 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
-tubs Stop_Tgt_34 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+# Two options for the stopping target:
+# 1: CD3 baseline geometry, with 34 75mm Al disks
+# 2: post-CD3 baseline geometry, with 37 annular 100um Al disks, 75mm/21.5mm 
 
-place Stop_Tgt_01 z=13400.05 x=-7808.00
-place Stop_Tgt_02 z=13400.05+24.242424   x=-7808.00
-place Stop_Tgt_03 z=13400.05+2*24.242424 x=-7808.00
-place Stop_Tgt_04 z=13400.05+3*24.242424 x=-7808.00
-place Stop_Tgt_05 z=13400.05+4*24.242424 x=-7808.00
-place Stop_Tgt_06 z=13400.05+5*24.242424 x=-7808.00
-place Stop_Tgt_07 z=13400.05+6*24.242424 x=-7808.00
-place Stop_Tgt_08 z=13400.05+7*24.242424 x=-7808.00
-place Stop_Tgt_09 z=13400.05+8*24.242424 x=-7808.00
-place Stop_Tgt_10 z=13400.05+9*24.242424 x=-7808.00
-place Stop_Tgt_11 z=13400.05+10*24.242424 x=-7808.00
-place Stop_Tgt_12 z=13400.05+11*24.242424 x=-7808.00
-place Stop_Tgt_13 z=13400.05+12*24.242424 x=-7808.00
-place Stop_Tgt_14 z=13400.05+13*24.242424 x=-7808.00
-place Stop_Tgt_15 z=13400.05+14*24.242424 x=-7808.00
-place Stop_Tgt_16 z=13400.05+15*24.242424 x=-7808.00
-place Stop_Tgt_17 z=13400.05+16*24.242424 x=-7808.00
-place Stop_Tgt_18 z=13400.05+17*24.242424 x=-7808.00
-place Stop_Tgt_19 z=13400.05+18*24.242424 x=-7808.00
-place Stop_Tgt_20 z=13400.05+19*24.242424 x=-7808.00
-place Stop_Tgt_21 z=13400.05+20*24.242424 x=-7808.00
-place Stop_Tgt_22 z=13400.05+21*24.242424 x=-7808.00
-place Stop_Tgt_23 z=13400.05+22*24.242424 x=-7808.00
-place Stop_Tgt_24 z=13400.05+23*24.242424 x=-7808.00
-place Stop_Tgt_25 z=13400.05+24*24.242424 x=-7808.00
-place Stop_Tgt_26 z=13400.05+25*24.242424 x=-7808.00
-place Stop_Tgt_27 z=13400.05+26*24.242424 x=-7808.00
-place Stop_Tgt_28 z=13400.05+27*24.242424 x=-7808.00
-place Stop_Tgt_29 z=13400.05+28*24.242424 x=-7808.00
-place Stop_Tgt_30 z=13400.05+29*24.242424 x=-7808.00
-place Stop_Tgt_31 z=13400.05+30*24.242424 x=-7808.00
-place Stop_Tgt_32 z=13400.05+31*24.242424 x=-7808.00
-place Stop_Tgt_33 z=13400.05+32*24.242424 x=-7808.00
-place Stop_Tgt_34 z=13400.05+33*24.242424 x=-7808.00
 
+param -unset Use_Stopping_Target=1
+
+if $Use_Stopping_Target==1
+
+  # From 
+  # "DRAFT MECO Technical Proposal"
+  # Version: August 1, 2001
+  #
+  # The baseline target, with mass 159 g, has seventeen 0.02 cm aluminum disks; 
+  # they are arranged parallel to each other, centered on the Solenoid Magnet 
+  # axis and with each face perpendicular to it. 
+  # The target is tapered in the downstream direction, with 5.0 cm disk spacing 
+  # and radii from 8.30 cm to 6.53 cm. 
+  # The target is placed in the graded portion of the DS magnetic field, 
+  # with the first disk at 1.57 T and the last at 1.30 T.
+  # The Density of Aluminum = 2.64 g/cm^3
+  # D.Hedin Jan 2016. Update to new geometry. 34 layers. all r=75 mm, l=0.1 
+  # 800 mm long starting at z=5471 (+7929 = 13400 for g4bl) 
+  # ignore tengsten supports
+  
+  tubs Stop_Tgt_01 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_02 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_03 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_04 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_05 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_06 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_07 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_08 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_09 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_10 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_11 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_12 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_13 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_14 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_15 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_16 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_17 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_18 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_19 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_20 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_21 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_22 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_23 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_24 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_25 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_26 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_27 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_28 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_29 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_30 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_31 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_32 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_33 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+  tubs Stop_Tgt_34 outerRadius=75. length=0.10 material=Al color=$Stop_Target_Color kill=0
+
+  place Stop_Tgt_01 z=13400.05 x=-7808.00
+  place Stop_Tgt_02 z=13400.05+24.242424   x=-7808.00
+  place Stop_Tgt_03 z=13400.05+2*24.242424 x=-7808.00
+  place Stop_Tgt_04 z=13400.05+3*24.242424 x=-7808.00
+  place Stop_Tgt_05 z=13400.05+4*24.242424 x=-7808.00
+  place Stop_Tgt_06 z=13400.05+5*24.242424 x=-7808.00
+  place Stop_Tgt_07 z=13400.05+6*24.242424 x=-7808.00
+  place Stop_Tgt_08 z=13400.05+7*24.242424 x=-7808.00
+  place Stop_Tgt_09 z=13400.05+8*24.242424 x=-7808.00
+  place Stop_Tgt_10 z=13400.05+9*24.242424 x=-7808.00
+  place Stop_Tgt_11 z=13400.05+10*24.242424 x=-7808.00
+  place Stop_Tgt_12 z=13400.05+11*24.242424 x=-7808.00
+  place Stop_Tgt_13 z=13400.05+12*24.242424 x=-7808.00
+  place Stop_Tgt_14 z=13400.05+13*24.242424 x=-7808.00
+  place Stop_Tgt_15 z=13400.05+14*24.242424 x=-7808.00
+  place Stop_Tgt_16 z=13400.05+15*24.242424 x=-7808.00
+  place Stop_Tgt_17 z=13400.05+16*24.242424 x=-7808.00
+  place Stop_Tgt_18 z=13400.05+17*24.242424 x=-7808.00
+  place Stop_Tgt_19 z=13400.05+18*24.242424 x=-7808.00
+  place Stop_Tgt_20 z=13400.05+19*24.242424 x=-7808.00
+  place Stop_Tgt_21 z=13400.05+20*24.242424 x=-7808.00
+  place Stop_Tgt_22 z=13400.05+21*24.242424 x=-7808.00
+  place Stop_Tgt_23 z=13400.05+22*24.242424 x=-7808.00
+  place Stop_Tgt_24 z=13400.05+23*24.242424 x=-7808.00
+  place Stop_Tgt_25 z=13400.05+24*24.242424 x=-7808.00
+  place Stop_Tgt_26 z=13400.05+25*24.242424 x=-7808.00
+  place Stop_Tgt_27 z=13400.05+26*24.242424 x=-7808.00
+  place Stop_Tgt_28 z=13400.05+27*24.242424 x=-7808.00
+  place Stop_Tgt_29 z=13400.05+28*24.242424 x=-7808.00
+  place Stop_Tgt_30 z=13400.05+29*24.242424 x=-7808.00
+  place Stop_Tgt_31 z=13400.05+30*24.242424 x=-7808.00
+  place Stop_Tgt_32 z=13400.05+31*24.242424 x=-7808.00
+  place Stop_Tgt_33 z=13400.05+32*24.242424 x=-7808.00
+  place Stop_Tgt_34 z=13400.05+33*24.242424 x=-7808.00
+
+elseif $Use_Stopping_Target==2
+
+# The post-CD3 baseline geometry, consisting of 37 annular, 100um Al
+#  disks, 75mm/21.5mm with 22.2mm pitch
+
+  param Stop_Tgt_pitch=800./36.
+
+  tubs Stop_Tgt_Annulus outerRadius=75. innerRadius=21.5 length=0.1 \
+       material=Al color=$Stop_Target_Color kill=0
+  
+  do i 1 37
+    place Stop_Tgt_Annulus rename=Stop_Tgt_Foil_$i \
+    	  z=13400.5+($i-1)*$Stop_Tgt_pitch x=-7808.0
+  enddo
+
+endif

@@ -474,18 +474,11 @@ include ./Geometry/TS_Collimators.txt
 # ****************************************************************************
 #                                Stopping Target
 # ****************************************************************************
-# From 
-# "DRAFT MECO Technical Proposal"
-# Version: August 1, 2001
-#
-# The baseline target, with mass 159 g, has seventeen 0.02 cm aluminum disks; 
-# they are arranged parallel to each other, centered on the Solenoid Magnet 
-# axis and with each face perpendicular to it. 
-# The target is tapered in the downstream direction, with 5.0 cm disk spacing 
-# and radii from 8.30 cm to 6.53 cm. 
-# The target is placed in the graded portion of the DS magnetic field, 
-# with the first disk at 1.57 T and the last at 1.30 T.
-# The Density of Aluminum = 2.64 g/cm^3
+# Two options for the stopping target:
+# 1: CD3 baseline geometry, with 34 75mm Al disks
+# 2: post-CD3 baseline geometry, with 37 annular 100um Al disks, 75mm/21.5mm 
+
+param -unset Use_Stopping_Target=1
 
 include ./Geometry/Stopping_Target.txt
 
@@ -508,6 +501,7 @@ elseif $tracker==2
 
 elseif $tracker==3
 #       include ./Geometry/T_Tracker_Planes.txt 
+# it's full of geometry collisions!
 
 endif
 
