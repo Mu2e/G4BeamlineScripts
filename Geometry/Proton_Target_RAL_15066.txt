@@ -3,14 +3,13 @@
 # $Author$
 
 # ****************************************************************************
-#                             Proton Target RAL
+#                      Proton Target RAL with Fins
 # ****************************************************************************
 #
-# From:
-#   "RAL Target Model", Mu2e DocDB 4004
-#
 #   This file defines a representation of the RAL Radiation Cooled
-#   pion production target.
+#   pion production target with fins; the default parameters represent
+#   the as-built Tier 1 target with its intended mounting orientation
+#   as of August 2018.
 #
 #   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
 #   The target is a 16 cm long 6.3 mm diameter cylinder of tungsten. 
@@ -77,14 +76,19 @@ param -unset TDHubLength=23.0
 param -unset TDHubAngle=42.0
 param -unset TDHubOffset=0.
 
-
 param -unset THubAttach=19.0
 param -unset THubBallRadius=5.5/2
-param -unset THubUAttachAngle=-12*degree
-param -unset THubDAttachAngle=12*degree
+# Updated as per docdb 17147
+param -unset THubUAttachAngle=12*degree
+param -unset THubDAttachAngle=-12*degree
 param -unset THubAttachAngleInc=120*degree
 
-param -unset Tmaterial=W
+# As built Tier 1 target material:
+# WL10 from https://www.plansee.com/en/materials/tungsten.html
+# Lanthanum Oxide (La2O3) doped tungsten, 1% by weight
+material WL10 density=18.75 W,0.99 La,0.0085 O,0.0015
+
+param -unset Tmaterial=WL10
 
 param -unset TSupportRingColor=$Green
 param -unset TSupportRout=390./2.
@@ -161,10 +165,11 @@ if $EnableTarget==1
 
     endif
 
+    # rotate fin to bottom as per docdb 17147
     place pTarget \
         x=$TargetXoffset y=$TargetYoffset \
         z=$Tposition+$TargetZoffset \
-        rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+        rotation=Z180,Y$theTYangle,X$theTXangle,Z$theTZangle
 
 endif
 
