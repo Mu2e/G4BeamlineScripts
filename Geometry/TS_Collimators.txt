@@ -69,7 +69,7 @@ tube Coll_01_a_pbar \
     outerRadius=$Coll_01_Rin_1 \
     length=200. \
     initialPhi=210. finalPhi=330.0 \
-    material=C \
+    material=TS_Graphite \
     color=$Red \
     kill=$TS_Collimator_kill
 
@@ -78,7 +78,7 @@ tube Coll_01_a_in \
     outerRadius=$Coll_01_Rin_2 \
     length=$Coll_01_length \
     initialPhi=90.0 finalPhi=270.0 \
-    material=C \
+    material=TS_Graphite \
     color=$TS_Collimator_Color_layer \
     kill=$TS_Collimator_kill
 
@@ -117,7 +117,7 @@ tube Coll_01_b_in \
     outerRadius=$Coll_01_Rin_2 \
     length=$Coll_01_length \
     initialPhi=-90.0 finalPhi=90.0 \
-    material=C \
+    material=TS_Graphite \
     color=invisible \
     kill=$TS_Collimator_kill
 

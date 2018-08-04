@@ -138,7 +138,9 @@ material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.
 material BARITE_BORON density=3.5 G4_BORON_CARBIDE,0.005 BARITE,0.995
 material Half_Poly density=0.465 POLYETHYLENE,1.00
 material G10 density=1.7 H,0.0660 C,0.2680 O,0.4170 Si,0.2200 Cl,0.0290
-material TS_Coil density=2.74  Al,0.680 G10,0.188 Fake_Cu,0.066 Nb,0.03531 Ti,0.03069 
+material TS_Coil density=2.74  Al,0.680 G10,0.188 Fake_Cu,0.066 Nb,0.03531 Ti,0.03069
+# Procurable graphite does not have nominal 2.0g/cm^3 density; see docdb 19423
+material TS_Graphite density=1.75 C,1.0
 
 
 # ****************************************************************************
@@ -570,6 +572,10 @@ elseif $Use_Proton_Target==5
 elseif $Use_Proton_Target==6
     include ./Geometry/Proton_Target_RAL.txt
 
+elseif $Use_Proton_Target==7
+    include ./Geometry/Proton_Target_RAL_15066.txt
+    # This defaults to the Tier 1 milestone target
+
 else
     include ./Geometry/Proton_Target.txt
 
@@ -609,7 +615,7 @@ endif
 ## This is for chosing either QGSP_BERT production from the proton beam OR
 ## the weighted HARP pion file for production
 
-param -unset READ_Beam_File=2
+param -unset READ_Beam_File=0
 param -unset Use_Basic_Det=1
 
 # Disable basic detectors for stage 2 to reduce the file size. 
