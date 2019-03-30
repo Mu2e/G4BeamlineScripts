@@ -52,6 +52,7 @@ param -unset EnableTargetSupportRing=1
 param -unset EnableTargetSupportRingLatches=1
 param -unset EnableTargetSupportRingEars=1
 param -unset EnableTargetSupportRods=1
+param -unset EnableTargetSupportBalls=1
 param -unset EnableHRSLinerSupport=1
 
 param -unset TargetXoffset=0
@@ -148,7 +149,7 @@ if $EnableTarget==1
             material=$Tmaterial color=$Tungsten
 
 	boolean op=union pTargetWedge pTargetWedge_base pTargetFin \
-	    y=$Tradius z=$TFinsOffset \
+	    y=$Tradius+$TFinsHeight/2+0.25 z=$TFinsOffset \
             material=$Tmaterial color=$Tungsten
 
 	boolean op=union pTW_2 pTargetWedge pTargetWedge \
@@ -181,30 +182,31 @@ endif
 # spokes to the hubs, but I don't boolean attach the hubs to the
 # target, because then it can't be visualized
 
+param TUHbasez=$Tlength/2-$TUHubOffset
+param TDHbasez=-$Tlength/2+$TDHubOffset
+
 if $EnableTargetSupportHubs==1
 
     sphere TargetHubBall outerRadius=$THubBallRadius \
         material=$Tmaterial color=$Tungsten
 
-    param TUHbasez=$Tlength/2-$TUHubOffset
-    param TDHbasez=-$Tlength/2+$TDHubOffset
-
+# I should replace the 0.001 offsets with proper booleans ... but then visualization fails  :-(
     polycone uTargetHub \
         material=$Tmaterial color=$Tungsten \
         initialPhi=0 finalPhi=360 \
 	z=$TUHbasez-$TUHubThick/sin($TUHubAngle_r),$TUHbasez,$TUHbasez+($TUHubLength-$TUHubThick)*cos($TUHubAngle_r),$TUHbasez+$TUHubLength*cos($TUHubAngle_r) \
-	outerRadius=$Tradius,$Tradius+$TUHubThick/cos($TUHubAngle_r),$Tradius+($TUHubLength+$TUHubThick)*sin($TUHubAngle_r),$Tradius+$TUHubLength*sin($TUHubAngle_r) \
-	innerRadius=$Tradius,$Tradius,$Tradius+$TUHubLength*sin($TUHubAngle_r)-$TUHubThick*cos($TUHubAngle_r),$Tradius+$TUHubLength*sin($TUHubAngle_r)
+	outerRadius=$Tradius+0.001,$Tradius+$TUHubThick/cos($TUHubAngle_r),$Tradius+($TUHubLength+$TUHubThick)*sin($TUHubAngle_r),$Tradius+$TUHubLength*sin($TUHubAngle_r) \
+	innerRadius=$Tradius+0.001,$Tradius+0.001,$Tradius+$TUHubLength*sin($TUHubAngle_r)-$TUHubThick*cos($TUHubAngle_r),$Tradius+$TUHubLength*sin($TUHubAngle_r)
 
     polycone dTargetHub \
         material=$Tmaterial color=$Tungsten \
         initialPhi=0 finalPhi=360 \
 	z=$TDHbasez-$TDHubLength*cos($TDHubAngle_r),$TDHbasez-($TDHubLength-$TDHubThick)*cos($TDHubAngle_r),$TDHbasez,$TDHbasez+$TDHubThick/sin($TDHubAngle_r) \
-	outerRadius=$Tradius+$TDHubLength*sin($TDHubAngle_r),$Tradius+($TDHubLength+$TDHubThick)*sin($TDHubAngle_r),$Tradius+$TDHubThick/cos($TDHubAngle_r),$Tradius \
-	innerRadius=$Tradius+$TDHubLength*sin($TDHubAngle_r),$Tradius+$TDHubLength*sin($TDHubAngle_r)-$TDHubThick*cos($TDHubAngle_r),$Tradius,$Tradius
+	outerRadius=$Tradius+$TDHubLength*sin($TDHubAngle_r),$Tradius+($TDHubLength+$TDHubThick)*sin($TDHubAngle_r),$Tradius+$TDHubThick/cos($TDHubAngle_r),$Tradius+0.001 \
+	innerRadius=$Tradius+$TDHubLength*sin($TDHubAngle_r),$Tradius+$TDHubLength*sin($TDHubAngle_r)-$TDHubThick*cos($TDHubAngle_r),$Tradius+0.001,$Tradius+0.001
 
 
-    if $EnableTargetSupportRods==1
+    if $EnableTargetSupportBalls==1
 
         param zoff=$TUHbasez+$THubAttach*cos($TUHubAngle_r)+$THubBallRadius*sin($TUHubAngle_r)
         param yoff=$Tradius+$TUHubThick+$THubAttach*sin($TUHubAngle_r)-$THubBallRadius*cos($TUHubAngle_r)
@@ -212,15 +214,18 @@ if $EnableTargetSupportHubs==1
         boolean op=union uTargetHub_1 uTargetHub TargetHubBall \
             x=-sin($THubUAttachAngle)*$yoff \
             y=cos($THubUAttachAngle)*$yoff \
-            z=$zoff
+            z=$zoff  \
+            material=$Tmaterial color=$Tungsten
         boolean op=union uTargetHub_2 uTargetHub_1 TargetHubBall \
             x=-sin($THubUAttachAngle+$THubAttachAngleInc)*$yoff \
             y=cos($THubUAttachAngle+$THubAttachAngleInc)*$yoff \
-            z=$zoff
+            z=$zoff \
+            material=$Tmaterial color=$Tungsten
         boolean op=union UpstreamTargetHub uTargetHub_2 TargetHubBall \
             x=-sin($THubUAttachAngle+2*$THubAttachAngleInc)*$yoff \
             y=cos($THubUAttachAngle+2*$THubAttachAngleInc)*$yoff \
-            z=$zoff
+            z=$zoff \
+            material=$Tmaterial color=$Tungsten
 
         place UpstreamTargetHub \
             x=$TargetXoffset y=$TargetYoffset \
@@ -233,15 +238,18 @@ if $EnableTargetSupportHubs==1
         boolean op=union dTargetHub_1 dTargetHub TargetHubBall \
             x=-sin($THubDAttachAngle)*$yoff \
             y=cos($THubDAttachAngle)*$yoff \
-            z=$zoff
+            z=$zoff \
+            material=$Tmaterial color=$Tungsten
         boolean op=union dTargetHub_2 dTargetHub_1 TargetHubBall \
             x=-sin($THubDAttachAngle+$THubAttachAngleInc)*$yoff \
             y=cos($THubDAttachAngle+$THubAttachAngleInc)*$yoff \
-            z=$zoff
+            z=$zoff \
+            material=$Tmaterial color=$Tungsten
         boolean op=union DownstreamTargetHub dTargetHub_2 TargetHubBall \
             x=-sin($THubDAttachAngle+2*$THubAttachAngleInc)*$yoff \
             y=cos($THubDAttachAngle+2*$THubAttachAngleInc)*$yoff \
-            z=$zoff
+            z=$zoff \
+            material=$Tmaterial color=$Tungsten
 
         place DownstreamTargetHub \
             x=$TargetXoffset y=$TargetYoffset \
@@ -279,17 +287,17 @@ if $EnableTargetSupportRing==1
 	color=$TSupportRingColor
 
     boolean op=union TSupportRing_1 TSupportRing TLockingHub x=0 \
-    	y=$TSupportRin z=0 color=$TSupportRingColor
+    	y=$TSupportRin z=0 color=$TSupportRingColor material=$TSupportMat
 
     boolean op=union TSupportRing_2 TSupportRing_1 TLockingHub \
         x=cos(-30*degree)*$TSupportRin \
         y=sin(-30*degree)*$TSupportRin \
-	z=0 color=$TSupportRingColor
+	z=0 color=$TSupportRingColor material=$TSupportMat
 
     boolean op=union TSupportRing_final TSupportRing_2 TLockingHub \
         x=cos(-150*degree)*$TSupportRin \
         y=sin(-150*degree)*$TSupportRin \
-	z=0 color=$TSupportRingColor
+	z=0 color=$TSupportRingColor material=$TSupportMat
 
     if $EnableTargetSupportRingLatches==1
         place TSupportRing_final z=$Tposition
@@ -428,8 +436,9 @@ if $EnableHRSLinerSupport==1
 	material=$HRSLinerSupportMat \
 	color=$HRSLinerSupportColor 
 
+    # I shouldn't need this 0.001 offset .... but I get a collision otherwise
     place HRSLinerSupportRing_final \
-    	z=$Tposition+$TSupportRingLength/2+$HRSLinerSupportLength/2
+    	z=$Tposition+$TSupportRingLength/2+$HRSLinerSupportLength/2+0.001
 
 endif
 
