@@ -1,0 +1,370 @@
+
+### This is a generated file; do not edit!
+###Regenerate with Geometry/python_dev/hayman_generator.py
+
+# This file defines a representation of the Hayman style radiation
+# cooled pion production target with four fins.
+#
+# The center point of the target is nominally located at
+# (x, y, z) = (0.0, 0.0, 1764.5) (mm)
+# The longitudinal axis of the target is rotated with respect to 
+# the +y axis by 14 degrees
+#
+# This rotation is chosen to match the trajectory of the primary 
+# proton beam through the axially graded PS field. 
+#
+# This target model allows for arbitrary rotations of the target
+# around its center, followed by arbitrary translations away from its
+# nominal position.
+#
+# - I always do the Y rotation, then the X rotation, then finally the
+# Z rotation, before applying the offsets
+#
+# - The target rotations don't move the support ring or the outer
+# ends of the support spokes.
+#
+# - The offsets also don't move the support ring (it's
+# attached to the inside of the HRS), but do move the hub ends of the
+# spokes.
+# 
+# - I assume the baseline HRS model (HRS-C) from the TDR; unfortunately,
+# the current HRS-C implementation is entirely hardcoded rather than being
+# parameterized, making it difficult to programatically extract the 
+
+
+
+param -unset EnableTarget=1
+param -unset EnableSpokes=1
+param -unset EnableBicycleWheel=1
+
+
+material WL10 density=18.75 W,0.99 La,0.0085 O,0.0015
+param TXangle=0
+param TYangle=14.0
+param TZangle=0
+param Tlength=220.0
+tubs core_long outerRadius=3.150000 length=5.000000 material=WL10 color=$Tungsten
+tubs core_short outerRadius=3.150000 length=2.500000 material=WL10 color=$Tungsten
+tubs end_ring innerRadius=15.000000 outerRadius=17.000000 length=8.000000 material=WL10 color=$Tungsten
+box fin_long length=5.000000 height=11.849000 width=1. material=WL10 color=$Tungsten
+box fin_long_clipped length=5.000000 height=11.832329 width=1. material=WL10 color=$Tungsten
+box fin_short length=2.500000 height=11.849000 width=1. material=WL10 color=$Tungsten
+box fin_top length=216.000000 height=4.760000 width=1. material=WL10 color=$Tungsten
+
+group pTarget material=Vacuum radius=19.76 length=232.0
+	place core_long rename=+_core_0 z=107.500000
+	place core_short rename=+_core_1 z=101.750000
+	place core_short rename=+_core_2 z=97.250000
+	place core_short rename=+_core_3 z=92.750000
+	place core_short rename=+_core_4 z=88.250000
+	place core_short rename=+_core_5 z=83.750000
+	place core_short rename=+_core_6 z=79.250000
+	place core_short rename=+_core_7 z=74.750000
+	place core_short rename=+_core_8 z=70.250000
+	place core_short rename=+_core_9 z=65.750000
+	place core_short rename=+_core_10 z=61.250000
+	place core_short rename=+_core_11 z=56.750000
+	place core_short rename=+_core_12 z=52.250000
+	place core_long rename=+_core_13 z=46.500000
+	place core_long rename=+_core_14 z=39.500000
+	place core_long rename=+_core_15 z=32.500000
+	place core_long rename=+_core_16 z=25.500000
+	place core_long rename=+_core_17 z=18.500000
+	place core_long rename=+_core_18 z=11.500000
+	place core_long rename=+_core_19 z=4.500000
+	place core_long rename=+_core_20 z=-2.500000
+	place core_long rename=+_core_21 z=-9.500000
+	place core_long rename=+_core_22 z=-16.500000
+	place core_long rename=+_core_23 z=-23.500000
+	place core_long rename=+_core_24 z=-29.500000
+	place core_long rename=+_core_25 z=-35.500000
+	place core_long rename=+_core_26 z=-41.500000
+	place core_long rename=+_core_27 z=-47.500000
+	place core_long rename=+_core_28 z=-53.500000
+	place core_long rename=+_core_29 z=-59.500000
+	place core_long rename=+_core_30 z=-65.500000
+	place core_long rename=+_core_31 z=-71.500000
+	place core_long rename=+_core_32 z=-77.500000
+	place core_long rename=+_core_33 z=-83.500000
+	place core_long rename=+_core_34 z=-89.500000
+	place core_long rename=+_core_35 z=-95.500000
+	place core_long rename=+_core_36 z=-101.500000
+	place core_long rename=+_core_37 z=-107.500000
+	place end_ring rename=+_upstream z=112.000000
+	place end_ring rename=+_downstream z=-112.000000
+	place fin_long_clipped rename=+_fin_0_0 z=107.500000 x=0.000000 y=9.066164 rotation=Z0
+	place fin_long_clipped rename=+_fin_0_1 z=107.500000 x=9.066164 y=0.000000 rotation=Z90
+	place fin_long_clipped rename=+_fin_0_2 z=107.500000 x=0.000000 y=-9.066164 rotation=Z180
+	place fin_long_clipped rename=+_fin_0_3 z=107.500000 x=-9.066164 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_1_0 z=101.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_1_1 z=101.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_1_2 z=101.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_1_3 z=101.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_2_0 z=97.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_2_1 z=97.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_2_2 z=97.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_2_3 z=97.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_3_0 z=92.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_3_1 z=92.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_3_2 z=92.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_3_3 z=92.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_4_0 z=88.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_4_1 z=88.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_4_2 z=88.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_4_3 z=88.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_5_0 z=83.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_5_1 z=83.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_5_2 z=83.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_5_3 z=83.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_6_0 z=79.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_6_1 z=79.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_6_2 z=79.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_6_3 z=79.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_7_0 z=74.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_7_1 z=74.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_7_2 z=74.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_7_3 z=74.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_8_0 z=70.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_8_1 z=70.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_8_2 z=70.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_8_3 z=70.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_9_0 z=65.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_9_1 z=65.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_9_2 z=65.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_9_3 z=65.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_10_0 z=61.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_10_1 z=61.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_10_2 z=61.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_10_3 z=61.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_11_0 z=56.750000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_11_1 z=56.750000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_11_2 z=56.750000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_11_3 z=56.750000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_short rename=+_fin_12_0 z=52.250000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_short rename=+_fin_12_1 z=52.250000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_short rename=+_fin_12_2 z=52.250000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_short rename=+_fin_12_3 z=52.250000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_13_0 z=46.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_13_1 z=46.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_13_2 z=46.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_13_3 z=46.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_14_0 z=39.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_14_1 z=39.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_14_2 z=39.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_14_3 z=39.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_15_0 z=32.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_15_1 z=32.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_15_2 z=32.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_15_3 z=32.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_16_0 z=25.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_16_1 z=25.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_16_2 z=25.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_16_3 z=25.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_17_0 z=18.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_17_1 z=18.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_17_2 z=18.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_17_3 z=18.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_18_0 z=11.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_18_1 z=11.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_18_2 z=11.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_18_3 z=11.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_19_0 z=4.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_19_1 z=4.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_19_2 z=4.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_19_3 z=4.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_20_0 z=-2.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_20_1 z=-2.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_20_2 z=-2.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_20_3 z=-2.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_21_0 z=-9.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_21_1 z=-9.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_21_2 z=-9.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_21_3 z=-9.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_22_0 z=-16.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_22_1 z=-16.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_22_2 z=-16.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_22_3 z=-16.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_23_0 z=-23.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_23_1 z=-23.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_23_2 z=-23.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_23_3 z=-23.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_24_0 z=-29.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_24_1 z=-29.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_24_2 z=-29.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_24_3 z=-29.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_25_0 z=-35.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_25_1 z=-35.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_25_2 z=-35.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_25_3 z=-35.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_26_0 z=-41.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_26_1 z=-41.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_26_2 z=-41.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_26_3 z=-41.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_27_0 z=-47.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_27_1 z=-47.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_27_2 z=-47.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_27_3 z=-47.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_28_0 z=-53.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_28_1 z=-53.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_28_2 z=-53.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_28_3 z=-53.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_29_0 z=-59.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_29_1 z=-59.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_29_2 z=-59.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_29_3 z=-59.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_30_0 z=-65.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_30_1 z=-65.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_30_2 z=-65.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_30_3 z=-65.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_31_0 z=-71.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_31_1 z=-71.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_31_2 z=-71.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_31_3 z=-71.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_32_0 z=-77.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_32_1 z=-77.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_32_2 z=-77.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_32_3 z=-77.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_33_0 z=-83.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_33_1 z=-83.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_33_2 z=-83.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_33_3 z=-83.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_34_0 z=-89.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_34_1 z=-89.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_34_2 z=-89.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_34_3 z=-89.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_35_0 z=-95.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_35_1 z=-95.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_35_2 z=-95.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_35_3 z=-95.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long rename=+_fin_36_0 z=-101.500000 x=0.000000 y=9.074500 rotation=Z0
+	place fin_long rename=+_fin_36_1 z=-101.500000 x=9.074500 y=0.000000 rotation=Z90
+	place fin_long rename=+_fin_36_2 z=-101.500000 x=0.000000 y=-9.074500 rotation=Z180
+	place fin_long rename=+_fin_36_3 z=-101.500000 x=-9.074500 y=0.000000 rotation=Z270
+	place fin_long_clipped rename=+_fin_37_0 z=-107.500000 x=0.000000 y=9.066164 rotation=Z0
+	place fin_long_clipped rename=+_fin_37_1 z=-107.500000 x=9.066164 y=0.000000 rotation=Z90
+	place fin_long_clipped rename=+_fin_37_2 z=-107.500000 x=0.000000 y=-9.066164 rotation=Z180
+	place fin_long_clipped rename=+_fin_37_3 z=-107.500000 x=-9.066164 y=0.000000 rotation=Z270
+	place fin_top rename=+_fintop_0 z=0 x=0.000000 y=17.380000 rotation=Z0
+	place fin_top rename=+_fintop_1 z=0 x=17.380000 y=0.000000 rotation=Z90
+	place fin_top rename=+_fintop_2 z=0 x=0.000000 y=-17.380000 rotation=Z180
+	place fin_top rename=+_fintop_3 z=0 x=-17.380000 y=0.000000 rotation=Z270
+
+endgroup
+
+
+tubs TSupportRingWedge_top innerRadius=177.8 \
+   outerRadius=196.85 length=19.05 \
+   initialPhi=30+0.001 finalPhi=150-0.001 \
+   material=Al color=$Green
+
+tubs TSupportRingWedge_left innerRadius=177.8 \
+   outerRadius=196.85 length=19.05 \
+   initialPhi=150+0.001 finalPhi=270-0.001 \
+   material=Al color=$Green
+
+tubs TSupportRingWedge_right innerRadius=177.8 \
+   outerRadius=196.85 length=19.05 \
+   initialPhi=-90+0.001 finalPhi=30-0.001 \
+   material=Al color=$Green
+
+tubs TSupportBump innerRadius=158.75 \
+   outerRadius=196.85 length=19.05 \
+   initialPhi=-12.5 finalPhi=12.5 \
+   material=Al color=$Green
+
+tubs TSupportSpokeRod innerRadius=0 outerRadius=9.0 \
+   length=140.0 \
+   material=Stainless304 color=$SkyBlue
+
+tubs TSupportSpokeRodDummy innerRadius=0 outerRadius=9.001 \
+   length=140.0 \
+   material=Stainless304 color=$SkyBlue
+
+boolean op=union TSupportRingWedge_topa TSupportRingWedge_top TSupportBump z=0 \
+   x=0 y=0 rotation=Z277.5 \
+   material=Al color=$Green
+boolean op=subtraction TSupportRing_topfinal TSupportRingWedge_topa TSupportSpokeRodDummy \
+   x=44.65109417217387 y=171.74161191419637 z=-11.132768134710895 \
+   rotation=Y-14.0 \
+   material=Al color=$Green
+
+boolean op=union TSupportRingWedge_lefta TSupportRingWedge_left TSupportBump z=0 \
+   x=0 y=0 rotation=Z157.49 \
+   material=Al color=$Green
+boolean op=subtraction TSupportRing_leftfinal TSupportRingWedge_lefta TSupportSpokeRodDummy \
+   x=-166.64015206409547 y=-46.01802621922821 z=41.54805630762486 \
+   rotation=Y-14.0 \
+   material=Al color=$Green
+
+boolean op=union TSupportRingWedge_righta TSupportRingWedge_right TSupportBump z=0 \
+   x=0 y=0 rotation=Z37.5 \
+   material=Al color=$Green
+boolean op=subtraction TSupportRing_rightfinal TSupportRingWedge_righta TSupportSpokeRodDummy \
+   x=121.98905789192162 y=-125.72358569496815 z=-30.415288172913968 \
+   rotation=Y-14.0 \
+   material=Al color=$Green
+
+
+box TSupportEar length=25.4 width=6.35 \
+    height=76.2 \
+    material=Al color=$Green
+tubs TSupportLatch innerRadius=0 outerRadius=12.5 \
+    length=41.999 material=Al \
+    color=$Green
+
+tubs rod0up innerRadius=0 outerRadius=1.0 length=152.84483071772206 material=WL10 color=$Tungsten
+tubs rod0down innerRadius=0 outerRadius=1.0 length=152.84483071772206 material=WL10 color=$Tungsten
+tubs rod1up innerRadius=0 outerRadius=1.0 length=152.84483071772206 material=WL10 color=$Tungsten
+tubs rod1down innerRadius=0 outerRadius=1.0 length=152.84483071772206 material=WL10 color=$Tungsten
+tubs rod2up innerRadius=0 outerRadius=1.0 length=152.84483071772206 material=WL10 color=$Tungsten
+tubs rod2down innerRadius=0 outerRadius=1.0 length=152.8448307177221 material=WL10 color=$Tungsten
+
+group pTarget_group material=Vacuum radius=199.999 length=254.0
+
+	place pTarget x=0.0 y=0.0 z=0.0 rotation=Z-30.0,Y14.0,X0.0,Z0.0
+
+      place TSupportRing_topfinal z=0
+      place TSupportRing_leftfinal z=0
+      place TSupportRing_rightfinal z=0
+      place TSupportSpokeRod rename=TSupportSpokeRod_top \
+      x=44.65109417217387 y=171.74161191419637 z=-11.132768134710895 \
+      rotation=Y14.0 \
+      material=Stainless304 color=$SkyBlue
+      place TSupportSpokeRod rename=TSupportSpokeRod_left \
+      x=-166.64015206409547 y=-46.01802621922821 z=41.54805630762486 \
+      rotation=Y14.0 \
+      material=Stainless304 color=$SkyBlue
+      place TSupportSpokeRod rename=TSupportSpokeRod_right \
+      x=121.98905789192162 y=-125.72358569496815 z=-30.415288172913968 \
+      rotation=Y14.0 \
+      material=Stainless304 color=$SkyBlue
+      place TSupportLatch rename=TSupportLatch_top \
+         x=0 y=177.8 z=-30.525500000000005
+      place TSupportLatch rename=TSupportLatch_right \
+         x=cos(-30*degree)*177.8 \
+         y=sin(-30*degree)*177.8 \
+         z=-30.525500000000005
+      place TSupportLatch rename=TSupportLatch_left \
+         x=cos(-150*degree)*177.8 \
+         y=sin(-150*degree)*177.8 \
+         z=-30.525500000000005
+      place TSupportEar rename=+_Right \
+         z=-22.226000000000003 \
+         x=180.97500000000002 \
+         y=25.
+       place TSupportEar rename=+_Left \
+         z=-22.226000000000003 \
+         x=-180.97500000000002 \
+         y=25.
+
+
+place rod0up x=45.69152443743563 y=91.06748690253337 z=82.39366373599451 rotation=X68.39045567782134,Y-28.5655436029781
+place rod0down x=1.6617394382961095 y=91.06748690253337 z=-94.20015844623684 rotation=X-68.39045567782134,Y56.5655436029781
+place rod1up x=-66.34750084465365 y=-24.40145957226567 z=110.32813015007446 rotation=X-14.425232872266747,Y87.73568573163764
+place rod1down x=-110.37728584379316 y=-24.40145957226567 z=-66.26569203215689 rotation=X14.425232872266747,Y-59.73568573163766
+place rod2up x=86.70065390592731 y=-66.6660273302677 z=72.16893938727806 rotation=X-42.890447416695146,Y-54.271215500277854
+place rod2down x=42.670868906787774 y=-66.6660273302677 z=-104.4248827949533 rotation=X42.89044741669513,Y82.27121550027789
+
+endgroup
+place pTarget_group x=0 y=0 z=$Tposition
+

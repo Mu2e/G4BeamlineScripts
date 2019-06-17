@@ -557,6 +557,9 @@ include ./Geometry/DS_Muon_Beam_Dump.txt
 # 5 -"Bicycle wheel" model of Tungsten Target
 # 6 -"Bicycle wheel" model of the Tungsten Target, including supports, hubs
 #     and mounting ring
+# 7 - The Tier 1 milestone design
+# 8 - Hayman1 Design
+# 9 - Hayman2 Design
 
 param -unset Use_Proton_Target=5
 
@@ -575,6 +578,14 @@ elseif $Use_Proton_Target==6
 elseif $Use_Proton_Target==7
     include ./Geometry/Proton_Target_RAL_15066.txt
     # This defaults to the Tier 1 milestone target
+
+elseif $Use_Proton_Target==8
+    # Hayman 1
+    include ./Geometry/Proton_Target_Hayman1.txt
+
+elseif $Use_Proton_Target==9
+    # Hayman 2
+    include ./Geometry/Proton_Target_Hayman2.txt
 
 else
     include ./Geometry/Proton_Target.txt
