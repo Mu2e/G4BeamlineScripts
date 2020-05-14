@@ -1,0 +1,461 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ***********************
+#   Transport Solenoid 
+#   Collimators
+# ***********************
+# Geometry take from
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+#
+##********************
+## New PBAR WINDOW/Absorber upstream of Coll_01
+## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+## DH 6/2017 modify pbar upstream and in Coll_3 to correspond to Offline 
+##*********************
+
+#param Coll_pbarU_Rout=230.0
+#param Coll_pbarU_length=350.e-3   KAPTON
+#param Coll_pbarU_Rin=0.0
+#param Coll_pbarU_x=0.0
+#param Coll_pbarU_z=3883.0
+param Coll_pbarU_Rout=158.75
+param Coll_pbarU_length=.25
+param Coll_pbarU_Rin=0.0
+param Coll_pbarU_x=0.0
+param Coll_pbarU_z=-4144.02+$MECO_G4_zTrans
+
+tubs Coll_pbarU \
+     outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
+     length=$Coll_pbarU_length \
+     maxStep=50.e-3\
+     initialPhi=0.0 finalPhi=360.0 \
+     material=Al \
+     color=$Yellow \
+     kill=0
+
+place Coll_pbarU \
+      x=$Coll_pbarU_x \
+      z=$Coll_pbarU_z \
+      rename=Coll_pbarU_a
+#add in SS rings
+tubs Coll_pbarU_SS innerRadius=158.75 outerRadius=174.625 length=6.35 \
+material=Stainless304 initialPhi=0. finalPhi=360. color=$Blue kill=0
+
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z-3.3 rename=Coll_pbarU_SSa
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+3.3 rename=Coll_pbarU_SSb
+place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+9.65 rename=Coll_pbarU_SSc
+#      
+#
+# Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 Coll_01_a,b_in
+#
+# Add pbar additional inner material carbon 200mm long, 6/14/2014 Coll_01_a,b_pbar
+#z=-3254mm to z=-3054  R=150 mm r=120 mm phi=200-340 degrees
+# Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+
+
+param Coll_01_Rout=240.0
+param Coll_01_Rin_1=150.0
+param Coll_01_Rin_2=160.0
+param Coll_01_length=1000.0
+param Coll_01_x=0.0
+param Coll_01_z=4385.0-$Coll_01_length/2.0
+param -unset TS_Collimator_Color=$Copper
+
+tube Coll_01_a_pbar \
+    innerRadius=120. \
+    outerRadius=$Coll_01_Rin_1 \
+    length=200. \
+    initialPhi=210. finalPhi=330.0 \
+    material=TS_Graphite \
+    color=$Red \
+    kill=$TS_Collimator_kill
+
+tube Coll_01_a_in \
+    innerRadius=$Coll_01_Rin_1 \
+    outerRadius=$Coll_01_Rin_2 \
+    length=$Coll_01_length \
+    initialPhi=90.0 finalPhi=270.0 \
+    material=TS_Graphite \
+    color=$TS_Collimator_Color_layer \
+    kill=$TS_Collimator_kill
+
+tube Coll_01_a_out \
+    innerRadius=$Coll_01_Rin_2 \
+    outerRadius=$Coll_01_Rout \
+    length=$Coll_01_length \
+    initialPhi=90.0 finalPhi=270.0 \
+    material=Fake_Cu \
+    color=$TS_Collimator_Color \
+    kill=$TS_Collimator_kill
+    
+place Coll_01_a_pbar \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0+400.    
+        
+place Coll_01_a_in \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
+
+place Coll_01_a_out \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
+      
+tube Coll_01_b_pbar \
+    innerRadius=120. \
+    outerRadius=$Coll_01_Rin_1 \
+    length=200. \
+    initialPhi=200. finalPhi=340.0 \
+    material=Vacuum \
+    color=$Red \
+    kill=$TS_Collimator_kill      
+
+tube Coll_01_b_in \
+    innerRadius=$Coll_01_Rin_1 \
+    outerRadius=$Coll_01_Rin_2 \
+    length=$Coll_01_length \
+    initialPhi=-90.0 finalPhi=90.0 \
+    material=TS_Graphite \
+    color=invisible \
+    kill=$TS_Collimator_kill
+
+tube Coll_01_b_out \
+    innerRadius=$Coll_01_Rin_2 \
+    outerRadius=$Coll_01_Rout \
+    length=$Coll_01_length \
+    initialPhi=-90.0 finalPhi=90.0 \
+    material=Fake_Cu \
+    color=invisible\
+    kill=$TS_Collimator_kill
+    
+#place Coll_01_b_pbar x=$Coll_01_x z=$Coll_01_z+$Coll_01_length/2.0+400.      
+
+place Coll_01_b_in \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
+
+place Coll_01_b_out \
+      x=$Coll_01_x \
+      z=$Coll_01_z+$Coll_01_length/2.0
+      
+
+##********************
+## Old PBAR WINDOW/Absorber 
+## This Code is for the pbar window used in the May 2012 CDR 
+##*********************
+
+#param Coll_pbar_Rout=230.0
+#param Coll_pbar_length=672.e-3
+#param Coll_pbar_Rin=0.0
+#param Coll_pbar_x=$MECO_G4_xTrans
+#param Coll_pbar_z=$MECO_G4_zTrans
+
+#tubs Coll_pbar \
+#     outerRadius=$Coll_pbar_Rout innerRadius=$Coll_pbar_Rin \
+#     length=$Coll_pbar_length \
+#     maxStep=50.e-3\
+#     initialPhi=0.0 finalPhi=360.0 \
+#     material=KAPTON \
+#     color=$Yellow \
+#     kill=0
+
+#place Coll_pbar \
+#      x=$Coll_pbar_x \
+#      z=$Coll_pbar_z \
+#      rotation=Y90 \
+#      rename=Coll_pbar_a
+      
+##********************
+## TDR May 2014 PBAR WINDOW/Absorber 
+## This Code is for the pbar windows & additional TS1 collimator material
+## Designed by Zhengyun You and Bill Molzon, see doc db #4139 
+##*********************
+## DH 6/17 modify so same as Offline
+## TS3 pbar window = disk plus wedge
+
+param Coll_pbar_Rout=230.0
+#param Coll_pbar_length=200.e-3   KAPTON
+param Coll_pbar_length=.164
+param Coll_pbar_Rin=0.0
+param Coll_pbar_x=$MECO_G4_xTrans
+param Coll_pbar_z=$MECO_G4_zTrans
+
+tubs Coll_pbar \
+     outerRadius=$Coll_pbar_Rout innerRadius=$Coll_pbar_Rin \
+     length=$Coll_pbar_length \
+     maxStep=50.e-3\
+     initialPhi=0.0 finalPhi=360.0 \
+     material=Be \
+     color=$Yellow \
+     kill=0
+
+place Coll_pbar \
+      x=$Coll_pbar_x \
+      z=$Coll_pbar_z \
+      rotation=Y90 \
+      rename=Coll_pbar_a
+
+## TS3 window followed by a trapezoid immediately downstream
+## with 1.1 mm top thickness, to 0.001 mm bottom thickness 
+## located in ~top half of collimator aperture
+
+param Wedge_pbar_height=190.0
+#param Wedge_pbar_upperWidth=1.1   old KAPTON
+param Wedge_pbar_upperWidth=.724
+#param Wedge_pbar_upperWidth=.001
+param Wedge_pbar_lowerWidth=0.001
+#param Wedge_pbar_lowerWidth=0.0001
+param Wedge_pbar_length=350.
+param Wedge_pbar_Rin=0.0
+param Wedge_pbar_x=$MECO_G4_xTrans-1
+param Wedge_pbar_y=95.0
+param Wedge_pbar_z=$MECO_G4_zTrans
+
+#     material=KAPTON \
+#     material=Be \
+
+
+trap Wedge_pbar \
+     height=$Wedge_pbar_height \
+     upperWidth=$Wedge_pbar_upperWidth \
+     lowerWidth=$Wedge_pbar_lowerWidth \
+     Xul=-175. \
+     Xur=175. \
+     Xll=-175. \
+     Xlr=175. \
+     length=$Wedge_pbar_length \
+     maxStep=50.e-3\
+     material=Be \
+     color=$Red \
+     kill=0
+
+place Wedge_pbar \
+      x=$Wedge_pbar_x \
+      y=$Wedge_pbar_y \
+      z=$Wedge_pbar_z
+      
+##********************
+## COLL_03 
+## Collimators in Central TSu Straight Section (COL3u)
+## The cross-section of this collimator is shown in Figure 3.1 
+## of MECO-MUB-03-002
+
+param Coll_03_length=800.0
+param Coll_03_up_x=425+$MECO_G4_xTrans
+param Coll_03_up_z=$MECO_G4_zTrans
+param Coll_03_down_x=-425+$MECO_G4_xTrans
+param Coll_03_down_z=$MECO_G4_zTrans
+
+extrusion Coll_03_right \
+          length=$Coll_03_length \
+          vertices=0.00,240.000;25.09,238.685;49.90,234.755;74.16,228.254;97.62,219.251;120.00,207.846;141.07,194.164;160.59,178.355;178.35,160.591;194.16,141.068;207.85,120.000;219.25,97.617;228.25,74.164;234.76,49.899;238.69,25.087;240.00,0.000;238.69,-25.087;234.76,-49.899;228.25,-74.164;219.25,-97.617;207.85,-120.000;194.16,-141.068;178.35,-160.591;160.59,-178.355;141.07,-194.164;120.00,-207.846;97.62,-219.251;74.16,-228.254;49.90,-234.755;25.09,-238.685;0.00,-240.000;0.00,-190.000;111.80,-190.000;118.80,-181.583;125.16,-172.678;130.85,-163.333;135.85,-153.597;140.13,-143.523;143.66,-133.165;146.42,-122.576;148.41,-111.814;149.60,-100.936;150.00,-90.000;149.60,-79.064;148.41,-68.186;146.42,-57.424;143.66,-46.835;140.13,-36.477;135.85,-26.403;130.85,-16.667;125.16,-7.322;118.80,1.583;111.80,10.000;0.00,10.000; \
+          material=Fake_Cu  \
+	  color=$TS_Collimator_Color \
+	  kill=$TS_Collimator_kill
+
+place Coll_03_right \
+      x=$Coll_03_up_x \
+      z=$Coll_03_up_z \
+      rotation=Y90,X180 \
+      rename=Coll_03_right_up
+      
+place Coll_03_right \
+      x=$Coll_03_up_x \
+      z=$Coll_03_up_z \
+      rotation=Y-90,X180 \
+      rename=Coll_03_left_up
+
+place Coll_03_right \
+      x=$Coll_03_down_x \
+      z=$Coll_03_down_z \
+      rotation=Y90,X180 \
+      rename=Coll_03_right_down
+      
+place Coll_03_right \
+      x=$Coll_03_down_x \
+      z=$Coll_03_down_z \
+      rotation=Y-90,X180 \
+      rename=Coll_03_left_down
+
+##********************
+## COLL_05 
+## Collimator in the Last (Lowest Field) TSd Straight Section (COL5)
+## This consists of a cylindrical shell that is coaxial with Detector Solenoid.
+
+param Coll_05_Rout=240.0
+param Coll_05_length=1000.0
+param Coll_05_Rin=128.0
+param Coll_05_x=-3904+$MECO_G4_xTrans
+param Coll_05_z=3430+$MECO_G4_zTrans
+
+tubs Coll_05_a \
+     outerRadius=$Coll_05_Rout innerRadius=$Coll_05_Rin \
+     length=$Coll_05_length  \
+     initialPhi=90.0 finalPhi=270.0 \
+     material=POLYETHYLENE \
+     color=$TS_Collimator_Color \
+     kill=$TS_Collimator_kill
+     
+place Coll_05_a \
+      x=$Coll_05_x \
+      z=$Coll_05_z
+      
+tubs Coll_05_b \
+     outerRadius=$Coll_05_Rout innerRadius=$Coll_05_Rin \
+     length=$Coll_05_length  \
+     initialPhi=-90.0 finalPhi=90.0 \
+     material=POLYETHYLENE \
+     color=invisible \
+     kill=$TS_Collimator_kill
+     
+place Coll_05_b \
+      x=$Coll_05_x \
+      z=$Coll_05_z
+
+##********************
+## COLL_05 Thin Foils 
+## Thin Foils Within Collimator COL5 (CTA5, CTB5, CTC5, CTD5) 
+
+#param ThinColl_05_Rin=85.0
+#param ThinColl_05_Rout=128.0
+#param ThinColl_05_length=0.06
+
+#param ThinColl_05_x=-3904.0+$MECO_G4_xTrans
+#param ThinColl_05_zstart=2930+$MECO_G4_zTrans
+
+#tubs ThinColl_05a \
+#     outerRadius=$ThinColl_05_Rout innerRadius=$ThinColl_05_Rin \
+#     length=$ThinColl_05_length \
+#     initialPhi=90.0 finalPhi=270.0 \
+#     material=Cu \
+#     color=$TS_Collimator_Color \
+#     kill=0
+#tubs ThinColl_05b \
+#     outerRadius=$ThinColl_05_Rout innerRadius=$ThinColl_05_Rin \
+#     length=$ThinColl_05_length \
+#     initialPhi=-90.0 finalPhi=90.0 \
+#     material=Cu \
+#     color=$Invisible \
+#     kill=0
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=$ThinColl_05_zstart \
+#      rename=ThinColl_05_01
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=50+$ThinColl_05_zstart \
+#      rename=ThinColl_05_02
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=70+$ThinColl_05_zstart \
+#      rename=ThinColl_05_03
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=80+$ThinColl_05_zstart \
+#      rename=ThinColl_05_04
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=100+$ThinColl_05_zstart \
+#      rename=ThinColl_05_05
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=150+$ThinColl_05_zstart \
+#      rename=ThinColl_05_06
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=170+$ThinColl_05_zstart \
+#      rename=ThinColl_05_07
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=180+$ThinColl_05_zstart \
+#      rename=ThinColl_05_08
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=200+$ThinColl_05_zstart \
+#      rename=ThinColl_05_09
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=250+$ThinColl_05_zstart \
+#      rename=ThinColl_05_10
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=270+$ThinColl_05_zstart \
+#      rename=ThinColl_05_11
+
+#place ThinColl_05a \
+#      x=$ThinColl_05_x \
+#      z=280+$ThinColl_05_zstart \
+#      rename=ThinColl_05_12
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=$ThinColl_05_zstart \
+#      rename=ThinColl_05_01
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=50+$ThinColl_05_zstart \
+#      rename=ThinColl_05_02
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=70+$ThinColl_05_zstart \
+#      rename=ThinColl_05_03
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=80+$ThinColl_05_zstart \
+#      rename=ThinColl_05_04
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=100+$ThinColl_05_zstart \
+#      rename=ThinColl_05_05
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=150+$ThinColl_05_zstart \
+#      rename=ThinColl_05_06
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=170+$ThinColl_05_zstart \
+#      rename=ThinColl_05_07
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=180+$ThinColl_05_zstart \
+#      rename=ThinColl_05_08
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=200+$ThinColl_05_zstart \
+#      rename=ThinColl_05_09
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=250+$ThinColl_05_zstart \
+#      rename=ThinColl_05_10
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=270+$ThinColl_05_zstart \
+#      rename=ThinColl_05_11
+
+#place ThinColl_05b \
+#      x=$ThinColl_05_x \
+#      z=280+$ThinColl_05_zstart \
+#      rename=ThinColl_05_12

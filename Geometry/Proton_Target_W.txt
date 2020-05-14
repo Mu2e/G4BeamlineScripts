@@ -1,0 +1,132 @@
+# $Id$ 
+# $Date$ 
+# $Author$
+
+# ****************************************************************************
+#                                 Proton Target
+# ****************************************************************************
+#
+# From:
+#   Production Target Reference Design, 
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
+#   The target is a 16 cm long 6 mm diameter cylinder of tungsten. 
+#   The center point of the target rod is 
+#    (x, y, z) = (0.0, 0.0, 1764.5) (mm)
+#   The longitudinal axis of the target is rotated with respect to 
+#    the +y axis by 14.00° 
+#
+#   This rotation is chosen to closely match the trajectory of the primary 
+#    proton beam through the axially graded PS field. 
+#
+
+##********************
+## Tungsten target parameters
+
+param Tposition=1764.5
+param Tlength=160.0 Tradius=6.299*.5
+param TYangle=14.00
+param TXangle=0.0
+param -unset Tmaterial=W
+
+# ****************************************************************************
+#                   Proton target made of tungsten 
+# ****************************************************************************
+
+tubs  pTarget \
+    outerRadius=$Tradius \
+    length=$Tlength \
+    material=$Tmaterial \
+    color=$Tungsten
+    
+place pTarget \
+    z=$Tposition \
+    rotation=X$TXangle,Y$TYangle
+
+
+if $Use_Proton_Target==5
+
+    param Hold_color=$Green
+    
+    ##********************
+    ## Support rods dimensions
+    
+    param rod_r1=0.0
+    param rod_r2=0.5
+    param rod_angle=30.0003
+    param L=0.5*$Tlength
+    param R=$Tradius
+    param t_support_mat=W
+     
+    ##********************
+    ## Target Hold Ring
+    
+    param Target_Hold_r2=200
+    param Target_Hold_r1=$Target_Hold_r2-10.0
+    param Target_Hold_l=10.0
+    param Target_Hold_mat=Ti
+
+    tubs Target_Hold innerRadius=$Target_Hold_r1 outerRadius=$Target_Hold_r2 length=$Target_Hold_l material=$Target_Hold_mat color=$Hold_color
+    place Target_Hold z=$Tposition+.5*$Target_Hold_l
+    
+    
+    ##********************
+    ## Target support rods 
+    
+    do i 0 2
+        ##********************
+        ## Target support rods (front side) 
+
+        param Bx=$L*sin($TYangle*3.14159/180)+($R+0.5)*sin(($rod_angle+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
+        param By=($R+0.5)*cos(($rod_angle+$i*120)*3.14159/180)
+        param Bz=$L*cos($TYangle*3.14159/180)-$R*sin(($rod_angle+$i*120)*3.14159/180)*sin($TYangle*3.14159/180)
+        
+        param Cx=($Target_Hold_r1-0.5)*sin(($rod_angle+$i*120)*3.14159/180)
+        param Cy=($Target_Hold_r1-0.5)*cos(($rod_angle+$i*120)*3.14159/180)
+        param Cz=0
+        
+        
+        param rod_l=sqrt(($Cx-$Bx)*($Cx-$Bx)+($Cy-$By)*($Cy-$By)+($Cz-$Bz)*($Cz-$Bz))
+        
+        param rod_l_xz=sqrt(($Cx-$Bx)*($Cx-$Bx)+($Cz-$Bz)*($Cz-$Bz))
+        
+        param angle1=(asin(($Cy-$By)/$rod_l))*180/3.14159
+        param angle2=(asin(($Cx-$Bx)/($rod_l_xz)))*180/3.14159
+        
+        
+        param rod_x1=.5*($Bx+$Cx)
+        param rod_y1=.5*($By+$Cy)
+        param rod_z1=.5*($Bz+$Cz)
+        
+        tubs rod$i innerRadius=$rod_r1 outerRadius=$rod_r2 length=$rod_l material=$t_support_mat color=$Tungsten
+        place rod$i x=$rod_x1 y=$rod_y1 z=$rod_z1+$Tposition rotation=X$angle1,Y-$angle2
+        
+        ##********************
+        ## Target support rods (back side)
+        
+        param Dx=-$L*sin($TYangle*3.14159/180)+($R+0.5)*sin(($rod_angle+180+$i*120)*3.14159/180)*cos($TYangle*3.14159/180)
+        param Dy=($R+0.5)*cos(($rod_angle+180+$i*120)*3.14159/180)
+        param Dz=-$L*cos($TYangle*3.14159/180)-$R*sin(($rod_angle+180+$i*120)*3.14159/180)*sin($TYangle*3.14159/180)
+        
+        param Fx=($Target_Hold_r1-0.5)*sin(($rod_angle+180+$i*120)*3.14159/180)
+        param Fy=($Target_Hold_r1-0.5)*cos(($rod_angle+180+$i*120)*3.14159/180)
+        param Fz=0
+        
+        param rod_x2=.5*($Dx+$Fx)
+        param rod_y2=.5*($Dy+$Fy)
+        param rod_z2=.5*($Dz+$Fz)
+        
+        place rod$i x=$rod_x2 y=$rod_y2 z=$rod_z2+$Tposition rotation=X$angle1,Y-$angle2
+        
+    enddo
+
+endif
+
+param TXstart=0.5*($Tlength)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_xTrans
+param TYstart=-0.5*($Tlength)*sin($TXangle*3.14159/180.0)
+param TZstart=$Tposition+0.5*($Tlength)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_zTrans
+param TXend=-0.5*($Tlength)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_xTrans
+param TYend=+0.5*($Tlength)*sin($TXangle*3.14159/180.0)
+param TZend=$Tposition-0.5*($Tlength)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)-$MECO_G4_zTrans

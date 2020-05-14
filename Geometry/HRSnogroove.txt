@@ -1,0 +1,19 @@
+olycone PSshieldV1 material=$m color=$Copper \
+      initialPhi=$HRSinvisPhi+180 finalPhi=$amin \
+      innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+      outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+      z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+polycone PSshieldV2 material=$m color=$Copper \
+      initialPhi=$amax finalPhi=$HRSinvisPhi+360 \
+      innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+      outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+      z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+polycone PSshieldI material=$m color=$HRSinvisCol \
+      initialPhi=$HRSinvisPhi finalPhi=$HRSinvisPhi+180 \
+      innerRadius=$R0,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+      outerRadius=$rout,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+      z=$Z0,$Zx1,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+
+place PSshieldV1 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+place PSshieldV2 x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+place PSshieldI x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill

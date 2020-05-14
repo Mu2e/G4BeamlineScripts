@@ -1,0 +1,147 @@
+param -unset First_Event=1
+param -unset Num_Events=100
+#g4bl TestBeamStop.in First_Event=1 Num_Events=10 viewer=best
+#
+# **********************************
+# Some handy RGB color definitions
+# **********************************
+param Black="0,0,0"
+param White="1,1,1"
+param Red="1,0,0"
+param Green="0,1,0"
+param Blue="0,0,1"
+param SkyBlue="0.53,0.81,0.92"
+param Gray="0.6,0.6,0.6"
+param Yellow="1,1,0"
+param Cyan="0,1,1"
+param Magenta="1,0,1"
+param Teal="0,0.5,0.5"
+param Orange="1,0.5,0"
+param Chartreuse="0.5,1,0"
+param Purple="0.5,0,0.5"
+param Aluminum="0.66,0.67,0.71"
+param Copper="0.72,0.45,0.2"
+param Gold="1.0,0.843,0.0"
+param Brown="0.647,0.165,0.165"
+param Tungsten="1.0,0.83,0.67"
+param DarkOliveGreen="0.33,0.42,0.18"
+param PaleVioletRed="0.86,0.44,0.57"
+param SkyBlue="0.53,0.80,0.92"
+param LightBlue="0.72,0.87,0.9"
+param ForestGreen="0.13,0.54,0.13"
+param DarkKhaki="0.74,0.71,0.42"
+param SoftGreen="0.1,0.84,0.1"
+param Invisible="invisible"
+
+# *********************************
+#   Geometry parameter definitions 
+# *********************************
+
+include ./Geometry/GeometryParameters.txt
+#param Tmaterial=Vacuum
+param PSshield_material=Vacuum
+#param PSendcap_material=Vacuum
+#param TargetHall_material=Vacuum
+
+param IncludeFilter=1
+param FilterInDetector=1
+param FilterOutDetector=0
+param PBSdetector=1
+param Use_Field=1
+param Test_Geom=0
+param PSshieldKill=1
+param PScryostatKill=1
+
+# *****************
+#   Physics Setup 
+# *****************
+physics QGSP_BERT_HP
+param steppingFormat="N STEP KE GLOBAL CL VOL MAT PROCESS"
+param -unset steppingVerbose=0
+param -unset Random_Seed=EventNumber
+randomseed $Random_Seed
+
+#trackcuts kineticEnergyCut=0.01 \
+#             keep=proton,neutron,kaon+,kaon-,mu+,mu-,pi+,pi-,e+,e-,gamma
+trackcuts kineticEnergyCut=500.0 \
+	     keep=proton,kaon+,mu+,pi+,e+
+
+include ./Geometry/PS_Proton_Beam_Stop.txt
+
+include ./Geometry/TargetHall.txt
+
+include ./Geometry/PScryostat.txt
+
+param Use_Proton_Target=5
+param MECO_G4_xTrans=-(2.929+1.950/2.0)*1000
+param MECO_G4_zTrans=(5.00+2.929)*1000
+param CL1_inner_r=$PSshield_r2
+include ./Geometry/Proton_Target_W.txt
+
+if $Use_Field==1
+#  include ./Geometry/Mu2e_Mau7_Coils.txt
+  fieldmap PSMagneticField  \
+  	   file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/Mu2e_PSMap.txt
+  place PSMagneticField \
+  	x=-3904.0 \
+  	y=0 \
+  	z=7929.0
+  fieldmap PStoDumpAreaMap  \
+	  file=/grid/fermiapp/mu2e/DataFiles/BFieldMaps/Mau7b/PStoDumpAreaMap.txt
+  place PStoDumpAreaMap \
+       x=-3904.0 \
+       y=0 \
+       z=7929.0
+endif
+
+#tubs mkr color=$Red length=2000 outerRadius=5 innerRadius=0
+#place mkr x=0 y=0 z=1764.5
+#place mkr x=0 y=0 z=1764.5 rotation=y90
+#place mkr x=0 y=0 z=1764.5 rotation=x90
+
+# ****************************************************************************
+#                                Proton Beam
+# ****************************************************************************
+
+param BoosterKE=8000.0
+param ProtonMass=938.27231
+param ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
+param xBeam=0.5*($Tlength)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param yBeam=-0.5*($Tlength)*sin($TXangle*3.14159/180.0)
+param zBeam=$Tposition+0.5*($Tlength)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param BYangle=$TYangle+180.0
+param BXangle=-1.0*($TXangle)
+param BsigmaX=0.0
+param BsigmaY=0.0
+param BsigmaT=30.0
+
+# **********************************
+#   Test beam points to channel location 
+# **********************************
+param pi=acos(-1.0)
+if $Test_Geom==1
+  param ProtonMomentum=1000*$EMFilter_p
+  param a=$pBeamStop_yrot*$pi/180.0
+  param dz=2.0*$pBeamStop_conc+$pBeamStop_l/2.0
+  param xem=$pBeamStop_x+$dz*sin($a)+$EMFilter_dx*cos($a)
+  param yem=$pBeamStop_y+$EMFilter_dy
+  param zem=$pBeamStop_z+$dz*cos($a)-$EMFilter_dx*sin($a)
+  param zBeam=$Tposition
+  param rxz=($zBeam-$zem)/cos($a)
+  param xBeam=$xem+$rxz*sin($a)
+  param yBeam=$yem-$rxz*tan($EMFilter_rot)
+  param BYangle=180+$pBeamStop_yrot
+  param BXangle=-$EMFilter_rot*180.0/$pi
+ param BYangle=180+16.1
+ param BXangle=-5
+ param xBeam=0
+ param yBeam=0
+endif
+beam gaussian particle=proton nEvents=$Num_Events firstEvent=$First_Event \
+        beamX=$xBeam beamY=$yBeam beamZ=$zBeam \
+        sigmaX=$BsigmaX sigmaY=$BsigmaY \
+	sigmaXp=0.0 sigmaYp=0.0 \
+        meanMomentum=$ProtonMomentum sigmaP=0.0 \
+        meanT=0.0 \
+	sigmaT=$BsigmaT \
+        rotation=X$BXangle,Y$BYangle

@@ -1,0 +1,57 @@
+#######################################################################
+# shield for stopping target monitor region
+# Hedin May 2013   for now put at closer z and set kill=1
+# Hedin June 2016 docdb 6453 design but skip the actual STM detector 
+# itself and the small collimator in front of it
+# Aug 2016
+##########################################################################
+# cylindrical shield. starts at end of concrete wall 
+tubs ST1a innerRadius=110. outerRadius=160. length=419. material=Stainless304 \
+    initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue 
+
+tubs ST1b innerRadius=110. outerRadius=160. length=419. material=Stainless304 \
+    initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible 
+
+place ST1a x=-7808.0 z=26745.9
+place ST1b x=-7808.0 z=26745.9
+
+# shield wall Pb?
+
+#material HDPEx C,.86 H,.14 density=.96
+
+box DS_ST2 width=431.8 height=457.2 length=100. \
+     material=Pb color=$Purple
+tubs DS_ST2_hole outerRadius=102. length=100. material=AIR color=$Red
+place DS_ST2_hole parent=DS_ST2
+place DS_ST2 x=-7808. y=0. z=27005.4
+
+# bend field rotate so W/H switched
+genericbend DS_ST3 fieldWidth=356 fieldHeight=190. fieldLength=1000. \
+ironWidth=457.2 ironHeight=431.8 ironLength=1000. By=0.05 fieldMaterial=AIR \
+fieldColor=$Red ironMaterial=Fe ironColor=$Purple
+place DS_ST3 x=-7808. y=0. z=27555.4 rotation=Z270
+
+#field-of-view collimator
+box DS_ST4 width=411.8 height=437.2 length=450. material=Pb color=$Purple
+box DS_ST4_hole1 width=200. height=200. length=150. material=AIR color=$Red 
+box DS_ST4_hole2 width=200. height=200. length=150. material=POLYETHYLENE color=$Yellow 
+tubs DS_ST4_hole2a outerRadius=71. length=130. material=Air color=$Red
+tubs DS_ST4_hole3 outerRadius=71. length=150. material=AIR color=$Red 
+
+place DS_ST4_hole1 parent=DS_ST4 z=-150.
+place DS_ST4_hole2a parent=DS_ST4_hole2 z=-10.
+place DS_ST4_hole2 parent=DS_ST4 
+place DS_ST4_hole3 parent=DS_ST4 z=150.
+
+place DS_ST4 x=-7808. y=0. z=28280.4 rotation=Z90
+
+
+#box DS_STMA width=1600. height=1600. length=2000. material=POLYETHYLENE color=$Yellow kill=1
+#box DS_STMB width=2000. height=2000. length=2000. material=CONCRETE color=$SkyBlue kill=1
+#tubs DS_STM_hole outerRadius=600. length=2000. material=AIR color=$Red kill=1 
+#place DS_STMA parent=DS_STMB
+#place DS_STMB x=-7808. y=0. z=31500.
+#place DS_STMB x=-7808. y=0. z=43000.
+

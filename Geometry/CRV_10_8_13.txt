@@ -1,0 +1,461 @@
+# $Id$
+# $Date$
+# $Author$
+# implemented by: Vladimir Khalatyan
+#
+# Geometry for the new CRV desigh 
+# New changes: 
+#  - 4 layers of CRV counters
+#  - TS left has been removed
+#  - TS right and DS upstream are one counter now
+#  - TS top and upstream part of DS Top counters are one counter now
+
+# Basic parameters:
+param CRV_thickness=20
+param CRV_color=$SkyBlue
+param CRV_material=POLYSTYRENE
+
+# Basic parameters for the Al layers between CRV counters:
+param CRV_Al_thickness1=1.29
+param CRV_Al_thickness2=9.525
+param CRV_Al_thickness3=12.7
+param CRV_Al_thickness=6.4
+param CRV_St_thickness=5.0
+param CRV_Al_color=$Gray
+param CRV_Al_material=Al
+param CRV_St_material=Stainless316
+
+
+# DS upstream (TS right) CRV counters
+virtualdetector CRV_DS_upstream \
+    height=3*819 \
+    width=6600 \
+    length=$CRV_thickness \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-0.5*$CRV_thickness \
+    rename=CRV_DS_Upstream_1
+
+place CRV_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-1.5*$CRV_thickness-$CRV_Al_thickness2 \
+    rename=CRV_DS_Upstream_2
+
+place CRV_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-2.5*$CRV_thickness-$CRV_Al_thickness2-$CRV_Al_thickness3 \
+    rename=CRV_DS_Upstream_3
+
+place CRV_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-3.5*$CRV_thickness-2*$CRV_Al_thickness2-$CRV_Al_thickness3 \
+    rename=CRV_DS_Upstream_4
+
+# DS right CRV counters
+virtualdetector CRV_DS_right \
+    height=4500 \
+    width=$CRV_thickness \
+    length=20926 \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_DS_right \
+    x=-7808-2514.6-0.5*$CRV_thickness \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 \
+    rename=CRV_DS_Right_1
+
+place CRV_DS_right \
+    x=-7808-2514.6-1.5*$CRV_thickness-$CRV_Al_thickness2 \			    
+    y=-2037.3+0.5*4500 \	                                               
+    z=7929-2216.6+0.5*20926 \	                                               
+    rename=CRV_DS_Right_2	                                               
+				                                               
+place CRV_DS_right \		                                               
+    x=-7808-2514.6-2.5*$CRV_thickness-$CRV_Al_thickness2-$CRV_Al_thickness3 \  
+    y=-2037.3+0.5*4500 \	                                               
+    z=7929-2216.6+0.5*20926 \	                                               
+    rename=CRV_DS_Right_3	                                               
+				                                               
+place CRV_DS_right \		                                               
+    x=-7808-2514.6-3.5*$CRV_thickness-2*$CRV_Al_thickness2-$CRV_Al_thickness3 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 \
+    rename=CRV_DS_Right_4
+
+# DS left CRV counters
+virtualdetector CRV_DS_left \
+    height=4500 \
+    width=$CRV_thickness \
+    length=18760.2-50.8-2698.2 \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_DS_left \
+    x=-7808+2514.6+0.5*$CRV_thickness \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2) \
+    rename=CRV_DS_Left_1
+
+place CRV_DS_left \
+    x=-7808+2514.6+1.5*$CRV_thickness+$CRV_Al_thickness2 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2) \
+    rename=CRV_DS_Left_2
+
+place CRV_DS_left \
+    x=-7808+2514.6+2.5*$CRV_thickness+$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2) \
+    rename=CRV_DS_Left_3
+
+place CRV_DS_left \
+    x=-7808+2514.6+3.5*$CRV_thickness+2*$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2) \
+    rename=CRV_DS_Left_4
+
+# TS top (DS upstream top part with TS top) CRV counters
+virtualdetector CRV_TS_top \
+    height=$CRV_thickness \
+    width=6600 \
+    length=2698.2+2286.0-50.8 \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+0.5*$CRV_thickness \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8) \
+    rename=CRV_TS_Top_1
+
+place CRV_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+1.5*$CRV_thickness+$CRV_Al_thickness2 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8) \
+    rename=CRV_TS_Top_2
+
+place CRV_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+2.5*$CRV_thickness+$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8) \
+    rename=CRV_TS_Top_3
+
+place CRV_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+3.5*$CRV_thickness+2*$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8) \
+    rename=CRV_TS_Top_4
+
+# DS top (DS downstream top part) CRV counters
+virtualdetector CRV_DS_top \
+    height=$CRV_thickness \
+    width=5600 \
+    length=18709.4-2698.2 \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+0.5*$CRV_thickness \
+    z=7929+2698.2+0.5*(18709.4-2698.2) \
+    rename=CRV_DS_Top_1
+
+place CRV_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+1.5*$CRV_thickness+$CRV_Al_thickness2 \
+    z=7929+2698.2+0.5*(18709.4-2698.2) \
+    rename=CRV_DS_Top_2
+
+place CRV_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+2.5*$CRV_thickness+$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    z=7929+2698.2+0.5*(18709.4-2698.2) \
+    rename=CRV_DS_Top_3
+
+place CRV_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+3.5*$CRV_thickness+2*$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    z=7929+2698.2+0.5*(18709.4-2698.2) \
+    rename=CRV_DS_Top_4
+
+# DS downstream CRV counters
+virtualdetector CRV_DS_downstream \
+    height=3*819 \
+    width=5600 \
+    length=$CRV_thickness \
+    color=$CRV_color \
+    material=$CRV_material \
+    format=rootExtended
+
+place CRV_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+0.5*$CRV_thickness \
+    rename=CRV_DS_Downstream_1
+
+place CRV_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+1.5*$CRV_thickness+$CRV_Al_thickness2 \
+    rename=CRV_DS_Downstream_2
+
+place CRV_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+2.5*$CRV_thickness+$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    rename=CRV_DS_Downstream_3
+    
+place CRV_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+3.5*$CRV_thickness+2*$CRV_Al_thickness2+$CRV_Al_thickness3 \
+    rename=CRV_DS_Downstream_4
+
+
+# ------- Al layers between counters -------
+
+# DS upstream (TS right) Al layers between CRV counters
+box CRV_Al_DS_upstream \
+    height=3*819 \
+    width=6600 \
+    length=$CRV_Al_thickness \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+#place CRV_Al_DS_upstream \
+#    x=-3904-104-0.5*6600 \
+#    y=238+0.5*3*819 \
+#    z=7929-2286+$CRV_Al_thickness1+$CRV_St_thickness length=2*$CRV_St_thickness material=$CRV_St_material color=$Green
+
+place CRV_Al_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286+0.5*$CRV_Al_thickness1 length=$CRV_Al_thickness1
+
+place CRV_Al_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-$CRV_thickness-0.5*$CRV_Al_thickness2 length=$CRV_Al_thickness2
+ 
+place CRV_Al_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-2*$CRV_thickness-1.0*$CRV_Al_thickness2-0.5*$CRV_Al_thickness3 length=$CRV_Al_thickness3
+
+place CRV_Al_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-3*$CRV_thickness-1.5*$CRV_Al_thickness2-1.0*$CRV_Al_thickness3 length=$CRV_Al_thickness2
+
+place CRV_Al_DS_upstream \
+    x=-3904-104-0.5*6600 \
+    y=238+0.5*3*819 \
+    z=7929-2286-4*$CRV_thickness-2.0*$CRV_Al_thickness2-1.0*$CRV_Al_thickness3-0.5*$CRV_Al_thickness1 length=$CRV_Al_thickness1
+
+
+# DS right Al layers between CRV counters
+box CRV_Al_DS_right \
+    height=4500 \
+    width=$CRV_Al_thickness \
+    length=20926 \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+#place CRV_Al_DS_right \
+#    x=-7808-2514.6+$CRV_Al_thickness1+0.5*$CRV_St_thickness width=$CRV_St_thickness material=$CRV_St_material color=$Green \
+#    y=-2037.3+0.5*4500 \
+#    z=7929-2216.6+0.5*20926 
+
+place CRV_Al_DS_right \
+    x=-7808-2514.6+0.5*$CRV_Al_thickness1 width=$CRV_Al_thickness1 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 
+
+place CRV_Al_DS_right \
+    x=-7808-2514.6-$CRV_thickness-0.5*$CRV_Al_thickness2 width=$CRV_Al_thickness2 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 
+
+place CRV_Al_DS_right \
+    x=-7808-2514.6-2*$CRV_thickness-1.0*$CRV_Al_thickness2-0.5*$CRV_Al_thickness3 width=$CRV_Al_thickness3 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 
+
+place CRV_Al_DS_right \
+    x=-7808-2514.6-3*$CRV_thickness-1.5*$CRV_Al_thickness2-1.0*$CRV_Al_thickness3 width=$CRV_Al_thickness2 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 
+
+place CRV_Al_DS_right \
+    x=-7808-2514.6-4*$CRV_thickness-2.0*$CRV_Al_thickness2-1.0*$CRV_Al_thickness3-0.5*$CRV_Al_thickness1 width=$CRV_Al_thickness1 \
+    y=-2037.3+0.5*4500 \
+    z=7929-2216.6+0.5*20926 
+
+# DS left Al layers between CRV counters
+box CRV_Al_DS_left \
+    height=4500 \
+    width=$CRV_Al_thickness \
+    length=18760.2-50.8-2698.2 \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+#place CRV_Al_DS_left \
+#    x=-7808+2514.6-$CRV_Al_thickness1-0.5*$CRV_St_thickness width=$CRV_St_thickness material=$CRV_St_material color=$Green \
+#    y=-2037.3+0.5*4500 \
+#    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+place CRV_Al_DS_left \
+    x=-7808+2514.6-0.5*$CRV_Al_thickness1 width=$CRV_Al_thickness1 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+place CRV_Al_DS_left \
+    x=-7808+2514.6+$CRV_thickness+0.5*$CRV_Al_thickness2 width=$CRV_Al_thickness2 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+place CRV_Al_DS_left \
+    x=-7808+2514.6+2*$CRV_thickness+1.0*$CRV_Al_thickness2+0.5*$CRV_Al_thickness3 width=$CRV_Al_thickness3 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+place CRV_Al_DS_left \
+    x=-7808+2514.6+3*$CRV_thickness+1.5*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3 width=$CRV_Al_thickness2 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+place CRV_Al_DS_left \
+    x=-7808+2514.6+4*$CRV_thickness+2.0*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3+0.5*$CRV_Al_thickness1 width=$CRV_Al_thickness1 \
+    y=-2037.3+0.5*4500 \
+    z=7929+2698.2+0.5*(18760.2-50.8-2698.2)
+
+# TS top (DS upstream top part with TS top) Al layers between CRV counters
+box CRV_Al_TS_top \
+    height=$CRV_Al_thickness \
+    width=6600 \
+    length=2698.2+2286.0-50.8 \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127-$CRV_Al_thickness1-0.5*$CRV_St_thickness height=$CRV_St_thickness material=$CRV_St_material color=$Green \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127-0.5*$CRV_Al_thickness1 height=$CRV_Al_thickness1 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+$CRV_thickness+0.5*$CRV_Al_thickness2 height=$CRV_Al_thickness2 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+2*$CRV_thickness+1.0*$CRV_Al_thickness2+0.5*$CRV_Al_thickness3 height=$CRV_Al_thickness3 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+3*$CRV_thickness+1.5*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3 height=$CRV_Al_thickness2 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+place CRV_Al_TS_top \
+    x=-3904-104-0.5*6600 \
+    y=1548.3+914.4+127+4*$CRV_thickness+2.0*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3+0.5*$CRV_Al_thickness1 height=$CRV_Al_thickness1 \
+    z=7929+2698.2-0.5*(2698.2+2286.0-50.8)
+
+# DS top (DS downstream top part) Al layers between CRV counters
+box CRV_Al_DS_top \
+    height=$CRV_Al_thickness \
+    width=5600 \
+    length=18709.4-2698.2 \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127-$CRV_Al_thickness1-0.5*$CRV_St_thickness height=$CRV_St_thickness material=$CRV_St_material color=$Green \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127-0.5*$CRV_Al_thickness1 height=$CRV_Al_thickness1 \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+$CRV_thickness+0.5*$CRV_Al_thickness2 height=$CRV_Al_thickness2 \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+    
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+2*$CRV_thickness+1.0*$CRV_Al_thickness2+0.5*$CRV_Al_thickness3 height=$CRV_Al_thickness3 \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+3*$CRV_thickness+1.5*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3 height=$CRV_Al_thickness2 \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+
+place CRV_Al_DS_top \
+    x=-7808 \
+    y=1548.3+914.4+127+4*$CRV_thickness+2.0*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3+0.5*$CRV_Al_thickness1 height=$CRV_Al_thickness1 \
+    z=7929+2698.2+0.5*(18709.4-2698.2)
+
+
+# DS downstream Al layers between CRV counters
+box CRV_Al_DS_downstream \
+    height=3*819 \
+    width=5600 \
+    length=$CRV_Al_thickness \
+    color=$CRV_Al_color \
+    material=$CRV_Al_material
+
+#place CRV_Al_DS_downstream \
+#    x=-7808 \
+#    y=238+0.5*3*819 \
+#    z=7929+18760.2-$CRV_Al_thickness1-$CRV_St_thickness length=2*$CRV_St_thickness material=$CRV_St_material color=$Green
+
+place CRV_Al_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2-0.5*$CRV_Al_thickness1 length=$CRV_Al_thickness1 
+
+place CRV_Al_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+$CRV_thickness+0.5*$CRV_Al_thickness2 length=$CRV_Al_thickness2
+
+place CRV_Al_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+2*$CRV_thickness+1.0*$CRV_Al_thickness2+0.5*$CRV_Al_thickness3 length=$CRV_Al_thickness3
+
+place CRV_Al_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+3*$CRV_thickness+1.5*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3 length=$CRV_Al_thickness2
+
+place CRV_Al_DS_downstream \
+    x=-7808 \
+    y=238+0.5*3*819 \
+    z=7929+18760.2+4*$CRV_thickness+2.0*$CRV_Al_thickness2+1.0*$CRV_Al_thickness3+0.5*$CRV_Al_thickness1 length=$CRV_Al_thickness1
+
+
+

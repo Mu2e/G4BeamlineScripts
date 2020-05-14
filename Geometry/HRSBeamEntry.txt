@@ -1,0 +1,67 @@
+# **************************************************************
+# HRS Beam entry pipe
+# places a cross shaped beam pipe through a cylindrical objecct
+#  On entry the following parameters should be defined
+#   hrs : name of parent object
+#   ri : inner radius
+#   ro : outer radius
+#   nr : number of radial steps to use
+#   zhrs : z location of parent object
+#   zmaxhrs : z of upstream end of parent object
+# **************************************************************
+
+param dz=$InHRSBeamZ-$OutHRSBeamZ
+param dx=$InHRSBeamX-$OutHRSBeamX
+param dy=$InHRSBeamY-$OutHRSBeamY
+param lo=-2*$Rpipe/atan(sqrt($dx*$dx+$dy*$dy)/$dz)
+param rr=sqrt($OutHRSBeamX*$OutHRSBeamX+$OutHRSBeamY*$OutHRSBeamY)
+param A=($dx*$dx+$dy*$dy)/($dz*$dz)
+param B=($dx*$OutHRSBeamX+$dy*$OutHRSBeamY)/$dz
+param -unset HRSpipeID=0
+param id=$HRSpipeID
+param -unset nr=21
+param -unset zhrs=0
+param -unset ro=$rr
+param -unset zmaxhrs=$OutHRSBeamZ
+param -unset ri=sqrt($InHRSBeamX*$InHRSBeamX+$InHRSBeamY*$InHRSBeamY)
+param -unset hrs=PSshieldI
+param dr=($ro-$ri)/(2*$nr)
+param fact=1.0/sqrt(2.0)
+do i 1 $nr-1
+  param id=$id+1
+  param r=$ro-(2*$i-1)*$dr
+  param zp=$OutHRSBeamZ-$B/$A+sqrt($B*$B-($rr*$rr-$r*$r)*$A)/$A
+  param xp=$OutHRSBeamX+$dx*($zp-$OutHRSBeamZ)/$dz
+  param yp=$OutHRSBeamY+$dy*($zp-$OutHRSBeamZ)/$dz
+  param phio=atan2($yp,$xp)*180/pi
+  param dphi=asin($Rpipe/$r)*180/pi
+  param len=floor(5*$lo+0.5)/5
+  param zz=floor(10*$zp+0.5)/10
+  if $zz>$zmaxhrs-$len/2.0
+    param len=$len/2.0+$zmaxhrs-$zz
+    param zz=$zmaxhrs-$len/2.0
+  endif
+  if $len>0.0
+    tubs HRSpc$id length=$len outerRadius=$r+$dr innerRadius=$r-$dr \
+	initialPhi=$phio-$dphi*$fact finalPhi=$phio+$dphi*$fact \
+	material=Vacuum color=$Red,0.5
+    place HRSpc$id parent=$hrs x=0 y=0 z=$zz-$zhrs
+  endif
+  param len=floor(5*$lo*$fact+0.5)/5
+  param zz=floor(10*$zp+0.5)/10
+  if $zz>$zmaxhrs-$len/2.0
+    param len=$len/2.0+$zmaxhrs-$zz
+    param zz=$zmaxhrs-$len/2.0
+  endif
+  if $len>0.0
+    tubs HRSpu$id length=$len outerRadius=$r+$dr innerRadius=$r-$dr \
+        initialPhi=$phio+$dphi*$fact finalPhi=$phio+$dphi \
+        material=Vacuum color=$Red,0.5
+    place HRSpu$id parent=$hrs x=0 y=0 z=$zz-$zhrs
+    tubs HRSpd$id length=$len outerRadius=$r+$dr innerRadius=$r-$dr \
+        initialPhi=$phio-$dphi finalPhi=$phio-$dphi*$fact \
+        material=Vacuum color=$Red,0.5
+    place HRSpd$id parent=$hrs x=0 y=0 z=$zz-$zhrs
+  endif
+enddo
+param HRSpipeID=$id

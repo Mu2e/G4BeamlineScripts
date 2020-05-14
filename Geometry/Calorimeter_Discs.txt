@@ -1,0 +1,35 @@
+# $Id$ 
+# $Date$ 
+# $Author$ 
+# implemented by: Vladimir Khalatyan
+
+# A simple model of Calorimeter 
+# 
+# The calorimeter is made of two disks with the following dimensions
+# - inner radius = 360 mm
+# - outer radius = 670 mm
+# - depth ~= 110 mm ( readout / casing not included)
+#
+# The front face of the disks are separated by 750 mm (i.e. the distance between the disks is 750-depth of the first disk)
+# The front face of the first disk is located at z= 11750 in the mu2e coordinated, the x-y xoordinates are aligned on the tracker.
+
+
+tube DC_Calorimeter \
+    innerRadius=360 \
+    outerRadius=670 \
+    length=110 \
+    material=Lyco_01 \
+    color=$Red
+
+place DC_Calorimeter \
+    x=-7808 \
+    y=0 \
+    z=7929+11750+0.5*110
+
+place DC_Calorimeter \
+    x=-7808 \
+    y=0 \
+    z=7929+11750+0.5*110+750
+
+
+

@@ -1,0 +1,494 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ****************************************************************************
+#                            Production Solenoid
+#                            Transport Solenoid 
+#                            Detector Solenoid
+# ****************************************************************************
+#
+# Use the set of 94 coils* from the 
+# MECO Superconducting Solenoid System Conceptual Design Report 
+# Prepared by the Massachusetts Institute of Technology
+# Plasma Science and Fusion Center
+# June 6, 2002
+# (* but with an extra 1.6 degrees of rotation in some of the transport 
+#    solenoid coils.) 
+# (* See the Excel spreadsheet Mu2e_Muon_Beamline_003.xls)
+#
+# This geometry differs from the Draft MECO Technical Design Report, but 
+# according to Jim Miller the MIT CDR is the most recent version of the 
+# coil design and supercedes the TDR.
+#
+# Note: There is a discrepancy between Figure 3.1 and Table 3.1.
+# In Table 3.1 the section TS3 of the transport is 1.95 meters long, but 
+# Figure 3.1 has this distance as 2 meters.
+# The coils in Table 3.2 match the parameters in Table 3.1.
+# Divide the coil material into two Phi segments.
+# One segment is colored, the second is invisible.
+
+param -unset Coil_Color=$Copper
+param Coil_Color_a=$Coil_Color
+param Coil_Color_b=$Invisible
+param InitialPhi_a=90.0
+param FinalPhi_a=270.0
+param InitialPhi_b=-90.0
+param FinalPhi_b=90.0
+param TS_InitialPhi_a=180.0
+param TS_FinalPhi_a=360.0
+param TS_InitialPhi_b=0.0
+param TS_FinalPhi_b=180.0
+
+
+param Extra_Coil_Rotation=-1.600
+param PS0_C01_rinner=835.0 PS0_C01_dr=130. PS0_C01_rout=965.0 PS0_C01_ds=1290.0 PS0_C01_curr=40.700 PS0_C01_x=000.0 PS0_C01_z=645.0   PS0_C01_rot=0.000  
+param PS0_C02_rinner=835.0 PS0_C02_dr=97.5 PS0_C02_rout=932.5 PS0_C02_ds=1162.5 PS0_C02_curr=40.700 PS0_C02_x=000.0 PS0_C02_z=1911.25 PS0_C02_rot=0.000  
+param PS0_C03_rinner=835.0 PS0_C03_dr=65.0 PS0_C03_rout=900.0 PS0_C03_ds=1402.5 PS0_C03_curr=40.700 PS0_C03_x=000.0 PS0_C03_z=3233.75  PS0_C03_rot=0.000 
+param TS1_C01_rinner=405.0 TS1_C01_dr=33.6 TS1_C01_rout=438.6 TS1_C01_ds=80.0 TS1_C01_curr=27.902 TS1_C01_x=000.0 TS1_C01_z=4150.0 TS1_C01_rot=0.000  
+param TS1_C02_rinner=405.0 TS1_C02_dr=64.4 TS1_C02_rout=469.4 TS1_C02_ds=80.0 TS1_C02_curr=29.115 TS1_C02_x=000.0 TS1_C02_z=4250.0 TS1_C02_rot=0.000  
+param TS1_C03_rinner=405.0 TS1_C03_dr=14.0 TS1_C03_rout=419.0 TS1_C03_ds=80.0 TS1_C03_curr=26.786 TS1_C03_x=000.0 TS1_C03_z=4350.0 TS1_C03_rot=0.000  
+param TS1_C04_rinner=405.0 TS1_C04_dr=84.0 TS1_C04_rout=489.0 TS1_C04_ds=80.0 TS1_C04_curr=29.911 TS1_C04_x=000.0 TS1_C04_z=4450.0 TS1_C04_rot=0.000  
+param TS1_C05_rinner=405.0 TS1_C05_dr=39.2 TS1_C05_rout=444.2 TS1_C05_ds=180.0 TS1_C05_curr=34.014 TS1_C05_x=000.0 TS1_C05_z=4600.0 TS1_C05_rot=0.000  
+param TS1_C06_rinner=405.0 TS1_C06_dr=53.2 TS1_C06_rout=458.2 TS1_C06_ds=180.0 TS1_C06_curr=34.461 TS1_C06_x=000.0 TS1_C06_z=4800.0 TS1_C06_rot=0.000  
+param TS1_C07_rinner=405.0 TS1_C07_dr=50.4 TS1_C07_rout=455.4 TS1_C07_ds=180.0 TS1_C07_curr=34.557 TS1_C07_x=000.0 TS1_C07_z=5000.0 TS1_C07_rot=0.000  
+param TS1_C08_rinner=405.0 TS1_C08_dr=72.8 TS1_C08_rout=477.8 TS1_C08_ds=180.0 TS1_C08_curr=33.425 TS1_C08_x=-010.0 TS1_C08_z=5242.0 TS1_C08_rot=-6.337  
+param TS2_C01_rinner=405.0 TS2_C01_dr=22.4 TS2_C01_rout=427.4 TS2_C01_ds=180.0 TS2_C01_curr=92.262 TS2_C01_x=-040.0 TS2_C01_z=5482.0 TS2_C01_rot=-11.074  
+param TS2_C02_rinner=405.0 TS2_C02_dr=25.2 TS2_C02_rout=430.2 TS2_C02_ds=180.0 TS2_C02_curr=91.711 TS2_C02_x=-090.0 TS2_C02_z=5719.0 TS2_C02_rot=-15.811  
+param TS2_C03_rinner=405.0 TS2_C03_dr=28.0 TS2_C03_rout=433.0 TS2_C03_ds=180.0 TS2_C03_curr=84.127 TS2_C03_x=-159.0 TS2_C03_z=5951.0 TS2_C03_rot=-20.547  
+param TS2_C04_rinner=405.0 TS2_C04_dr=28.0 TS2_C04_rout=433.0 TS2_C04_ds=180.0 TS2_C04_curr=85.714 TS2_C04_x=-247.0 TS2_C04_z=6177.0 TS2_C04_rot=-25.284  
+param TS2_C05_rinner=405.0 TS2_C05_dr=28.0 TS2_C05_rout=433.0 TS2_C05_ds=180.0 TS2_C05_curr=86.508 TS2_C05_x=-353.0 TS2_C05_z=6394.0 TS2_C05_rot=-30.021  
+param TS2_C06_rinner=405.0 TS2_C06_dr=28.0 TS2_C06_rout=433.0 TS2_C06_ds=180.0 TS2_C06_curr=88.095 TS2_C06_x=-477.0 TS2_C06_z=6602.0 TS2_C06_rot=-34.758  
+param TS2_C07_rinner=405.0 TS2_C07_dr=28.0 TS2_C07_rout=433.0 TS2_C07_ds=180.0 TS2_C07_curr=88.889 TS2_C07_x=-618.0 TS2_C07_z=6799.0 TS2_C07_rot=-39.495  
+param TS2_C08_rinner=405.0 TS2_C08_dr=28.0 TS2_C08_rout=433.0 TS2_C08_ds=180.0 TS2_C08_curr=89.683 TS2_C08_x=-774.0 TS2_C08_z=6984.0 TS2_C08_rot=-44.232  
+param TS2_C09_rinner=405.0 TS2_C09_dr=28.0 TS2_C09_rout=433.0 TS2_C09_ds=180.0 TS2_C09_curr=90.476 TS2_C09_x=-945.0 TS2_C09_z=7155.0 TS2_C09_rot=-48.968  
+param TS2_C10_rinner=405.0 TS2_C10_dr=28.0 TS2_C10_rout=433.0 TS2_C10_ds=180.0 TS2_C10_curr=91.270 TS2_C10_x=-1130.0 TS2_C10_z=7311.0 TS2_C10_rot=-53.705  
+param TS2_C11_rinner=405.0 TS2_C11_dr=28.0 TS2_C11_rout=433.0 TS2_C11_ds=180.0 TS2_C11_curr=92.063 TS2_C11_x=-1327.0 TS2_C11_z=7452.0 TS2_C11_rot=-58.442  
+param TS2_C12_rinner=405.0 TS2_C12_dr=28.0 TS2_C12_rout=433.0 TS2_C12_ds=180.0 TS2_C12_curr=92.063 TS2_C12_x=-1535.0 TS2_C12_z=7576.0 TS2_C12_rot=-63.179  
+param TS2_C13_rinner=405.0 TS2_C13_dr=30.8 TS2_C13_rout=435.8 TS2_C13_ds=180.0 TS2_C13_curr=85.137 TS2_C13_x=-1752.0 TS2_C13_z=7682.0 TS2_C13_rot=-67.916  
+param TS2_C14_rinner=405.0 TS2_C14_dr=30.8 TS2_C14_rout=435.8 TS2_C14_ds=180.0 TS2_C14_curr=84.416 TS2_C14_x=-1978.0 TS2_C14_z=7770.0 TS2_C14_rot=-72.653  
+param TS2_C15_rinner=405.0 TS2_C15_dr=30.8 TS2_C15_rout=435.8 TS2_C15_ds=180.0 TS2_C15_curr=85.137 TS2_C15_x=-2210.0 TS2_C15_z=7839.0 TS2_C15_rot=-77.389  
+param TS2_C16_rinner=405.0 TS2_C16_dr=28.0 TS2_C16_rout=433.0 TS2_C16_ds=180.0 TS2_C16_curr=88.095 TS2_C16_x=-2447.0 TS2_C16_z=7889.0 TS2_C16_rot=-82.126  
+param TS3_C01_rinner=405.0 TS3_C01_dr=86.8 TS3_C01_rout=491.8 TS3_C01_ds=180.0 TS3_C01_curr=34.562 TS3_C01_x=-2687.0 TS3_C01_z=7919.0 TS3_C01_rot=-86.863  
+param TS3_C02_rinner=405.0 TS3_C02_dr=78.4 TS3_C02_rout=483.4 TS3_C02_ds=180.0 TS3_C02_curr=34.120 TS3_C02_x=-2929.0 TS3_C02_z=7929.0 TS3_C02_rot=-90.000  
+param TS3_C03_rinner=405.0 TS3_C03_dr=50.4 TS3_C03_rout=455.4 TS3_C03_ds=180.0 TS3_C03_curr=33.896 TS3_C03_x=-3129.0 TS3_C03_z=7929.0 TS3_C03_rot=-90.000  
+param TS3_C04_rinner=405.0 TS3_C04_dr=67.2 TS3_C04_rout=472.2 TS3_C04_ds=180.0 TS3_C04_curr=34.474 TS3_C04_x=-3329.0 TS3_C04_z=7929.0 TS3_C04_rot=-90.000  
+param TS3_C05_rinner=405.0 TS3_C05_dr=44.8 TS3_C05_rout=449.8 TS3_C05_ds=80.0 TS3_C05_curr=29.297 TS3_C05_x=-3479.0 TS3_C05_z=7929.0 TS3_C05_rot=-90.000  
+param TS3_C06_rinner=405.0 TS3_C06_dr=61.2 TS3_C06_rout=466.2 TS3_C06_ds=80.0 TS3_C06_curr=64.032 TS3_C06_x=-3579.0 TS3_C06_z=7929.0 TS3_C06_rot=-90.000  
+param TS3_C07_rinner=415.0 TS3_C07_dr=26.7 TS3_C07_rout=441.7 TS3_C07_ds=50.0 TS3_C07_curr=-52.809 TS3_C07_x=-3674.0 TS3_C07_z=7929.0 TS3_C07_rot=-90.000  
+param TS3_C08_rinner=405.0 TS3_C08_dr=102.1 TS3_C08_rout=507.1 TS3_C08_ds=80.0 TS3_C08_curr=63.908 TS3_C08_x=-3769.0 TS3_C08_z=7929.0 TS3_C08_rot=-90.000  
+param TS3_C09_rinner=405.0 TS3_C09_dr=94.2 TS3_C09_rout=499.2 TS3_C09_ds=80.0 TS3_C09_curr=63.893 TS3_C09_x=-4039.0 TS3_C09_z=7929.0 TS3_C09_rot=-90.000  
+param TS3_C10_rinner=415.0 TS3_C10_dr=23.6 TS3_C10_rout=438.6 TS3_C10_ds=50.0 TS3_C10_curr=-53.390 TS3_C10_x=-4134.0 TS3_C10_z=7929.0 TS3_C10_rot=-90.000  
+param TS3_C11_rinner=405.0 TS3_C11_dr=53.4 TS3_C11_rout=458.4 TS3_C11_ds=80.0 TS3_C11_curr=62.149 TS3_C11_x=-4229.0 TS3_C11_z=7929.0 TS3_C11_rot=-90.000  
+param TS3_C12_rinner=405.0 TS3_C12_dr=53.2 TS3_C12_rout=458.2 TS3_C12_ds=80.0 TS3_C12_curr=28.900 TS3_C12_x=-4329.0 TS3_C12_z=7929.0 TS3_C12_rot=-90.000  
+param TS3_C13_rinner=405.0 TS3_C13_dr=56.0 TS3_C13_rout=461.0 TS3_C13_ds=180.0 TS3_C13_curr=33.631 TS3_C13_x=-4479.0 TS3_C13_z=7929.0 TS3_C13_rot=-90.000  
+param TS3_C14_rinner=405.0 TS3_C14_dr=56.0 TS3_C14_rout=461.0 TS3_C14_ds=180.0 TS3_C14_curr=33.482 TS3_C14_x=-4679.0 TS3_C14_z=7929.0 TS3_C14_rot=-90.000  
+param TS3_C15_rinner=405.0 TS3_C15_dr=53.2 TS3_C15_rout=458.2 TS3_C15_ds=180.0 TS3_C15_curr=34.305 TS3_C15_x=-4879.0 TS3_C15_z=7929.0 TS3_C15_rot=-90.000  
+param TS3_C16_rinner=405.0 TS3_C16_dr=67.2 TS3_C16_rout=472.2 TS3_C16_ds=180.0 TS3_C16_curr=34.474 TS3_C16_x=-5121.0 TS3_C16_z=7939.0 TS3_C16_rot=-86.863  
+param TS4_C01_rinner=405.0 TS4_C01_dr=22.4 TS4_C01_rout=427.4 TS4_C01_ds=180.0 TS4_C01_curr=87.302 TS4_C01_x=-5361.0 TS4_C01_z=7969.0 TS4_C01_rot=-82.126  
+param TS4_C02_rinner=405.0 TS4_C02_dr=25.2 TS4_C02_rout=430.2 TS4_C02_ds=180.0 TS4_C02_curr=84.656 TS4_C02_x=-5598.0 TS4_C02_z=8019.0 TS4_C02_rot=-77.389  
+param TS4_C03_rinner=405.0 TS4_C03_dr=25.2 TS4_C03_rout=430.2 TS4_C03_ds=180.0 TS4_C03_curr=84.656 TS4_C03_x=-5830.0 TS4_C03_z=8088.0 TS4_C03_rot=-72.653  
+param TS4_C04_rinner=405.0 TS4_C04_dr=25.2 TS4_C04_rout=430.2 TS4_C04_ds=180.0 TS4_C04_curr=85.538 TS4_C04_x=-6056.0 TS4_C04_z=8176.0 TS4_C04_rot=-67.916  
+param TS4_C05_rinner=405.0 TS4_C05_dr=25.2 TS4_C05_rout=430.2 TS4_C05_ds=180.0 TS4_C05_curr=85.538 TS4_C05_x=-6273.0 TS4_C05_z=8282.0 TS4_C05_rot=-63.179  
+param TS4_C06_rinner=405.0 TS4_C06_dr=25.2 TS4_C06_rout=430.2 TS4_C06_ds=180.0 TS4_C06_curr=86.420 TS4_C06_x=-6481.0 TS4_C06_z=8406.0 TS4_C06_rot=-58.442  
+param TS4_C07_rinner=405.0 TS4_C07_dr=25.2 TS4_C07_rout=430.2 TS4_C07_ds=180.0 TS4_C07_curr=87.302 TS4_C07_x=-6678.0 TS4_C07_z=8547.0 TS4_C07_rot=-53.705  
+param TS4_C08_rinner=405.0 TS4_C08_dr=25.2 TS4_C08_rout=430.2 TS4_C08_ds=180.0 TS4_C08_curr=87.302 TS4_C08_x=-6863.0 TS4_C08_z=8703.0 TS4_C08_rot=-48.968  
+param TS4_C09_rinner=405.0 TS4_C09_dr=25.2 TS4_C09_rout=430.2 TS4_C09_ds=180.0 TS4_C09_curr=87.302 TS4_C09_x=-7034.0 TS4_C09_z=8874.0 TS4_C09_rot=-44.232  
+param TS4_C10_rinner=405.0 TS4_C10_dr=25.2 TS4_C10_rout=430.2 TS4_C10_ds=180.0 TS4_C10_curr=87.302 TS4_C10_x=-7190.0 TS4_C10_z=9059.0 TS4_C10_rot=-39.495  
+param TS4_C11_rinner=405.0 TS4_C11_dr=25.2 TS4_C11_rout=430.2 TS4_C11_ds=180.0 TS4_C11_curr=88.183 TS4_C11_x=-7331.0 TS4_C11_z=9256.0 TS4_C11_rot=-34.758  
+param TS4_C12_rinner=405.0 TS4_C12_dr=25.2 TS4_C12_rout=430.2 TS4_C12_ds=180.0 TS4_C12_curr=87.302 TS4_C12_x=-7455.0 TS4_C12_z=9464.0 TS4_C12_rot=-30.021  
+param TS4_C13_rinner=405.0 TS4_C13_dr=25.2 TS4_C13_rout=430.2 TS4_C13_ds=180.0 TS4_C13_curr=86.420 TS4_C13_x=-7561.0 TS4_C13_z=9681.0 TS4_C13_rot=-25.284  
+param TS4_C14_rinner=405.0 TS4_C14_dr=25.2 TS4_C14_rout=430.2 TS4_C14_ds=180.0 TS4_C14_curr=85.538 TS4_C14_x=-7649.0 TS4_C14_z=9907.0 TS4_C14_rot=-20.547  
+param TS4_C15_rinner=405.0 TS4_C15_dr=25.2 TS4_C15_rout=430.2 TS4_C15_ds=180.0 TS4_C15_curr=83.774 TS4_C15_x=-7718.0 TS4_C15_z=10139.0 TS4_C15_rot=-15.811  
+param TS4_C16_rinner=405.0 TS4_C16_dr=22.4 TS4_C16_rout=427.4 TS4_C16_ds=180.0 TS4_C16_curr=85.317 TS4_C16_x=-7768.0 TS4_C16_z=10376.0 TS4_C16_rot=-11.074  
+param TS5_C01_rinner=405.0 TS5_C01_dr=58.8 TS5_C01_rout=463.8 TS5_C01_ds=180.0 TS5_C01_curr=33.305 TS5_C01_x=-7798.0 TS5_C01_z=10616.0 TS5_C01_rot=-6.337  
+param TS5_C02_rinner=405.0 TS5_C02_dr=44.8 TS5_C02_rout=449.8 TS5_C02_ds=180.0 TS5_C02_curr=34.226 TS5_C02_x=-7808.0 TS5_C02_z=10858.0 TS5_C02_rot=0.000  
+param TS5_C03_rinner=405.0 TS5_C03_dr=19.6 TS5_C03_rout=424.6 TS5_C03_ds=180.0 TS5_C03_curr=32.738 TS5_C03_x=-7808.0 TS5_C03_z=11058.0 TS5_C03_rot=0.000  
+param TS5_C04_rinner=405.0 TS5_C04_dr=19.6 TS5_C04_rout=424.6 TS5_C04_ds=180.0 TS5_C04_curr=31.888 TS5_C04_x=-7808.0 TS5_C04_z=11258.0 TS5_C04_rot=0.000  
+param TS5_C05_rinner=405.0 TS5_C05_dr=8.4 TS5_C05_rout=413.4 TS5_C05_ds=180.0 TS5_C05_curr=28.770 TS5_C05_x=-7808.0 TS5_C05_z=11458.0 TS5_C05_rot=0.000  
+param TS5_C06_rinner=405.0 TS5_C06_dr=2.8 TS5_C06_rout=407.8 TS5_C06_ds=180.0 TS5_C06_curr=26.786 TS5_C06_x=-7808.0 TS5_C06_z=11658.0 TS5_C06_rot=0.000  
+param DS1_C01_rinner=1080.0 DS1_C01_dr=35.2 DS1_C01_rout=1115.2 DS1_C01_ds=430.0 DS1_C01_curr=72.674 DS1_C01_x=-7808.0 DS1_C01_z=11433.0 DS1_C01_rot=0.000  
+param DS1_C02_rinner=1080.0 DS1_C02_dr=35.2 DS1_C02_rout=1115.2 DS1_C02_ds=430.0 DS1_C02_curr=72.674 DS1_C02_x=-7808.0 DS1_C02_z=11883.0 DS1_C02_rot=0.000  
+param DS1_C03_rinner=1080.0 DS1_C03_dr=19.2 DS1_C03_rout=1099.2 DS1_C03_ds=480.0 DS1_C03_curr=74.653 DS1_C03_x=-7808.0 DS1_C03_z=12358.0 DS1_C03_rot=0.000  
+param DS1_C04_rinner=1080.0 DS1_C04_dr=19.2 DS1_C04_rout=1099.2 DS1_C04_ds=480.0 DS1_C04_curr=76.823 DS1_C04_x=-7808.0 DS1_C04_z=12858.0 DS1_C04_rot=0.000  
+param DS1_C05_rinner=1080.0 DS1_C05_dr=19.2 DS1_C05_rout=1099.2 DS1_C05_ds=480.0 DS1_C05_curr=71.615 DS1_C05_x=-7808.0 DS1_C05_z=13358.0 DS1_C05_rot=0.000  
+param DS1_C06_rinner=1080.0 DS1_C06_dr=16.0 DS1_C06_rout=1096.0 DS1_C06_ds=480.0 DS1_C06_curr=75.521 DS1_C06_x=-7808.0 DS1_C06_z=13858.0 DS1_C06_rot=0.000  
+param DS1_C07_rinner=1080.0 DS1_C07_dr=16.0 DS1_C07_rout=1096.0 DS1_C07_ds=480.0 DS1_C07_curr=71.354 DS1_C07_x=-7808.0 DS1_C07_z=14358.0 DS1_C07_rot=0.000  
+param DS1_C08_rinner=1080.0 DS1_C08_dr=16.0 DS1_C08_rout=1096.0 DS1_C08_ds=480.0 DS1_C08_curr=63.542 DS1_C08_x=-7808.0 DS1_C08_z=14858.0 DS1_C08_rot=0.000  
+param DS1_C09_rinner=1080.0 DS1_C09_dr=9.6 DS1_C09_rout=1089.6 DS1_C09_ds=480.0 DS1_C09_curr=73.785 DS1_C09_x=-7808.0 DS1_C09_z=15358.0 DS1_C09_rot=0.000  
+param DS2_C01_rinner=1080.0 DS2_C01_dr=12.8 DS2_C01_rout=1092.8 DS2_C01_ds=480.0 DS2_C01_curr=61.198 DS2_C01_x=-7808.0 DS2_C01_z=15858.0 DS2_C01_rot=0.000  
+param DS2_C02_rinner=1080.0 DS2_C02_dr=12.8 DS2_C02_rout=1092.8 DS2_C02_ds=480.0 DS2_C02_curr=63.802 DS2_C02_x=-7808.0 DS2_C02_z=16358.0 DS2_C02_rot=0.000  
+param DS2_C03_rinner=1080.0 DS2_C03_dr=12.8 DS2_C03_rout=1092.8 DS2_C03_ds=480.0 DS2_C03_curr=65.104 DS2_C03_x=-7808.0 DS2_C03_z=16858.0 DS2_C03_rot=0.000  
+param DS2_C04_rinner=1080.0 DS2_C04_dr=12.8 DS2_C04_rout=1092.8 DS2_C04_ds=480.0 DS2_C04_curr=64.453 DS2_C04_x=-7808.0 DS2_C04_z=17358.0 DS2_C04_rot=0.000  
+param DS2_C05_rinner=1080.0 DS2_C05_dr=12.8 DS2_C05_rout=1092.8 DS2_C05_ds=480.0 DS2_C05_curr=65.104 DS2_C05_x=-7808.0 DS2_C05_z=17858.0 DS2_C05_rot=0.000  
+param DS2_C06_rinner=1080.0 DS2_C06_dr=12.8 DS2_C06_rout=1092.8 DS2_C06_ds=480.0 DS2_C06_curr=64.453 DS2_C06_x=-7808.0 DS2_C06_z=18358.0 DS2_C06_rot=0.000  
+param DS2_C07_rinner=1080.0 DS2_C07_dr=12.8 DS2_C07_rout=1092.8 DS2_C07_ds=480.0 DS2_C07_curr=65.104 DS2_C07_x=-7808.0 DS2_C07_z=18858.0 DS2_C07_rot=0.000  
+param DS2_C08_rinner=1080.0 DS2_C08_dr=12.8 DS2_C08_rout=1092.8 DS2_C08_ds=480.0 DS2_C08_curr=64.453 DS2_C08_x=-7808.0 DS2_C08_z=19358.0 DS2_C08_rot=0.000  
+param DS2_C09_rinner=1080.0 DS2_C09_dr=12.8 DS2_C09_rout=1092.8 DS2_C09_ds=480.0 DS2_C09_curr=65.104 DS2_C09_x=-7808.0 DS2_C09_z=19858.0 DS2_C09_rot=0.000  
+param DS3_C01_rinner=1080.0 DS3_C01_dr=12.8 DS3_C01_rout=1092.8 DS3_C01_ds=480.0 DS3_C01_curr=65.104 DS3_C01_x=-7808.0 DS3_C01_z=20358.0 DS3_C01_rot=0.000  
+param DS3_C02_rinner=1080.0 DS3_C02_dr=12.8 DS3_C02_rout=1092.8 DS3_C02_ds=480.0 DS3_C02_curr=65.104 DS3_C02_x=-7808.0 DS3_C02_z=20858.0 DS3_C02_rot=0.000  
+param DS3_C03_rinner=1080.0 DS3_C03_dr=12.8 DS3_C03_rout=1092.8 DS3_C03_ds=480.0 DS3_C03_curr=65.104 DS3_C03_x=-7808.0 DS3_C03_z=21358.0 DS3_C03_rot=0.000  
+param DS3_C04_rinner=1080.0 DS3_C04_dr=12.8 DS3_C04_rout=1092.8 DS3_C04_ds=480.0 DS3_C04_curr=66.406 DS3_C04_x=-7808.0 DS3_C04_z=21858.0 DS3_C04_rot=0.000  
+param DS3_C05_rinner=1080.0 DS3_C05_dr=12.8 DS3_C05_rout=1092.8 DS3_C05_ds=980.0 DS3_C05_curr=78.444 DS3_C05_x=-7808.0 DS3_C05_z=22608.0 DS3_C05_rot=0.000  
+
+
+tubs PS0_C01a innerRadius=$PS0_C01_rinner outerRadius=$PS0_C01_rout length=$PS0_C01_ds material=Al initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs PS0_C02a innerRadius=$PS0_C02_rinner outerRadius=$PS0_C02_rout length=$PS0_C02_ds material=Al initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs PS0_C03a innerRadius=$PS0_C03_rinner outerRadius=$PS0_C03_rout length=$PS0_C03_ds material=Al initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs TS1_C01a innerRadius=$TS1_C01_rinner outerRadius=$TS1_C01_rout length=$TS1_C01_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C02a innerRadius=$TS1_C02_rinner outerRadius=$TS1_C02_rout length=$TS1_C02_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C03a innerRadius=$TS1_C03_rinner outerRadius=$TS1_C03_rout length=$TS1_C03_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C04a innerRadius=$TS1_C04_rinner outerRadius=$TS1_C04_rout length=$TS1_C04_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C05a innerRadius=$TS1_C05_rinner outerRadius=$TS1_C05_rout length=$TS1_C05_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C06a innerRadius=$TS1_C06_rinner outerRadius=$TS1_C06_rout length=$TS1_C06_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C07a innerRadius=$TS1_C07_rinner outerRadius=$TS1_C07_rout length=$TS1_C07_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS1_C08a innerRadius=$TS1_C08_rinner outerRadius=$TS1_C08_rout length=$TS1_C08_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C01a innerRadius=$TS2_C01_rinner outerRadius=$TS2_C01_rout length=$TS2_C01_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C02a innerRadius=$TS2_C02_rinner outerRadius=$TS2_C02_rout length=$TS2_C02_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C03a innerRadius=$TS2_C03_rinner outerRadius=$TS2_C03_rout length=$TS2_C03_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C04a innerRadius=$TS2_C04_rinner outerRadius=$TS2_C04_rout length=$TS2_C04_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C05a innerRadius=$TS2_C05_rinner outerRadius=$TS2_C05_rout length=$TS2_C05_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C06a innerRadius=$TS2_C06_rinner outerRadius=$TS2_C06_rout length=$TS2_C06_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C07a innerRadius=$TS2_C07_rinner outerRadius=$TS2_C07_rout length=$TS2_C07_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C08a innerRadius=$TS2_C08_rinner outerRadius=$TS2_C08_rout length=$TS2_C08_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C09a innerRadius=$TS2_C09_rinner outerRadius=$TS2_C09_rout length=$TS2_C09_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C10a innerRadius=$TS2_C10_rinner outerRadius=$TS2_C10_rout length=$TS2_C10_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C11a innerRadius=$TS2_C11_rinner outerRadius=$TS2_C11_rout length=$TS2_C11_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C12a innerRadius=$TS2_C12_rinner outerRadius=$TS2_C12_rout length=$TS2_C12_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C13a innerRadius=$TS2_C13_rinner outerRadius=$TS2_C13_rout length=$TS2_C13_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C14a innerRadius=$TS2_C14_rinner outerRadius=$TS2_C14_rout length=$TS2_C14_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C15a innerRadius=$TS2_C15_rinner outerRadius=$TS2_C15_rout length=$TS2_C15_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS2_C16a innerRadius=$TS2_C16_rinner outerRadius=$TS2_C16_rout length=$TS2_C16_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C01a innerRadius=$TS3_C01_rinner outerRadius=$TS3_C01_rout length=$TS3_C01_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C02a innerRadius=$TS3_C02_rinner outerRadius=$TS3_C02_rout length=$TS3_C02_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C03a innerRadius=$TS3_C03_rinner outerRadius=$TS3_C03_rout length=$TS3_C03_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C04a innerRadius=$TS3_C04_rinner outerRadius=$TS3_C04_rout length=$TS3_C04_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C05a innerRadius=$TS3_C05_rinner outerRadius=$TS3_C05_rout length=$TS3_C05_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C06a innerRadius=$TS3_C06_rinner outerRadius=$TS3_C06_rout length=$TS3_C06_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C07a innerRadius=$TS3_C07_rinner outerRadius=$TS3_C07_rout length=$TS3_C07_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C08a innerRadius=$TS3_C08_rinner outerRadius=$TS3_C08_rout length=$TS3_C08_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C09a innerRadius=$TS3_C09_rinner outerRadius=$TS3_C09_rout length=$TS3_C09_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C10a innerRadius=$TS3_C10_rinner outerRadius=$TS3_C10_rout length=$TS3_C10_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C11a innerRadius=$TS3_C11_rinner outerRadius=$TS3_C11_rout length=$TS3_C11_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C12a innerRadius=$TS3_C12_rinner outerRadius=$TS3_C12_rout length=$TS3_C12_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C13a innerRadius=$TS3_C13_rinner outerRadius=$TS3_C13_rout length=$TS3_C13_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C14a innerRadius=$TS3_C14_rinner outerRadius=$TS3_C14_rout length=$TS3_C14_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C15a innerRadius=$TS3_C15_rinner outerRadius=$TS3_C15_rout length=$TS3_C15_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS3_C16a innerRadius=$TS3_C16_rinner outerRadius=$TS3_C16_rout length=$TS3_C16_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C01a innerRadius=$TS4_C01_rinner outerRadius=$TS4_C01_rout length=$TS4_C01_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C02a innerRadius=$TS4_C02_rinner outerRadius=$TS4_C02_rout length=$TS4_C02_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C03a innerRadius=$TS4_C03_rinner outerRadius=$TS4_C03_rout length=$TS4_C03_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C04a innerRadius=$TS4_C04_rinner outerRadius=$TS4_C04_rout length=$TS4_C04_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C05a innerRadius=$TS4_C05_rinner outerRadius=$TS4_C05_rout length=$TS4_C05_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C06a innerRadius=$TS4_C06_rinner outerRadius=$TS4_C06_rout length=$TS4_C06_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C07a innerRadius=$TS4_C07_rinner outerRadius=$TS4_C07_rout length=$TS4_C07_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C08a innerRadius=$TS4_C08_rinner outerRadius=$TS4_C08_rout length=$TS4_C08_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C09a innerRadius=$TS4_C09_rinner outerRadius=$TS4_C09_rout length=$TS4_C09_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C10a innerRadius=$TS4_C10_rinner outerRadius=$TS4_C10_rout length=$TS4_C10_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C11a innerRadius=$TS4_C11_rinner outerRadius=$TS4_C11_rout length=$TS4_C11_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C12a innerRadius=$TS4_C12_rinner outerRadius=$TS4_C12_rout length=$TS4_C12_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C13a innerRadius=$TS4_C13_rinner outerRadius=$TS4_C13_rout length=$TS4_C13_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C14a innerRadius=$TS4_C14_rinner outerRadius=$TS4_C14_rout length=$TS4_C14_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C15a innerRadius=$TS4_C15_rinner outerRadius=$TS4_C15_rout length=$TS4_C15_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS4_C16a innerRadius=$TS4_C16_rinner outerRadius=$TS4_C16_rout length=$TS4_C16_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C01a innerRadius=$TS5_C01_rinner outerRadius=$TS5_C01_rout length=$TS5_C01_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C02a innerRadius=$TS5_C02_rinner outerRadius=$TS5_C02_rout length=$TS5_C02_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C03a innerRadius=$TS5_C03_rinner outerRadius=$TS5_C03_rout length=$TS5_C03_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C04a innerRadius=$TS5_C04_rinner outerRadius=$TS5_C04_rout length=$TS5_C04_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C05a innerRadius=$TS5_C05_rinner outerRadius=$TS5_C05_rout length=$TS5_C05_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs TS5_C06a innerRadius=$TS5_C06_rinner outerRadius=$TS5_C06_rout length=$TS5_C06_ds material=Cu initialPhi=$TS_InitialPhi_a finalPhi=$TS_FinalPhi_a color=$Coil_Color_a
+tubs DS1_C01a innerRadius=$DS1_C01_rinner outerRadius=$DS1_C01_rout length=$DS1_C01_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C02a innerRadius=$DS1_C02_rinner outerRadius=$DS1_C02_rout length=$DS1_C02_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C03a innerRadius=$DS1_C03_rinner outerRadius=$DS1_C03_rout length=$DS1_C03_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C04a innerRadius=$DS1_C04_rinner outerRadius=$DS1_C04_rout length=$DS1_C04_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C05a innerRadius=$DS1_C05_rinner outerRadius=$DS1_C05_rout length=$DS1_C05_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C06a innerRadius=$DS1_C06_rinner outerRadius=$DS1_C06_rout length=$DS1_C06_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C07a innerRadius=$DS1_C07_rinner outerRadius=$DS1_C07_rout length=$DS1_C07_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C08a innerRadius=$DS1_C08_rinner outerRadius=$DS1_C08_rout length=$DS1_C08_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS1_C09a innerRadius=$DS1_C09_rinner outerRadius=$DS1_C09_rout length=$DS1_C09_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C01a innerRadius=$DS2_C01_rinner outerRadius=$DS2_C01_rout length=$DS2_C01_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C02a innerRadius=$DS2_C02_rinner outerRadius=$DS2_C02_rout length=$DS2_C02_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C03a innerRadius=$DS2_C03_rinner outerRadius=$DS2_C03_rout length=$DS2_C03_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C04a innerRadius=$DS2_C04_rinner outerRadius=$DS2_C04_rout length=$DS2_C04_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C05a innerRadius=$DS2_C05_rinner outerRadius=$DS2_C05_rout length=$DS2_C05_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C06a innerRadius=$DS2_C06_rinner outerRadius=$DS2_C06_rout length=$DS2_C06_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C07a innerRadius=$DS2_C07_rinner outerRadius=$DS2_C07_rout length=$DS2_C07_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C08a innerRadius=$DS2_C08_rinner outerRadius=$DS2_C08_rout length=$DS2_C08_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS2_C09a innerRadius=$DS2_C09_rinner outerRadius=$DS2_C09_rout length=$DS2_C09_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS3_C01a innerRadius=$DS3_C01_rinner outerRadius=$DS3_C01_rout length=$DS3_C01_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS3_C02a innerRadius=$DS3_C02_rinner outerRadius=$DS3_C02_rout length=$DS3_C02_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS3_C03a innerRadius=$DS3_C03_rinner outerRadius=$DS3_C03_rout length=$DS3_C03_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS3_C04a innerRadius=$DS3_C04_rinner outerRadius=$DS3_C04_rout length=$DS3_C04_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+tubs DS3_C05a innerRadius=$DS3_C05_rinner outerRadius=$DS3_C05_rout length=$DS3_C05_ds material=Cu initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a color=$Coil_Color_a
+      
+      
+place  PS0_C01a x=$PS0_C01_x z=$PS0_C01_z rotation=Y$PS0_C01_rot  
+place  PS0_C02a x=$PS0_C02_x z=$PS0_C02_z rotation=Y$PS0_C02_rot  
+place  PS0_C03a x=$PS0_C03_x z=$PS0_C03_z rotation=Y$PS0_C03_rot  
+place  TS1_C01a x=$TS1_C01_x z=$TS1_C01_z rotation=Y$TS1_C01_rot  
+place  TS1_C02a x=$TS1_C02_x z=$TS1_C02_z rotation=Y$TS1_C02_rot  
+place  TS1_C03a x=$TS1_C03_x z=$TS1_C03_z rotation=Y$TS1_C03_rot  
+place  TS1_C04a x=$TS1_C04_x z=$TS1_C04_z rotation=Y$TS1_C04_rot  
+place  TS1_C05a x=$TS1_C05_x z=$TS1_C05_z rotation=Y$TS1_C05_rot  
+place  TS1_C06a x=$TS1_C06_x z=$TS1_C06_z rotation=Y$TS1_C06_rot  
+place  TS1_C07a x=$TS1_C07_x z=$TS1_C07_z rotation=Y$TS1_C07_rot  
+place  TS1_C08a x=$TS1_C08_x z=$TS1_C08_z rotation=Y$TS1_C08_rot  
+place  TS2_C01a x=$TS2_C01_x z=$TS2_C01_z rotation=Y$TS2_C01_rot  
+place  TS2_C02a x=$TS2_C02_x z=$TS2_C02_z rotation=Y$TS2_C02_rot  
+place  TS2_C03a x=$TS2_C03_x z=$TS2_C03_z rotation=Y$TS2_C03_rot  
+place  TS2_C04a x=$TS2_C04_x z=$TS2_C04_z rotation=Y$TS2_C04_rot  
+place  TS2_C05a x=$TS2_C05_x z=$TS2_C05_z rotation=Y$TS2_C05_rot  
+place  TS2_C06a x=$TS2_C06_x z=$TS2_C06_z rotation=Y$TS2_C06_rot  
+place  TS2_C07a x=$TS2_C07_x z=$TS2_C07_z rotation=Y$TS2_C07_rot  
+place  TS2_C08a x=$TS2_C08_x z=$TS2_C08_z rotation=Y$TS2_C08_rot  
+place  TS2_C09a x=$TS2_C09_x z=$TS2_C09_z rotation=Y$TS2_C09_rot  
+place  TS2_C10a x=$TS2_C10_x z=$TS2_C10_z rotation=Y$TS2_C10_rot  
+place  TS2_C11a x=$TS2_C11_x z=$TS2_C11_z rotation=Y$TS2_C11_rot  
+place  TS2_C12a x=$TS2_C12_x z=$TS2_C12_z rotation=Y$TS2_C12_rot  
+place  TS2_C13a x=$TS2_C13_x z=$TS2_C13_z rotation=Y$TS2_C13_rot  
+place  TS2_C14a x=$TS2_C14_x z=$TS2_C14_z rotation=Y$TS2_C14_rot  
+place  TS2_C15a x=$TS2_C15_x z=$TS2_C15_z rotation=Y$TS2_C15_rot  
+place  TS2_C16a x=$TS2_C16_x z=$TS2_C16_z rotation=Y$TS2_C16_rot  
+place  TS3_C01a x=$TS3_C01_x z=$TS3_C01_z rotation=Y$TS3_C01_rot  
+place  TS3_C02a x=$TS3_C02_x z=$TS3_C02_z rotation=Y$TS3_C02_rot  
+place  TS3_C03a x=$TS3_C03_x z=$TS3_C03_z rotation=Y$TS3_C03_rot  
+place  TS3_C04a x=$TS3_C04_x z=$TS3_C04_z rotation=Y$TS3_C04_rot  
+place  TS3_C05a x=$TS3_C05_x z=$TS3_C05_z rotation=Y$TS3_C05_rot  
+place  TS3_C06a x=$TS3_C06_x z=$TS3_C06_z rotation=Y$TS3_C06_rot  
+place  TS3_C07a x=$TS3_C07_x z=$TS3_C07_z rotation=Y$TS3_C07_rot  
+place  TS3_C08a x=$TS3_C08_x z=$TS3_C08_z rotation=Y$TS3_C08_rot  
+place  TS3_C09a x=$TS3_C09_x z=$TS3_C09_z rotation=Y$TS3_C09_rot  
+place  TS3_C10a x=$TS3_C10_x z=$TS3_C10_z rotation=Y$TS3_C10_rot  
+place  TS3_C11a x=$TS3_C11_x z=$TS3_C11_z rotation=Y$TS3_C11_rot  
+place  TS3_C12a x=$TS3_C12_x z=$TS3_C12_z rotation=Y$TS3_C12_rot  
+place  TS3_C13a x=$TS3_C13_x z=$TS3_C13_z rotation=Y$TS3_C13_rot  
+place  TS3_C14a x=$TS3_C14_x z=$TS3_C14_z rotation=Y$TS3_C14_rot  
+place  TS3_C15a x=$TS3_C15_x z=$TS3_C15_z rotation=Y$TS3_C15_rot  
+place  TS3_C16a x=$TS3_C16_x z=$TS3_C16_z rotation=Y$TS3_C16_rot  
+place  TS4_C01a x=$TS4_C01_x z=$TS4_C01_z rotation=Y$TS4_C01_rot  
+place  TS4_C02a x=$TS4_C02_x z=$TS4_C02_z rotation=Y$TS4_C02_rot  
+place  TS4_C03a x=$TS4_C03_x z=$TS4_C03_z rotation=Y$TS4_C03_rot  
+place  TS4_C04a x=$TS4_C04_x z=$TS4_C04_z rotation=Y$TS4_C04_rot  
+place  TS4_C05a x=$TS4_C05_x z=$TS4_C05_z rotation=Y$TS4_C05_rot  
+place  TS4_C06a x=$TS4_C06_x z=$TS4_C06_z rotation=Y$TS4_C06_rot  
+place  TS4_C07a x=$TS4_C07_x z=$TS4_C07_z rotation=Y$TS4_C07_rot  
+place  TS4_C08a x=$TS4_C08_x z=$TS4_C08_z rotation=Y$TS4_C08_rot  
+place  TS4_C09a x=$TS4_C09_x z=$TS4_C09_z rotation=Y$TS4_C09_rot  
+place  TS4_C10a x=$TS4_C10_x z=$TS4_C10_z rotation=Y$TS4_C10_rot  
+place  TS4_C11a x=$TS4_C11_x z=$TS4_C11_z rotation=Y$TS4_C11_rot  
+place  TS4_C12a x=$TS4_C12_x z=$TS4_C12_z rotation=Y$TS4_C12_rot  
+place  TS4_C13a x=$TS4_C13_x z=$TS4_C13_z rotation=Y$TS4_C13_rot  
+place  TS4_C14a x=$TS4_C14_x z=$TS4_C14_z rotation=Y$TS4_C14_rot  
+place  TS4_C15a x=$TS4_C15_x z=$TS4_C15_z rotation=Y$TS4_C15_rot  
+place  TS4_C16a x=$TS4_C16_x z=$TS4_C16_z rotation=Y$TS4_C16_rot  
+place  TS5_C01a x=$TS5_C01_x z=$TS5_C01_z rotation=Y$TS5_C01_rot  
+place  TS5_C02a x=$TS5_C02_x z=$TS5_C02_z rotation=Y$TS5_C02_rot  
+place  TS5_C03a x=$TS5_C03_x z=$TS5_C03_z rotation=Y$TS5_C03_rot  
+place  TS5_C04a x=$TS5_C04_x z=$TS5_C04_z rotation=Y$TS5_C04_rot  
+place  TS5_C05a x=$TS5_C05_x z=$TS5_C05_z rotation=Y$TS5_C05_rot  
+place  TS5_C06a x=$TS5_C06_x z=$TS5_C06_z rotation=Y$TS5_C06_rot  
+place  DS1_C01a x=$DS1_C01_x z=$DS1_C01_z rotation=Y$DS1_C01_rot  
+place  DS1_C02a x=$DS1_C02_x z=$DS1_C02_z rotation=Y$DS1_C02_rot  
+place  DS1_C03a x=$DS1_C03_x z=$DS1_C03_z rotation=Y$DS1_C03_rot  
+place  DS1_C04a x=$DS1_C04_x z=$DS1_C04_z rotation=Y$DS1_C04_rot  
+place  DS1_C05a x=$DS1_C05_x z=$DS1_C05_z rotation=Y$DS1_C05_rot  
+place  DS1_C06a x=$DS1_C06_x z=$DS1_C06_z rotation=Y$DS1_C06_rot  
+place  DS1_C07a x=$DS1_C07_x z=$DS1_C07_z rotation=Y$DS1_C07_rot  
+place  DS1_C08a x=$DS1_C08_x z=$DS1_C08_z rotation=Y$DS1_C08_rot  
+place  DS1_C09a x=$DS1_C09_x z=$DS1_C09_z rotation=Y$DS1_C09_rot  
+place  DS2_C01a x=$DS2_C01_x z=$DS2_C01_z rotation=Y$DS2_C01_rot  
+place  DS2_C02a x=$DS2_C02_x z=$DS2_C02_z rotation=Y$DS2_C02_rot  
+place  DS2_C03a x=$DS2_C03_x z=$DS2_C03_z rotation=Y$DS2_C03_rot  
+place  DS2_C04a x=$DS2_C04_x z=$DS2_C04_z rotation=Y$DS2_C04_rot  
+place  DS2_C05a x=$DS2_C05_x z=$DS2_C05_z rotation=Y$DS2_C05_rot  
+place  DS2_C06a x=$DS2_C06_x z=$DS2_C06_z rotation=Y$DS2_C06_rot  
+place  DS2_C07a x=$DS2_C07_x z=$DS2_C07_z rotation=Y$DS2_C07_rot  
+place  DS2_C08a x=$DS2_C08_x z=$DS2_C08_z rotation=Y$DS2_C08_rot  
+place  DS2_C09a x=$DS2_C09_x z=$DS2_C09_z rotation=Y$DS2_C09_rot  
+place  DS3_C01a x=$DS3_C01_x z=$DS3_C01_z rotation=Y$DS3_C01_rot  
+place  DS3_C02a x=$DS3_C02_x z=$DS3_C02_z rotation=Y$DS3_C02_rot  
+place  DS3_C03a x=$DS3_C03_x z=$DS3_C03_z rotation=Y$DS3_C03_rot  
+place  DS3_C04a x=$DS3_C04_x z=$DS3_C04_z rotation=Y$DS3_C04_rot  
+place  DS3_C05a x=$DS3_C05_x z=$DS3_C05_z rotation=Y$DS3_C05_rot  
+
+
+tubs PS0_C01b innerRadius=$PS0_C01_rinner outerRadius=$PS0_C01_rout length=$PS0_C01_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs PS0_C02b innerRadius=$PS0_C02_rinner outerRadius=$PS0_C02_rout length=$PS0_C02_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs PS0_C03b innerRadius=$PS0_C03_rinner outerRadius=$PS0_C03_rout length=$PS0_C03_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs TS1_C01b innerRadius=$TS1_C01_rinner outerRadius=$TS1_C01_rout length=$TS1_C01_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C02b innerRadius=$TS1_C02_rinner outerRadius=$TS1_C02_rout length=$TS1_C02_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C03b innerRadius=$TS1_C03_rinner outerRadius=$TS1_C03_rout length=$TS1_C03_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C04b innerRadius=$TS1_C04_rinner outerRadius=$TS1_C04_rout length=$TS1_C04_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C05b innerRadius=$TS1_C05_rinner outerRadius=$TS1_C05_rout length=$TS1_C05_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C06b innerRadius=$TS1_C06_rinner outerRadius=$TS1_C06_rout length=$TS1_C06_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C07b innerRadius=$TS1_C07_rinner outerRadius=$TS1_C07_rout length=$TS1_C07_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS1_C08b innerRadius=$TS1_C08_rinner outerRadius=$TS1_C08_rout length=$TS1_C08_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C01b innerRadius=$TS2_C01_rinner outerRadius=$TS2_C01_rout length=$TS2_C01_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C02b innerRadius=$TS2_C02_rinner outerRadius=$TS2_C02_rout length=$TS2_C02_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C03b innerRadius=$TS2_C03_rinner outerRadius=$TS2_C03_rout length=$TS2_C03_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C04b innerRadius=$TS2_C04_rinner outerRadius=$TS2_C04_rout length=$TS2_C04_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C05b innerRadius=$TS2_C05_rinner outerRadius=$TS2_C05_rout length=$TS2_C05_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C06b innerRadius=$TS2_C06_rinner outerRadius=$TS2_C06_rout length=$TS2_C06_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C07b innerRadius=$TS2_C07_rinner outerRadius=$TS2_C07_rout length=$TS2_C07_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C08b innerRadius=$TS2_C08_rinner outerRadius=$TS2_C08_rout length=$TS2_C08_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C09b innerRadius=$TS2_C09_rinner outerRadius=$TS2_C09_rout length=$TS2_C09_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C10b innerRadius=$TS2_C10_rinner outerRadius=$TS2_C10_rout length=$TS2_C10_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C11b innerRadius=$TS2_C11_rinner outerRadius=$TS2_C11_rout length=$TS2_C11_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C12b innerRadius=$TS2_C12_rinner outerRadius=$TS2_C12_rout length=$TS2_C12_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C13b innerRadius=$TS2_C13_rinner outerRadius=$TS2_C13_rout length=$TS2_C13_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C14b innerRadius=$TS2_C14_rinner outerRadius=$TS2_C14_rout length=$TS2_C14_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C15b innerRadius=$TS2_C15_rinner outerRadius=$TS2_C15_rout length=$TS2_C15_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS2_C16b innerRadius=$TS2_C16_rinner outerRadius=$TS2_C16_rout length=$TS2_C16_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C01b innerRadius=$TS3_C01_rinner outerRadius=$TS3_C01_rout length=$TS3_C01_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C02b innerRadius=$TS3_C02_rinner outerRadius=$TS3_C02_rout length=$TS3_C02_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C03b innerRadius=$TS3_C03_rinner outerRadius=$TS3_C03_rout length=$TS3_C03_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C04b innerRadius=$TS3_C04_rinner outerRadius=$TS3_C04_rout length=$TS3_C04_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C05b innerRadius=$TS3_C05_rinner outerRadius=$TS3_C05_rout length=$TS3_C05_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C06b innerRadius=$TS3_C06_rinner outerRadius=$TS3_C06_rout length=$TS3_C06_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C07b innerRadius=$TS3_C07_rinner outerRadius=$TS3_C07_rout length=$TS3_C07_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C08b innerRadius=$TS3_C08_rinner outerRadius=$TS3_C08_rout length=$TS3_C08_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C09b innerRadius=$TS3_C09_rinner outerRadius=$TS3_C09_rout length=$TS3_C09_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C10b innerRadius=$TS3_C10_rinner outerRadius=$TS3_C10_rout length=$TS3_C10_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C11b innerRadius=$TS3_C11_rinner outerRadius=$TS3_C11_rout length=$TS3_C11_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C12b innerRadius=$TS3_C12_rinner outerRadius=$TS3_C12_rout length=$TS3_C12_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C13b innerRadius=$TS3_C13_rinner outerRadius=$TS3_C13_rout length=$TS3_C13_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C14b innerRadius=$TS3_C14_rinner outerRadius=$TS3_C14_rout length=$TS3_C14_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C15b innerRadius=$TS3_C15_rinner outerRadius=$TS3_C15_rout length=$TS3_C15_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS3_C16b innerRadius=$TS3_C16_rinner outerRadius=$TS3_C16_rout length=$TS3_C16_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C01b innerRadius=$TS4_C01_rinner outerRadius=$TS4_C01_rout length=$TS4_C01_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C02b innerRadius=$TS4_C02_rinner outerRadius=$TS4_C02_rout length=$TS4_C02_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C03b innerRadius=$TS4_C03_rinner outerRadius=$TS4_C03_rout length=$TS4_C03_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C04b innerRadius=$TS4_C04_rinner outerRadius=$TS4_C04_rout length=$TS4_C04_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C05b innerRadius=$TS4_C05_rinner outerRadius=$TS4_C05_rout length=$TS4_C05_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C06b innerRadius=$TS4_C06_rinner outerRadius=$TS4_C06_rout length=$TS4_C06_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C07b innerRadius=$TS4_C07_rinner outerRadius=$TS4_C07_rout length=$TS4_C07_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C08b innerRadius=$TS4_C08_rinner outerRadius=$TS4_C08_rout length=$TS4_C08_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C09b innerRadius=$TS4_C09_rinner outerRadius=$TS4_C09_rout length=$TS4_C09_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C10b innerRadius=$TS4_C10_rinner outerRadius=$TS4_C10_rout length=$TS4_C10_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C11b innerRadius=$TS4_C11_rinner outerRadius=$TS4_C11_rout length=$TS4_C11_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C12b innerRadius=$TS4_C12_rinner outerRadius=$TS4_C12_rout length=$TS4_C12_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C13b innerRadius=$TS4_C13_rinner outerRadius=$TS4_C13_rout length=$TS4_C13_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C14b innerRadius=$TS4_C14_rinner outerRadius=$TS4_C14_rout length=$TS4_C14_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C15b innerRadius=$TS4_C15_rinner outerRadius=$TS4_C15_rout length=$TS4_C15_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS4_C16b innerRadius=$TS4_C16_rinner outerRadius=$TS4_C16_rout length=$TS4_C16_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C01b innerRadius=$TS5_C01_rinner outerRadius=$TS5_C01_rout length=$TS5_C01_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C02b innerRadius=$TS5_C02_rinner outerRadius=$TS5_C02_rout length=$TS5_C02_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C03b innerRadius=$TS5_C03_rinner outerRadius=$TS5_C03_rout length=$TS5_C03_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C04b innerRadius=$TS5_C04_rinner outerRadius=$TS5_C04_rout length=$TS5_C04_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C05b innerRadius=$TS5_C05_rinner outerRadius=$TS5_C05_rout length=$TS5_C05_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs TS5_C06b innerRadius=$TS5_C06_rinner outerRadius=$TS5_C06_rout length=$TS5_C06_ds material=Cu initialPhi=$TS_InitialPhi_b finalPhi=$TS_FinalPhi_b color=$Coil_Color_b
+tubs DS1_C01b innerRadius=$DS1_C01_rinner outerRadius=$DS1_C01_rout length=$DS1_C01_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C02b innerRadius=$DS1_C02_rinner outerRadius=$DS1_C02_rout length=$DS1_C02_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C03b innerRadius=$DS1_C03_rinner outerRadius=$DS1_C03_rout length=$DS1_C03_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C04b innerRadius=$DS1_C04_rinner outerRadius=$DS1_C04_rout length=$DS1_C04_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C05b innerRadius=$DS1_C05_rinner outerRadius=$DS1_C05_rout length=$DS1_C05_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C06b innerRadius=$DS1_C06_rinner outerRadius=$DS1_C06_rout length=$DS1_C06_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C07b innerRadius=$DS1_C07_rinner outerRadius=$DS1_C07_rout length=$DS1_C07_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C08b innerRadius=$DS1_C08_rinner outerRadius=$DS1_C08_rout length=$DS1_C08_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS1_C09b innerRadius=$DS1_C09_rinner outerRadius=$DS1_C09_rout length=$DS1_C09_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C01b innerRadius=$DS2_C01_rinner outerRadius=$DS2_C01_rout length=$DS2_C01_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C02b innerRadius=$DS2_C02_rinner outerRadius=$DS2_C02_rout length=$DS2_C02_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C03b innerRadius=$DS2_C03_rinner outerRadius=$DS2_C03_rout length=$DS2_C03_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C04b innerRadius=$DS2_C04_rinner outerRadius=$DS2_C04_rout length=$DS2_C04_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C05b innerRadius=$DS2_C05_rinner outerRadius=$DS2_C05_rout length=$DS2_C05_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C06b innerRadius=$DS2_C06_rinner outerRadius=$DS2_C06_rout length=$DS2_C06_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C07b innerRadius=$DS2_C07_rinner outerRadius=$DS2_C07_rout length=$DS2_C07_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C08b innerRadius=$DS2_C08_rinner outerRadius=$DS2_C08_rout length=$DS2_C08_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS2_C09b innerRadius=$DS2_C09_rinner outerRadius=$DS2_C09_rout length=$DS2_C09_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS3_C01b innerRadius=$DS3_C01_rinner outerRadius=$DS3_C01_rout length=$DS3_C01_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS3_C02b innerRadius=$DS3_C02_rinner outerRadius=$DS3_C02_rout length=$DS3_C02_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS3_C03b innerRadius=$DS3_C03_rinner outerRadius=$DS3_C03_rout length=$DS3_C03_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS3_C04b innerRadius=$DS3_C04_rinner outerRadius=$DS3_C04_rout length=$DS3_C04_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+tubs DS3_C05b innerRadius=$DS3_C05_rinner outerRadius=$DS3_C05_rout length=$DS3_C05_ds material=Cu initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b color=$Coil_Color_b
+      
+      
+place  PS0_C01b x=$PS0_C01_x z=$PS0_C01_z rotation=Y$PS0_C01_rot  
+place  PS0_C02b x=$PS0_C02_x z=$PS0_C02_z rotation=Y$PS0_C02_rot  
+place  PS0_C03b x=$PS0_C03_x z=$PS0_C03_z rotation=Y$PS0_C03_rot  
+place  TS1_C01b x=$TS1_C01_x z=$TS1_C01_z rotation=Y$TS1_C01_rot  
+place  TS1_C02b x=$TS1_C02_x z=$TS1_C02_z rotation=Y$TS1_C02_rot  
+place  TS1_C03b x=$TS1_C03_x z=$TS1_C03_z rotation=Y$TS1_C03_rot  
+place  TS1_C04b x=$TS1_C04_x z=$TS1_C04_z rotation=Y$TS1_C04_rot  
+place  TS1_C05b x=$TS1_C05_x z=$TS1_C05_z rotation=Y$TS1_C05_rot  
+place  TS1_C06b x=$TS1_C06_x z=$TS1_C06_z rotation=Y$TS1_C06_rot  
+place  TS1_C07b x=$TS1_C07_x z=$TS1_C07_z rotation=Y$TS1_C07_rot  
+place  TS1_C08b x=$TS1_C08_x z=$TS1_C08_z rotation=Y$TS1_C08_rot  
+place  TS2_C01b x=$TS2_C01_x z=$TS2_C01_z rotation=Y$TS2_C01_rot  
+place  TS2_C02b x=$TS2_C02_x z=$TS2_C02_z rotation=Y$TS2_C02_rot  
+place  TS2_C03b x=$TS2_C03_x z=$TS2_C03_z rotation=Y$TS2_C03_rot  
+place  TS2_C04b x=$TS2_C04_x z=$TS2_C04_z rotation=Y$TS2_C04_rot  
+place  TS2_C05b x=$TS2_C05_x z=$TS2_C05_z rotation=Y$TS2_C05_rot  
+place  TS2_C06b x=$TS2_C06_x z=$TS2_C06_z rotation=Y$TS2_C06_rot  
+place  TS2_C07b x=$TS2_C07_x z=$TS2_C07_z rotation=Y$TS2_C07_rot  
+place  TS2_C08b x=$TS2_C08_x z=$TS2_C08_z rotation=Y$TS2_C08_rot  
+place  TS2_C09b x=$TS2_C09_x z=$TS2_C09_z rotation=Y$TS2_C09_rot  
+place  TS2_C10b x=$TS2_C10_x z=$TS2_C10_z rotation=Y$TS2_C10_rot  
+place  TS2_C11b x=$TS2_C11_x z=$TS2_C11_z rotation=Y$TS2_C11_rot  
+place  TS2_C12b x=$TS2_C12_x z=$TS2_C12_z rotation=Y$TS2_C12_rot  
+place  TS2_C13b x=$TS2_C13_x z=$TS2_C13_z rotation=Y$TS2_C13_rot  
+place  TS2_C14b x=$TS2_C14_x z=$TS2_C14_z rotation=Y$TS2_C14_rot  
+place  TS2_C15b x=$TS2_C15_x z=$TS2_C15_z rotation=Y$TS2_C15_rot  
+place  TS2_C16b x=$TS2_C16_x z=$TS2_C16_z rotation=Y$TS2_C16_rot  
+place  TS3_C01b x=$TS3_C01_x z=$TS3_C01_z rotation=Y$TS3_C01_rot  
+place  TS3_C02b x=$TS3_C02_x z=$TS3_C02_z rotation=Y$TS3_C02_rot  
+place  TS3_C03b x=$TS3_C03_x z=$TS3_C03_z rotation=Y$TS3_C03_rot  
+place  TS3_C04b x=$TS3_C04_x z=$TS3_C04_z rotation=Y$TS3_C04_rot  
+place  TS3_C05b x=$TS3_C05_x z=$TS3_C05_z rotation=Y$TS3_C05_rot  
+place  TS3_C06b x=$TS3_C06_x z=$TS3_C06_z rotation=Y$TS3_C06_rot  
+place  TS3_C07b x=$TS3_C07_x z=$TS3_C07_z rotation=Y$TS3_C07_rot  
+place  TS3_C08b x=$TS3_C08_x z=$TS3_C08_z rotation=Y$TS3_C08_rot  
+place  TS3_C09b x=$TS3_C09_x z=$TS3_C09_z rotation=Y$TS3_C09_rot  
+place  TS3_C10b x=$TS3_C10_x z=$TS3_C10_z rotation=Y$TS3_C10_rot  
+place  TS3_C11b x=$TS3_C11_x z=$TS3_C11_z rotation=Y$TS3_C11_rot  
+place  TS3_C12b x=$TS3_C12_x z=$TS3_C12_z rotation=Y$TS3_C12_rot  
+place  TS3_C13b x=$TS3_C13_x z=$TS3_C13_z rotation=Y$TS3_C13_rot  
+place  TS3_C14b x=$TS3_C14_x z=$TS3_C14_z rotation=Y$TS3_C14_rot  
+place  TS3_C15b x=$TS3_C15_x z=$TS3_C15_z rotation=Y$TS3_C15_rot  
+place  TS3_C16b x=$TS3_C16_x z=$TS3_C16_z rotation=Y$TS3_C16_rot  
+place  TS4_C01b x=$TS4_C01_x z=$TS4_C01_z rotation=Y$TS4_C01_rot  
+place  TS4_C02b x=$TS4_C02_x z=$TS4_C02_z rotation=Y$TS4_C02_rot  
+place  TS4_C03b x=$TS4_C03_x z=$TS4_C03_z rotation=Y$TS4_C03_rot  
+place  TS4_C04b x=$TS4_C04_x z=$TS4_C04_z rotation=Y$TS4_C04_rot  
+place  TS4_C05b x=$TS4_C05_x z=$TS4_C05_z rotation=Y$TS4_C05_rot  
+place  TS4_C06b x=$TS4_C06_x z=$TS4_C06_z rotation=Y$TS4_C06_rot  
+place  TS4_C07b x=$TS4_C07_x z=$TS4_C07_z rotation=Y$TS4_C07_rot  
+place  TS4_C08b x=$TS4_C08_x z=$TS4_C08_z rotation=Y$TS4_C08_rot  
+place  TS4_C09b x=$TS4_C09_x z=$TS4_C09_z rotation=Y$TS4_C09_rot  
+place  TS4_C10b x=$TS4_C10_x z=$TS4_C10_z rotation=Y$TS4_C10_rot  
+place  TS4_C11b x=$TS4_C11_x z=$TS4_C11_z rotation=Y$TS4_C11_rot  
+place  TS4_C12b x=$TS4_C12_x z=$TS4_C12_z rotation=Y$TS4_C12_rot  
+place  TS4_C13b x=$TS4_C13_x z=$TS4_C13_z rotation=Y$TS4_C13_rot  
+place  TS4_C14b x=$TS4_C14_x z=$TS4_C14_z rotation=Y$TS4_C14_rot  
+place  TS4_C15b x=$TS4_C15_x z=$TS4_C15_z rotation=Y$TS4_C15_rot  
+place  TS4_C16b x=$TS4_C16_x z=$TS4_C16_z rotation=Y$TS4_C16_rot  
+place  TS5_C01b x=$TS5_C01_x z=$TS5_C01_z rotation=Y$TS5_C01_rot  
+place  TS5_C02b x=$TS5_C02_x z=$TS5_C02_z rotation=Y$TS5_C02_rot  
+place  TS5_C03b x=$TS5_C03_x z=$TS5_C03_z rotation=Y$TS5_C03_rot  
+place  TS5_C04b x=$TS5_C04_x z=$TS5_C04_z rotation=Y$TS5_C04_rot  
+place  TS5_C05b x=$TS5_C05_x z=$TS5_C05_z rotation=Y$TS5_C05_rot  
+place  TS5_C06b x=$TS5_C06_x z=$TS5_C06_z rotation=Y$TS5_C06_rot  
+place  DS1_C01b x=$DS1_C01_x z=$DS1_C01_z rotation=Y$DS1_C01_rot  
+place  DS1_C02b x=$DS1_C02_x z=$DS1_C02_z rotation=Y$DS1_C02_rot  
+place  DS1_C03b x=$DS1_C03_x z=$DS1_C03_z rotation=Y$DS1_C03_rot  
+place  DS1_C04b x=$DS1_C04_x z=$DS1_C04_z rotation=Y$DS1_C04_rot  
+place  DS1_C05b x=$DS1_C05_x z=$DS1_C05_z rotation=Y$DS1_C05_rot  
+place  DS1_C06b x=$DS1_C06_x z=$DS1_C06_z rotation=Y$DS1_C06_rot  
+place  DS1_C07b x=$DS1_C07_x z=$DS1_C07_z rotation=Y$DS1_C07_rot  
+place  DS1_C08b x=$DS1_C08_x z=$DS1_C08_z rotation=Y$DS1_C08_rot  
+place  DS1_C09b x=$DS1_C09_x z=$DS1_C09_z rotation=Y$DS1_C09_rot  
+place  DS2_C01b x=$DS2_C01_x z=$DS2_C01_z rotation=Y$DS2_C01_rot  
+place  DS2_C02b x=$DS2_C02_x z=$DS2_C02_z rotation=Y$DS2_C02_rot  
+place  DS2_C03b x=$DS2_C03_x z=$DS2_C03_z rotation=Y$DS2_C03_rot  
+place  DS2_C04b x=$DS2_C04_x z=$DS2_C04_z rotation=Y$DS2_C04_rot  
+place  DS2_C05b x=$DS2_C05_x z=$DS2_C05_z rotation=Y$DS2_C05_rot  
+place  DS2_C06b x=$DS2_C06_x z=$DS2_C06_z rotation=Y$DS2_C06_rot  
+place  DS2_C07b x=$DS2_C07_x z=$DS2_C07_z rotation=Y$DS2_C07_rot  
+place  DS2_C08b x=$DS2_C08_x z=$DS2_C08_z rotation=Y$DS2_C08_rot  
+place  DS2_C09b x=$DS2_C09_x z=$DS2_C09_z rotation=Y$DS2_C09_rot  
+place  DS3_C01b x=$DS3_C01_x z=$DS3_C01_z rotation=Y$DS3_C01_rot  
+place  DS3_C02b x=$DS3_C02_x z=$DS3_C02_z rotation=Y$DS3_C02_rot  
+place  DS3_C03b x=$DS3_C03_x z=$DS3_C03_z rotation=Y$DS3_C03_rot  
+place  DS3_C04b x=$DS3_C04_x z=$DS3_C04_z rotation=Y$DS3_C04_rot  
+place  DS3_C05b x=$DS3_C05_x z=$DS3_C05_z rotation=Y$DS3_C05_rot  
+
+

@@ -1,0 +1,537 @@
+# $Id$ 
+# $Date$ 
+# $Author$
+
+# ****************************************************************************
+#                             Proton Target RAL
+# ****************************************************************************
+#
+# From:
+#   "RAL Target Model", Mu2e DocDB 4004
+#
+#   This file defines a representation of the RAL Radiation Cooled
+#   pion production target.
+#
+#   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
+#   The target is a 16 cm long 6.3 mm diameter cylinder of tungsten. 
+#   The center point of the target rod is 
+#    (x, y, z) = (0.0, 0.0, 1764.5) (mm)
+#   The longitudinal axis of the target is rotated with respect to 
+#    the +y axis by 14.00° 
+#
+#   This rotation is chosen to closely match the trajectory of the primary 
+#    proton beam through the axially graded PS field. 
+#
+
+# This target model allows for arbitrary rotations of the target
+# around its center, followed by arbitrary translations away from its
+# nominal position.
+#
+# - I always do the Y rotation, then the X rotation, then finally the
+# Z rotation, before applying the offsets
+#
+# - The target rotations don't move the support ring or the outer
+# ends of the support rods
+#
+# - The offsets also don't move the support ring (it's
+# attached to the inside of the HRS), but do move the hub ends of the
+# rods. 
+# 
+# - I assume the baseline HRS model (HRS-C) from the TDR; unfortunately,
+# the current HRS-C implementation is entirely hardcoded rather than being
+# parameterized, making it difficult to programatically extract the 
+# necessary parameter values.
+
+##********************
+## Tungsten target adjustable parameters
+##********************
+
+param -unset EnableTarget=1
+param -unset EnableTargetSupportHubs=1
+param -unset EnableTargetSupportRing=1
+param -unset EnableTargetSupportRingLatches=1
+param -unset EnableTargetSupportRingPins=1
+param -unset EnableTargetSupportRods=1
+param -unset EnableHRSLinerSupport=1
+# currently not implemented
+param -unset EnableTorsionSprings=0
+
+param -unset TargetXoffset=0
+param -unset TargetYoffset=0
+param -unset TargetZoffset=0
+param -unset TargetYrot=0
+param -unset TargetXrot=0
+param -unset TargetZrot=0
+param -unset Tlength=160.0 
+param -unset Tradius=6.3*.5
+
+##********************
+## default and calculated parameters
+##********************
+
+param TYangle=14.00
+param theTYangle=$TYangle+$TargetYrot/degree/1000
+param theTYanglerad=$theTYangle*degree
+param TXangle=0.0
+param theTXangle=$TXangle+$TargetXrot/degree/1000
+param theTXanglerad=$theTXangle*degree
+param TZangle=0.0
+param theTZangle=$TZangle+$TargetZrot/degree/1000
+param theTZanglerad=$theTZangle*degree
+param -unset Tmaterial=W
+
+
+##********************
+## Proton target made of tungsten 
+##********************
+
+tubs  pTarget \
+    outerRadius=$Tradius \
+    length=$Tlength \
+    material=$Tmaterial \
+    color=$Tungsten
+    
+if $EnableTarget==1
+    place pTarget \
+        x=$TargetXoffset y=$TargetYoffset \
+        z=$Tposition+$TargetZoffset \
+        rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+endif
+
+##********************
+## Optionally build the conical target support hubs
+##********************
+
+# I use v2.16 boolean volumes to attach the balls on the end of the
+# spokes to the hubs, but I don't boolean attach the hubs to the
+# target, because then it can't be visualized
+
+param -unset THubThick=1.0
+param -unset THubPre=8.0
+param -unset THubPost=4.0
+param -unset THubLength=16.0
+param -unset THubAttach=9.0
+param -unset THubAngle=45.0*degree
+param -unset THubBallRadius=4.5/2
+param -unset THubUAttachAngle=(120-15)*degree
+param -unset THubDAttachAngle=15*degree
+param -unset THubAttachAngleInc=120*degree
+
+if $EnableTargetSupportHubs==1
+
+    sphere TargetHubBall outerRadius=$THubBallRadius \
+        material=$Tmaterial color=$Tungsten
+
+    polycone uTargetHub \
+        material=$Tmaterial color=$Tungsten \
+        initialPhi=0 finalPhi=360 \
+        z=$Tlength/2-$THubPre,$Tlength/2+$THubPost,$Tlength/2+$THubPost+$THubLength*cos($THubAngle) \
+        innerRadius=$Tradius,$Tradius,$Tradius+$THubLength*sin($THubAngle) \
+        outerRadius=$Tradius+$THubThick,$Tradius+$THubThick,$Tradius+$THubLength*sin($THubAngle)+$THubThick
+
+    polycone dTargetHub \
+        material=$Tmaterial color=$Tungsten \
+        initialPhi=0 finalPhi=360 \
+        z=-$Tlength/2-$THubLength*cos($THubAngle)-$THubPost,-$Tlength/2-$THubPost,-$Tlength/2+$THubPre \
+        innerRadius=$Tradius+$THubLength*sin($THubAngle),$Tradius,$Tradius \
+        outerRadius=$Tradius+$THubLength*sin($THubAngle)+$THubThick,$Tradius+$THubThick,$Tradius+$THubThick
+
+    if $EnableTargetSupportRods==1
+        param zoff=$Tlength/2+$THubPost+$THubAttach*cos($THubAngle)+$THubBallRadius*sin($THubAngle)
+        param yoff=$Tradius+$THubThick+$THubAttach*sin($THubAngle)-$THubBallRadius*cos($THubAngle)
+
+        boolean op=union uTargetHub_1 uTargetHub TargetHubBall \
+            x=-sin($THubUAttachAngle)*$yoff \
+            y=cos($THubUAttachAngle)*$yoff \
+            z=$zoff
+        boolean op=union uTargetHub_2 uTargetHub_1 TargetHubBall \
+            x=-sin($THubUAttachAngle+$THubAttachAngleInc)*$yoff \
+            y=cos($THubUAttachAngle+$THubAttachAngleInc)*$yoff \
+            z=$zoff
+        boolean op=union UpstreamTargetHub uTargetHub_2 TargetHubBall \
+            x=-sin($THubUAttachAngle+2*$THubAttachAngleInc)*$yoff \
+            y=cos($THubUAttachAngle+2*$THubAttachAngleInc)*$yoff \
+            z=$zoff
+
+        place UpstreamTargetHub \
+            x=$TargetXoffset y=$TargetYoffset \
+            z=$Tposition+$TargetZoffset \
+            rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+
+        boolean op=union dTargetHub_1 dTargetHub TargetHubBall \
+            x=-sin($THubDAttachAngle)*$yoff \
+            y=cos($THubDAttachAngle)*$yoff \
+            z=-$zoff
+        boolean op=union dTargetHub_2 dTargetHub_1 TargetHubBall \
+            x=-sin($THubDAttachAngle+$THubAttachAngleInc)*$yoff \
+            y=cos($THubDAttachAngle+$THubAttachAngleInc)*$yoff \
+            z=-$zoff
+        boolean op=union DownstreamTargetHub dTargetHub_2 TargetHubBall \
+            x=-sin($THubDAttachAngle+2*$THubAttachAngleInc)*$yoff \
+            y=cos($THubDAttachAngle+2*$THubAttachAngleInc)*$yoff \
+            z=-$zoff
+
+        place DownstreamTargetHub \
+            x=$TargetXoffset y=$TargetYoffset \
+            z=$Tposition+$TargetZoffset \
+            rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+    else
+
+        place uTargetHub \
+            x=$TargetXoffset y=$TargetYoffset \
+            z=$Tposition+$TargetZoffset \
+            rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+
+	place dTargetHub \
+            x=$TargetXoffset y=$TargetYoffset \
+            z=$Tposition+$TargetZoffset \
+            rotation=Y$theTYangle,X$theTXangle,Z$theTZangle
+
+    endif
+
+endif
+
+
+# ****************************************************************************
+# Optionally build the Target Support Ring ("wheel")
+# ****************************************************************************
+
+param -unset TSupportRingColor=$Green
+
+# this next should come from HRS construction
+param -unset TSupportRout=390./2.
+param -unset TSupportTransverse=19
+param -unset TSupportRin=$TSupportRout-$TSupportTransverse
+param -unset TSupportRingLength=2*9.525
+param -unset TSupportMat=Ti
+
+if $EnableTargetSupportRing==1
+
+    tubs TSupportRing innerRadius=$TSupportRin \
+        outerRadius=$TSupportRout length=$TSupportRingLength \
+        material=$TSupportMat color=$TSupportRingColor
+
+    tubs TLockingHub innerRadius=0 outerRadius=$TSupportTransverse \
+       	length=$TSupportRingLength material=$TSupportMat \
+	color=$TSupportRingColor
+
+    boolean op=union TSupportRing_1 TSupportRing TLockingHub x=0 \
+    	y=$TSupportRin z=0 color=$TSupportRingColor
+
+    boolean op=union TSupportRing_2 TSupportRing_1 TLockingHub \
+        x=cos(-30*degree)*$TSupportRin \
+        y=sin(-30*degree)*$TSupportRin \
+	z=0 color=$TSupportRingColor
+
+    boolean op=union TSupportRing_final TSupportRing_2 TLockingHub \
+        x=cos(-150*degree)*$TSupportRin \
+        y=sin(-150*degree)*$TSupportRin \
+	z=0 color=$TSupportRingColor
+
+    if $EnableTargetSupportRingLatches==1
+        place TSupportRing_final z=$Tposition
+    else
+        place TSupportRing z=$Tposition
+    endif
+endif
+
+# ****************************************************************************
+# A much simplified model of the mechanism for locking the target wheel
+# into the HRS
+# ****************************************************************************
+if $EnableTargetSupportRingLatches==1
+
+    param TSupportLatchRout=25./2
+    param TSupportLatchLength=42
+    param TSupportLatchZ=$Tposition-$TSupportRingLength/2-$TSupportLatchLength/2
+
+    tubs TSupportLatch innerRadius=0 outerRadius=$TSupportLatchRout \
+        length=$TSupportLatchLength material=$TSupportMat \
+        color=$TSupportRingColor
+
+    place TSupportLatch rename=TSupportLatch# \
+        x=0 y=$TSupportRin z=$TSupportLatchZ
+
+    place TSupportLatch rename=TSupportLatch# \
+        x=cos(-30*degree)*$TSupportRin \
+        y=sin(-30*degree)*$TSupportRin \
+	z=$TSupportLatchZ
+
+    place TSupportLatch rename=TSupportLatch# \
+        x=cos(-150*degree)*$TSupportRin \
+        y=sin(-150*degree)*$TSupportRin \
+	z=$TSupportLatchZ
+endif
+
+# ****************************************************************************
+# The target support pins are on the proton downstream side, and are used 
+# by the robot to grab and hold the target wheel
+# ****************************************************************************
+if $EnableTargetSupportRingPins==1
+
+    param TSupportPinsTopLen=3.175
+    param TSupportPinsTopRout=15.875/2
+    param TSupportPinsBottomLen=19
+    param TSupportPinsBottomRout=9.5/2
+
+    tubs TSupportPinsTop innerRadius=0 outerRadius=$TSupportPinsTopRout \
+        length=$TSupportPinsTopLen material=$TSupportMat \
+        color=$TSupportRingColor
+
+    tubs TSupportPinsBottom innerRadius=0 \
+        outerRadius=$TSupportPinsBottomRout \
+        length=$TSupportPinsBottomLen material=$TSupportMat \
+        color=$TSupportRingColor
+
+    boolean op=union TSupportPins TSupportPinsBottom TSupportPinsTop \
+        x=0 y=0 z=-$TSupportPinsBottomLen/2-$TSupportPinsTopLen/2 \
+        color=$TSupportRingColor
+
+    param TSupportPinCenter=$TSupportRin+$TSupportPinsTopRout
+    place TSupportPins rename=TSupportPin# \
+        x=cos(40*degree)*$TSupportPinCenter \
+	y=sin(40*degree)*$TSupportPinCenter \
+	z=$Tposition-$TSupportPinsBottomLen
+    place TSupportPins rename=TSupportPin# \
+        x=cos(140*degree)*$TSupportPinCenter \
+	y=sin(140*degree)*$TSupportPinCenter \
+	z=$Tposition-$TSupportPinsBottomLen
+    place TSupportPins rename=TSupportPin# \
+        x=cos(-65*degree)*$TSupportPinCenter \
+	y=sin(-65*degree)*$TSupportPinCenter \
+	z=$Tposition-$TSupportPinsBottomLen
+    place TSupportPins rename=TSupportPin# \
+        x=cos(-115*degree)*$TSupportPinCenter \
+	y=sin(-115*degree)*$TSupportPinCenter \
+	z=$Tposition-$TSupportPinsBottomLen
+
+endif
+
+# ****************************************************************************
+# There's a support ring integrated into the HRS Liner to accept the target
+# See DocDB 3926
+# ****************************************************************************
+param -unset HRSLinerSupportColor=$Chartreuse
+param -unset HRSLinerSupportMat=Fe
+
+# Warning! The 3926 drawings are in English Units
+param -unset HRSLinerSupportLength=1.*25.4
+param -unset HRSLinerSupportThickness=0.25*25.4
+param -unset HRSLinerSupportInnerRadius=1.425*25.4
+param -unset HRSLinerSupportDiameter=1.5*25.4
+
+if $EnableHRSLinerSupport==1
+
+    # Should get this from somewhere else, but it doesn't appear to be
+    #  readily available as a paramter anywhere
+    param HRSInnerRadius=200
+
+    tubs HRSLinerSupportOuterRing \
+        innerRadius=$HRSInnerRadius-$HRSLinerSupportThickness \
+        outerRadius=$HRSInnerRadius \
+	length=$HRSLinerSupportLength \
+        material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor
+
+# change names here....
+    tubs HRSLinerSupportLockBump \
+    	innerRadius=0 outerRadius=$HRSLinerSupportDiameter/2 \
+	length=$HRSLinerSupportLength \
+	initialPhi=0 \
+	finalPhi=180 \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor
+	    	 
+    box HRSLinerSupportLockBlock \
+    	length=$HRSLinerSupportLength \
+	width=$HRSLinerSupportDiameter/2 \
+	height=$HRSLinerSupportDiameter \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor
+
+    boolean op=union HRSLinerSupportLockBumpBlock \
+        HRSLinerSupportLockBump HRSLinerSupportLockBlock \
+	rotation=Z90 \
+	x=0 \
+	y=-$HRSLinerSupportDiameter/4 \
+	z=0 \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor
+
+    param HRSLinerSupportLockBumpRadius=$HRSInnerRadius-$HRSLinerSupportThickness-$HRSLinerSupportDiameter/2
+
+    boolean op=union HRSLinerSupportRing_b1 HRSLinerSupportOuterRing HRSLinerSupportLockBumpBlock \
+        rotation=Z180 \
+	x=0 \
+	y=$HRSLinerSupportLockBumpRadius \
+	z=0 \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor 
+
+    boolean op=union HRSLinerSupportRing_b2 HRSLinerSupportRing_b1 HRSLinerSupportLockBumpBlock \
+        rotation=Z-60 \
+	x=cos(-30*degree)*$HRSLinerSupportLockBumpRadius \
+	y=sin(-30*degree)*$HRSLinerSupportLockBumpRadius \
+	z=0 \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor 
+
+    boolean op=union HRSLinerSupportRing_final HRSLinerSupportRing_b2 HRSLinerSupportLockBumpBlock \
+        rotation=Z60 \
+	x=cos(-150*degree)*$HRSLinerSupportLockBumpRadius \
+	y=sin(-150*degree)*$HRSLinerSupportLockBumpRadius \
+	z=0 \
+	material=$HRSLinerSupportMat \
+	color=$HRSLinerSupportColor 
+
+    place HRSLinerSupportRing_final \
+    	z=$Tposition+$TSupportRingLength/2+$HRSLinerSupportLength/2
+
+endif
+
+# ****************************************************************************
+# Optionally build the Target Support Rods ("spokes")
+# ****************************************************************************
+
+# The support rods are solid cylinders 
+
+param -unset THubGap=0.1
+param -unset THubAnchorAngle=65*degree
+param -unset THubAnchorLength=35
+param -unset TSupportRodUp=0.5
+param -unset TSupportRodDown=0.5
+
+# visualization can't handle radiused ends
+#sphere rodballu outerRadius=$TSupportRodUp \
+#       material=$Tmaterial color=$Tungsten
+#sphere rodballd outerRadius=$TSupportRodDown \
+#       material=$Tmaterial color=$Tungsten
+
+sphere RedRingBall outerRadius=$THubBallRadius \
+    material=$Tmaterial color=$Red
+sphere BlueHubBall outerRadius=$THubBallRadius \
+    material=$Tmaterial color=$Blue
+
+param cosTX=cos($theTXanglerad)
+param sinTX=sin($theTXanglerad)
+param cosTY=cos($theTYanglerad)
+param sinTY=sin($theTYanglerad)
+param cosTZ=cos($theTZanglerad)
+param sinTZ=sin($theTZanglerad)
+
+if $EnableTargetSupportRods==1
+
+    # gosh, how I long for macros .... please don't look at this too closely
+    do i 0 2
+
+    ##### Upsream rods
+
+    # Upstream Rods -- primitive locations, 12o'clock high
+    param zpre=$Tlength/2+$THubPost+$THubAttach*cos($THubAngle)-$THubGap*sin($THubAngle)
+    param ypre=$Tradius+$THubThick+$THubAttach*sin($THubAngle)+$THubGap*cos($THubAngle)
+    param zring=-$TSupportRingLength/2-$THubAnchorLength*cos($THubAnchorAngle)
+    param yring=$TSupportRin-$THubAnchorLength*sin($THubAnchorAngle)
+
+    # primed coordinates -- rotate around z axis to proper location, 
+    # still with target on axis
+    param xpr=-sin($THubUAttachAngle+$i*$THubAttachAngleInc)*$ypre
+    param ypr=cos($THubUAttachAngle+$i*$THubAttachAngleInc)*$ypre
+    param zpr=$zpre
+    param xrpr=-sin($THubUAttachAngle+$i*$THubAttachAngleInc)*$yring
+    param yrpr=cos($THubUAttachAngle+$i*$THubAttachAngleInc)*$yring
+    param zrpr=$zring
+
+    # apply arbitrary rotations and offsets to hub end
+    param xhub=($cosTY*$cosTZ-$sinTX*$sinTY*$sinTZ)*$xpr-$cosTX*$sinTZ*$ypr+($sinTY*$cosTZ+$sinTX*$cosTY*$sinTZ)*$zpr+$TargetXoffset
+    param yhub=($cosTY*$sinTZ+$sinTX*$sinTY*$cosTZ)*$xpr+$cosTX*$cosTZ*$ypr+($sinTY*$sinTZ-$sinTX*$cosTY*$cosTZ)*$zpr+$TargetYoffset
+    param zhub=-$cosTX*$sinTY*$xpr+$sinTX*$ypr+$cosTX*$cosTY*$zpr+$Tposition+$TargetZoffset
+
+#    place BlueHubBall x=$xhub y=$yhub z=$zhub
+
+    # apply arbitrary z rotation and offsets to ring end
+    param xr=$cosTZ*$xrpr-$sinTZ*$yrpr+$TargetXoffset
+    param yr=$sinTZ*$xrpr+$cosTZ*$yrpr+$TargetYoffset
+    param zr=$zrpr+$Tposition+$TargetZoffset
+
+#    place RedRingBall x=$xr y=$yr z=$zr
+
+    # figure rod length, and build-a-boolean
+    
+    param rodspace=sqrt(($xr-$xhub)*($xr-$xhub)+($yr-$yhub)*($yr-$yhub)+($zr-$zhub)*($zr-$zhub))
+    param rodlength=$rodspace-2*$TSupportRodUp
+    param rodspace_xz=sqrt(($xr-$xhub)*($xr-$xhub)+($zr-$zhub)*($zr-$zhub))
+    param rodcenterx=($xr+$xhub)/2
+    param rodcentery=($yr+$yhub)/2
+    param rodcenterz=($zr+$zhub)/2
+
+    tubs rodup$i innerRadius=0 outerRadius=$TSupportRodUp \
+	 length=$rodlength material=$Tmaterial color=$Tungsten
+
+#    boolean op=union rodup1$i rodup$i rodballu \
+#        z=$rodlength/2
+#    boolean op=union fullrodup$i rodup$i rodballu \
+#        z=-$rodlength/2
+#    place fullrodup$i x=$rodcenterx y=$rodcentery z=$rodcenterz
+
+    param fangle1=asin(($yr-$yhub)/$rodspace)/degree
+    param fangle2=asin(($xr-$xhub)/$rodspace_xz)/degree
+
+    place rodup$i x=$rodcenterx y=$rodcentery z=$rodcenterz \
+        rotation=X$fangle1,Y-$fangle2
+
+
+    ##### Downsream rods
+
+    # like I said ... don't look too close
+
+    # Downstream Rods -- primitive locations only, 12o'clock high
+    param zpre=-$Tlength/2-$THubPost-$THubAttach*cos($THubAngle)+$THubGap*sin($THubAngle)
+    param ypre=$Tradius+$THubThick+$THubAttach*sin($THubAngle)+$THubGap*cos($THubAngle)
+    param zring=+$TSupportRingLength/2+$THubAnchorLength*cos($THubAnchorAngle)
+    param yring=$TSupportRin-$THubAnchorLength*sin($THubAnchorAngle)
+
+    # primed coordinates -- rotate around z axis to proper location, 
+    # still with target on axis
+    param xpr=-sin($THubDAttachAngle+$i*$THubAttachAngleInc)*$ypre
+    param ypr=cos($THubDAttachAngle+$i*$THubAttachAngleInc)*$ypre
+    param zpr=$zpre
+    param xrpr=-sin($THubDAttachAngle+$i*$THubAttachAngleInc)*$yring
+    param yrpr=cos($THubDAttachAngle+$i*$THubAttachAngleInc)*$yring
+    param zrpr=$zring
+
+    # apply arbitrary rotations and offsets to hub end
+    param xhub=($cosTY*$cosTZ-$sinTX*$sinTY*$sinTZ)*$xpr-$cosTX*$sinTZ*$ypr+($sinTY*$cosTZ+$sinTX*$cosTY*$sinTZ)*$zpr+$TargetXoffset
+    param yhub=($cosTY*$sinTZ+$sinTX*$sinTY*$cosTZ)*$xpr+$cosTX*$cosTZ*$ypr+($sinTY*$sinTZ-$sinTX*$cosTY*$cosTZ)*$zpr+$TargetYoffset
+    param zhub=-$cosTX*$sinTY*$xpr+$sinTX*$ypr+$cosTX*$cosTY*$zpr+$Tposition+$TargetZoffset
+
+#    place BlueHubBall x=$xhub y=$yhub z=$zhub
+
+    # apply arbitrary z rotation and offsets to ring end
+    param xr=$cosTZ*$xrpr-$sinTZ*$yrpr+$TargetXoffset
+    param yr=$sinTZ*$xrpr+$cosTZ*$yrpr+$TargetYoffset
+    param zr=$zrpr+$Tposition+$TargetZoffset
+
+#    place RedRingBall x=$xr y=$yr z=$zr
+
+    # figure rod length, and build-a-boolean
+    
+    param rodspace=sqrt(($xr-$xhub)*($xr-$xhub)+($yr-$yhub)*($yr-$yhub)+($zr-$zhub)*($zr-$zhub))
+    param rodlength=$rodspace-2*$TSupportRodUp
+    param rodspace_xz=sqrt(($xr-$xhub)*($xr-$xhub)+($zr-$zhub)*($zr-$zhub))
+    param rodcenterx=($xr+$xhub)/2
+    param rodcentery=($yr+$yhub)/2
+    param rodcenterz=($zr+$zhub)/2
+
+    tubs roddown$i innerRadius=0 outerRadius=$TSupportRodDown \
+	 length=$rodlength material=$Tmaterial color=$Tungsten
+
+    param bangle1=asin(($yhub-$yr)/$rodspace)/degree
+    param bangle2=asin(($xhub-$xr)/$rodspace_xz)/degree
+
+    place roddown$i x=$rodcenterx y=$rodcentery z=$rodcenterz \
+        rotation=X$bangle1,Y-$bangle2
+
+
+    enddo   
+
+endif

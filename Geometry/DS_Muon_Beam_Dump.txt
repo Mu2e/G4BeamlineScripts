@@ -1,0 +1,313 @@
+# $Id$
+# $Date$
+# $Author$
+
+# *********************
+# Muon Beam Dump
+# *********************
+# From Mu2e Proposal
+# Updated 7-18-2011 Dave Hedin, Joe Kozminski, Use corrected geometry
+# in WBS 5.8 Mu2e-doc-1351 dated 2011-02-16 with corrections from Rodger 
+# Bossert on 7-18-2011. use Blue for support tube color
+# Hedin 8-5-2011 replace Fe with POLYETHYLENE for BSTC,BSBS,CLV2
+# Hedin July 2012 add bulkhead and concrete after MBS
+# Hedin 1/2013 major change. try 2 2/2013
+# MBS z range  21129-25245  -7929 to go to mu2e coordinates
+# use stainless steel and HDPE for this version
+# high density poly
+# April 2013 version. has radius= 4 cm hole at end
+# October 2013 3 cm shorter and so start at 21159 end at 25245
+# May 2014. begin major change: more steel and less HDPE
+# July 7th 2014. Hedin/Jamison/Steve ~ Plan 4 Design
+# - 90 Degree Cut on MS4a/MS4b,MS5a/MS5b, and MS5c/MS5d.
+# - Removal of MP4a. 
+# - Increased Length for MS2a/MS2b to 8cm.
+# - Reduced Length on MP5a/MP5b to match edge at 30.86 cm mark.
+# - Length Reduced for MP3a/MP3b to 16cm (8 cm reduction).
+# - Broke up MP2a/MP2b into three seperate pieces to increase inner radius by 1cm from 816 to 1900 mm.
+# - MP5a/MP5b and MS3a/MS3b switched for COM purposes.
+#  DH Aug 2014 plan5 all steel is 360 degrees. 
+#   X replaces outer plastic with steel
+#  April 2015. new mass vs com
+#  April 2016. WBS 5.08 v7 with holes in bottom for pumping
+# August 2016 increase hole to 92 mm
+# April 2017. modify radii engineering specs V12 3/12/17. 1 cm HDPE in hole
+##########
+# Gimbal #
+##########
+
+#tessellatedsolid bottomGimbal file=bottom.mdl
+#place bottomGimbal z=21330.45 x=-7808.0 y=-685.001
+
+#placed at y=142.87246 originally
+#tessellatedsolid topGimbal file=top.mdl
+#place topGimbal z=21330.45 x=-7808.0 y=-537.12854
+
+#######
+#Screw#
+#######
+
+#cylinder ScrewTop radius=19.05 length=12.7
+
+#radius=12.7 originally
+#cylinder ScrewBottom radius=11.5 length=107.95
+
+#boolean op=union FinalScrew ScrewBottom ScrewTop x=-7808.0 y=-685.001 z=21390.775 material=STAINLESS-STEEL color=0.85,0.85,0.85
+
+#place FinalScrew z=21330.45 x=-7808.0 y=-545.33402 rotation=X-90
+
+#####
+#Cup#
+#####
+
+#radius=177.8
+#sphere SphereForCup innerRadius=0 outerRadius=187.8 \
+#initialPhi=0 finalPhi=360 \
+
+#outerRadius=107.75
+#tubs CylinderForCup innerRadius=15.24 outerRadius=107.25 length=41.02 \
+#    initialPhi=0 finalPhi=360 \
+
+#boolean op=subtraction FinalCup CylinderForCup SphereForCup x=-7808.0 y=-685.001 z=21162.7 material=BRONZE color=0.65,0.65,0.1
+
+#inital placement y=122.36246
+#place FinalCup z=21330.45 x=-7808.0 y=-558.63854 rotation=X-90
+
+################
+################
+################
+
+material HDPE C,.86 H,.14 density=.96
+
+####################
+#Steel Support Tube#
+####################
+
+# main steel tube for front two sections
+# just front section start at 21159
+tubs MS1a innerRadius=437.5 outerRadius=450.2 length=1000. material=Stainless304 \
+    initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS1b innerRadius=437.5 outerRadius=450.2 length=1000. material=Stainless304 \
+    initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+# 23187 to 23237 to 23202
+place MS1a x=-7808.0 z=21659.
+place MS1b x=-7808.0 z=21659.
+
+
+##back section ends at 25245
+
+tubs MS2a innerRadius=437.5 outerRadius=462.9 length=816. material=Stainless304 \
+    initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS2b innerRadius=437.5 outerRadius=462.9 length=816. material=Stainless304 \
+    initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MS2a x=-7808.0 z=24837.
+place MS2b x=-7808.0 z=24837.
+
+# central part without holes
+tubs MS3a innerRadius=437.5 outerRadius=475.6 length=190. \
+material=Stainless304 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS3b innerRadius=437.5 outerRadius=475.6 length=190. \ 
+ material=Stainless304 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+tubs MS3c innerRadius=437.5 outerRadius=475.6 length=320. \
+material=Stainless304 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS3d innerRadius=437.5 outerRadius=475.6 length=320. \ 
+ material=Stainless304 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+tubs MS3e innerRadius=437.5 outerRadius=475.6 length=540. \
+material=Stainless304 initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS3f innerRadius=437.5 outerRadius=475.6 length=540. \ 
+ material=Stainless304 initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MS3a x=-7808.0 z=22254.
+place MS3b x=-7808.0 z=22254.
+place MS3c x=-7808.0 z=22809.
+place MS3d x=-7808.0 z=22809.
+place MS3c x=-7808.0 z=23429.
+place MS3d x=-7808.0 z=23429.
+place MS3e x=-7808.0 z=24159.
+place MS3f x=-7808.0 z=24159.
+
+# finalPhia=225  initialPhib=-45 for holes
+tubs MS4a innerRadius=437.5 outerRadius=475.6 length=300. \
+material=Stainless304 initialPhi=$InitialPhi_a finalPhi=225. \
+    color=$Blue kill=$Muon_Dump_kill
+
+tubs MS4b innerRadius=437.5 outerRadius=475.6 length=300. \ 
+ material=Stainless304 initialPhi=-45. finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+
+place MS4a x=-7808.0 z=22499.
+place MS4b x=-7808.0 z=22499.
+place MS4a x=-7808.0 z=23119.
+place MS4b x=-7808.0 z=23119.
+place MS4a x=-7808.0 z=23739.
+place MS4b x=-7808.0 z=23739.
+
+#plastic inside of steel#
+
+#--------------------#
+#Forward Plastic Pipe#
+#--------------------#
+# front section start at 21159
+
+# 1200 to 1100 to 1170 21729 to 21779 to 21744
+tubs MP1a innerRadius=386.7 outerRadius=437.5 length=1000. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP1b innerRadius=386.7 outerRadius=437.5 length=1000. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP1a x=-7808.0 z=21659.
+place MP1b x=-7808.0 z=21659.
+
+# rear include "outer plug" length: 706+102.4. ends at 25237.4
+# does not get the distance between the outer plug and steel quite right
+tubs MP2a innerRadius=323.2 outerRadius=437.5 length=808.4 \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP2b innerRadius=323.2 outerRadius=437.5 length=808.4 \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP2a x=-7808.0 z=24833.2
+place MP2b x=-7808.0 z=24833.2
+
+#-#Rear Plastic Cap# ends at 25239.4   40-->92
+# end plug is really staggerred. have 2.4 mm gap for now
+
+tubs MP3a innerRadius=92. outerRadius=321.0 length=152.4 \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP3b innerRadius=92. outerRadius=321.0 length=152.4 \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP3a x=-7808.0 z=25163.2
+place MP3b x=-7808.0 z=25163.2
+# add in 1 cm to fill in hole
+tubs MP3c innerRadius=0. outerRadius=92. length=10. \
+material=HDPE color=$Yellow kill=$Muon_Dump_kill
+place MP3c x=-7808.0 z=25234.
+
+# Mid internal 1: first central parts no holes
+tubs MP4a innerRadius=323.2 outerRadius=437.5 length=190. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP4b innerRadius=323.2 outerRadius=437.5 length=190. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP4a x=-7808.0 z=22254.
+place MP4b x=-7808.0 z=22254
+
+tubs MP4e innerRadius=323.2 outerRadius=437.5 length=145. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP4f innerRadius=323.2 outerRadius=437.5 length=145. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP4e x=-7808.0 z=22671.5
+place MP4f x=-7808.0 z=22671.5
+
+
+# for holes finalPhia=225  initialPhin=-45
+
+tubs MP4c innerRadius=323.2 outerRadius=437.5 length=250. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=225. \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP4d innerRadius=323.2 outerRadius=437.5 length=250. \ 
+ material=HDPE initialPhi=-45. finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP4c x=-7808.0 z=22474.
+place MP4d x=-7808.0 z=22474.
+# Mid internal 2: second central parts no holes
+tubs MP5a innerRadius=348.6 outerRadius=437.5 length=225. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP5b innerRadius=348.6 outerRadius=437.5 length=225. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP5a x=-7808.0 z=22856.5
+place MP5b x=-7808.0 z=22856.5
+
+tubs MP5e innerRadius=348.6 outerRadius=437.5 length=370. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP5f innerRadius=348.6 outerRadius=437.5 length=370. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP5e x=-7808.0 z=23404.
+place MP5f x=-7808.0 z=23404.
+tubs MP5g innerRadius=348.6 outerRadius=437.5 length=590. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP5h innerRadius=348.6 outerRadius=437.5 length=590. \ 
+ material=HDPE initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP5g x=-7808.0 z=24134.
+place MP5h x=-7808.0 z=24134.
+
+
+# for holes finalPhia=225  initialPhin=-45
+
+tubs MP5c innerRadius=348.6 outerRadius=437.5 length=250. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=225. \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP5d innerRadius=348.6 outerRadius=437.5 length=250. \ 
+ material=HDPE initialPhi=-45. finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP5c x=-7808.0 z=23094.
+place MP5d x=-7808.0 z=23094.
+place MP5c x=-7808.0 z=23714.
+place MP5d x=-7808.0 z=23714.
+
+####plastic outside of steel#    
+
+tubs MP6a innerRadius=475.6 outerRadius=539.1 length=2270. \
+material=HDPE initialPhi=$InitialPhi_a finalPhi=225. \
+    color=$Yellow kill=$Muon_Dump_kill
+
+tubs MP6b innerRadius=475.6 outerRadius=539.1 length=2270. \ 
+ material=HDPE initialPhi=-45. finalPhi=$FinalPhi_b \
+    color=$Invisible kill=$Muon_Dump_kill
+
+place MP6a x=-7808.0 z=23294.
+place MP6b x=-7808.0 z=23294.
+
+

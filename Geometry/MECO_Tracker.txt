@@ -1,0 +1,119 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ****************************************************************************
+#                                MECO Tracker
+# ****************************************************************************
+
+param -unset Tracker_Color=$SkyBlue
+
+box Tvane \
+    height=280.0 \
+    width=15.0 \
+    length=2600 \
+    material=Vacuum \
+    color=$Tracker_Color
+    
+box Tseg \
+    height=310.0 \
+    width=15.0 \
+    length=2600 \
+    material=Vacuum \
+    color=$Tracker_Color
+
+place Tvane \
+      x=-7808.0 \
+      y=580.0 \
+      z=17730 \
+      rotation=Z0.00
+      
+place Tvane \
+      x=-7397.9 \
+      y=410.1 \
+      z=17730 \
+      rotation=Z-45.00
+      
+place Tvane \
+      x=-7228.0 \
+      y=0.0 \
+      z=17730 \
+      rotation=Z-90.00
+      
+place Tvane \
+      x=-7397.9 \
+      y=-410.1 \
+      z=17730 \
+      rotation=Z-135.00
+      
+place Tvane \
+      x=-7808.0 \
+      y=-580.0 \
+      z=17730 \
+      rotation=Z-180.00
+      
+place Tvane \
+      x=-8218.1 \
+      y=-410.1 \
+      z=17730 \
+      rotation=Z-225.00
+      
+place Tvane \
+      x=-8388.0 \
+      y=0.0 \
+      z=17730 \
+      rotation=Z-270.00
+      
+place Tvane \
+      x=-8218.1 \
+      y=410.1 \
+      z=17730 \
+      rotation=Z-315.00
+
+place Tseg \
+      x=-7660.2 \
+      y=356.9 \
+      z=17730 \
+      rotation=Z-112.50
+      
+place Tseg \
+      x=-7451.1 \
+      y=147.8 \
+      z=17730 \
+      rotation=Z-157.50
+      
+place Tseg \
+      x=-7451.1 \
+      y=-147.8 \
+      z=17730 \
+      rotation=Z-202.50
+      
+place Tseg \
+      x=-7660.2 \
+      y=-356.9 \
+      z=17730 \
+      rotation=Z-247.50
+      
+place Tseg \
+      x=-7955.8 \
+      y=-356.9 \
+      z=17730 \
+      rotation=Z-292.50
+      
+place Tseg \
+      x=-8164.9 \
+      y=-147.8 \
+      z=17730 \
+      rotation=Z-337.50
+      
+place Tseg \
+      x=-8164.9 \
+      y=147.8 \
+      z=17730 \
+      rotation=Z-382.50
+      
+place Tseg \
+      x=-7955.8 \
+      y=356.9 \
+      z=17730 \
+      rotation=Z-427.50

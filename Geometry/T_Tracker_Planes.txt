@@ -1,0 +1,128 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ****************************************************************************
+#         Mu2e TRACKER without straws. Trapezoids instead of straws
+# ****************************************************************************
+# Holding ring made of Al
+
+param hold_ir=700.0
+param hold_or=840.0
+param hold_l=19.0
+
+tubs hold \
+     innerRadius=$hold_ir \
+     outerRadius=$hold_or \
+     length=$hold_l \
+     material=Al \
+     color=$Gray
+
+##********************
+## Trapezoids (instead of straws)
+
+param trap_r=380.0
+param trap_h=298.0
+param trap_uw=640.0
+param trap_lw=1291
+param trap_l=10.2
+param trap_material=MYLAR
+	
+trap trap_f \
+     height=$trap_h \
+     upperWidth=$trap_uw \
+     lowerWidth=$trap_lw \
+     length=$trap_l \
+     material=$trap_material \
+     color=$Blue
+     
+trap trap_r \
+     height=$trap_h \
+     upperWidth=$trap_uw \
+     lowerWidth=$trap_lw \
+     length=$trap_l \
+     material=$trap_material \
+     color=$Red
+
+##********************
+## Front Panel 
+
+group Panel1 \
+      material=Vacuum
+      
+      place trap_f \
+            x=0.0 \
+            y=$trap_r+0.5*$trap_h \
+            z=0.5*$trap_l 
+endgroup
+
+##********************
+## Rear Panel
+
+group Panel2 \
+      material=Vacuum	
+     
+      place trap_r \
+            x=0.0 \
+            y=$trap_r+0.5*$trap_h \
+            z=0.5*$trap_l 
+endgroup
+
+##********************
+## Plane
+
+group Plane \
+      material=Vacuum
+ 
+      place Panel1 x=0.0 y=0.0 z=0.5*$trap_l 
+      place Panel1 x=0.0 y=0.0 z=0.5*$trap_l rotation=Z120
+      place Panel1 x=0.0 y=0.0 z=0.5*$trap_l rotation=Z-120
+
+      place Panel2 x=0.0 y=0.0 z=$hold_l+0.5*$trap_l rotation=Z-60
+      place Panel2 x=0.0 y=0.0 z=$hold_l+0.5*$trap_l rotation=Z60
+      place Panel2 x=0.0 y=0.0 z=$hold_l+0.5*$trap_l rotation=Z180
+		
+	place hold x=0.0 y=0.0 z=0.5*$hold_l
+endgroup
+
+##********************
+## Station
+
+param Plane_pos=10.5
+
+group Station \
+      material=Vacuum
+      
+      place Plane x=0.0 y=0.0 z=0.5*($hold_l+$trap_l)
+      place Plane x=0.0 y=0.0 z=1.5*$hold_l+0.5*$trap_l+2*$Plane_pos rotation=Y180,Z30
+endgroup
+
+##********************
+## Tracker
+
+param Station_spacing=170
+
+group t_tracker \
+      material=Vacuum
+     
+      place Station x=0.0 y=0.0 z=34.6
+      place Station x=0.0 y=0.0 z=34.6+$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+2*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+3*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+4*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+5*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+6*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+7*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+8*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+9*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+10*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+11*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+12*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+13*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+14*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+15*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+16*$Station_spacing
+      place Station x=0.0 y=0.0 z=34.6+17*$Station_spacing
+endgroup
+
+place t_tracker x=-7808 y=0 z=17730
