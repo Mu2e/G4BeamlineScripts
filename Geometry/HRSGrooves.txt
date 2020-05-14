@@ -1,0 +1,130 @@
+param as=0
+param aos=0
+param d0s=0
+param cas=0
+param sas=0
+param cts=0
+param sts=0
+param zs=0
+param Rgs=0
+param Rg0s=0
+
+param ct=cos($PSshield_pGrooveCentAng*$pi/180.0)
+param st=sin($PSshield_pGrooveCentAng*$pi/180.0)
+param r=$PSshield_pGrooveRad
+param d0=$PSshield_pGrooveCentX0
+param aop=$PSshield_pGroovePosAng
+param aw=21
+param dx=$d0-$Zx1*$st
+param ca=(sqrt(($dx*$ct)^2+($Rx1^2-$r^2)*$st^2)-$dx*$ct^2)/($Rx1*$st^2)
+param a=acos($ca)*180/$pi
+param amin=floor($aop-$a+0.5)
+param amax=floor($aop+$a+0.5)
+param ca=(sqrt(($d0*$ct)^2+($R0^2-$r^2)*$st^2)-$d0*$ct^2)/($R0*$st^2)
+param a0min=$aop-acos($ca)*180/$pi
+param a0max=$aop+acos($ca)*180/$pi
+param dzamin=($Zx1-$Z0)/($a-acos($ca)*180/$pi)
+param dzamax=$dzamin
+
+if $PSshield_Grooves==2
+  param cts=cos($PSshield_sGrooveCentAng*$pi/180.0)
+  param sts=sin($PSshield_sGrooveCentAng*$pi/180.0)
+  param rs=$PSshield_sGrooveRad
+  param d0s=$PSshield_sGrooveCentX0
+  param aos=$PSshield_sGroovePosAng
+  param dx=$d0s-$Zx1*$sts
+  param ca=(sqrt(($dx*$cts)^2+($Rx1^2-$rs^2)*$sts^2)-$dx*$cts^2)/($Rx1*$sts^2)
+  param a=acos($ca)*180/$pi
+  if $aop>$aos 'param amin=floor($aos-$a+0.5)'
+  if $aop<$aos 'param amax=floor($aos+$a+0.5)'
+  param ca=(sqrt(($d0s*$cts)^2+($R0^2-$rs^2)*$sts^2)-$d0s*$cts^2)/($R0*$sts^2)
+  if $aop>$aos 'param a0min=$aop-acos($ca)*180/$pi'
+  if $aop<$aos 'param a0max=$aop+acos($ca)*180/$pi'
+  if $aop>$aos 'param dzamin=($Zx1-$Z0)/($a-acos($ca)*180/$pi)'
+  if $aop<$aos 'param dzamax=($Zx1-$Z0)/($a-acos($ca)*180/$pi)'
+endif
+# Groove equations
+# Ro(z) = Ro - sr*z = HS inner radius
+# r = groove radius
+# theta = angle of groove axis wrt z-axis
+# ct = cos(theta), st = sin(theta)
+# d(z) = do - st*z = groove centre of curvature distance from z-axis
+# alpha = azimuthal angle wrt groove axis
+# ca = cos(alpha), sa = sin(alpha)
+# R(z,alpha) = effective HS inner radius
+#
+# At fixed z groove surface is an elipse: x^2 + y^2 * ct^2 = r^2
+# where x = R * sa   and   y + d = R * ca
+# i.e. R^2 - (R*ca*st)^2 + (d*ct)^2 - 2*R*d*ca*ct^2 = r^2
+# Solve for R:-
+# R = {sqrt[r^2*(1-(ca*st)^2) - (d*sa*ct)^2] + d*ca*ct^2}/(1-(ca*st)^2)
+# Solve for ca:-
+# ca = {sqrt[(d*ct)^2 + (R^2-r^2)*st^2] - d*ct^2}/(R*st^2)
+# Solve for d:-
+# d = sqrt[r^2 - (R*sa)^2]/ct - R*ca
+
+param nz=$GrooveLengthSteps
+param na=$GrooveAngleSteps
+param resolution=($amax-$amin)/$na
+param phiF=$amin
+do count 1 $na
+  param phiI=$phiF
+  param phiF=$amax-($na-$count)*$resolution
+  param i=($phiI+$phiF)/2
+  param zmx=$PSshield_z1
+  param zmn=$Z0+($Zx1-$Z0)/($nz+1)
+  if $i<$a0min 'param zmn=$Z0+($a0min-$i)*$dzamin'
+  if $i>$a0max 'param zmn=$Z0-($a0max-$i)*$dzamax'
+  if $zmn>$Zx1 'param zmn=$Zx1-($Zx1-$Z0)/($nz+1)'
+  param ap=abs($i+0.5-$aop)
+  param ca=cos($ap*$pi/180.0)
+  param sa=sin($ap*$pi/180.0)
+  param det=$r^2-($Rx1*$sa)^2
+  if $det>0 'param zmx=($d0-$Rx1*$ca+sqrt($det)/$ct)/$st'
+  param Rg0=$R0
+  param det=$r^2*(1-($ca*$st)^2)-($d0*$sa*$ct)^2
+  if $det>0 'param Rg0=(sqrt($det)+$d0*$ca*$ct^2)/(1-($ca*$st)^2)'
+  if $PSshield_Grooves==2
+    param as=abs($i+0.5-$aos)
+    param cas=cos($as*$pi/180.0)
+    param sas=sin($as*$pi/180.0)
+    param det=$rs^2-($Rx1*$sas)^2
+    param zs=$PSshield_z1
+    if $det>0 'param zs=($d0s-$Rx1*$cas+sqrt($det)/$cts)/$sts'
+    if $zs>$zmx 'param zmx=$zs'
+    param Rg0s=$R0
+    param det=$r^2*(1-($cas*$sts)^2)-($d0s*$sas*$cts)^2
+    if $det>0 'param Rg0s=(sqrt($det)+$d0s*$cas*$cts^2)/(1-($cas*$sts)^2)'
+    if $Rg0s>$Rg0 'param Rg0=$Rg0s'
+  endif
+  if $zmx<$PSshield_z1 'param zmx=$PSshield_z1'
+  if $Rg0<$R0 'param Rg0=$R0'
+  do j 0 $nz
+    param z=$zmn+$j*($Zx1-$zmn)/$nz
+    param Rmin=$R0+($z-$Z0)*($Rx1-$R0)/($Zx1-$Z0)
+    param d=$d0-$z*$st
+    param det=$r^2*(1-($ca*$st)^2)-($d*$sa*$ct)^2
+    param Rg=$Rmin
+    if $det>0 'param Rg=(sqrt($det)+$d*$ca*$ct^2)/(1-($ca*$st)^2)'
+    if $PSshield_Grooves==2
+     param d=$d0s-$z*$sts
+     param det=$rs^2*(1-($cas*$sts)^2)-($d*$sas*$cts)^2
+     param Rgs=$Rmin
+     if $det>0 'param Rgs=(sqrt($det)+$d*$cas*$cts^2)/(1-($cas*$sts)^2)'
+     if $Rgs>$Rg 'param Rg=$Rgs'
+    endif
+    if $Rg<$Rmin 'param Rg=$Rmin'
+    if $j==0 'param zlist=$Z0,$z'
+    if $j>0 'param zlist=$zlist,$z'
+    if $j==0 'param rlist=$Rg0,$Rg'
+    if $j>0 'param rlist=$rlist,$Rg'
+    if $j==0 'param olist=$rout,$rout'
+    if $j>0 'param olist=$olist,$rout'
+  enddo
+  polycone PSshieldG$i material=$m color=$Copper \
+         initialPhi=$phiI finalPhi=$phiF \
+         innerRadius=$rlist,$Rx1,$Rx2,$Rx3,$Rx4,$Rx5,$Rx6,$Rx7 \
+         outerRadius=$olist,$rout,$rout,$rout,$rout,$rout,$rout,$rout \
+         z=$zlist,$zmx,$Zx2,$Zx3,$Zx4,$Zx5,$Zx6,$Zx7
+  place PSshieldG$i x=$x y=$y z=$PScryostat_z+$PSshield_Offset kill=$PSshieldKill
+enddo

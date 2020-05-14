@@ -1,0 +1,474 @@
+# $Id$
+# $Date$
+# $Author$
+#
+#
+# ****************************************************************************
+#                        Transport Solenoid Cyrostat
+#
+# ****************************************************************************
+# From Mu2e CDR of March 2012
+# Used simple version of the cryostat - toroid shapes.
+# updated 12/2014 Rick C.
+# DH 3-2015 add TS cryostat supports, latest values from Tom Nichol
+# cryostat OD 525 mm 12.7 mm thick and OD 1625 mm 19.05 mm thick, ends 15mm
+# and heat shields and bobbins
+
+tubs TSbeampipe radius=$OrPSentrypipe length=$LPSentrypipe color=$White
+
+# Some parameters from the previous cryostat, not used below
+param TScryo_innerR=249.8
+param TScryo_outerR=262.5
+param TScryo_Radius=2929
+
+param TScryo_color_a=$Red
+#param TScryo_color_a=$Invisible
+#param TScryo_color_b=$Yellow
+param TScryo_color_b=$Invisible
+#param TScryo_color_c=$White
+param TScryo_color_c=$Invisible
+param TScryo_color_d=$PaleVioletRed 
+#param TScryo_color_d=$Invisible
+
+# heat shield
+torus THu_1 innerRadius=312.7 outerRadius=319.05 majorRadius=2929.0 initialPhi=0.0 finalPhi=90.0 material=Al color=$TScryo_color_c
+place THu_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+tube THu_2 innerRadius=312.7 outerRadius=319.05 length=920.0 material=Al color=$TScryo_color_c
+place THu_2 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
+tube THu_3 innerRadius=312.7 outerRadius=319.05 length=1045.0 material=Al color=$TScryo_color_c
+place THu_3 x=0.0 y=0.0 z=4477.5
+torus THd_1 innerRadius=312.7 outerRadius=319.05 majorRadius=2929.0 initialPhi=180.0 finalPhi=270.0 material=Al color=$TScryo_color_c
+place THd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+tube THd_2 innerRadius=312.7 outerRadius=319.05 length=920.0 material=Al color=$TScryo_color_c
+place THd_2 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+tube THd_3 innerRadius=312.7 outerRadius=319.05 length=1220.0 material=Al color=$TScryo_color_c
+place THd_3 x=-7808.0 y=0.0 z=11468.0
+# outer heat shield
+torus THu_1a innerRadius=758.6 outerRadius=764.95 majorRadius=2929.0 initialPhi=0.0 finalPhi=90.0 material=Al color=$TScryo_color_c
+place THu_1a x=-2929.0 y=0.0 z=5000.0 rotation=X90
+tube THu_2a innerRadius=758.6 outerRadius=764.95 length=920.0 material=Al color=$TScryo_color_c
+place THu_2a x=-3389.0 y=0.0 z=7929.0 rotation=Y90
+tube THu_3a innerRadius=758.6 outerRadius=764.95 length=1045.0 material=Al color=$TScryo_color_c
+# skip as here TS cryostat becomes smaller
+#place THu_3a x=0.0 y=0.0 z=4477.5
+torus THd_1a innerRadius=758.6 outerRadius=764.95 majorRadius=2929.0 initialPhi=180.0 finalPhi=270.0 material=Al color=$TScryo_color_c
+place THd_1a x=-4879.0 y=0.0 z=10858.0 rotation=X90
+tube THd_2a innerRadius=758.6 outerRadius=764.95 length=920.0 material=Al color=$TScryo_color_c
+place THd_2a x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+tube THd_3a innerRadius=758.6 outerRadius=764.95 length=1220.0 material=Al color=$TScryo_color_c
+place THd_3a x=-7808.0 y=0.0 z=11468.0
+
+# bobbins. substitute torus for complicated connected cylinders
+# made from Aluminum per Daniel Evbota. docdb 5279
+torus TBu_1 innerRadius=590. outerRadius=625. majorRadius=2929.0 initialPhi=0.0 finalPhi=90.0 material=Al color=$TScryo_color_b
+place TBu_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+torus TBu_1a innerRadius=625. outerRadius=710. majorRadius=2929.0 initialPhi=40.0 finalPhi=52.0 material=Al color=$TScryo_color_b
+place TBu_1a x=-2929.0 y=0.0 z=5000.0 rotation=X90
+torus TBu_1b innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=60.0 finalPhi=61.0 material=Al color=$TScryo_color_b
+torus TBu_1c innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=69.0 finalPhi=70.0 material=Al color=$TScryo_color_b
+torus TBu_1d innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=78.0 finalPhi=79.0 material=Al color=$TScryo_color_b
+torus TBu_1e innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=30.0 finalPhi=31.0 material=Al color=$TScryo_color_b
+torus TBu_1f innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=21.0 finalPhi=22.0 material=Al color=$TScryo_color_b
+torus TBu_1g innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=11.0 finalPhi=12.0 material=Al color=$TScryo_color_b
+place TBu_1b x=-2929.0 y=0.0 z=5000.0 rotation=X90
+place TBu_1c x=-2929.0 y=0.0 z=5000.0 rotation=X90
+place TBu_1d x=-2929.0 y=0.0 z=5000.0 rotation=X90
+place TBu_1e x=-2929.0 y=0.0 z=5000.0 rotation=X90
+place TBu_1f x=-2929.0 y=0.0 z=5000.0 rotation=X90
+place TBu_1g x=-2929.0 y=0.0 z=5000.0 rotation=X90
+tube TBu_2 innerRadius=630. outerRadius=665. length=920.0 material=Al color=$TScryo_color_b
+place TBu_2 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
+tube TBu_2a innerRadius=665. outerRadius=750. length=600.0 material=Al color=$TScryo_color_b
+place TBu_2a x=-3189.0 y=0.0 z=7929.0 rotation=Y90
+#tube TBu_3 innerRadius=620. outerRadius=645. length=1045.0 material=Al color=$TScryo_color_b
+tube TBu_3 innerRadius=610. outerRadius=635. length=1045.0 material=Al color=$TScryo_color_b
+# have trouble getting this bobbin in as region with cone and torous; so split
+tube TBu_3a innerRadius=635. outerRadius=730. length=300.0 material=Al color=$TScryo_color_b
+tube TBu_3aa innerRadius=650. outerRadius=745. length=300.0 material=Al color=$TScryo_color_b
+
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TBu_3_pipe TBu_3 TSbeampipe \
+	material=Al color=$TScryo_color_b \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4477.5 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  boolean op=subtraction TBu_3a_pipe TBu_3a TSbeampipe \
+	material=Al color=$TScryo_color_b \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4820. \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TBu_3_pipe x=0.0 y=0.0 z=4477.5
+  place TBu_3a_pipe x=0.0 y=0.0 z=4820.
+else
+  place TBu_3 x=0.0 y=0.0 z=4477.5
+  place TBu_3a x=0.0 y=0.0 z=4820.
+endif
+
+place TBu_3aa x=0.0 y=0.0 z=5120.
+
+torus TBd_1 innerRadius=590. outerRadius=625. majorRadius=2929.0 initialPhi=180.0 finalPhi=270.0 material=Al color=$TScryo_color_b
+place TBd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+torus TBd_1a innerRadius=625. outerRadius=710. majorRadius=2929.0 initialPhi=220.0 finalPhi=232.0 material=Al color=$TScryo_color_b
+place TBd_1a x=-4879.0 y=0.0 z=10858.0 rotation=X90
+torus TBd_1b innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=241.0 finalPhi=242.0 material=Al color=$TScryo_color_b
+torus TBd_1c innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=251.0 finalPhi=252.0 material=Al color=$TScryo_color_b
+torus TBd_1d innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=261.0 finalPhi=262.0 material=Al color=$TScryo_color_b
+torus TBd_1e innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=211.0 finalPhi=212.0 material=Al color=$TScryo_color_b
+torus TBd_1f innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=201.0 finalPhi=202.0 material=Al color=$TScryo_color_b
+torus TBd_1g innerRadius=625. outerRadius=695. majorRadius=2929.0 initialPhi=191.0 finalPhi=192.0 material=Al color=$TScryo_color_b
+place TBd_1b x=-4879.0 y=0.0 z=10858.0 rotation=X90
+place TBd_1c x=-4879.0 y=0.0 z=10858.0 rotation=X90
+place TBd_1d x=-4879.0 y=0.0 z=10858.0 rotation=X90
+place TBd_1e x=-4879.0 y=0.0 z=10858.0 rotation=X90
+place TBd_1f x=-4879.0 y=0.0 z=10858.0 rotation=X90
+place TBd_1g x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+tube TBd_2 innerRadius=630. outerRadius=665. length=920.0 material=Al color=$TScryo_color_b
+place TBd_2 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+tube TBd_2a innerRadius=665. outerRadius=750. length=600.0 material=Al color=$TScryo_color_b
+place TBd_2a x=-4619.0 y=0.0 z=7929.0 rotation=Y90
+tube TBd_3 innerRadius=620. outerRadius=655. length=1220.0 material=Al color=$TScryo_color_b
+place TBd_3 x=-7808.0 y=0.0 z=11468.0
+tube TBd_3a innerRadius=655. outerRadius=740. length=600.0 material=Al color=$TScryo_color_b
+place TBd_3a x=-7808.0 y=0.0 z=10968.0
+
+# TSu Cryostat
+# !!! only inner part of cryostat
+torus TSu_1 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+majorRadius=2929.0 \
+initialPhi=0.0 \
+finalPhi=90.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSu_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+
+tube TSu_2 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSu_2 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSu_3 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+length=1045.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSu_3 x=0.0 y=0.0 z=4477.5
+
+tube TSu_4 \
+innerRadius=249.8 \
+outerRadius=812.5 \
+length=15.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSu_4 x=-3864.0 y=0.0 z=7929.0 rotation=Y90
+
+# from Tom Nichol, OD at front = 737.5
+tube TSu_5 \
+innerRadius=249.8 \
+outerRadius=737.5 \
+length=15.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_5_pipe TSu_5 TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-3910.0 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TSu_5_pipe x=0.0 y=0.0 z=3910.0
+else
+  place TSu_5 x=0.0 y=0.0 z=3910.0
+endif
+
+torus TSu_6 \
+innerRadius=793.45 \
+outerRadius=812.5 \
+majorRadius=2929.0 \
+initialPhi=0.0 \
+finalPhi=90.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_6_pipe TSu_6 TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe+2929.0 z=-$YPSentrypipe y=$ZPSentrypipe-5000.0 \
+	rotation=X-90,y-$YrotPSentrypipe,x$XrotPSentrypipe
+  place TSu_6_pipe x=-2929.0 y=0.0 z=5000.0 rotation=X90
+else
+  place TSu_6 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+endif
+
+tube TSu_7 \
+innerRadius=793.45 \
+outerRadius=812.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSu_7 x=-3389.0 y=0.0 z=7929.0 rotation=Y90
+
+# use Tom Nichol picture
+#tube TSu_8 \
+#innerRadius=817.5 \
+#outerRadius=837.5 \
+#length=1045.0 \
+#material=Stainless316 \
+#color=$TScryo_color_a
+tube TSu_8 innerRadius=718.45 outerRadius=737.5 length=587.0 material=Stainless316 color=$TScryo_color_a
+
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_8_pipe TSu_8 TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4248.5 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TSu_8_pipe x=0.0 y=0.0 z=4248.5
+else
+  place TSu_8 x=0.0 y=0.0 z=4248.5
+endif
+
+polycone TSu_9  innerRadius=718.45,793.45 outerRadius=737.5,812.5 z=0.,458. material=Stainless316 color=$TScryo_color_a
+
+if $PSshield_Entrance==1
+  boolean op=subtraction TSu_9_pipe TSu_9 TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-4542. \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+  place TSu_9_pipe x=0.0 y=0.0 z=4542
+else
+  place TSu_9 x=.0 y=0. z=4542.
+endif
+
+# TSd Cryostat
+# !!! only inner part of cryostat
+torus TSd_1 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+majorRadius=2929.0 \
+initialPhi=180.0 \
+finalPhi=270.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+tube TSd_2 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_2 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_3 \
+innerRadius=249.8 \
+outerRadius=262.5 \
+length=1220.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_3 x=-7808.0 y=0.0 z=11468.0
+
+tube TSd_4 \
+innerRadius=249.8 \
+outerRadius=812.5 \
+length=15.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_4 x=-3944.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_5 \
+innerRadius=259.8 \
+outerRadius=812.5 \
+length=15.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_5 x=-7808.0 y=0.0 z=12093.0 
+
+torus TSd_6 \
+innerRadius=793.45 \
+outerRadius=812.5 \
+majorRadius=2929.0 \
+initialPhi=180.0 \
+finalPhi=270.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_6 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+tube TSd_7 \
+innerRadius=793.45 \
+outerRadius=812.5 \
+length=920.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_7 x=-4419.0 y=0.0 z=7929.0 rotation=Y90
+
+tube TSd_8 \
+innerRadius=793.45 \
+outerRadius=812.5 \
+length=1220.0 \
+material=Stainless316 \
+color=$TScryo_color_a
+
+place TSd_8 x=-7808.0 y=0.0 z=11468.0
+
+# rings. make ID slightly larger then cryostat OD as fits around torus
+tube TSring innerRadius=825. outerRadius=1050. length=500.0 material=Stainless316 color=$TScryo_color_a
+tube TSringair innerRadius=825. outerRadius=1011.9 length=423.8 material=Air color=$Invisible
+place TSringair parent=TSring
+tube TSringa innerRadius=830. outerRadius=1050. length=500.0 material=Stainless316 color=$TScryo_color_a
+tube TSringaira innerRadius=830. outerRadius=1011.9 length=423.8 material=Air color=$Invisible
+place TSringaira parent=TSringa
+
+place TSring x=-3200.+2302. y=0. z=7929.-819. rotation=Y135
+place TSring x=-3200. y=0. z=7929. rotation=Y90
+place TSring x=-4608. y=0. z=7929. rotation=Y90
+place TSringa x=-4608.-2297. y=0. z=7929.+824. rotation=Y135
+place TSringa x=-7808. y=0. z=7929.+2920. 
+
+tube TSringO innerRadius=1011.9 outerRadius=1050. length=423.8 material=Stainless316 color=$TScryo_color_a
+tube TSringE innerRadius=826 outerRadius=1050. length=38.1 material=Stainless316 color=$TScryo_color_a
+ boolean op=subtraction TSringair_pipe TSringair TSbeampipe \
+	material=Air color=$Blue \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-7929.+2920 \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+ boolean op=subtraction TSringE1_pipe TSringE TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-(7929.-2920+250-19.05) \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+ boolean op=subtraction TSringE2_pipe TSringE TSbeampipe \
+	material=Stainless316 color=$TScryo_color_a \
+	x=$XPSentrypipe y=$YPSentrypipe z=$ZPSentrypipe-(7929.-2920-250+19.05) \
+	rotation=y$YrotPSentrypipe,x$XrotPSentrypipe
+
+if $PSshield_Entrance==1
+  place TSringO x=-3200.+3200. y=0. z=7929.-2920 
+  place TSringE1_pipe x=-3200.+3200. y=0. z=7929.-2920+250-19.05
+  place TSringE2_pipe x=-3200.+3200. y=0. z=7929.-2920-250+19.05
+  place TSringair_pipe x=-3200.+3200. y=0. z=7929.-2920 
+else
+  place TSring x=-3200.+3200. y=0. z=7929.-2920 
+endif
+
+#### Add Poly liner to TS
+
+# TSu Poly Liner
+# 
+#torus TSuPoly_1 \
+#innerRadius=210.0 \
+#outerRadius=249.0 \
+#majorRadius=2929.0 \
+#initialPhi=5.0 \
+#finalPhi=85.0 \
+#material=POLYETHYLENE \
+#color=$Yellow
+
+#place TSuPoly_1 x=-2929.0 y=0.0 z=5000.0 rotation=X90
+
+
+
+# TSd Poly Liner
+# 
+#torus TSdPoly_1 \
+#innerRadius=210.0 \
+#outerRadius=249.0 \
+#majorRadius=2929.0 \
+#initialPhi=185.0 \
+#finalPhi=265.0 \
+#material=POLYETHYLENE \
+#color=$Yellow
+
+#place TSdPoly_1 x=-4879.0 y=0.0 z=10858.0 rotation=X90
+
+# support "boxes" = I beams from Jeff's drawing
+extrusion TSbox length=2200. color=$TScryo_color_d material=Stainless316 vertices=0.,0.;300.,0.;300.,34.93;163.74,34.93;163.74,59.31;7.69,59.31;7.69,632.34;163.74,632.34;163.74,656.72;300.,656.72;300.,712.47;-300.,712.47;-300.,656.72;-163.74,656.72;-163.74,632.74;-7.69,632.74;-7.69,59.31;-163.74,59.31;-163.74,34.93;-300.,34.93;-300.,0.
+# x=0 for first as PS center, = -7808 for last as DS center
+# middle on torus radius of 2929 mm
+place TSbox x=-3200.+3200. y=-2312.4 z=7929.-2920 rotation=Y90
+place TSbox x=-3200.+2302. y=-2312.4 z=7929.-819. rotation=Y45
+place TSbox x=-3200. y=-2312.4 z=7929. 
+place TSbox x=-4608. y=-2312.4 z=7929. 
+place TSbox x=-4608.-2302. y=-2312.4 z=7929.+819. rotation=Y45
+place TSbox x=-4608.-3200. y=-2312.4 z=7929.+2920. rotation=Y90
+
+# "saddles" between boxes and cryostat
+cylinder TSsupportDisc radius=1100.0 length=26.
+box TSstrut length=12.7 width=2200.0 height=1400.0
+box TSstrut_2 length=12.7 width=547.  height=1000.0 material=Stainless316 color=$TScryo_color_d
+#bottom and not really needed 
+#box TSstrut_3 length=1860. width=600.0 height=25.0 material=Stainless316 color=$White
+#boolean op=subtraction TSstrut_1 TSstrut TSsupportDisc y=675.0 material=Stainless316 color=$Yellow
+boolean op=subtraction TSstrut_1 TSstrut TSsupportDisc y=1000.0 material=Stainless316 color=$TScryo_color_d
+
+place TSstrut_1 x=-3200.+283.7 y=-899. z=7929. rotation=Y90
+place TSstrut_1 x=-3200.-283.7 y=-899. z=7929. rotation=Y90
+place TSstrut_2 x=-3200. y=-1099. z=7929.-1068.65
+place TSstrut_2 x=-3200. y=-1099. z=7929.+1068.65
+place TSstrut_1 x=-4608.+283.7 y=-899. z=7929. rotation=Y90
+place TSstrut_1 x=-4608.-283.7 y=-899. z=7929. rotation=Y90
+place TSstrut_2 x=-4608. y=-1099. z=7929.-1068.65
+place TSstrut_2 x=-4608. y=-1099. z=7929.+1068.65
+
+place TSstrut_1 x=0. y=-899. z=4999.+283.7 
+place TSstrut_1 x=0. y=-899. z=4999.-283.7 
+place TSstrut_2 x=-1068.65 y=-1099. z=4999. rotation=Y90
+place TSstrut_2 x=1068.65 y=-1099. z=4999. rotation=Y90
+place TSstrut_1 x=-7808. y=-899. z=10849.+283.7 
+place TSstrut_1 x=-7808. y=-899. z=10849.-283.7 
+place TSstrut_2 x=-7808.-1068.65 y=-1099. z=10849. rotation=Y90
+place TSstrut_2 x=-7808.+1068.65 y=-1099. z=10849. rotation=Y90
+
+place TSstrut_1 x=-3200.+2302.-283.7*.7 y=-899. z=7929.-819.+283.7*.7  rotation=Y135
+place TSstrut_1 x=-3200+2302+283.7*.7 y=-899. z=7110.-283.7*.7  rotation=Y135
+place TSstrut_2 x=-3200+2302-1068.65*.7 y=-1099. z=7110.-1068.65*.7 rotation=Y45
+place TSstrut_2 x=-3200+2302+1068.65*.7 y=-1099. z=7110.+1068.65*.7 rotation=Y45
+place TSstrut_1 x=-4608.-2302.-283.7*.7 y=-899. z=7929.+819.+283.7*.7  rotation=Y135
+place TSstrut_1 x=-4608-2302+283.7*.7 y=-899. z=8748.-283.7*.7  rotation=Y135
+place TSstrut_2 x=-4608-2302-1068.65*.7 y=-1099. z=8748.-1068.65*.7 rotation=Y45
+place TSstrut_2 x=-4608-2302+1068.65*.7 y=-1099. z=8748.+1068.65*.7 rotation=Y45
+
+# support piecss between boxes
+extrusion TSbox2a length=2525. color=$TScryo_color_d material=Stainless316 vertices=0.,0.;163.74,0.;163.74,24.3;7.69,24.3;7.69,597.;163.74,597.;163.74,620.;-163.74,620.;-163.74,597.;-7.69,597.;-7.69,24.3;-163.74,24.3;-163.74,0.
+place TSbox2a x=-3200.+3250.+430. y=-2312.4+34.94 z=7929.-1500 rotation=Y335
+place TSbox2a x=-4608.-3250.-430. y=-2312.4+34.94 z=7929.+1500 rotation=Y335
+
+extrusion TSbox2b length=1220. color=$TScryo_color_d material=Stainless316 vertices=0.,0.;163.74,0.;163.74,24.3;7.69,24.3;7.69,597.;163.74,597.;163.74,620.;-163.74,620.;-163.74,597.;-7.69,597.;-7.69,24.3;-163.74,24.3;-163.74,0.
+place TSbox2b x=-3200.+2280. y=-2312.4+34.94 z=7929.-2010. rotation=Y335
+place TSbox2b x=-4608.-2280. y=-2312.4+34.94 z=7929.+2010. rotation=Y335
+
+extrusion TSbox2c length=2620. color=$TScryo_color_d material=Stainless316 vertices=0.,0.;163.74,0.;163.74,24.3;7.69,24.3;7.69,597.;163.74,597.;163.74,620.;-163.74,620.;-163.74,597.;-7.69,597.;-7.69,24.3;-163.74,24.3;-163.74,0.
+place TSbox2c x=-3200.+1510. y=-2312.4+34.94 z=7929.+490. rotation=Y109
+place TSbox2c x=-4608.-1510. y=-2312.4+34.94 z=7929.-490. rotation=Y109
+
+extrusion TSbox2d length=1300. color=$TScryo_color_d material=Stainless316 vertices=0.,0.;163.74,0.;163.74,24.3;7.69,24.3;7.69,597.;163.74,597.;163.74,620.;-163.74,620.;-163.74,597.;-7.69,597.;-7.69,24.3;-163.74,24.3;-163.74,0.
+place TSbox2d x=-3200.+910. y=-2312.4+34.94 z=7929.-930. rotation=Y109
+place TSbox2d x=-4608.-910. y=-2312.4+34.94 z=7929.+930. rotation=Y109
+
+box TSbox1 height=152.4 width=152.4 length=2150. color=$TScryo_color_d material=Stainless316
+box TSbair height=133.4 width=133.4 length=2150. material=Air
+place TSbair parent=TSbox1
+place TSbox1 x=-3200+1000. y=-2166. z=7929-150. rotation=Y320
+place TSbox1 x=-3200+1370. y=-2166.+154. z=7929-330. rotation=Y80
+place TSbox1 x=-3200+3030. y=-2166. z=7929-1970. rotation=Y125
+place TSbox1 x=-3200+2800. y=-2166.+154. z=7929-1520. rotation=Y8
+
+place TSbox1 x=-4608-950. y=-2166. z=7929+200. rotation=Y320.
+place TSbox1 x=-4608-1350. y=-2166.+154. z=7929+400. rotation=Y80.
+place TSbox1 x=-4608-3000. y=-2166. z=7929+2020. rotation=Y125.
+place TSbox1 x=-4608-2800. y=-2166.+154. z=7929+1520. rotation=Y8.
+

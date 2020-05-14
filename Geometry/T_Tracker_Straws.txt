@@ -1,0 +1,149 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ****************************************************************************
+#                Mu2e TRACKER with 6 straws per Panel
+# ****************************************************************************
+# Straws
+
+param Straw_or=2.5
+param Straw_spacing=1.0
+param Straw_centers=$Straw_spacing+2*$Straw_or
+param Straw_l_1=1291.0
+param Straw_material=MYLAR
+param Panel_thick=10.2
+
+##********************
+## Rear leyer of straws
+## Holding ring made of Al
+
+param hold_ir=700.0
+param hold_or=840.0
+param hold_l=19.0
+
+param Tracker_r=380.0
+
+tubs hold \
+     innerRadius=$hold_ir \
+     outerRadius=$hold_or \
+     length=$hold_l \
+     material=Al \
+     color=$Gray
+	
+do i 1 3
+   param Straw_length_r=2*sqrt(0.25*($hold_ir+$hold_or)^2-($Tracker_r+$Straw_or+15*($i-1)*$Straw_centers)^2)
+
+   tubs Straw_f_$i \
+        outerRadius=$Straw_or \
+	length=$Straw_length_r \
+	material=$Straw_material \
+	color=$Blue
+   
+   tubs Straw_r_$i \
+        outerRadius=$Straw_or \
+	length=$Straw_length_r \
+	material=$Straw_material \
+	color=$Red
+
+   param n2=3+$i
+
+   tubs Straw_f_$n2 \
+        outerRadius=$Straw_or \
+	length=$Straw_length_r \
+	material=$Straw_material \
+	color=$Blue
+	
+   tubs Straw_r_$n2 \
+        outerRadius=$Straw_or \
+	length=$Straw_length_r \
+	material=$Straw_material \
+	color=$Red	
+enddo
+
+##********************
+## Front Panel 
+
+group Panel1 \
+      material=Vacuum
+
+      do i 1 3
+         place Straw_f_$i \
+               x=0.0 \
+               y=$Tracker_r+0.5*$Straw_or+15*($i-1)*$Straw_centers \
+	       z=$Straw_or \
+               rotation=Y90
+	 
+         param l=3+$i
+	 
+         place Straw_f_$l \
+               x=0.0 \
+               y=$Tracker_r+0.5*$Straw_or+15*($i-0.5)*$Straw_centers \
+               z=$Panel_thick-$Straw_or \
+               rotation=Y90
+      enddo
+endgroup
+
+##********************
+## Rear Panel
+
+group Panel2 \
+      material=Vacuum
+      
+      do i 1 3
+         place Straw_r_$i \
+               x=0.0 \
+               y=$Tracker_r+0.5*$Straw_or+15*($i-1)*$Straw_centers \
+               z=$Straw_or \
+               rotation=Y90
+	       
+         param l=3+$i
+	
+         place Straw_r_$l \
+               x=0.0 \
+               y=$Tracker_r+0.5*$Straw_or+15*($i-0.5)*$Straw_centers \
+               z=$Panel_thick-$Straw_or \
+               rotation=Y90
+      enddo
+endgroup
+
+##********************
+## Plane
+
+group Plane \
+      material=Vacuum
+        place Panel1 x=0.0 y=0.0 z=5.1 rotation=Y180
+	place Panel1 x=0.0 y=0.0 z=5.1 rotation=Z120,Y180
+	place Panel1 x=0.0 y=0.0 z=5.1 rotation=Z-120,Y180
+
+	place Panel2 x=0.0 y=0.0 z=24.1 rotation=Z-60
+	place Panel2 x=0.0 y=0.0 z=24.1 rotation=Z60
+	place Panel2 x=0.0 y=0.0 z=24.1 rotation=Z180
+		
+	place hold x=0.0 y=0.0 z=9.5
+endgroup
+
+group Station material=Vacuum
+	place Plane x=0.0 y=0.0 z=14.6
+	place Plane x=0.0 y=0.0 z=44.1 rotation=Y180,Z30
+endgroup
+
+param Station_spacing=170
+	place Station x=0.0 y=0.0 z=29.35
+	place Station x=0.0 y=0.0 z=29.35+$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+2*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+3*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+4*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+5*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+6*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+7*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+8*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+9*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+10*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+11*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+12*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+13*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+14*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+15*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+16*$Station_spacing
+	place Station x=0.0 y=0.0 z=29.35+17*$Station_spacing

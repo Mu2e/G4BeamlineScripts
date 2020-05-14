@@ -1,0 +1,64 @@
+# $Id$
+# $Date$
+# $Author$
+
+# ****************************************************************************
+#                                Calorimeter
+# ****************************************************************************
+# Electron Calorimeter Reference Design
+# MECO-CAL-05-001, 2/11/2005, R. Djilkibaev, A. Mincer, P. Nemethy
+# Tracking Detector Reference Design
+# MECO-TRK-05-001
+#
+# Note: These are for show only. Postions and size are only approximate.
+# D. Hedin 7-2011 move cal from z=20729 to z=20394 per WBS 5.10 doc 1383
+param -unset Calorimeter_Color=$SkyBlue
+
+box Top_Cal \
+    height=300.0 \
+    width=120.0 \
+    length=1200.0 \
+    material=PbWO4 \
+    color=$Calorimeter_Color
+    
+box Bot_Cal \
+    height=300.0 \
+    width=120.0 \
+    length=1200.0 \
+    material=PbWO4 \
+    color=$Calorimeter_Color
+    
+box Left_Cal \
+    height=120.0 \
+    width=300.0 \
+    length=1200.0 \
+    material=PbWO4 \
+    color=$Calorimeter_Color
+    
+box Right_Cal \
+    height=120.0 \
+    width=300.0 \
+    length=1200.0 \
+    material=PbWO4 \
+    color=$Calorimeter_Color
+    
+place Top_Cal \
+      x=-7808.0 \
+      y=540.0 \
+      z=20394.0
+      
+place Bot_Cal \
+      x=-7808.0 \
+      y=-540.0 \
+      z=20394.0
+      
+place Left_Cal \
+      x=-7268.0 \
+      y=0.0 \
+      z=20394.0
+      
+place Right_Cal \
+      x=-8348.0 \
+      y=0.0 \
+      z=20394.0
+

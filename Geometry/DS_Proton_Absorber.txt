@@ -1,0 +1,57 @@
+# ****************************************************************************
+#                         Detector Solenoid Proton Absorber
+# ****************************************************************************
+# 
+# From doc 1439 page 8. use regular poly and not HDPE
+#   Hedin 5/2013    z at front is 6276.02+7929 = 14205.02 
+# Hedin 6/2013 add "outer" ring per Myeongjae Lee proposal
+#  DH updated 8/8/13 z at front is 4180+7929 = 12109
+# updated 8/15/14 with WBS 5.7 docdb 1439 v5 6-2-2014
+#  DH updated 2/7/2015 have all three HDPE. minor error on a radius
+#  z at front IPA= 6281+7929 = 14210
+
+material HDPE2 C,.86 H,.14 density=.95
+
+ polycone DS_pabs_a  innerRadius=334.9,352.8 outerRadius=335.4,353.3 \ 
+z=0.,1000. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=HDPE2 color=$Orange
+
+ polycone DS_pabs_b  innerRadius=334.9,352.8 outerRadius=335.4,353.3 \ 
+z=0.,1000. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=HDPE2 color=$Invisible
+
+    place DS_pabs_a x=-7808.0 z=14210.
+    place DS_pabs_b x=-7808.0 z=14210.
+
+# OPA
+
+ polycone DS_pabs_c  innerRadius=452.4,728.4 outerRadius=472.4,748.4 \ 
+z=0.,4275. initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+                 material=HDPE2 color=$Orange
+#                 material=B_Polyethylene color=$Orange
+
+ polycone DS_pabs_d  innerRadius=452.4,728.4 outerRadius=472.4,748.4 \ 
+z=0.,4275. initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+                 material=HDPE2 color=$Invisible
+#                 material=B_Polyethylene color=$Invisible
+
+# front z = 4255+7929 = 12184
+
+    place DS_pabs_c x=-7808.0 z=12184.
+    place DS_pabs_d x=-7808.0 z=12184.
+
+# TSd absorber (front/outside of last collimator)
+
+tubs DS_pabs_e innerRadius=250. outerRadius=450. length=50. material=HDPE2 \
+     initialPhi=$InitialPhi_a finalPhi=$FinalPhi_a \
+     color=$Orange 
+
+tubs DS_pabs_f innerRadius=250. outerRadius=450. length=50. material=HDPE2 \
+     initialPhi=$InitialPhi_b finalPhi=$FinalPhi_b \
+     color=$Invisible 
+
+# center z = 4205+7929 = 12134   earlier
+
+    place DS_pabs_e x=-7808.0 z=12134.
+    place DS_pabs_f x=-7808.0 z=12134.
+

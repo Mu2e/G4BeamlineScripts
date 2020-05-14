@@ -1,0 +1,217 @@
+#**************************************************
+#* This file was generated from the MAD output file
+#* using a perl script
+#**************************************************
+# Define constants not in the MAD output
+param -unset ProtonBeamLineKill=1
+param -unset PCOLir=40
+param -unset FCOLir=40
+param -unset PCOLor=$PCOLir+6*25.4
+param -unset FCOLor=$FCOLir+6*25.4
+param QuadAperture=6.625*25.4/2.0
+param QuadIronRadius=300
+param DipoleFieldH=12*25.4
+param DipoleFieldW=3.25*25.4
+param DipoleIronH=24*25.4
+param DipoleIronW=12*25.4
+param xpos0=$EndBeamX
+param ypos0=$EndBeamY
+param zpos0=$EndBeamZ
+param theta0=$EndBeamXrot*degree
+param phi=$EndBeamYrot*degree
+param xdir0=cos($theta0)*sin($phi)
+param ydir0=sin($theta0)
+param zdir0=cos($theta0)*cos($phi)
+param len=828.8056
+param xpos1=$xpos0+$len*$xdir0
+param ypos1=$ypos0+$len*$ydir0
+param zpos1=$zpos0+$len*$zdir0
+param theta1=$theta0-0.023767
+param xdir1=cos($theta1)*sin($phi)
+param ydir1=sin($theta1)
+param zdir1=cos($theta1)*cos($phi)
+param len=31740.1093
+param xpos2=$xpos1+$len*$xdir1
+param ypos2=$ypos1+$len*$ydir1
+param zpos2=$zpos1+$len*$zdir1
+param theta2=$theta1-0.023767
+param xdir2=cos($theta2)*sin($phi)
+param ydir2=sin($theta2)
+param zdir2=cos($theta2)*cos($phi)
+tubs tiein radius=2 length=10 material=Vacuum
+place tiein x=$xpos0 y=$ypos0 z=$zpos0 rotation=x$EndBeamXrot,y$EndBeamYrot
+place tiein x=$xpos1+1000*$xdir1 y=$ypos1+1000*$ydir1 z=$zpos1+1000*$zdir1 \
+	rotation=x$theta1/degree,y$EndBeamYrot
+place tiein x=$xpos2+1000*$xdir2 y=$ypos2+1000*$ydir2 z=$zpos2+1000*$zdir2 \
+	rotation=x$theta2/degree,y$EndBeamYrot
+place tiein x=$xpos2+7000*$xdir2 y=$ypos2+7000*$ydir2 z=$zpos2+7000*$zdir2 \
+	rotation=x$theta2/degree,y$EndBeamYrot
+param len=8828.8215
+param StartBeamX=$xpos2+($len*$xdir2)
+param StartBeamY=$ypos2+($len*$ydir2)
+param StartBeamZ=$zpos2+($len*$zdir2)
+param StartBeamYrot=$EndBeamYrot
+param StartBeamXrot=$theta2/degree
+tubs FCOL material=Fe color=$Tungsten length=500.0000 \
+	innerRadius=$FCOLir outerRadius=$FCOLor
+param xrot=-$theta2/degree
+param L=8351.3511
+place FCOL kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos2+$xdir2*$L y=$ypos2+$ydir2*$L z=$zpos2+$zdir2*$L
+
+param -unset HT936B_B=0.000000*8.888890/(0.2998*0.3048)
+genericbend HT936B ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=304.8000 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=304.8000
+param xrot=-($theta2+0.000000)/degree
+param L=1592.2211
+place HT936B By=$HT936B_B kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos2+$xdir2*$L y=$ypos2+$ydir2*$L z=$zpos2+$zdir2*$L
+
+param -unset V936_B=0.023767*8.888890/(0.2998*1.2192)
+genericbend V936 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2287 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2287
+param xrot=-($theta2+0.011884)/degree
+place V936 By=$V936_B kill=$ProtonBeamLineKill \
+	rotation=z-90,x$xrot,y$EndBeamYrot \
+	x=$xpos2+($xdir2-$xdir1)*609.6143 \
+	y=$ypos2+($ydir2-$ydir1)*609.6143 \
+	z=$zpos2+($zdir2-$zdir1)*609.6143 
+param -unset Q937_g=5.856127
+genericquad Q937 apertureRadius=$QuadAperture fieldLength=772.1600 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=772.1600 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=30244.4212
+place Q937 gradient=$Q937_g kill=$ProtonBeamLineKill \
+	rotation=z90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q938_g=9.332474
+genericquad Q938 apertureRadius=$QuadAperture fieldLength=870.0000 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=870.0000 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=27007.8612
+place Q938 gradient=$Q938_g kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q939_g=6.043541
+genericquad Q939 apertureRadius=$QuadAperture fieldLength=772.1600 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=772.1600 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=22178.7202
+place Q939 gradient=$Q939_g kill=$ProtonBeamLineKill \
+	rotation=z90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q940_g=8.658181
+genericquad Q940 apertureRadius=$QuadAperture fieldLength=457.2000 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=457.2000 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=15870.0622
+place Q940 gradient=$Q940_g kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset HT940_B=0.000000*8.888890/(0.2998*1.2192)
+genericbend HT940 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2000 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2000
+param xrot=-($theta1+0.000000)/degree
+param L=14374.3822
+place HT940 By=$HT940_B kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset VT940_B=0.000000*8.888890/(0.2998*1.2192)
+genericbend VT940 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2000 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2000
+param xrot=-($theta1+0.000000)/degree
+param L=12655.1822
+place VT940 By=$VT940_B kill=$ProtonBeamLineKill \
+	rotation=z-90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q941_g=6.043541
+genericquad Q941 apertureRadius=$QuadAperture fieldLength=772.1600 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=772.1600 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=9561.4042
+place Q941 gradient=$Q941_g kill=$ProtonBeamLineKill \
+	rotation=z90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q942_g=9.332474
+genericquad Q942 apertureRadius=$QuadAperture fieldLength=870.0000 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=870.0000 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=4732.2632
+place Q942 gradient=$Q942_g kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset VT942_B=0.000000*8.888890/(0.2998*1.2192)
+genericbend VT942 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2000 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2000
+param xrot=-($theta1+0.000000)/degree
+param L=2991.3832
+place VT942 By=$VT942_B kill=$ProtonBeamLineKill \
+	rotation=z-90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset Q943_g=5.856127
+genericquad Q943 apertureRadius=$QuadAperture fieldLength=772.1600 \
+	ironColor=1,0,0 ironRadius=$QuadIronRadius ironLength=772.1600 \
+	fieldMaterial=Vacuum ironMaterial=Fe
+
+param xrot=-$theta1/degree
+param L=1495.7032
+place Q943 gradient=$Q943_g kill=$ProtonBeamLineKill \
+	rotation=z90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+$xdir1*$L y=$ypos1+$ydir1*$L z=$zpos1+$zdir1*$L
+
+param -unset V943_B=0.023767*8.888890/(0.2998*1.2192)
+genericbend V943 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2287 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2287
+param xrot=-($theta1+0.011884)/degree
+place V943 By=$V943_B kill=$ProtonBeamLineKill \
+	rotation=z-90,x$xrot,y$EndBeamYrot \
+	x=$xpos1+($xdir1-$xdir0)*609.6143 \
+	y=$ypos1+($ydir1-$ydir0)*609.6143 \
+	z=$zpos1+($zdir1-$zdir0)*609.6143 
+param -unset HT943_B=0.000000*8.888890/(0.2998*1.2192)
+genericbend HT943 ironColor=$Teal fieldMaterial=Vacuum ironMaterial=Fe \
+	fieldHeight=$DipoleFieldW fieldWidth=$DipoleFieldH fieldLength=1219.2000 \
+	ironHeight=$DipoleIronW ironWidth=$DipoleIronH ironLength=1219.2000
+param xrot=-($theta0+0.000000)/degree
+param L=-890.4005
+place HT943 By=$HT943_B kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos0+$xdir0*$L y=$ypos0+$ydir0*$L z=$zpos0+$zdir0*$L
+
+tubs PCOL material=Fe color=$Tungsten length=1066.8000 \
+	innerRadius=$PCOLir outerRadius=$PCOLor
+param xrot=-$theta0/degree
+param L=-2500.0005
+place PCOL kill=$ProtonBeamLineKill \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$xpos0+$xdir0*$L y=$ypos0+$ydir0*$L z=$zpos0+$zdir0*$L
+

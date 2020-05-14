@@ -1,0 +1,676 @@
+# $Id$
+# $Date$
+# $Author$
+
+param -unset First_Event=1
+param -unset Num_Events=10
+
+#
+#    G4Beamline input file for running on local machines and GRID cluster.
+#    Modified by Rick Coleman and Vladimir Khalatian
+#    coleman@fnal.gov
+#    vkhal@fnal.gov
+#    Dec. 10, 2010
+#    Created by Mike Martens
+#    martens@fnal.gov
+#    July 22, 2008 
+#
+#
+#    Includes:
+#
+#      Coordinate System
+#        The origin of the coordinate system for this G4beamline file is related
+#        to the "Mu2e Standard" coordinates system which
+#        has the origin in the center of TS3.
+#      For reference see
+#        "Mu2e Coordinate System Definition", Doc-db 1213-v1, Tom Page
+#        x(Mu2e)=x(g4bl)+3904 mm, z(Mu2e)=z(g4bl)-7929 mm, y= same in both
+#
+#      Gold Target
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#      Proton Beam
+#        The incoming proton beam has 8 GeV of kinetic energy 
+#       
+#      Production Solenoid Shielding
+#        "Optimization of a Mu2e Production Solenoid Absorber Using MARS15"
+#        Doc-db 1133-v1 Vitaly Pronskikh and Nikolai Mokhov, 2/3/2011 
+#
+#      Solenoidal coils 
+#      Mau9
+#
+#      Collimators in the Transport Solenoid
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+#
+#      Stopping Target (Set of 17 Al disks) from
+#        "DRAFT MECO Technical Proposal"
+#        Version: August 1, 2001
+#
+#       (For show only!) Tracker and Calorimeter
+#        Electron Calorimeter Reference Design
+#        MECO-CAL-05-001, 2/11/2005, R. Djilkibaev, A. Mincer, P. Nemethy
+#        Tracking Detector Reference Design
+#        MECO-TRK-05-001, 3/21/2005, E.V. Hungerford
+#        Note: These are for show only. Postions and size are only approximate.
+#
+#      (An approximation of) Transport Solenoid Cryostat
+#        A 2m thick, 24 cm inner radius, aluminum toroidal tube.
+#        Mainly this is used to prevent stray particles leaving between 
+#        the gaps in the coils.
+#
+#        Muon Beam Dump
+#        See Mu2e Proposal
+#
+
+
+
+# ****************************************************************************
+#                         Some handy RGB color definitions
+# ****************************************************************************
+
+param Black="0,0,0"
+param White="1,1,1"
+param Red="1,0,0"
+param Green="0,1,0"
+param Blue="0,0,1"
+param SkyBlue="0.53,0.81,0.92"
+param Gray="0.6,0.6,0.6"
+param Yellow="1,1,0"
+param Cyan="0,1,1"
+param Magenta="1,0,1"
+param Teal="0,0.5,0.5"
+param Orange="1,0.5,0"
+param Chartreuse="0.5,1,0"
+param Purple="0.5,0,0.5"
+param Aluminum="0.66,0.67,0.71"
+param Copper="0.72,0.45,0.2"
+param Gold="1.0,0.843,0.0"
+param Brown="0.647,0.165,0.165"
+param Tungsten="1.0,0.83,0.67"
+param DarkOliveGreen="0.33,0.42,0.18"
+param PaleVioletRed="0.86,0.44,0.57"
+param SkyBlue="0.53,0.80,0.92"
+param LightBlue="0.72,0.87,0.9"
+param ForestGreen="0.13,0.54,0.13"
+param DarkKhaki="0.74,0.71,0.42,0.3"
+param SoftGreen="0.1,0.84,0.1"
+param Invisible="invisible"
+
+##********************
+## Set colors of various parts of the Mu2e beamline
+
+param -unset Target_Color=$Tungsten
+param Coil_Color=$ForestGreen
+param -unset TScryo_color=$DarkKhaki
+param DScryo_color=$DarkKhaki
+param DS_intNshield_color=$LightBlue
+param DS_extNshield_color=$LightBlue
+param DS_Iron_Shield_color=$Gray
+param PS_Shield_Cu_Color=$Copper
+param PS_Shield_W_Color=$Tungsten
+param TS_Collimator_Color=$Copper
+param TS_Collimator_Color_layer=$Gray
+param Stop_Target_Color=$Purple
+param Tracker_Color=$Brown
+param Calorimeter_Color=$SoftGreen
+param -unset Walls_c="0.6,0.6,0.6,0.5"
+param -unset Soil_c="0.2,0.2,0,0.5"
+
+# ****************************************************************************
+#                                Set materials
+# ****************************************************************************
+
+material B_Polyethylene density=0.95 C,0.612 H,0.116 B,0.05 O,0.222
+material B_Polyethylene30 density=1.19 G4_POLYETHYLENE,0.70 G4_B,0.30
+material Hevimet density=18.26 W,0.90 Ni,0.06 Cu,0.04 
+material HighSilicon density=8.53 Cu,0.97 Si,0.03 
+material Soil density=1.9 H,0.0227 O,0.5714 Al,0.0714 Si,0.3345
+material Lyco_01 density=7.4 Lu,0.708935 Si,0.069895 O,0.17973 Y,0.03994 Ce,0.0015
+material CONCRETE_MARS density=2.35 H,0.006 C,0.03 O,0.5 Na,0.01 Al,0.03 Si,0.2 K,0.01 Ca,0.2 Fe,.014
+material CONCRETE_BORON density=2.35 G4_BORON_CARBIDE,0.007 CONCRETE_MARS,0.993
+material CONCRETE_HEAVY density=3.637 H,0.007 B,0.013 O,0.35 Na,0.013 Al,0.02 Si,0.02 Ca,0.027 Fe,0.55
+material Li_Poly density=1.06 H,0.132090 C,0.792910 Li,0.075000
+material mix2 Fe,.95 POLYETHYLENE,.0475 B,.0025 density=6.0
+material Fake_Cu density=8.960 Fe,1.00
+material BARITE density=3.5 H,0.0069 O,0.3386 Mg,0.0011 Al,0.0039 Si,0.0100 S,0.1040 Ca,0.0478 Fe,0.0457 Ba,0.442 
+material BARITE_BORON density=3.5 G4_BORON_CARBIDE,0.005 BARITE,0.995
+material Half_Poly density=0.465 POLYETHYLENE,1.00
+material G10 density=1.7 H,0.0660 C,0.2680 O,0.4170 Si,0.2200 Cl,0.0290
+material TS_Coil density=2.74  Al,0.680 G10,0.188 Fake_Cu,0.066 Nb,0.03531 Ti,0.03069
+# Procurable graphite does not have nominal 2.0g/cm^3 density; see docdb 19423
+material TS_Graphite density=1.75 C,1.0
+
+
+# ****************************************************************************
+#                                Physics Setup 
+# ****************************************************************************
+# QGSP_BERT - QGSP(now obsolete) GEANT4 automatically substitutes QGSP_BERT 
+#              "Comparison of pion production in QGSP and QGSP_BERT with HARP
+#               data", Ivan Logashenko,Doc-db 1279-v1.
+#
+# Common PDGid-s:
+# e- 11 e+ -11
+# mu- 13 mu+ -13
+# pi+ 211 pi- -211
+# proton 2212 anti_proton -2212
+# neutron 2112 anti_neutron -2112
+# gamma 22
+
+#physics QGSP_BERT
+
+physics QGSP_BERT_HP
+muminuscapturefix neutronMeanNumber=0.277 neutronMeanEnergy=20.07
+# ****************************************************************************
+#                                Set the kill parameter on various shielding
+# ****************************************************************************
+
+param -unset PS_Shield_kill=0
+param -unset TScryo_kill=0
+param -unset TS_Collimator_kill=0
+param -unset Muon_Dump_kill=0
+param -unset Proton_Dump_kill=1
+
+
+# ****************************************************************************
+#                                Tracking Setup  
+# ****************************************************************************
+param steppingFormat="N STEP KE GLOBAL CL VOL MAT PROCESS"
+param -unset steppingVerbose=0
+
+##********************
+## This is for making pretty pictures
+param -unset Pretty_Pictures=0
+
+   param maxStep=10
+if $Pretty_Pictures==1
+   param maxStep=10
+   trackcuts kineticEnergyCut=1.0 \
+             keep=proton,pi-,pi+,mu-,mu+ \
+             steppingVerbose=0
+    
+   particlecolor proton=invisible
+   particlecolor pi+=invisible
+   particlecolor pi-=invisible
+   particlecolor mu-=$Red
+   particlecolor mu+=$Blue
+   particlecolor pi-=$Blue
+   particlecolor e-=invisible
+
+else
+   trackcuts kineticEnergyCut=0.0 \
+             kill=nu_mu,anti_nu_mu,nu_e,anti_nu_e \	
+	     maxTime=1000000000
+endif
+
+
+
+
+# ****************************************************************************
+#                           Beam Tracing Configuration
+# ****************************************************************************
+# From Kevin Lynch, 2015-06-10
+
+param -unset Use_Beam_Tracers=0
+param -unset Visible_Beam_Tracers=0
+
+if $Visible_Beam_Tracers==1
+   param Tracer_Color="0,0.5,0.5"
+else
+   param Tracer_Color=$Invisible
+endif
+
+
+# ****************************************************************************
+#                           Random Number Generator
+# ****************************************************************************
+# A default Random Seed is an Event Number. It makes possible to rerun 
+# interesting event with the same Random Number that it(event) had in 
+# previous run
+
+param -unset Random_Seed=Time
+
+randomseed $Random_Seed
+
+
+# ****************************************************************************
+#                           Coordinate System
+# ****************************************************************************
+# This file (G4beamline) has origin at the start of the Production Solenoid
+# The Mu2e coordinate system is centered at the middle of TS3
+
+param MECO_G4_xTrans=-(2.929+1.950/2.0)*1000
+param MECO_G4_zTrans=(5.00+2.929)*1000
+
+
+# ****************************************************************************
+#                                Proton Beam Stop
+# ****************************************************************************
+# Includes extinction monitor.
+
+include ./Geometry/GeometryParameters.txt
+include ./Geometry/PS_Proton_Beam_Stop.txt
+param -unset UsePrimaryBeam=0
+if $UsePrimaryBeam==1
+  param PSshield_Entrance=1
+  include ./Geometry/ProtonBeam.txt
+endif
+
+
+# ****************************************************************************
+#                                Walls, Floor, Ceiling
+# ****************************************************************************
+# The default walls, floor and ceiling are invisible.
+# If you would like to see everything, define Invisible_Walls parameter to 0
+param -unset Invisible_Walls=1
+include ./Geometry/Walls_Floors_9_16_13.txt
+
+
+# ****************************************************************************
+#                                Target hall air volume
+# ****************************************************************************
+#include ./Geometry/TargetHall.txt
+
+
+# ****************************************************************************
+#                            Production Solenoid
+#                            Transport Solenoid 
+#                            Detector Solenoid
+# ****************************************************************************
+#
+# Solenoid Fields from Mauricio Lopes 
+# See  http://mu2e.fnal.gov/atwork/computing/BFieldMaps.shtml
+#
+
+param -unset Use_Field=1
+param -unset Generate_Fieldmap=0
+param -unset Use_External_Field=0
+
+include ./Geometry/Mu2e_Mau9_Coils.txt
+
+if $Use_Field==1
+   if $Generate_Fieldmap==1
+      include ./Geometry/Generated_Field.txt
+   
+   else
+
+      fieldmap PSMagneticField  \
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/PSMap.txt
+ 
+      place PSMagneticField \
+            x=-3904.0 \
+            y=0 \
+            z=7929.0
+ 
+      fieldmap DSMagneticField \
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/DSMap.txt
+ 
+      place DSMagneticField \
+            x=-3904.0 \
+            y=0 \
+            z=7929.0
+ 
+      fieldmap TSuMagneticField \
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/TSuMap.txt
+ 
+      place TSuMagneticField \
+            x=-3904.0 \
+            y=0 \
+            z=7929.0
+ 
+      fieldmap TsdMagneticField \
+               file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/TSdMap.txt
+ 
+      place TsdMagneticField \
+            x=-3904.0 \
+            y=0 \
+            z=7929.0
+   
+      if $Use_External_Field==1
+            fieldmap ExtMonUCIAreaMagneticField \
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/ExtMonUCIAreaMap.txt
+            
+            place ExtMonUCIAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+            
+            fieldmap ProtonDumpAreaMagneticField \
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/ProtonDumpAreaMap.txt
+            
+            place ProtonDumpAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+            
+            fieldmap PStoDumpAreaMagneticField \
+                file=/cvmfs/mu2e.opensciencegrid.org/DataFiles/BFieldMaps/GA05/PStoDumpAreaMap.txt
+            
+            place PStoDumpAreaMagneticField \
+                x=-3904.0 \
+                y=0 \
+                z=7929.0
+      endif
+   
+   endif
+   
+endif
+
+##********************
+## This is used to output the magnetic field along the reference line 
+## through the center of the solenoidal and torroidal coils.
+
+#probefield file=./Geometry/FieldProbePoints.txt
+
+
+# ****************************************************************************
+#                              Electron Beam Stop
+# ****************************************************************************
+# Note: added rhb 3/23/09 to Mu2e_Muon_Beamline_005.in for g4Beamline
+# this is based on MECO-63, "Do we need a small beam stop
+#                            on the axis of the production solenoid?"
+# I got the actual size and location from MECOproduction088.gmc
+# but units are mm here, cm there
+
+param -unset MECO_eplug=0
+
+if $MECO_eplug==1
+   include ./Geometry/Electron_Beam_Stop.txt
+
+endif      
+
+
+# ****************************************************************************
+#           Transport Solenoid and Detector Solenoid Cyrostats
+# ****************************************************************************
+# From 
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+# One important note at the outset: in order to supplement the shielding of 
+# all of the coils in the upstream TS (TSu), the current simulation assumes 
+# that the TSu inner cryostat wall is 2 cm thick, rather than the 1 cm listed 
+# in MIT's Conceptual Design Report. The additional centimeter is added inside
+# the warm bore, thus the revised warm bore of TSu is 24 cm. 
+#
+# I kludge together a toroidal shape with a series of cylinders- for pretty pictures with cut-away view.
+# Otherwise use a torus command and make crytostat invisible
+
+param -unset Use_Cryostat=1
+
+if $Use_Cryostat==1
+  include ./Geometry/TS_Cryostat.txt
+  include ./Geometry/DS_Cryostat.txt
+
+endif
+
+
+# ****************************************************************************
+#                         Production Solenoid Shielding
+# ****************************************************************************
+# Use the Bronze shielding design- P.Kasper
+#        
+
+include ./Geometry/PScryostat.txt
+
+# ****************************************************************************
+#                    CRV Shielding 
+# ****************************************************************************
+#
+
+include ./Geometry/CRV_Shielding.txt
+include ./Geometry/PS-TS_Shield.txt
+
+# ****************************************************************************
+#                         Detector Solenoid Neutron Shield
+# ****************************************************************************
+# From Dave Hedin 5-23-2013 
+
+#include ./Geometry/DS_Neutron_Shield.txt
+
+# ****************************************************************************
+#                         Detector Solenoid Proton Absorber
+# ****************************************************************************
+# From Dave Hedin 5-23-2013 
+
+include ./Geometry/DS_Proton_Absorber.txt
+
+# ****************************************************************************
+#                         Muon Beamline Crystal Monitor 
+# ****************************************************************************
+# From Dave Hedin 5-23-2013- Placeholder for now until studies done
+
+include ./Geometry/DS_STM_Shield.txt
+
+
+# ****************************************************************************
+#                                 Cosmic Ray Veto
+# ****************************************************************************
+# Cosmic Ray Veto - TDR Layout
+# From Mu2E document 3433- C. Dukes
+#
+##********************
+## If you want to include scintillator detectors to "g4beamline.root" output file
+## Use_Scin_Det parameter should be 1
+
+param -unset Use_Scin_Det=1
+
+if $Use_Scin_Det==1
+    include ./Geometry/CRV_10_8_13.txt
+else
+    include ./Geometry/CRV_10_8_13_noVD.txt
+endif
+
+
+# ****************************************************************************
+#                                Transport Solenoid 
+#                                Collimators
+# ****************************************************************************
+# Geometry take from
+#        "Collimators Design" 
+#        Dob-db 1044-v1, Nikolai Andreev, 8/17/2010
+
+include ./Geometry/TS_Collimators.txt
+
+
+# ****************************************************************************
+#                                Stopping Target
+# ****************************************************************************
+# Two options for the stopping target:
+# 1: CD3 baseline geometry, with 34 75mm Al disks
+# 2: post-CD3 baseline geometry, with 37 annular 100um Al disks, 75mm/21.5mm 
+
+param -unset Use_Stopping_Target=1
+
+include ./Geometry/Stopping_Target.txt
+
+
+# ****************************************************************************
+#                                Tracker
+# ****************************************************************************
+# 3 types of tracker:
+# MECO version of tracker - 1
+# Mu2e version of T-Tracker with straws - 2 
+# Mu2e version of T-Tracker with planes (no straws) - 3 
+
+param -unset tracker=3
+
+if $tracker==1 
+   include ./Geometry/MECO_Tracker.txt 
+
+elseif $tracker==2
+       include ./Geometry/T_Tracker_Straws.txt 
+
+elseif $tracker==3
+#       include ./Geometry/T_Tracker_Planes.txt 
+# it's full of geometry collisions!
+
+endif
+
+# ****************************************************************************
+#                                Calorimeter
+# ****************************************************************************
+# V. Khalaytan Oct 2013
+#
+
+include ./Geometry/Calorimeter_Discs.txt 
+
+
+# ****************************************************************************
+#                                Muon Beam Dump
+# ****************************************************************************
+# From Dave Hedin 3-2017  default is maybe final version
+
+#include ./Geometry/DS_Muon_Beam_Dump_n14.txt
+include ./Geometry/DS_Muon_Beam_Dump.txt
+
+
+
+
+# ****************************************************************************
+#                              Proton Target
+# ****************************************************************************
+#
+# From:
+#   Production Target Reference Design, 
+#        "Mu2e Pion Production Target"
+#        Doc-db 1227-v2,  James Popp, 12/6/2011
+#
+#   The beam kinetic energy is 8 GeV and the rms beam size is 1.0 mm.
+#   The target is a 16 cm long 6 mm diameter cylinder of gold  
+#    with a tapered end on the upstream side.  
+#   The center point of the target rod in MECO coordinates is 
+#    (x, y, z) = (390.4, 0.0, -656.45) (centimeters)
+#   The longitudinal axis of the target is rotated first with respect to 
+#    the +y axis by 14? and then about the x axis by 0.0?. 
+#
+#   This rotation is chosen to closely match the trajectory of the primary 
+#    proton beam through the axially graded PS field. 
+#
+# You can choose the type of the Proton Target changing "Use_Proton_Target" parameter:
+# 0 - No Proton Target
+# 1 - Only Golden Target
+# 2 - Golden Target inside titanium shell with 2 horizontal and 2 vertical 
+#     water pipes made of titanium too 
+# 3 -"Bicycle wheel" model of Proton Target
+# 4 - Only Tangsten Target
+# 5 -"Bicycle wheel" model of Tungsten Target
+# 6 -"Bicycle wheel" model of the Tungsten Target, including supports, hubs
+#     and mounting ring
+# 7 - The Tier 1 milestone design
+# 8 - Hayman1 Design
+# 9 - Hayman2 Design
+
+param -unset Use_Proton_Target=5
+
+if $Use_Proton_Target==3
+    include ./Geometry/Proton_Target_Bicycle.txt
+
+elseif $Use_Proton_Target==4
+    include ./Geometry/Proton_Target_W.txt
+
+elseif $Use_Proton_Target==5
+    include ./Geometry/Proton_Target_W.txt
+
+elseif $Use_Proton_Target==6
+    include ./Geometry/Proton_Target_RAL.txt
+
+elseif $Use_Proton_Target==7
+    include ./Geometry/Proton_Target_RAL_15066.txt
+    # This defaults to the Tier 1 milestone target
+
+elseif $Use_Proton_Target==8
+    # Hayman 1
+    include ./Geometry/Proton_Target_Hayman1.txt
+
+elseif $Use_Proton_Target==9
+    # Hayman 2
+    include ./Geometry/Proton_Target_Hayman2.txt
+
+else
+    include ./Geometry/Proton_Target.txt
+
+endif
+
+
+
+# ****************************************************************************
+#                                Proton Beam
+# ****************************************************************************
+
+param BoosterKE=8000.0
+param ProtonMass=938.27231
+param ProtonMomentum=sqrt(($BoosterKE+$ProtonMass)^2-$ProtonMass^2)
+param xBeam=0.5*($Tlength+1)*sin($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param yBeam=-0.5*($Tlength+1)*sin($TXangle*3.14159/180.0)
+param zBeam=$Tposition+0.5*($Tlength+1)*cos($TYangle*3.14159/180.0)*cos($TXangle*3.14159/180.0)
+param BYangle=$TYangle+180.0
+param BXangle=-1.0*($TXangle)
+param BsigmaX=1.0
+param BsigmaY=1.0
+param BsigmaT=0.0001
+
+param -unset StartBeamX=$EndBeamX
+param -unset StartBeamY=$EndBeamY
+param -unset StartBeamZ=$EndBeamZ
+
+if $UsePrimaryBeam==1
+  param xBeam=$StartBeamX
+  param yBeam=$StartBeamY
+  param zBeam=$StartBeamZ
+  param BXangle=180+$StartBeamXrot
+  param BYangle=$StartBeamYrot
+endif
+
+##********************
+## This is for chosing either QGSP_BERT production from the proton beam OR
+## the weighted HARP pion file for production
+
+param -unset READ_Beam_File=0
+param -unset Use_Basic_Det=1
+
+# Disable basic detectors for stage 2 to reduce the file size. 
+# Enable by setting Use_Basic_Det=1
+
+if $READ_Beam_File==1
+   beam ascii nEvents=$Num_Events\
+	filename=/mu2e/data/users/oksuzian/Source_V21_ps.txt
+   param Use_Basic_Det=0
+
+elseif $READ_Beam_File==2
+   beam ascii nEvents=$Num_Events\
+        filename=/mu2e/data/users/oksuzian/Source_V21_bm.txt
+   param Use_Basic_Det=0
+
+else
+   beam gaussian \
+        particle=proton \
+        nEvents=$Num_Events firstEvent=$First_Event \
+        beamX=$xBeam beamY=$yBeam beamZ=$zBeam \
+        sigmaX=$BsigmaX sigmaY=$BsigmaY \
+	sigmaXp=0.00 sigmaYp=0.00 \
+        meanMomentum=$ProtonMomentum sigmaP=0.0 \
+        meanT=0.0 \
+	sigmaT=$BsigmaT \
+        rotation=X$BXangle,Y$BYangle
+
+endif
+
+# ****************************************************************************
+#                      Basic package of Virtual Detectors
+# ****************************************************************************
+# There are 8 basic virtual detectors in standart simulation:
+# detectors at the entrance and exit of each collimator (3x2)
+# one detector at the middle of collimator 03 (1)
+# one detector containing particle tracks when lost in stopping targets (1)
+# All data from those detectors would be in "g4beamline.root" output file
+
+
+include ./Geometry/Basic_Detectors.txt
+
+# Include the non-intrusive beam tracers here
+include ./Geometry/Beam_Tracers.txt
+
+# ****************************************************************************
+#                                  THE END
+# ****************************************************************************
