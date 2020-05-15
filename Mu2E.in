@@ -671,6 +671,17 @@ include ./Geometry/Basic_Detectors.txt
 # Include the non-intrusive beam tracers here
 include ./Geometry/Beam_Tracers.txt
 
+
+# ****************************************************************************
+#                      Production Target Scanning PWCs
+# ****************************************************************************
+# Two Schoo PWCs in the area downstream of the PS.
+# Note: the upstream component will likely be MW943NU, which is (probably) a NuMI
+# multiwire -- it's a bare multiwire with no gas multiplication.
+# This is located just downstream of the protection collimator.
+
+include ./Geometry/Beam_Scan_PWCs.txt
+
 # ****************************************************************************
 #                                  THE END
 # ****************************************************************************
