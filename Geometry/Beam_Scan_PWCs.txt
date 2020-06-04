@@ -1,5 +1,13 @@
 # Beam_Scan_PWCs.txt
 # Two Schoo PWCs, placed downstream of the PS in the Target Hall.
+# Schoo PWCs are a type of multiwire proportional chamber developed by 
+# Dan Schoo. 
+# The purpose of these detectors is to allow the proton beam to be aimed at the
+# center of the target, with the proper alignment.
+# Mu2e-doc-28224 contains a summary of what these detectors will be for and why
+# these particular detectors will be used.
+# When figuring this out, we consulted with Brian Drendel, Gianni Tassotto, and
+# Dan Schoo, among others.
 
 param inch=25.4
 
