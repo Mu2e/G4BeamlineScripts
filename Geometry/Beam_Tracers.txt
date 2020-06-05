@@ -159,16 +159,18 @@ if $Use_Beam_Tracers==1
 	 rotation=y$yrot,x$xrot \
          rename=downstream_near_tracer
 
+# This one is commented out; replaced by beamScan_downstream_1_PWC,
+# which is in Beam_Scan_PWCs.txt
 # mid tracer: 1/2 distance from target to beam stop
-   param px=-2110.392
-   param py=333.62213
-   param pz=-8628.285
-   param yrot=atan($px/$pz)/degree
-   param xrot=atan(-$py/$pz)/degree
-   place downstream_tracer x=-1624.700 y=251.92703 \
-         z=($Tposition+$pBeamStop_z)/2 \
-	 rotation=y$yrot,x$xrot \
-         rename=downstream_mid_tracer
+#   param px=-2110.392
+#   param py=333.62213
+#   param pz=-8628.285
+#   param yrot=atan($px/$pz)/degree
+#   param xrot=atan(-$py/$pz)/degree
+#   place downstream_tracer x=-1624.700 y=251.92703 \
+#         z=($Tposition+$pBeamStop_z)/2 \
+#	 rotation=y$yrot,x$xrot \
+#         rename=downstream_mid_tracer
 
 # can't place this one here, as the coordinates put it inside PBSenc
 # after the placement of PBSenc

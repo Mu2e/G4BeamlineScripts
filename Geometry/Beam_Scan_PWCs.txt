@@ -1,0 +1,107 @@
+# Beam_Scan_PWCs.txt
+# Two Schoo PWCs, placed downstream of the PS in the Target Hall.
+# Schoo PWCs are a type of multiwire proportional chamber developed by 
+# Dan Schoo. 
+# The purpose of these detectors is to allow the proton beam to be aimed at the
+# center of the target, with the proper alignment.
+# Mu2e-doc-28224 contains a summary of what these detectors will be for and why
+# these particular detectors will be used.
+# When figuring this out, we consulted with Brian Drendel, Gianni Tassotto, and
+# Dan Schoo, among others.
+
+param inch=25.4
+
+# dimensions of things
+param -unset PWCActiveWidth=96
+param -unset PWCActiveHeight=96
+param -unset PWCKaptonThick=0.001*$inch
+param -unset PWCPlateThick=0.25*$inch
+param -unset PWCPlateWidth=7.75*$inch
+param -unset PWCPlateHeight=7.75*$inch
+param -unset PWCSpacerThick=0.062*$inch
+
+param PWCWireGasThick=4*$PWCSpacerThick
+param PWCGroundHVGap=2*$PWCSpacerThick
+param PWCFrontGap=$PWCSpacerThick
+
+param PWCFullThick=(2*$PWCPlateThick)+(13*$PWCSpacerThick)
+
+# materials
+
+# PWC gas
+param ArVolFrac=0.8
+param CO2VolFrac=1-$ArVolFrac # vol frac and num frac are about the same, since they're gasses at same conditions
+param CO2Mass=44.01 # g/mole
+param ArMass=39.95 # g/mole
+param ArMassFrac=($ArVolFrac*$ArMass)/(($ArVolFrac*$ArMass)+($CO2VolFrac*$CO2Mass))
+param CO2MassFrac=1-$ArMassFrac
+# call it 0.000045 mol/cm^3, based on mass densities / molar masses, so 4.5e-5
+param totalMolDensity=4.5e-5 # mole/cm^3
+param totalMassDensity=($ArVolFrac*$totalMolDensity*$ArMass)+($CO2VolFrac*$totalMolDensity*$CO2Mass)
+
+material PWCGas Ar,$ArMassFrac CARBON_DIOXIDE,$CO2MassFrac density=$totalMassDensity pressure=1.0
+
+# Kapton already exists as KAPTON in G4bl
+
+# PWC mother volume... slightly larger than the PWC itself
+box SchooPWC height=$PWCPlateWidth+1 width=$PWCPlateWidth+1 length=$PWCFullThick+1 color=1,1,1,0.2
+# the volume of ArCo2 gas in the PWC
+box PWCGasVol height=$PWCActiveHeight width=$PWCActiveWidth length=12*$PWCSpacerThick material=PWCGas color=0,1,0,0.2
+# Kapton planes, some of which are virtual detectors
+virtualdetector biasPlane height=$PWCActiveHeight width=$PWCActiveWidth length=$PWCKaptonThick material=KAPTON
+box groundPlane height=$PWCActiveHeight width=$PWCActiveWidth length=$PWCKaptonThick material=KAPTON
+# G10 "frame" containing the gas
+param PWCFrameWidth=($PWCPlateWidth-$PWCActiveHeight)/2
+box framePieceLong height=$PWCFrameWidth width=$PWCPlateWidth length=$PWCFullThick material=G10 color=$Magenta
+box framePieceShort height=$PWCFrameWidth width=$PWCActiveWidth length=$PWCFullThick material=G10 color=$Magenta
+# box holeG10 height=$PWCActiveHeight+0.01 width=$PWCActiveWidth+0.01 length=$PWCFullThick+1
+# boolean op=subtraction PWCFrame outerG10 holeG10
+
+
+place biasPlane parent=PWCGasVol rename=+CenterPlane
+place biasPlane z=(4*$PWCSpacerThick)+(0.5*$PWCKaptonThick) parent=PWCGasVol rename=+FrontPlane
+place biasPlane z=(-4*$PWCSpacerThick)+(-0.5*$PWCKaptonThick) parent=PWCGasVol rename=+BackPlane
+
+place PWCGasVol parent=SchooPWC
+
+place groundPlane z=(6*$PWCSpacerThick)+(0.5*$PWCKaptonThick) parent=SchooPWC rename=+FrontGround color=1,0,0
+place groundPlane z=(-6*$PWCSpacerThick)+(-0.5*$PWCKaptonThick) parent=SchooPWC rename=+BackGround color=0,0,1
+
+place framePieceLong x=0 z=0 y=($PWCActiveHeight+$PWCFrameWidth)/2 parent=SchooPWC rename=+frameTop
+place framePieceLong x=0 z=0 y=($PWCActiveHeight+$PWCFrameWidth)/-2 parent=SchooPWC rename=+frameBottom
+place framePieceShort x=($PWCActiveHeight+$PWCFrameWidth)/2 z=0 y=0 rotation='z90' parent=SchooPWC rename=+frameRight
+place framePieceShort x=($PWCActiveHeight+$PWCFrameWidth)/-2 z=0 y=0 rotation='z90' parent=SchooPWC rename=+frameLeft
+
+# placement in Mu2e
+
+# First one: 1/2 distance from target to beam stop.
+# This corresponds to the point just off the downstream
+# edge of the RHS when it's rolled out.
+param px=-2110.392
+param py=333.62213
+param pz=-8628.285
+param yrot=atan($px/$pz)/degree
+param xrot=atan(-$py/$pz)/degree
+place SchooPWC x=-1624.700 y=251.92703 \
+      z=($Tposition+$pBeamStop_z)/2 \
+      rotation=y$yrot,x$xrot \
+      rename=beamScan_downstream_1_PWC
+
+# Second one: 1 m downstream of the previous, 
+# centered on the nominal proton beam.
+param px=-2110.489
+param py=333.043
+param pz=-8628.283
+param yrot=atan($px/$pz)/degree
+param xrot=atan(-$py/$pz)/degree
+# These numbers came from the old position for downstream_wirechamber_5763 in Beam_Tracers.txt.
+# That one was 92 cm downstream of the mid_PWC, this one needs to be 100 cm downstream.
+# That's where that 25/23 factor comes from
+param PWC_furtherDownX=(-1843.806+1624.700)*(25/23)-1624.700
+param PWC_furtherDownY=(286.533-251.92703)*(25/23)+251.92703
+param PWC_furtherDownZ=(-5763.136-(($Tposition+$pBeamStop_z)/2))*(25/23)+(($Tposition+$pBeamStop_z)/2)
+place SchooPWC x=$PWC_furtherDownX y=$PWC_furtherDownY \
+      z=$PWC_furtherDownZ \
+      rotation=y$yrot,x$xrot \
+      rename=beamScan_downstream_2_PWC
+
